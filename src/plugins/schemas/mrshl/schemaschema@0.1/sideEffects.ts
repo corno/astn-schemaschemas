@@ -3,7 +3,7 @@
 */
 
 import * as t from "./types"
-import * as astncore from "astn"
+import * as astn from "astn"
 import * as p from "pareto"
 export * from "./types"
 
@@ -14,8 +14,8 @@ function assertUnreachable<RT>(_x: never): RT {
 function createDictionary<TokenAnnotation, NonTokenAnnotation>(
     _definition: t.Dictionary,
     collectionDefinition: t.Collection,
-    onError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void,
-): astncore.DictionaryHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
+): astn.DictionaryHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onClose: () => {
             //
@@ -29,8 +29,8 @@ function createDictionary<TokenAnnotation, NonTokenAnnotation>(
 function createList<TokenAnnotation, NonTokenAnnotation>(
     _definition: t.List,
     collectionDefinition: t.Collection,
-    onError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void,
-): astncore.ListHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
+): astn.ListHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onElement: () => {
             return createNode(collectionDefinition.node, onError)
@@ -43,8 +43,8 @@ function createList<TokenAnnotation, NonTokenAnnotation>(
 
 function createStateGroup<TokenAnnotation, NonTokenAnnotation>(
     definition: t.StateGroup,
-    onError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void,
-): astncore.TypedTaggedUnionHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
+): astn.TypedTaggedUnionHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onUnexpectedOption: $ => {
             const state = definition.states.getUnsafe($.defaultOption)
@@ -66,8 +66,8 @@ function createStateGroup<TokenAnnotation, NonTokenAnnotation>(
 function createProp<TokenAnnotation, NonTokenAnnotation>(
     name: string,
     nodedefinition: t.Node,
-    onError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void,
-): astncore.TypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
+): astn.TypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onDictionary: () => {
             const prop = nodedefinition.properties.getUnsafe(name)
@@ -124,30 +124,30 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
                 switch ($$.type[0]) {
                     case "boolean": {
                         if ($.token.data.wrapping[0] !== "none") {
-                            onError(`expected a boolean, found a quoted string`, $.token.annotation, astncore.DiagnosticSeverity.error)
+                            onError(`expected a boolean, found a quoted string`, $.token.annotation, astn.DiagnosticSeverity.error)
                         } else {
                             const val = $.value
                             if (val !== "true" && val !== "false") {
-                                onError(`value '${val}' is not a boolean`, $.token.annotation, astncore.DiagnosticSeverity.error)
+                                onError(`value '${val}' is not a boolean`, $.token.annotation, astn.DiagnosticSeverity.error)
                             }
                         }
                         break
                     }
                     case "number": {
                         if ($.token.data.wrapping[0] !== "none") {
-                            onError(`expected a number, found a wrapped string`, $.token.annotation, astncore.DiagnosticSeverity.error)
+                            onError(`expected a number, found a wrapped string`, $.token.annotation, astn.DiagnosticSeverity.error)
                         } else {
                             const val = $.value
                             //eslint-disable-next-line no-new-wrappers
                             if (isNaN(new Number(val).valueOf())) {
-                                onError(`value '${val}' is not a number`, $.token.annotation, astncore.DiagnosticSeverity.error)
+                                onError(`value '${val}' is not a number`, $.token.annotation, astn.DiagnosticSeverity.error)
                             }
                         }
                         break
                     }
                     case "string": {
                         if ($.token.data.wrapping[0] === "none") {
-                            onError(`expected a quoted string`, $.token.annotation, astncore.DiagnosticSeverity.error)
+                            onError(`expected a quoted string`, $.token.annotation, astn.DiagnosticSeverity.error)
                         }
                         break
                     }
@@ -164,8 +164,8 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
 
 function createNode<TokenAnnotation, NonTokenAnnotation>(
     definition: t.Node,
-    onError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void,
-): astncore.TypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
+): astn.TypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onDictionary: () => {
             throw new Error("unexpected")
@@ -206,8 +206,8 @@ function createNode<TokenAnnotation, NonTokenAnnotation>(
 
 export function createRoot<TokenAnnotation, NonTokenAnnotation>(
     schema: t.Schema,
-    onError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void
-): astncore.TypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void
+): astn.TypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         root: createNode(schema["root type"].get().node, onError),
         onEnd: () => {

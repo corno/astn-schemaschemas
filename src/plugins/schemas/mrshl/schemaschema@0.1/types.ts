@@ -1,4 +1,4 @@
-import * as astncore from "astn"
+import * as astn from "astn"
 
 export interface IReference<T> {
     get(): T
@@ -31,7 +31,7 @@ export type List = {
 }
 
 export type Node = {
-    readonly "properties": astncore.IReadonlyDictionary<Property>
+    readonly "properties": astn.IReadonlyDictionary<Property>
 }
 
 export type Property = {
@@ -45,7 +45,7 @@ export type PropertyType =
     | ["state group", StateGroup]
 
 export type Schema = {
-    readonly "component types": astncore.IReadonlyDictionary<ComponentType>
+    readonly "component types": astn.IReadonlyDictionary<ComponentType>
     readonly "root type": IReference<ComponentType>
 }
 
@@ -54,7 +54,7 @@ export type State = {
 }
 
 export type StateGroup = {
-    readonly "states": astncore.IReadonlyDictionary<State>
+    readonly "states": astn.IReadonlyDictionary<State>
     readonly "default state": IReference<State>
 }
 

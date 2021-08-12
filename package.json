@@ -1,7 +1,7 @@
 {
-  "name": "db5",
-  "version": "0.6.31",
-  "description": "database engine for ASTN texts",
+  "name": "astn-schemaschemas",
+  "version": "0.0.0",
+  "description": "collection of schema schema code bases",
   "main": "dist/src/index.js",
   "scripts": {
     "build": "rm -rf ./dist && tsc",
@@ -22,10 +22,10 @@
   "prepublish": "tsc",
   "repository": {
     "type": "git",
-    "url": "https://github.com/corno/alan-schemas.git"
+    "url": "https://github.com/corno/astn-schemaschemas.git"
   },
   "dependencies": {
-    "astn": "^0.84.3"
+    "astn": "^0.84.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.21",

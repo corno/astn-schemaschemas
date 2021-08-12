@@ -1,4 +1,3 @@
-import * as astncore from "astn"
 import * as astn from "astn"
 import { createDeserializer } from "./createDeserializer"
 import * as t from "./types"
@@ -9,7 +8,7 @@ import { SchemaAndSideEffects } from "astn"
 export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
     onSchemaError: (error: astn.SchemaDeserializationError, annotation: TokenAnnotation) => void,
     onSchema: (schema: SchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>) => void,
-): astncore.TreeHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.TreeHandler<TokenAnnotation, NonTokenAnnotation> {
 
     let foundError = false
     let schema: null | t.Schema = null
@@ -35,7 +34,7 @@ export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
                 onSchema({
                     schema: convertToGenericSchema(schema),
                     createStreamingValidator: (
-                        onValidationError: (message: string, annotation: TokenAnnotation, severity: astncore.DiagnosticSeverity) => void,
+                        onValidationError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
                     ) => sideEffects.createRoot<TokenAnnotation, NonTokenAnnotation>(s, onValidationError),
                 })
             } else {

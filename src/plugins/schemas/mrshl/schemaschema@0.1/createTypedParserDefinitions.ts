@@ -1,4 +1,4 @@
-import * as astncore from "astn"
+import * as astn from "astn"
 import {
     createDictionary, MutableDictionary,
 } from "./Dictionary"
@@ -9,17 +9,17 @@ function assertUnreachable<RT>(_x: never): RT {
 }
 
 function convertToGenericNode(
-    node: Node, componentTypes: astncore.IReadonlyLookup<astncore.TypeDefinition>,
+    node: Node, componentTypes: astn.IReadonlyLookup<astn.TypeDefinition>,
     keyProperty: null | Property,
-    resolveRegistry: astncore.IResolveRegistry<null>,
-): astncore.ValueDefinition {
-    const properties = createDictionary<astncore.ValueDefinition>({})
+    resolveRegistry: astn.IResolveRegistry<null>,
+): astn.ValueDefinition {
+    const properties = createDictionary<astn.ValueDefinition>({})
     node.properties.forEach((prop, key) => {
         if (prop === keyProperty) {
             return
         }
         properties.add(key, {
-            type: ((): astncore.ValueTypeDefinition => {
+            type: ((): astn.ValueTypeDefinition => {
                 switch (prop.type[0]) {
                     case "collection": {
                         const $ = prop.type[1]
@@ -68,7 +68,7 @@ function convertToGenericNode(
                     case "component": {
                         const $ = prop.type[1]
                         return ["type reference", {
-                            type: astncore.createReference(
+                            type: astn.createReference(
                                 "type",
                                 {
                                     value: $.type.name,
@@ -83,7 +83,7 @@ function convertToGenericNode(
                     }
                     case "state group": {
                         const $ = prop.type[1]
-                        const tmp: { [key: string]: astncore.OptionDefinition } = {}
+                        const tmp: { [key: string]: astn.OptionDefinition } = {}
                         $.states.forEach((state, key) => {
                             tmp[key] = {
                                 value: convertToGenericNode(state.node, componentTypes, null, resolveRegistry),
@@ -92,7 +92,7 @@ function convertToGenericNode(
                         const states = createDictionary(tmp)
                         return ["tagged union", {
                             "options": states,
-                            "default option": astncore.createReference(
+                            "default option": astn.createReference(
                                 "default option",
                                 {
                                     value: $["default state"].name,
@@ -137,15 +137,15 @@ function convertToGenericNode(
     }
 }
 
-export function convertToGenericSchema(schema: Schema): astncore.Schema {
-    const resolveRegistry = astncore.createResolveRegistry<null>()
-    const types: MutableDictionary<astncore.TypeDefinition> = createDictionary({})
+export function convertToGenericSchema(schema: Schema): astn.Schema {
+    const resolveRegistry = astn.createResolveRegistry<null>()
+    const types: MutableDictionary<astn.TypeDefinition> = createDictionary({})
     schema["component types"].forEach((ct, ctName) => {
         types.add(ctName, {
             value: convertToGenericNode(ct.node, types, null, resolveRegistry),
         })
     })
-    const rootType = astncore.createReference(
+    const rootType = astn.createReference(
         "root type",
         {
          value: schema["root type"].name,
