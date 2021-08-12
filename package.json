@@ -25,7 +25,7 @@
     "url": "https://github.com/corno/astn-schemaschemas.git"
   },
   "dependencies": {
-    "astn": "^0.84.4"
+    "astn": "^0.84.5"
   },
   "devDependencies": {
     "@types/chai": "^4.2.21",
