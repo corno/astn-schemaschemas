@@ -42,6 +42,7 @@
   },
   "bin": {
     "astn-expand": "bin/astnExpand.mjs",
-    "astn-compact": "bin/astnCompact.mjs"
+    "astn-compact": "bin/astnCompact.mjs",
+    "astn-generate": "bin/astnGenerateSchemaCode.mjs"
   }
 }
