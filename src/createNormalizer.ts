@@ -4,6 +4,7 @@ import * as astn from "astn"
 import { SchemaHost } from "./SchemaHost"
 import { getSchemaSchemaBuilder } from "./getSchemaSchemaBuilder"
 import { readFileFromFileSystem } from "./readFileFromFileSystem"
+import { defaultSchemaHost } from "./defaultSchemaHost"
 
 export function createNormalizer(
     sourcePath: string,
@@ -22,10 +23,7 @@ export function createNormalizer(
         getSchemaSchemaBuilder,
         readFileFromFileSystem,
         referencedSchema => makeHTTPrequest(
-            {
-                host: 'astn.io',
-                pathStart: '/dev/schemas/',
-            },
+            defaultSchemaHost,
             referencedSchema,
             3000,
         ),
