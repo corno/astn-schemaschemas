@@ -1,0 +1,9 @@
+dist/test
+test/
+tsbin/
+src/
+.vscode
+.eslintrc.js
+schemaHost.ts
+tsconfig.json
+.travis.yml
