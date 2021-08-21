@@ -1,7 +1,7 @@
 import * as astn from "astn"
 import { createDeserializer } from "./createDeserializer"
 import * as t from "./types"
-import { convertToGenericSchema } from "./createTypedParserDefinitions"
+import { convertToASTNSchema as convertToASTNSchema } from "./convertToASTNSchema"
 import * as sideEffects from "./sideEffects"
 import { SchemaAndSideEffects } from "astn"
 
@@ -32,7 +32,7 @@ export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
                 }
                 const s = schema
                 onSchema({
-                    schema: convertToGenericSchema(schema),
+                    getSchema: () => convertToASTNSchema(s),
                     createStreamingValidator: (
                         onValidationError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
                     ) => sideEffects.createRoot<TokenAnnotation, NonTokenAnnotation>(s, onValidationError),

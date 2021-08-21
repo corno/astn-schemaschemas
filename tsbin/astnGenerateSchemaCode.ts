@@ -1,6 +1,5 @@
 import * as p from "pareto"
 import * as astn from "astn"
-import * as astncore from "astn"
 
 import {
     createDeserializer,
@@ -8,7 +7,7 @@ import {
 import {
     Block,
     BlockXWriter,
-    LineWriter,
+    ILineWriter,
     generateSchemaLoader,
 } from "../src/plugins/schemas/mrshl/schemaschema@0.1/generateSchemaLoader"
 import { processSchemaFile } from "../src/plugins/schemas/mrshl/schemaschema@0.1/processSchemaFile"
@@ -17,7 +16,7 @@ import { processSchemaFile } from "../src/plugins/schemas/mrshl/schemaschema@0.1
 processSchemaFile(
     createDeserializer(
         (error, annotation) => {
-            console.error(`EXPECT ERROR FOUND: ${astncore.printExpectError(error)} @ ${astn.printRange(annotation.range)}`)
+            console.error(`EXPECT ERROR FOUND: ${astn.printExpectError(error)} @ ${astn.printRange(annotation.range)}`)
         },
         (error, annotation) => {
             console.error(`VALIDATION ERROR FOUND: ${error} @ ${astn.printRange(annotation.range)}`)
@@ -37,7 +36,7 @@ processSchemaFile(
                     snippet: (str: string) => void,
                     indentation: string,
                     currentIndentation: string,
-                ): LineWriter {
+                ): ILineWriter {
                     return {
                         snippet: str => {
                             snippet(`${str}`)

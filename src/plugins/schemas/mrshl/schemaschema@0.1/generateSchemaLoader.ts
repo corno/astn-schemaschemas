@@ -24,7 +24,7 @@ function generateHandlerFunctionName(str: string) {
 //     return `_generateBuilder_${generateIdentifier(str)}`
 // }
 
-export interface LineWriter {
+export interface ILineWriter {
     snippet: (str: string) => void
     nestedBlockX: (
         callback: ($w: BlockXWriter) => void,
@@ -36,15 +36,15 @@ export interface LineWriter {
 
 export interface Block {
     variable: (
-        callback: ($w: LineWriter) => void
+        callback: ($w: ILineWriter) => void
     ) => void
     statement: (
-        callback: ($w: LineWriter) => void
+        callback: ($w: ILineWriter) => void
     ) => void
 }
 
 export interface BlockXWriter {
-    line: (callback: ($w: LineWriter) => void) => void
+    line: (callback: ($w: ILineWriter) => void) => void
     fullLine: (str: string) => void
     nestedBlockX: (
         callback: ($w: BlockXWriter) => void,
@@ -86,7 +86,6 @@ const nodeBuilderRegistry: Registry = {
 }
 
 function getPathIdentifier(registry: Registry, path: string[]): string {
-
     const asJSON = JSON.stringify(path)
     if (registry.known[asJSON] === undefined) {
         let varName = ""
@@ -104,27 +103,25 @@ function getPathIdentifier(registry: Registry, path: string[]): string {
 
 function createIdentifierGenerator(componentTypeName: string): NodeIdentifierGenerator {
 
-    function createSG(path: string[]): StateGroupIdentifierGenerator {
-        return {
-            state: str => {
-                return createN(path.concat([str]))
-            },
-            generateTaggedUnionIdentifier: () => {
-                if (path.length === 0) {
-                    return "FIXME_NODE"
-                } else {
-                    return `_${getPathIdentifier(stateGroupRegistry, path)}_TU`
-                }
-            },
-        }
-    }
-    function createN(path: string[]): NodeIdentifierGenerator {
+    function createNode(path: string[]): NodeIdentifierGenerator {
         return {
             collection: str => {
-                return createN(path.concat([str]))
+                return createNode(path.concat([str]))
             },
-            stateGroup: str => {
-                return createSG(path.concat([str]))
+            stateGroup: sgStr => {
+                const path2 = path.concat([sgStr])
+                return {
+                    state: stateStr => {
+                        return createNode(path2.concat([stateStr]))
+                    },
+                    generateTaggedUnionIdentifier: () => {
+                        if (path2.length === 0) {
+                            return "FIXME_NODE"
+                        } else {
+                            return `_${getPathIdentifier(stateGroupRegistry, path2)}_TU`
+                        }
+                    },
+                }
             },
             generateNodeIdentifier: () => {
                 return `_${getPathIdentifier(nodeRegistry, path)}_T`
@@ -133,12 +130,13 @@ function createIdentifierGenerator(componentTypeName: string): NodeIdentifierGen
                 if (path.length === 0) {
                     return "FIXME_NODE"
                 } else {
+                    //console.log()
                     return `_${getPathIdentifier(nodeBuilderRegistry, path)}_B`
                 }
             },
         }
     }
-    return createN([componentTypeName])
+    return createNode([componentTypeName])
 }
 
 export function generateSchemaLoader(
@@ -192,8 +190,8 @@ export function generateSchemaLoader(
                         //generate the tagged union type
                         $w.fullLine(`export type ${newPath.generateTaggedUnionIdentifier()} =`)
                         $w.nestedBlockX($w => {
+                            const newPath = ig.stateGroup(key)
                             $.states.forEach((_$, key) => {
-                                const newPath = ig.stateGroup(key)
 
                                 $w.fullLine(`| ["${key}", ${newPath.state(key).generateNodeIdentifier()}]`)
                             })
@@ -302,8 +300,8 @@ export function generateSchemaLoader(
                         //generate the tagged union type
                         $w.fullLine(`export type ${newPath.generateTaggedUnionIdentifier()}_Builder =`)
                         $w.nestedBlockX($w => {
+                            const newPath = ig.stateGroup(key)
                             $.states.forEach((_$, key) => {
-                                const newPath = ig.stateGroup(key)
 
                                 $w.fullLine(`| ["${key}", ${newPath.state(key).generateNodeBuilderIdentifier()}]`)
                             })
@@ -370,7 +368,7 @@ export function generateSchemaLoader(
     function generateNodeCode(
         node: def.Node,
         keyProperty: def.Property | null,
-        $w: LineWriter,
+        $w: ILineWriter,
         path: NodeIdentifierGenerator,
     ) {
 
@@ -454,7 +452,7 @@ export function generateSchemaLoader(
                                                                 $w.line($w => {
                                                                     $w.snippet(`return wrap(`)
                                                                     generateNodeCode(node, $["key property"].get(), $w, newPath)
-                                                                    $w.snippet(`(node => ${generateVariableIdentifier(key)}[propertyData.data.keyString.value] = node)`)
+                                                                    $w.snippet(`(node => ${generateVariableIdentifier(key)}[propertyData.token.data.value] = node)`)
                                                                     $w.snippet(`)`)
                                                                 })
 
@@ -551,8 +549,7 @@ export function generateSchemaLoader(
                                                         $w.fullLine(`warningOnly: true,`)
                                                         $w.fullLine(`callback: $ => {`)
                                                         $w.nestedBlockX($w => {
-                                                            $w.fullLine(`${generateVariableIdentifier(key)} = $.value`)
-                                                            $w.fullLine(`return createReturnValue()`)
+                                                            $w.fullLine(`${generateVariableIdentifier(key)} = $.token.data.value`)
                                                         })
                                                         $w.fullLine(`},`)
                                                     })
@@ -575,7 +572,7 @@ export function generateSchemaLoader(
                     $w.fullLine(`},`)
                     $w.fullLine(`onEnd: () => {`)
                     $w.nestedBlockX($w => {
-                        function createDefaultInitializer($: def.Node, $w: LineWriter) {
+                        function createDefaultInitializer($: def.Node, $w: ILineWriter) {
                             $w.snippet(`{`)
                             $w.nestedBlockX($w => {
                                 $.properties.forEach(($, key) => {
@@ -727,34 +724,34 @@ export function generateSchemaLoader(
 
     $w.fullLine(`import { ValueHandler, RequiredValueHandler, IExpectContext } from "astn"`)
     /*
-    interface ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType> {
+    interface ValueHandler<TokenAnnotation, NonTokenAnnotation> {
 
     }
 
-    interface RequiredValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType> {
-        exists: ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+    interface RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        exists: ValueHandler<TokenAnnotation, NonTokenAnnotation>
         missing: () => void
     }
 
-    interface IExpectContext<TokenAnnotation, NonTokenAnnotation, ReturnType> {
+    interface IExpectContext<TokenAnnotation, NonTokenAnnotation> {
         expectList($: {
-            onElement: () => ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+            onElement: () => ValueHandler<TokenAnnotation, NonTokenAnnotation>
+        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
         expectVerboseGroup($: {
             properties: {
                 [key: string]: {
                     onNotExists: () => void
-                    onExists: () => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+                    onExists: () => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation>
                 }
             }
             onEnd: () => void
 
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
         expectTaggedUnion($: {
             options: {
-                [key: string]: () => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+                [key: string]: () => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation>
             }
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
         expectDictionary($: {
             onProperty: ($: {
                 data: {
@@ -762,14 +759,14 @@ export function generateSchemaLoader(
                         value: string
                     }
                 }
-            }) => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+            }) => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation>
+        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
         expectQuotedString($: {
             warningOnly: boolean
             callback: ($: {
                 value: string
-            }) => ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>
+            }) => ValueHandler<TokenAnnotation, NonTokenAnnotation>
+        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
     }
     */
     $w.fullLine(``)
@@ -813,7 +810,7 @@ export function generateSchemaLoader(
     //     $w.nestedBlockX($w => {
     //         $w.fullLine(`callback: (out: ${createIdentifierGenerator(key).generateNodeIdentifier()}) => void,`)
     //     })
-    //     $w.fullLine(`): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType> {`)
+    //     $w.fullLine(`): ValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
     //     $w.nestedBlockX($w => {
     //         $w.line($w => {
     //             $w.snippet(`return `)
@@ -825,16 +822,15 @@ export function generateSchemaLoader(
     //     $w.fullLine(``)
     // })
 
-    $w.fullLine(`export function createDeserializer<TokenAnnotation, NonTokenAnnotation, ReturnType>(`)
+    $w.fullLine(`export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(`)
     $w.nestedBlockX($w => {
-        $w.fullLine(`context: IExpectContext<TokenAnnotation, NonTokenAnnotation, ReturnType>,`)
+        $w.fullLine(`context: IExpectContext<TokenAnnotation, NonTokenAnnotation>,`)
         $w.fullLine(`raiseValidationError: (message: string, annotation: TokenAnnotation) => void,`)
         $w.fullLine(`callback: (result: ${createIdentifierGenerator(schema["root type"].name).generateNodeIdentifier()}) => void,`)
-        $w.fullLine(`createReturnValue: () => ReturnType,`)
     })
-    $w.fullLine(`): RequiredValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType> {`)
+    $w.fullLine(`): RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
     $w.nestedBlockX($w => {
-        $w.fullLine(`function wrap(handler: ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType>): RequiredValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType> {`)
+        $w.fullLine(`function wrap(handler: ValueHandler<TokenAnnotation, NonTokenAnnotation>): RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
         $w.nestedBlockX($w => {
             $w.fullLine(`return {`)
             $w.nestedBlockX($w => {
@@ -854,7 +850,7 @@ export function generateSchemaLoader(
             $w.nestedBlockX($w => {
                 $w.fullLine(`callback: (out: ${createIdentifierGenerator(key).generateNodeIdentifier()}) => void,`)
             })
-            $w.fullLine(`): ValueHandler<TokenAnnotation, NonTokenAnnotation, ReturnType> {`)
+            $w.fullLine(`): ValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
             $w.nestedBlockX($w => {
                 $w.line($w => {
                     $w.snippet(`return `)

@@ -3,9 +3,6 @@
 
 */
 import * as astn from "astn"
-import {
-    createDictionary,
-} from "./Dictionary"
 import * as t from "./types"
 
 /**
@@ -29,7 +26,7 @@ type AnnotatedString<TokenAnnotation> = {
 function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
     context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
     raiseValidationError: (message: string, annotation: TokenAnnotation) => void,
-    componentTypes: astn.IReadonlyDictionary<t.ComponentType>,
+    componentTypes: astn.IReadonlyLookup<t.ComponentType>,
     callback: (node: t.Node) => void,
     resolveRegistry: astn.IResolveRegistry<TokenAnnotation>,
 ): astn.ExpectedProperty<TokenAnnotation, NonTokenAnnotation> {
@@ -45,7 +42,7 @@ function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
 
     return {
         onExists: () => {
-            const properties = createDictionary<t.Property>({})
+            const properties = astn.createDictionaryBuilder<t.Property>()
             return wrap(context.expectVerboseGroup({
                 properties: {
                     "properties": {
@@ -107,7 +104,7 @@ function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 assertedTargetKeyProperty,
                                                                                                 "name",
                                                                                                 $.annotation,
-                                                                                                assertedTargetNode.properties,
+                                                                                                assertedTargetNode.properties.getLookup(),
                                                                                                 resolveRegistry.getRegistrater(),
                                                                                             ),
                                                                                         }]
@@ -175,7 +172,7 @@ function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
                                                         }))
                                                     },
                                                     "state group": () => {
-                                                        const states = createDictionary<t.State>({})
+                                                        const states = astn.createDictionaryBuilder<t.State>()
                                                         let targetDefaultState: null | AnnotatedString<TokenAnnotation> = null
                                                         return wrap(context.expectVerboseGroup({
                                                             properties: {
@@ -229,13 +226,13 @@ function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
                                                             onEnd: $ => {
                                                                 const assertedTargetDefaultState = assertNotNull(targetDefaultState)
                                                                 targetPropertyType = ["state group", {
-                                                                    "states": states,
+                                                                    "states": states.toDictionary(),
                                                                     "default state": astn.createReference(
                                                                         "default state",
                                                                         assertedTargetDefaultState,
                                                                         "yes",
                                                                         $.annotation,
-                                                                        states,
+                                                                        states.toDictionary().getLookup(),
                                                                         resolveRegistry.getRegistrater(),
                                                                     ),
                                                                 }]
@@ -312,13 +309,13 @@ function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
                     },
                 },
                 onEnd: () => {
-                    callback({ properties: properties })
+                    callback({ properties: properties.toDictionary() })
                 },
             }))
         },
         onNotExists: () => {
             callback({
-                properties: createDictionary<t.Property>({}),
+                properties: astn.createDictionaryBuilder<t.Property>().toDictionary(),
             })
         },
     }
@@ -330,7 +327,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     callback: (metaData: null | t.Schema) => void,
     onEnd: () => void,
 ): astn.TreeHandler<TokenAnnotation, NonTokenAnnotation> {
-    const componentTypes = createDictionary<t.ComponentType>({})
+    const componentTypes = astn.createDictionaryBuilder<t.ComponentType>()
     let rootName: AnnotatedString<TokenAnnotation> | null = null
 
     const context = astn.createExpectContext<TokenAnnotation, NonTokenAnnotation>(
@@ -371,7 +368,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                         "node": createExpectedValueHandler(
                                             context,
                                             onValidationError,
-                                            componentTypes,
+                                            componentTypes.toDictionary().getLookup(),
                                             node => {
                                                 targetNode = node
                                             },
@@ -413,13 +410,13 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     let schema: t.Schema | null = null
                     const assertedRootName = assertNotNull(rootName)
                     schema = {
-                        "component types": componentTypes,
+                        "component types": componentTypes.toDictionary(),
                         "root type": astn.createReference(
                             "root type",
                             assertedRootName,
                             "root",
                             $.annotation,
-                            componentTypes,
+                            componentTypes.toDictionary().getLookup(),
                             resolveRegistry.getRegistrater(),
                         ),
                     }

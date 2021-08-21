@@ -17,6 +17,27 @@ export function createNormalizer(
     style: astn.SerializationStyle,
     write: (str: string) => void,
 ): p.IValue<p.IStreamConsumer<string, null, null>> {
+    function createTypedSerializer<TokenAnnotation, NonTokenAnnotation>(
+        rs: astn.ResolvedSchema<TokenAnnotation, NonTokenAnnotation>,
+        style: astn.SerializationStyle,
+        write: (str: string) => void,
+    ): astn.ITypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
+        const simpleDS: astn.Datastore = {
+            root: { type: null },
+        }
+        return astn.createBuilder(
+            simpleDS,
+            () => {
+                astn.marshall(
+                    astn.createMarshallInterface(simpleDS),
+                    rs.schemaAndSideEffects.getSchema(),
+                    rs.specification,
+                    style,
+                    write,
+                )
+            }
+        )
+    }
     return astn.createProcessorForASTNStreamWithContext(
         path.basename(sourcePath),
         path.dirname(sourcePath),
@@ -27,7 +48,7 @@ export function createNormalizer(
             referencedSchema,
             3000,
         ),
-        rs => astn.createTypedSerializer(
+        rs => createTypedSerializer(
             rs,
             style,
             write,

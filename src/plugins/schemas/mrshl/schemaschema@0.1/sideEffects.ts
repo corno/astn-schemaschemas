@@ -15,7 +15,7 @@ function createDictionary<TokenAnnotation, NonTokenAnnotation>(
     _definition: t.Dictionary,
     collectionDefinition: t.Collection,
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.DictionaryHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.IDictionaryHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onClose: () => {
             //
@@ -30,7 +30,7 @@ function createList<TokenAnnotation, NonTokenAnnotation>(
     _definition: t.List,
     collectionDefinition: t.Collection,
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.ListHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.IListHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onElement: () => {
             return createNode(collectionDefinition.node, onError)
@@ -44,22 +44,19 @@ function createList<TokenAnnotation, NonTokenAnnotation>(
 function createStateGroup<TokenAnnotation, NonTokenAnnotation>(
     definition: t.StateGroup,
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.TypedTaggedUnionHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.ITypedTaggedUnionHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onUnexpectedOption: $ => {
-            const state = definition.states.getUnsafe($.defaultOption)
+            const state = definition.states.getLookup().getUnsafe($.defaultOption)
             return createNode(state.node, onError)
         },
         onOption: $ => {
-            const state = definition.states.getUnsafe($.name)
+            const state = definition.states.getLookup().getUnsafe($.name)
             return createNode(state.node, onError)
         },
         onEnd: () => {
             //
         },
-        // onUnexpectedOption: () => {
-        //     //
-        // },
     }
 }
 
@@ -67,10 +64,10 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
     name: string,
     nodedefinition: t.Node,
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.TypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.ITypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onDictionary: () => {
-            const prop = nodedefinition.properties.getUnsafe(name)
+            const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "collection") {
                 throw new Error("unexpected")
             }
@@ -81,7 +78,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
             return createDictionary($.type[1], $, onError)
         },
         onList: () => {
-            const prop = nodedefinition.properties.getUnsafe(name)
+            const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "collection") {
                 throw new Error("unexpected")
             }
@@ -93,7 +90,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
         },
         onTaggedUnion: () => {
 
-            const prop = nodedefinition.properties.getUnsafe(name)
+            const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "state group") {
                 throw new Error("unexpected")
             }
@@ -101,7 +98,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
             return createStateGroup($, onError)
         },
         onTypeReference: () => {
-            const prop = nodedefinition.properties.getUnsafe(name)
+            const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "component") {
                 throw new Error("unexpected")
             }
@@ -109,13 +106,13 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
             return createNode($.type.get().node, onError)
         },
         onMultilineString: _$ => {
-            const prop = nodedefinition.properties.getUnsafe(name)
+            const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "value") {
                 throw new Error("unexpected")
             }
         },
         onSimpleString: $ => {
-            const prop = nodedefinition.properties.getUnsafe(name)
+            const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "value") {
                 throw new Error("unexpected")
             }
@@ -165,7 +162,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
 function createNode<TokenAnnotation, NonTokenAnnotation>(
     definition: t.Node,
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.TypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.ITypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         onDictionary: () => {
             throw new Error("unexpected")
@@ -207,7 +204,7 @@ function createNode<TokenAnnotation, NonTokenAnnotation>(
 export function createRoot<TokenAnnotation, NonTokenAnnotation>(
     schema: t.Schema,
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void
-): astn.TypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.ITypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         root: createNode(schema["root type"].get().node, onError),
         onEnd: () => {
