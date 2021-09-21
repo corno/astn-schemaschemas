@@ -1,13 +1,16 @@
-import * as path from "path"
 import * as p from "pareto"
 import * as astn from "astn"
 import { SchemaHost } from "./SchemaHost"
 import { getSchemaSchemaBuilder } from "./getSchemaSchemaBuilder"
-import { readFileFromFileSystem } from "./readFileFromFileSystem"
 import { defaultSchemaHost } from "./defaultSchemaHost"
 
 export function createNormalizer(
-    sourcePath: string,
+    sourcePathDirName: string,
+    sourcePathBaseName: string,
+    readFileFromFileSystem: (
+        dir: string,
+        schemaFileName: string,
+    ) => p.IUnsafeValue<p.IStream<string, null>, astn.RetrievalError>,
     makeHTTPrequest: (
         schemaHost: SchemaHost,
         schema: string,
@@ -39,16 +42,16 @@ export function createNormalizer(
         )
     }
     return astn.createProcessorForASTNStreamWithContext(
-        path.basename(sourcePath),
-        path.dirname(sourcePath),
+        sourcePathBaseName,
+        sourcePathDirName,
         getSchemaSchemaBuilder,
         readFileFromFileSystem,
-        referencedSchema => makeHTTPrequest(
+        (referencedSchema) => makeHTTPrequest(
             defaultSchemaHost,
             referencedSchema,
             3000,
         ),
-        rs => createTypedSerializer(
+        (rs) => createTypedSerializer(
             rs,
             style,
             write,

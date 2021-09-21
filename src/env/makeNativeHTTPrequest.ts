@@ -1,14 +1,14 @@
 import * as http from "http"
 import * as p20 from "pareto-20"
 import * as p from "pareto"
-import { SchemaHost } from "./SchemaHost"
-import { RetrievalError } from "astn"
+import { SchemaHost } from "../SchemaHost"
+import * as astn from "astn"
 
 export function makeNativeHTTPrequest(
     schemaHost: SchemaHost,
     schema: string,
     timeout: number,
-): p.IUnsafeValue<p.IStream<string, null>, RetrievalError> {
+): p.IUnsafeValue<p.IStream<string, null>, astn.RetrievalError> {
     return p20.wrapUnsafeFunction((onError, onSucces) => {
 
         const path = `${schemaHost.pathStart}/${encodeURI(schema)}`.replace(/\/\//g, "/")
@@ -18,7 +18,7 @@ export function makeNativeHTTPrequest(
                 path: path,
                 timeout: timeout,
             },
-            res => {
+            (res) => {
                 if (res.statusCode !== 200) {
                     onError(["not found", {}])
                     return
@@ -42,14 +42,14 @@ export function makeNativeHTTPrequest(
                 onSucces(p20.createStream((_limiter, consumer) => {
                     res.on(
                         'data',
-                        chunk => {
+                        (chunk) => {
                             complete += chunk.toString()
                         }
                     )
                     res.on('end', () => {
 
                         consumer.onData(complete).handle(
-                            _abortRequested => {
+                            (_abortRequested) => {
                                 //
                                 consumer.onEnd(false, null)
                             }
@@ -59,11 +59,9 @@ export function makeNativeHTTPrequest(
             }
         )
         request.on('timeout', () => {
-            console.error("timeout")
             onError(["other", { description: "timeout" }])
         });
-        request.on('error', e => {
-            console.error(e.message)
+        request.on('error', (e) => {
             onError(["other", { description: e.message }])
         });
         request.end()

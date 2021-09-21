@@ -7,18 +7,23 @@ import {
 } from "./createDeserializer"
 import { Schema } from "."
 
+
+export interface ISchemaHandler {
+    onSchema: (schema: Schema) => void
+}
+
 export function createSchemaStreamProcesser(
-    generateCode: (schema: Schema) => void,
+    handler: ISchemaHandler,
     onError: (str: string) => void,
 ): p.IStreamConsumer<string, null, null> {
     return astn.createStreamPreTokenizer(
         astn.createTokenizer(
             astn.createStructureParser({
-                onEmbeddedSchema: $ => {
+                onEmbeddedSchema: ($) =>  {
                     onError(`expected a schema reference @ ${astn.printRange($.embeddedSchemaAnnotation.range)}`)
                     return astn.createDummyTreeHandler()
                 },
-                onSchemaReference: $ => {
+                onSchemaReference: ($) =>  {
                     const expectedSchemaHeader = "mrshl/schemaschema@0.1"
                     if ($.token.data.value !== expectedSchemaHeader) {
                         onError(`expected "${expectedSchemaHeader}" but found "${$.token.data.value}"`)
@@ -28,14 +33,14 @@ export function createSchemaStreamProcesser(
                 onBody: () => {
                     return createDeserializer(
                         (error, annotation) => {
-                            console.error(`${astn.printExpectError(error)} @ ${astn.printRange(annotation.range)}`)
+                            onError(`${astn.printExpectError(error)} @ ${astn.printRange(annotation.range)}`)
                         },
                         (error, annotation) => {
-                            console.error(`${error} @ ${astn.printRange(annotation.range)}`)
+                            onError(`${error} @ ${astn.printRange(annotation.range)}`)
                         },
-                        schema => {
+                        (schema) => {
                             if (schema !== null) {
-                                generateCode(schema)
+                                handler.onSchema(schema)
                             } else {
                                 onError("MISSING SCHEMA")
                             }
@@ -49,16 +54,19 @@ export function createSchemaStreamProcesser(
                     //
                 },
                 errors: {
-                    onTreeError: $ => {
+                    onTreeError: ($) =>  {
                         onError(`${astn.printTreeParserError($.error)} @ ${astn.printRange($.annotation.range)}`)
                     },
-                    onStructureError: $ => {
+                    onStructureError: ($) =>  {
                         onError(`${astn.printStructureError($.error)} @ ${astn.printRange($.annotation.range)}`)
                     },
                 },
-            })
+            }),
+            ($, range) => {
+                onError(`${astn.printTokenizerError($)} @ ${astn.printRange(range)}`)
+            }
         ),
-        $ => {
+        ($) =>  {
             onError(`${astn.printTokenError($.error)} @ ${astn.printRange($.range)}`)
         },
     )

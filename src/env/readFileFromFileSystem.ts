@@ -6,11 +6,11 @@ import * as astn from "astn"
 
 export function readFileFromFileSystem(
     dir: string,
-    schemaFileName: string,
+    fileName: string,
 ): p.IUnsafeValue<p.IStream<string, null>, astn.RetrievalError> {
     return p20.wrapUnsafeFunction((onError, onSuccess) => {
         fs.readFile(
-            path.join(dir, schemaFileName),
+            path.join(dir, fileName),
             { encoding: "utf-8" },
             (err, data) => {
                 if (err === null) {

@@ -1,0 +1,295 @@
+
+/*eslint
+    "@typescript-eslint/no-unused-vars": 0,
+    "camelcase": 0,
+    "dot-notation": 0,
+    "no-underscore-dangle": 0,
+    "quote-props": 0
+*/
+import * as astn from "astn"
+
+interface IDictionary<T> {
+    forEach(callback: (e: T, key: string) => void): void
+}
+
+interface IArray<T> {
+    forEach(callback: (e: T) => void): void
+}
+
+function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
+    return {
+        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach(key => { callback(raw[key], key) }) },
+    }
+}
+
+export type __involved_team_members_T = {
+}
+
+export type __High_T = {
+}
+
+export type __Low_T = {
+}
+
+export type __Medium_T = {
+}
+
+export type __priority_TU =
+    | ["High", __High_T]
+    | ["Low", __Low_T]
+    | ["Medium", __Medium_T]
+
+export type __tasks_T = {
+    readonly "action holder": string
+    readonly "cost": string
+    readonly "description": string
+    readonly "enddate": string
+    readonly "involved team members": IDictionary<__involved_team_members_T>
+    readonly "priority": __priority_TU
+    readonly "startdate": string
+}
+
+export type __projects_T = {
+    readonly "tasks": IDictionary<__tasks_T>
+}
+
+export type __root_T = {
+    readonly "projects": IDictionary<__projects_T>
+}
+
+export type __involved_team_members_B = {
+}
+
+export type __High_B = {
+}
+
+export type __Low_B = {
+}
+
+export type __Medium_B = {
+}
+
+export type __priority_TU_Builder =
+    | ["High", __High_B]
+    | ["Low", __Low_B]
+    | ["Medium", __Medium_B]
+
+export type __tasks_B = {
+    readonly "action holder": string
+    readonly "cost": string
+    readonly "description": string
+    readonly "enddate": string
+    readonly "involved team members": { callback: (key: string, value: __involved_team_members_B ) => void }
+    readonly "priority": __priority_TU_Builder
+    readonly "startdate": string
+}
+
+export type __projects_B = {
+    readonly "tasks": { callback: (key: string, value: __tasks_B ) => void }
+}
+
+export type __root_B = {
+    readonly "projects": { callback: (key: string, value: __projects_B ) => void }
+}
+
+export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
+    context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
+    raiseValidationError: (message: string, annotation: TokenAnnotation) => void,
+    callback: (result: __root_T) => void,
+): astn.RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    function wrap(handler: astn.ValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        return {
+            exists: handler,
+            missing: () => {
+                //
+            },
+        }
+    }
+    function _generateHandler_root(
+        callback: (out: __root_T) => void,
+    ): astn.ValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        return ((callback: (out: __root_T) => void) => {
+            const _projects_v: { [key: string]: __projects_T } = {}
+            return context.expectVerboseGroup({
+                properties: {
+                    "projects": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(context.expectDictionary({
+                            onProperty: propertyData => {
+                                return wrap(((callback: (out: __projects_T) => void) => {
+                                    const _tasks_v: { [key: string]: __tasks_T } = {}
+                                    return context.expectVerboseGroup({
+                                        properties: {
+                                            "tasks": {
+                                                onNotExists: () => { /**/ },
+                                                onExists: () => wrap(context.expectDictionary({
+                                                    onProperty: propertyData => {
+                                                        return wrap(((callback: (out: __tasks_T) => void) => {
+                                                            let _action_holder_v: string | null = null
+                                                            let _cost_v: string | null = null
+                                                            let _description_v: string | null = null
+                                                            let _enddate_v: string | null = null
+                                                            const _involved_team_members_v: { [key: string]: __involved_team_members_T } = {}
+                                                            let _priority_v: __priority_TU | null = null
+                                                            let _startdate_v: string | null = null
+                                                            return context.expectVerboseGroup({
+                                                                properties: {
+                                                                    "action holder": {
+                                                                        onNotExists: () => { /**/ },
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: $ => {
+                                                                                _action_holder_v = $.token.data.value
+                                                                            },
+                                                                        })),
+                                                                    },
+                                                                    "cost": {
+                                                                        onNotExists: () => { /**/ },
+
+                                                                    },
+                                                                    "description": {
+                                                                        onNotExists: () => { /**/ },
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: $ => {
+                                                                                _description_v = $.token.data.value
+                                                                            },
+                                                                        })),
+                                                                    },
+                                                                    "enddate": {
+                                                                        onNotExists: () => { /**/ },
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: $ => {
+                                                                                _enddate_v = $.token.data.value
+                                                                            },
+                                                                        })),
+                                                                    },
+                                                                    "involved team members": {
+                                                                        onNotExists: () => { /**/ },
+                                                                        onExists: () => wrap(context.expectDictionary({
+                                                                            onProperty: propertyData => {
+                                                                                return wrap(((callback: (out: __involved_team_members_T) => void) => {
+                                                                                    return context.expectVerboseGroup({
+                                                                                        properties: {
+                                                                                        },
+                                                                                        onEnd: () => {
+                                                                                            callback({
+                                                                                            })
+                                                                                        },
+                                                                                    })
+                                                                                })(node => _involved_team_members_v[propertyData.token.data.value] = node))
+                                                                            },
+                                                                        })),
+                                                                    },
+                                                                    "priority": {
+                                                                        onNotExists: () => { /**/ },
+                                                                        onExists: () => wrap(context.expectTaggedUnion({
+                                                                            options: {
+                                                                                "High": () => {
+                                                                                    return wrap(((callback: (out: __High_T) => void) => {
+                                                                                        return context.expectVerboseGroup({
+                                                                                            properties: {
+                                                                                            },
+                                                                                            onEnd: () => {
+                                                                                                callback({
+                                                                                                })
+                                                                                            },
+                                                                                        })
+                                                                                    })(node => _priority_v = ["High", node]))
+                                                                                },
+                                                                                "Low": () => {
+                                                                                    return wrap(((callback: (out: __Low_T) => void) => {
+                                                                                        return context.expectVerboseGroup({
+                                                                                            properties: {
+                                                                                            },
+                                                                                            onEnd: () => {
+                                                                                                callback({
+                                                                                                })
+                                                                                            },
+                                                                                        })
+                                                                                    })(node => _priority_v = ["Low", node]))
+                                                                                },
+                                                                                "Medium": () => {
+                                                                                    return wrap(((callback: (out: __Medium_T) => void) => {
+                                                                                        return context.expectVerboseGroup({
+                                                                                            properties: {
+                                                                                            },
+                                                                                            onEnd: () => {
+                                                                                                callback({
+                                                                                                })
+                                                                                            },
+                                                                                        })
+                                                                                    })(node => _priority_v = ["Medium", node]))
+                                                                                },
+                                                                            },
+                                                                        })),
+                                                                    },
+                                                                    "startdate": {
+                                                                        onNotExists: () => { /**/ },
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: $ => {
+                                                                                _startdate_v = $.token.data.value
+                                                                            },
+                                                                        })),
+                                                                    },
+                                                                },
+                                                                onEnd: () => {
+                                                                    if (_action_holder_v === null) {
+                                                                        _action_holder_v = ""
+                                                                    }
+                                                                    if (_cost_v === null) {
+                                                                        _cost_v = ""
+                                                                    }
+                                                                    if (_description_v === null) {
+                                                                        _description_v = ""
+                                                                    }
+                                                                    if (_enddate_v === null) {
+                                                                        _enddate_v = ""
+                                                                    }
+                                                                    if (_priority_v === null) {
+                                                                        _priority_v = ["Medium", {
+                                                                        }]
+                                                                    }
+                                                                    if (_startdate_v === null) {
+                                                                        _startdate_v = ""
+                                                                    }
+                                                                    callback({
+                                                                        "action holder": _action_holder_v,
+                                                                        "cost": _cost_v,
+                                                                        "description": _description_v,
+                                                                        "enddate": _enddate_v,
+                                                                        "involved team members": createDictionary(_involved_team_members_v),
+                                                                        "priority": _priority_v,
+                                                                        "startdate": _startdate_v,
+                                                                    })
+                                                                },
+                                                            })
+                                                        })(node => _tasks_v[propertyData.token.data.value] = node))
+                                                    },
+                                                })),
+                                            },
+                                        },
+                                        onEnd: () => {
+                                            callback({
+                                                "tasks": createDictionary(_tasks_v),
+                                            })
+                                        },
+                                    })
+                                })(node => _projects_v[propertyData.token.data.value] = node))
+                            },
+                        })),
+                    },
+                },
+                onEnd: () => {
+                    callback({
+                        "projects": createDictionary(_projects_v),
+                    })
+                },
+            })
+        })(node => callback(node))
+    }
+
+    return wrap(_generateHandler_root(callback))
+}

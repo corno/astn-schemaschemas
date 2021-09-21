@@ -46,11 +46,11 @@ function createStateGroup<TokenAnnotation, NonTokenAnnotation>(
     onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
 ): astn.ITypedTaggedUnionHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
-        onUnexpectedOption: $ => {
+        onUnexpectedOption: ($) => {
             const state = definition.states.getLookup().getUnsafe($.defaultOption)
             return createNode(state.node, onError)
         },
-        onOption: $ => {
+        onOption: ($) => {
             const state = definition.states.getLookup().getUnsafe($.name)
             return createNode(state.node, onError)
         },
@@ -105,13 +105,13 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
             const $ = prop.type[1]
             return createNode($.type.get().node, onError)
         },
-        onMultilineString: _$ => {
+        onMultilineString: (_$) => {
             const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "value") {
                 throw new Error("unexpected")
             }
         },
-        onSimpleString: $ => {
+        onSimpleString: ($) => {
             const prop = nodedefinition.properties.getLookup().getUnsafe(name)
             if (prop.type[0] !== "value") {
                 throw new Error("unexpected")
@@ -176,10 +176,10 @@ function createNode<TokenAnnotation, NonTokenAnnotation>(
         onTypeReference: () => {
             throw new Error("unexpected")
         },
-        onMultilineString: _$ => {
+        onMultilineString: (_$) => {
             throw new Error("unexpected")
         },
-        onSimpleString: _$ => {
+        onSimpleString: (_$) => {
             throw new Error("unexpected")
         },
         onGroup: () => {
@@ -187,7 +187,7 @@ function createNode<TokenAnnotation, NonTokenAnnotation>(
                 onUnexpectedProperty: () => {
                     //
                 },
-                onProperty: $ => {
+                onProperty: ($) => {
                     return createProp($.key, definition, onError)
                 },
                 // onUnexpectedProperty: () => {

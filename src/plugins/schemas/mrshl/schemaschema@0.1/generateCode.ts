@@ -1,30 +1,26 @@
+import { CreateStreamConsumer } from "../../../../runProgram"
+import { createSchemaStreamProcesser } from "./createSchemaStreamProcessor"
+import * as p from "pareto"
 import {
-    Block,
+    IBlock,
     BlockXWriter,
     ILineWriter,
     generateSchemaLoader,
 } from "./generateSchemaLoader"
-import { Schema } from "./types"
 
-export interface ICodeGenerator {
-    onSchema: (schema: Schema) => void
-}
-
-export function createCodeGenerator(
+export const createCodeGenerator: CreateStreamConsumer = (
     write: (str: string) => void,
-): ICodeGenerator {
-    return {
-        onSchema: (schema) => {
+    error: (str: string) => void,
+): p.IStreamConsumer<string, null, null> => {
 
-            function generateCode(
-                schema: Schema,
-            ): void {
+    return createSchemaStreamProcesser(
+        {
+            onSchema: (schema) => {
                 let currentLine = ""
                 function flush() {
                     write(currentLine.trimRight())
                     currentLine = ""
                 }
-            
                 function createLineWriter(
                     newline: (indentation: string) => void,
                     snippet: (str: string) => void,
@@ -32,10 +28,10 @@ export function createCodeGenerator(
                     currentIndentation: string,
                 ): ILineWriter {
                     return {
-                        snippet: str => {
+                        snippet: (str) => {
                             snippet(`${str}`)
                         },
-                        nestedBlockX: callback => {
+                        nestedBlockX: (callback) => {
                             callback(createBlockWriter(
                                 newline,
                                 snippet,
@@ -44,7 +40,7 @@ export function createCodeGenerator(
                             ))
                             newline(currentIndentation)
                         },
-                        nestedBlock: callback => {
+                        nestedBlock: (callback) => {
                             snippet(`{`)
                             callback(createBlock(
                                 newline,
@@ -62,9 +58,9 @@ export function createCodeGenerator(
                     snippet: (str: string) => void,
                     indentation: string,
                     currentIndentation: string,
-                ): Block {
+                ): IBlock {
                     return {
-                        variable: callback => {
+                        variable: (callback) => {
                             newline(currentIndentation)
                             callback(createLineWriter(
                                 newline,
@@ -73,7 +69,7 @@ export function createCodeGenerator(
                                 currentIndentation
                             ))
                         },
-                        statement: callback => {
+                        statement: (callback) => {
                             newline(currentIndentation)
                             callback(createLineWriter(
                                 newline,
@@ -91,7 +87,7 @@ export function createCodeGenerator(
                     currentIndentation: string,
                 ): BlockXWriter {
                     return {
-                        line: callback => {
+                        line: (callback) => {
                             newline(currentIndentation)
                             callback(createLineWriter(
                                 newline,
@@ -104,10 +100,10 @@ export function createCodeGenerator(
                             str,
                             body,
                         ) => {
-            
+
                             newline(currentIndentation)
                             snippet(`${str} {`)
-            
+
                             body(createBlockWriter(
                                 newline,
                                 snippet,
@@ -117,11 +113,11 @@ export function createCodeGenerator(
                             newline(currentIndentation)
                             snippet(`}`)
                         },
-                        fullLine: str => {
+                        fullLine: (str) => {
                             newline(currentIndentation)
                             snippet(`${str}`)
                         },
-                        nestedBlockX: callback => {
+                        nestedBlockX: (callback) => {
                             callback(createBlockWriter(
                                 newline,
                                 snippet,
@@ -131,24 +127,23 @@ export function createCodeGenerator(
                         },
                     }
                 }
-            
                 console.warn("generating code...")
                 generateSchemaLoader(
                     schema,
                     createBlockWriter(
-                        indentation => {
+                        (indentation) => {
                             flush()
                             write(`\n`)
                             currentLine = indentation
                         },
-                        str => currentLine += str,
+                        (str) => currentLine += str,
                         "    ",
                         "",
                     )
                 )
                 flush()
-            }
-            generateCode(schema)
+            },
         },
-    }
+        error,
+    )
 }

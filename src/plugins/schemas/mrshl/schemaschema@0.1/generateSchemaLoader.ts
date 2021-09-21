@@ -30,11 +30,11 @@ export interface ILineWriter {
         callback: ($w: BlockXWriter) => void,
     ) => void
     nestedBlock: (
-        callback: ($w: Block) => void,
+        callback: ($w: IBlock) => void,
     ) => void
 }
 
-export interface Block {
+export interface IBlock {
     variable: (
         // modification: "const" | "let",
         // name: string,
@@ -111,13 +111,13 @@ function createIdentifierGenerator(componentTypeName: string): NodeIdentifierGen
 
     function createNode(path: string[]): NodeIdentifierGenerator {
         return {
-            collection: str => {
+            collection: (str) => {
                 return createNode(path.concat([str]))
             },
-            stateGroup: sgStr => {
+            stateGroup: (sgStr) => {
                 const path2 = path.concat([sgStr])
                 return {
-                    state: stateStr => {
+                    state: (stateStr) => {
                         return createNode(path2.concat([stateStr]))
                     },
                     generateTaggedUnionIdentifier: () => {
@@ -165,16 +165,16 @@ export function generateSchemaLoader(
                 case "collection":
                     const newPath = ig.collection(key)
 
-                    cc($.type[1], $ => {
+                    cc($.type[1], ($) => {
                         const node = $.node
                         switch ($.type[0]) {
                             case "dictionary":
-                                cc($.type[1], $ => {
+                                cc($.type[1], ($) => {
                                     generateNodeTypes(node, $["key property"].get(), newPath)
                                 })
                                 break
                             case "list":
-                                cc($.type[1], _$ => {
+                                cc($.type[1], (_$) => {
                                     generateNodeTypes(node, null, newPath)
                                 })
                                 break
@@ -187,7 +187,7 @@ export function generateSchemaLoader(
                 case "component":
                     break
                 case "state group":
-                    cc($.type[1], $ => {
+                    cc($.type[1], ($) => {
                         const newPath = ig.stateGroup(key)
 
                         $.states.forEach(($, key) => {
@@ -195,7 +195,7 @@ export function generateSchemaLoader(
                         })
                         //generate the tagged union type
                         $w.fullLine(`export type ${newPath.generateTaggedUnionIdentifier()} =`)
-                        $w.nestedBlockX($w => {
+                        $w.nestedBlockX(($w) => {
                             const newPath = ig.stateGroup(key)
                             $.states.forEach((_$, key) => {
 
@@ -214,17 +214,17 @@ export function generateSchemaLoader(
         })
         //generate the type
         $w.fullLine(`export type ${ig.generateNodeIdentifier()} = {`)
-        $w.nestedBlockX($w => {
+        $w.nestedBlockX(($w) => {
             node.properties.forEach(($, key) => {
                 if ($ === keyProperty) {
                     return
                 }
 
-                $w.line($w => {
+                $w.line(($w) => {
                     $w.snippet(`readonly "${key}": `)
                     switch ($.type[0]) {
                         case "collection":
-                            cc($.type[1], $ => {
+                            cc($.type[1], ($) => {
                                 const propertyPath = ig.collection(key)
                                 switch ($.type[0]) {
                                     case "dictionary":
@@ -239,7 +239,7 @@ export function generateSchemaLoader(
                             })
                             break
                         case "component":
-                            cc($.type[1], $ => {
+                            cc($.type[1], ($) => {
                                 $w.snippet(`${createIdentifierGenerator($.type.name).generateNodeIdentifier()}`)
                             })
                             break
@@ -275,16 +275,16 @@ export function generateSchemaLoader(
                 case "collection":
                     const newPath = ig.collection(key)
 
-                    cc($.type[1], $ => {
+                    cc($.type[1], ($) => {
                         const node = $.node
                         switch ($.type[0]) {
                             case "dictionary":
-                                cc($.type[1], $ => {
+                                cc($.type[1], ($) => {
                                     generateNodeBuilderTypes(node, $["key property"].get(), newPath)
                                 })
                                 break
                             case "list":
-                                cc($.type[1], _$ => {
+                                cc($.type[1], (_$) => {
                                     generateNodeBuilderTypes(node, null, newPath)
                                 })
                                 break
@@ -297,7 +297,7 @@ export function generateSchemaLoader(
                 case "component":
                     break
                 case "state group":
-                    cc($.type[1], $ => {
+                    cc($.type[1], ($) => {
                         const newPath = ig.stateGroup(key)
 
                         $.states.forEach(($, key) => {
@@ -305,7 +305,7 @@ export function generateSchemaLoader(
                         })
                         //generate the tagged union type
                         $w.fullLine(`export type ${newPath.generateTaggedUnionIdentifier()}_Builder =`)
-                        $w.nestedBlockX($w => {
+                        $w.nestedBlockX(($w) => {
                             const newPath = ig.stateGroup(key)
                             $.states.forEach((_$, key) => {
 
@@ -324,17 +324,17 @@ export function generateSchemaLoader(
         })
         //generate the type
         $w.fullLine(`export type ${ig.generateNodeBuilderIdentifier()} = {`)
-        $w.nestedBlockX($w => {
+        $w.nestedBlockX(($w) => {
             node.properties.forEach(($, key) => {
                 if ($ === keyProperty) {
                     return
                 }
 
-                $w.line($w => {
+                $w.line(($w) => {
                     $w.snippet(`readonly "${key}": `)
                     switch ($.type[0]) {
                         case "collection":
-                            cc($.type[1], $ => {
+                            cc($.type[1], ($) => {
                                 const propertyPath = ig.collection(key)
                                 switch ($.type[0]) {
                                     case "dictionary":
@@ -349,7 +349,7 @@ export function generateSchemaLoader(
                             })
                             break
                         case "component":
-                            cc($.type[1], $ => {
+                            cc($.type[1], ($) => {
                                 $w.snippet(`${createIdentifierGenerator($.type.name).generateNodeBuilderIdentifier()}`)
                             })
                             break
@@ -379,7 +379,7 @@ export function generateSchemaLoader(
     ) {
 
         $w.snippet(`((callback: (out: ${path.generateNodeIdentifier()}) => void) => `)
-        $w.nestedBlock($w => {
+        $w.nestedBlock(($w) => {
             node.properties.forEach(($, key) => {
                 if ($ === keyProperty) {
                     return
@@ -387,15 +387,15 @@ export function generateSchemaLoader(
 
                 switch ($.type[0]) {
                     case "collection":
-                        cc($.type[1], $ => {
+                        cc($.type[1], ($) => {
                             const newPath = path.collection(key)
                             switch ($.type[0]) {
                                 case "dictionary": {
-                                    $w.variable($w => $w.snippet(`const ${generateVariableIdentifier(key)}: { [key: string]: ${newPath.generateNodeIdentifier()} } = {}`))
+                                    $w.variable(($w) => $w.snippet(`const ${generateVariableIdentifier(key)}: { [key: string]: ${newPath.generateNodeIdentifier()} } = {}`))
                                     break
                                 }
                                 case "list": {
-                                    $w.variable($w => $w.snippet(`const ${generateVariableIdentifier(key)}: ${newPath.generateNodeIdentifier()}[] = []`))
+                                    $w.variable(($w) => $w.snippet(`const ${generateVariableIdentifier(key)}: ${newPath.generateNodeIdentifier()}[] = []`))
                                     break
                                 }
                                 default:
@@ -405,40 +405,40 @@ export function generateSchemaLoader(
                         break
                     case "component": {
                         //const $$ = $.type[1]
-                        cc($.type[1], $ => {
-                            $w.variable($w => $w.snippet(`let ${generateVariableIdentifier(key)}: ${createIdentifierGenerator($.type.name).generateNodeIdentifier()} | null = null`))
+                        cc($.type[1], ($) => {
+                            $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: ${createIdentifierGenerator($.type.name).generateNodeIdentifier()} | null = null`))
                         })
                         break
                     }
                     case "state group": {
                         //const $$ = $.type[1]
-                        cc($.type[1], _$ => {
+                        cc($.type[1], (_$) => {
                             const newPath = path.stateGroup(key)
-                            $w.variable($w => $w.snippet(`let ${generateVariableIdentifier(key)}: ${newPath.generateTaggedUnionIdentifier()} | null = null`))
+                            $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: ${newPath.generateTaggedUnionIdentifier()} | null = null`))
                         })
                         break
                     }
                     case "value": {
                         //const $$ = $.type[1]
-                        $w.variable($w => $w.snippet(`let ${generateVariableIdentifier(key)}: string | null = null`))
+                        $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: string | null = null`))
                         break
                     }
                     default:
                         assertUnreachable($.type[0])
                 }
             })
-            $w.statement($w => {
+            $w.statement(($w) => {
                 $w.snippet(`return context.expectVerboseGroup({`)
-                $w.nestedBlockX($w => {
+                $w.nestedBlockX(($w) => {
                     $w.fullLine(`properties: {`)
-                    $w.nestedBlockX($w => {
+                    $w.nestedBlockX(($w) => {
                         node.properties.forEach(($, key) => {
                             if ($ === keyProperty) {
                                 return
                             }
 
                             $w.fullLine(`"${key}": {`)
-                            $w.nestedBlockX($w => {
+                            $w.nestedBlockX(($w) => {
 
                                 switch ($.type[0]) {
                                     case "collection": {
@@ -448,14 +448,14 @@ export function generateSchemaLoader(
                                         switch ($$.type[0]) {
                                             case "dictionary": {
                                                 // const $$$ = $$.type[1]
-                                                cc($$.type[1], $ => {
+                                                cc($$.type[1], ($) => {
                                                     $w.fullLine(`onNotExists: () => { /**/ },`)
-                                                    $w.line($w => {
+                                                    $w.line(($w) => {
                                                         $w.snippet(`onExists: () => wrap(context.expectDictionary({`)
-                                                        $w.nestedBlockX($w => {
+                                                        $w.nestedBlockX(($w) => {
                                                             $w.fullLine(`onProperty: propertyData => {`)
-                                                            $w.nestedBlockX($w => {
-                                                                $w.line($w => {
+                                                            $w.nestedBlockX(($w) => {
+                                                                $w.line(($w) => {
                                                                     $w.snippet(`return wrap(`)
                                                                     generateNodeCode(node, $["key property"].get(), $w, newPath)
                                                                     $w.snippet(`(node => ${generateVariableIdentifier(key)}[propertyData.token.data.value] = node)`)
@@ -473,12 +473,12 @@ export function generateSchemaLoader(
                                             }
                                             case "list": {
                                                 $w.fullLine(`onNotExists: () => { /**/ },`)
-                                                $w.line($w => {
+                                                $w.line(($w) => {
                                                     $w.snippet(`onExists: () => wrap(context.expectList({`)
-                                                    $w.nestedBlockX($w => {
+                                                    $w.nestedBlockX(($w) => {
                                                         $w.fullLine(`onElement: () => {`)
-                                                        $w.nestedBlockX($w => {
-                                                            $w.line($w => {
+                                                        $w.nestedBlockX(($w) => {
+                                                            $w.line(($w) => {
                                                                 $w.snippet(`return `)
                                                                 generateNodeCode(node, null, $w, newPath)
                                                                 $w.snippet(`(node => ${generateVariableIdentifier(key)}.push(node))`)
@@ -499,9 +499,9 @@ export function generateSchemaLoader(
                                     case "component": {
                                         const $$ = $.type[1]
                                         $w.fullLine(`onNotExists: () => { /**/ },`)
-                                        $w.line($w => {
+                                        $w.line(($w) => {
                                             $w.snippet(`onExists: () => wrap(${generateHandlerFunctionName($$.type.name)}(`)
-                                            $w.nestedBlockX($w => {
+                                            $w.nestedBlockX(($w) => {
                                                 $w.fullLine(`node => ${generateVariableIdentifier(key)} = node`)
                                             })
                                             $w.snippet(`)),`)
@@ -514,15 +514,15 @@ export function generateSchemaLoader(
                                         const propertyVariable = generateVariableIdentifier(key)
                                         const newPath = path.stateGroup(key)
                                         $w.fullLine(`onNotExists: () => { /**/ },`)
-                                        $w.line($w => {
+                                        $w.line(($w) => {
                                             $w.snippet(`onExists: () => wrap(context.expectTaggedUnion({`)
-                                            $w.nestedBlockX($w => {
+                                            $w.nestedBlockX(($w) => {
                                                 $w.fullLine(`options: {`)
-                                                $w.nestedBlockX($w => {
+                                                $w.nestedBlockX(($w) => {
                                                     $$.states.forEach((state, key) => {
                                                         $w.fullLine(`"${key}": () => {`)
-                                                        $w.nestedBlockX($w => {
-                                                            $w.line($w => {
+                                                        $w.nestedBlockX(($w) => {
+                                                            $w.line(($w) => {
                                                                 $w.snippet(`return wrap(`)
                                                                 generateNodeCode(state.node, null, $w, newPath.state(key))
                                                                 $w.snippet(`(node => ${propertyVariable} = ["${key}", node])`)
@@ -541,7 +541,7 @@ export function generateSchemaLoader(
                                     case "value": {
                                         const $$ = $.type[1]
                                         $w.fullLine(`onNotExists: () => { /**/ },`)
-                                        $w.line($w => {
+                                        $w.line(($w) => {
                                             switch ($$.type[0]) {
                                                 case "boolean": {
                                                     break
@@ -551,10 +551,10 @@ export function generateSchemaLoader(
                                                 }
                                                 case "string": {
                                                     $w.snippet(`onExists: () => wrap(context.expectQuotedString({`)
-                                                    $w.nestedBlockX($w => {
+                                                    $w.nestedBlockX(($w) => {
                                                         $w.fullLine(`warningOnly: true,`)
                                                         $w.fullLine(`callback: $ => {`)
-                                                        $w.nestedBlockX($w => {
+                                                        $w.nestedBlockX(($w) => {
                                                             $w.fullLine(`${generateVariableIdentifier(key)} = $.token.data.value`)
                                                         })
                                                         $w.fullLine(`},`)
@@ -577,16 +577,16 @@ export function generateSchemaLoader(
                     })
                     $w.fullLine(`},`)
                     $w.fullLine(`onEnd: () => {`)
-                    $w.nestedBlockX($w => {
+                    $w.nestedBlockX(($w) => {
                         function createDefaultInitializer($: def.Node, $w: ILineWriter) {
                             $w.snippet(`{`)
-                            $w.nestedBlockX($w => {
+                            $w.nestedBlockX(($w) => {
                                 $.properties.forEach(($, key) => {
-                                    $w.line($w => {
+                                    $w.line(($w) => {
                                         $w.snippet(`"${key}": `)
                                         switch ($.type[0]) {
                                             case "collection":
-                                                cc($.type[1], $ => {
+                                                cc($.type[1], ($) => {
                                                     switch ($.type[0]) {
                                                         case "dictionary":
                                                             $w.snippet(`createDictionary({})`)
@@ -600,19 +600,19 @@ export function generateSchemaLoader(
                                                 })
                                                 break
                                             case "component":
-                                                cc($.type[1], $ => {
+                                                cc($.type[1], ($) => {
                                                     createDefaultInitializer($.type.get().node, $w)
                                                 })
                                                 break
                                             case "state group":
-                                                cc($.type[1], $ => {
+                                                cc($.type[1], ($) => {
                                                     $w.snippet(`[ "${$["default state"].name}", `)
                                                     createDefaultInitializer($["default state"].get().node, $w)
                                                     $w.snippet(` ]`)
                                                 })
                                                 break
                                             case "value":
-                                                cc($.type[1], $ => {
+                                                cc($.type[1], ($) => {
                                                     $w.snippet(`"${$["default value"]}"`)
                                                 })
                                                 break
@@ -635,10 +635,10 @@ export function generateSchemaLoader(
                                 case "collection":
                                     break
                                 case "component":
-                                    cc($.type[1], $ => {
+                                    cc($.type[1], ($) => {
                                         $w.fullLine(`if (${generateVariableIdentifier(key)} === null) {`)
-                                        $w.nestedBlockX($w => {
-                                            $w.line($w => {
+                                        $w.nestedBlockX(($w) => {
+                                            $w.line(($w) => {
                                                 $w.snippet(`${generateVariableIdentifier(key)} = `)
                                                 createDefaultInitializer($.type.get().node, $w)
                                             })
@@ -647,10 +647,10 @@ export function generateSchemaLoader(
                                     })
                                     break
                                 case "state group":
-                                    cc($.type[1], $ => {
+                                    cc($.type[1], ($) => {
                                         $w.fullLine(`if (${generateVariableIdentifier(key)} === null) {`)
-                                        $w.nestedBlockX($w => {
-                                            $w.line($w => {
+                                        $w.nestedBlockX(($w) => {
+                                            $w.line(($w) => {
                                                 $w.snippet(`${generateVariableIdentifier(key)} = ["${$["default state"].name}", `)
                                                 createDefaultInitializer($["default state"].get().node, $w)
                                                 $w.snippet(`]`)
@@ -660,9 +660,9 @@ export function generateSchemaLoader(
                                     })
                                     break
                                 case "value":
-                                    cc($.type[1], $ => {
+                                    cc($.type[1], ($) => {
                                         $w.fullLine(`if (${generateVariableIdentifier(key)} === null) {`)
-                                        $w.nestedBlockX($w => {
+                                        $w.nestedBlockX(($w) => {
                                             $w.fullLine(`${generateVariableIdentifier(key)} = "${$["default value"]}"`)
                                         })
                                         $w.fullLine(`}`)
@@ -673,7 +673,7 @@ export function generateSchemaLoader(
                             }
                         })
                         $w.fullLine(`callback({`)
-                        $w.nestedBlockX($w => {
+                        $w.nestedBlockX(($w) => {
                             node.properties.forEach(($, key) => {
                                 if ($ === keyProperty) {
                                     return
@@ -681,7 +681,7 @@ export function generateSchemaLoader(
 
                                 switch ($.type[0]) {
                                     case "collection":
-                                        cc($.type[1], $ => {
+                                        cc($.type[1], ($) => {
                                             switch ($.type[0]) {
                                                 case "dictionary":
                                                     $w.fullLine(`"${key}": createDictionary(${generateVariableIdentifier(key)}),`)
@@ -719,7 +719,7 @@ export function generateSchemaLoader(
     }
 
     $w.fullLine(`/*eslint`)
-    $w.nestedBlockX($w => {
+    $w.nestedBlockX(($w) => {
         $w.fullLine(`"@typescript-eslint/no-unused-vars": 0,`)
         $w.fullLine(`"camelcase": 0,`)
         $w.fullLine(`"dot-notation": 0,`)
@@ -728,7 +728,7 @@ export function generateSchemaLoader(
     })
     $w.fullLine(`*/`)
 
-    $w.fullLine(`import { ValueHandler, RequiredValueHandler, IExpectContext } from "astn"`)
+    $w.fullLine(`import * as astn from "astn"`)
     /*
     interface ValueHandler<TokenAnnotation, NonTokenAnnotation> {
 
@@ -771,14 +771,14 @@ export function generateSchemaLoader(
             warningOnly: boolean
             callback: ($: {
                 value: string
-            }) => ValueHandler<TokenAnnotation, NonTokenAnnotation>
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
+            }) => astn.ValueHandler<TokenAnnotation, NonTokenAnnotation>
+        }): astn.ValueHandler<TokenAnnotation, NonTokenAnnotation>
     }
     */
     $w.fullLine(``)
 
     $w.fullLine(`interface IDictionary<T> {`)
-    $w.nestedBlockX($w => {
+    $w.nestedBlockX(($w) => {
         $w.fullLine(`forEach(callback: (e: T, key: string) => void): void`)
     })
     $w.fullLine(`}`)
@@ -786,16 +786,16 @@ export function generateSchemaLoader(
 
 
     $w.fullLine(`interface IArray<T> {`)
-    $w.nestedBlockX($w => {
+    $w.nestedBlockX(($w) => {
         $w.fullLine(`forEach(callback: (e: T) => void): void`)
     })
     $w.fullLine(`}`)
     $w.fullLine(``)
 
     $w.fullLine(`function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {`)
-    $w.nestedBlockX($w => {
+    $w.nestedBlockX(($w) => {
         $w.fullLine(`return {`)
-        $w.nestedBlockX($w => {
+        $w.nestedBlockX(($w) => {
             $w.fullLine(`forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach(key => { callback(raw[key], key) }) },`)
         })
         $w.fullLine(`}`)
@@ -816,7 +816,7 @@ export function generateSchemaLoader(
     //     $w.nestedBlockX($w => {
     //         $w.fullLine(`callback: (out: ${createIdentifierGenerator(key).generateNodeIdentifier()}) => void,`)
     //     })
-    //     $w.fullLine(`): ValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+    //     $w.fullLine(`): astn.ValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
     //     $w.nestedBlockX($w => {
     //         $w.line($w => {
     //             $w.snippet(`return `)
@@ -829,20 +829,20 @@ export function generateSchemaLoader(
     // })
 
     $w.fullLine(`export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(`)
-    $w.nestedBlockX($w => {
-        $w.fullLine(`context: IExpectContext<TokenAnnotation, NonTokenAnnotation>,`)
+    $w.nestedBlockX(($w) => {
+        $w.fullLine(`context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,`)
         $w.fullLine(`raiseValidationError: (message: string, annotation: TokenAnnotation) => void,`)
         $w.fullLine(`callback: (result: ${createIdentifierGenerator(schema["root type"].name).generateNodeIdentifier()}) => void,`)
     })
-    $w.fullLine(`): RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
-    $w.nestedBlockX($w => {
-        $w.fullLine(`function wrap(handler: ValueHandler<TokenAnnotation, NonTokenAnnotation>): RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
-        $w.nestedBlockX($w => {
+    $w.fullLine(`): astn.RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+    $w.nestedBlockX(($w) => {
+        $w.fullLine(`function wrap(handler: astn.ValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+        $w.nestedBlockX(($w) => {
             $w.fullLine(`return {`)
-            $w.nestedBlockX($w => {
+            $w.nestedBlockX(($w) => {
                 $w.fullLine(`exists: handler,`)
                 $w.fullLine(`missing: () => {`)
-                $w.nestedBlockX($w => {
+                $w.nestedBlockX(($w) => {
                     $w.fullLine(`//`)
                 })
                 $w.fullLine(`},`)
@@ -853,12 +853,12 @@ export function generateSchemaLoader(
 
         schema["component types"].forEach(($, key) => {
             $w.fullLine(`function ${generateHandlerFunctionName(key)}(`)
-            $w.nestedBlockX($w => {
+            $w.nestedBlockX(($w) => {
                 $w.fullLine(`callback: (out: ${createIdentifierGenerator(key).generateNodeIdentifier()}) => void,`)
             })
-            $w.fullLine(`): ValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
-            $w.nestedBlockX($w => {
-                $w.line($w => {
+            $w.fullLine(`): astn.ValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+            $w.nestedBlockX(($w) => {
+                $w.line(($w) => {
                     $w.snippet(`return `)
                     generateNodeCode($.node, null, $w, createIdentifierGenerator(key))
                     $w.snippet(`(node => callback(node))`)

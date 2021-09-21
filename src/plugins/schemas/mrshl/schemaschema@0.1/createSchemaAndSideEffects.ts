@@ -3,12 +3,11 @@ import { createDeserializer } from "./createDeserializer"
 import * as t from "./types"
 import { convertToASTNSchema as convertToASTNSchema } from "./convertToASTNSchema"
 import * as sideEffects from "./sideEffects"
-import { SchemaAndSideEffects } from "astn"
 
 export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
     onSchemaError: (error: astn.SchemaDeserializationError, annotation: TokenAnnotation) => void,
-    onSchema: (schema: SchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>) => void,
-): astn.TreeHandler<TokenAnnotation, NonTokenAnnotation> {
+    onSchema: (schema: astn.ISchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>) => void,
+): astn.ITreeHandler<TokenAnnotation, NonTokenAnnotation> {
 
     let foundError = false
     let schema: null | t.Schema = null
@@ -22,7 +21,7 @@ export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
             foundError = true
             onSchemaError(["validation", { message: message }], annotation)
         },
-        md2 => {
+        (md2) => {
             schema = md2
         },
         () => {

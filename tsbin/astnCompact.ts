@@ -1,8 +1,9 @@
 import * as astn from "astn"
 import * as fs from "fs"
+import * as path from "path"
 import * as p20 from "pareto-20"
-import { makeNativeHTTPrequest } from "../src/makeNativeHTTPrequest";
-import { createNormalizer } from "../src/createNormalizer";
+
+import * as ass from "../src"
 
 const [, , sourcePath] = process.argv
 
@@ -19,13 +20,15 @@ function printDiagnostic(message: string, severity: astn.DiagnosticSeverity) {
     }
 }
 
-createNormalizer(
-    sourcePath,
-    makeNativeHTTPrequest,
+ass.createNormalizer(
+    path.dirname(sourcePath),
+    path.basename(sourcePath),
+    ass.readFileFromFileSystem,
+    ass.makeNativeHTTPrequest,
     printDiagnostic,
     ["compact"],
-    str => process.stdout.write(str)
-).mapResult(normalizer => {
+    (str) => process.stdout.write(str)
+).mapResult((normalizer) => {
     return p20.createArray([fs.readFileSync(sourcePath, {encoding: "utf-8"})]).streamify().consume(
         null,
         normalizer,
