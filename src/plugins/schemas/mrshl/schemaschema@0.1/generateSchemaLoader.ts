@@ -36,6 +36,8 @@ export interface ILineWriter {
 
 export interface Block {
     variable: (
+        // modification: "const" | "let",
+        // name: string,
         callback: ($w: ILineWriter) => void
     ) => void
     statement: (
@@ -46,6 +48,10 @@ export interface Block {
 export interface BlockXWriter {
     line: (callback: ($w: ILineWriter) => void) => void
     fullLine: (str: string) => void
+    func: (
+        str: string,
+        body: ($w: BlockXWriter) => void,
+    ) => void
     nestedBlockX: (
         callback: ($w: BlockXWriter) => void,
     ) => void

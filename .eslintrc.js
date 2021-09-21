@@ -18,10 +18,6 @@ module.exports = {
         "@typescript-eslint/tslint"
     ],
     "rules": {
-        "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/no-unsafe-call": "off",
-        "@typescript-eslint/no-unsafe-return": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/array-type": "error",
         "@typescript-eslint/consistent-type-assertions": "error",
@@ -46,6 +42,10 @@ module.exports = {
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/no-namespace": "error",
         "@typescript-eslint/no-parameter-properties": "error",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": '^_' }],
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-var-requires": "error",
@@ -61,7 +61,7 @@ module.exports = {
         "@typescript-eslint/unified-signatures": "error",
         "arrow-parens": [
             "error",
-            "as-needed"
+            "always"
         ],
         "camelcase": "error",
         "comma-dangle": [
