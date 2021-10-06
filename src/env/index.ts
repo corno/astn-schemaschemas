@@ -1,3 +1,4 @@
 
-export * from "./makeNativeHTTPrequest"
-export * from "./readFileFromFileSystem"
+export * from "./createHTTPResourceProvider"
+export * from "./createCachedResourceProvider"
+export * from "./createFileSystemResourceProvider"

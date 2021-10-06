@@ -2,10 +2,10 @@ import * as p20 from "pareto-20"
 import * as fs from "fs"
 import * as astn from "astn"
 import * as path from "path"
+import * as ass from "../src"
+import * as env from "../src/env"
+import { defaultSchemaHost } from "../src"
 
-import { makeNativeHTTPrequest } from "../src/env/makeNativeHTTPrequest";
-import { createNormalizer } from "../src/createNormalizer";
-import { readFileFromFileSystem } from "../src";
 
 const [, , sourcePath] = process.argv
 
@@ -22,11 +22,21 @@ function printDiagnostic(message: string, severity: astn.DiagnosticSeverity) {
     }
 }
 
-createNormalizer(
-    path.dirname(sourcePath),
+const cacheDir = __dirname + "/../../schemacache"
+
+
+ass.createNormalizer(
     path.basename(sourcePath),
-    readFileFromFileSystem,
-    makeNativeHTTPrequest,
+    env.createFileSystemResourceProvider(
+        path.dirname(sourcePath),
+    ),
+    env.createCachedResourceProvider(
+        env.createHTTPResourceProvider(
+            defaultSchemaHost,
+            3000,
+        ),
+        cacheDir,
+    ),
     printDiagnostic,
     ["expanded", { omitPropertiesWithDefaultValues: false }],
     (str) => process.stdout.write(str)

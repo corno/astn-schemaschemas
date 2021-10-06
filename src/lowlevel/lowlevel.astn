@@ -1,0 +1,125 @@
+! "mrshl/schemaschema@0.1"
+< {
+    "type": < {
+        "type": < 'state group' "string" {
+            "string": < { } >
+            "number": < { } >
+            "boolean": < { } >
+            "type reference": < {
+                "type": < 'value' "*type*" 'text' >
+            } >
+            "tagged union": < {
+                "options": < 'collection' {
+                    "name": < 'value' "" 'text' >
+                    "type": < 'component' "type" >
+                } 'dictionary' "name" >
+            } >
+            "group": < {
+                "properties": < 'collection' {
+                    "name": < 'value' "" 'text' >
+                    "occurence": < 'state group' "required" {
+                        "required": < { } >
+                        "optional": < { } >
+                    } >
+                    "type": < 'component' "type" >
+                } 'dictionary' "name" >
+            } >
+            "dictionary": < {
+                "entry": < 'component' "type" >
+            } >
+            "list": < {
+                "element": < 'component' "type" >
+            } >
+        } >
+    } >
+    "function": < {
+        "parameters": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "type": < 'state group' "interface" {
+                "interface": < {
+                    "interface": < 'value' "*interface*" 'text' >
+                    "type arguments": < 'collection' {
+                        "name": < 'value' "" 'text' >
+                        "type": < 'value' "*type argument type*" 'text' >
+                    } 'dictionary' "name" >
+                } >
+                "callback": < {
+                    "parameters": < 'collection' {
+                        "name": < 'value' "" 'text' >
+                        "type": < 'state group' "string" {
+                            "string": < {} >
+                            "typex": < {
+                                "upsteps": < 'collection' { } 'list'>
+                                "type": < 'value' "*type*" 'text' >
+                            } >
+                            "type argument": < {
+                                "argument": < 'value' "*type argument*" 'text' >
+                            } >
+                        }>
+
+                    } 'dictionary' "name" >
+                } >
+            }>
+
+        } 'dictionary' "name" >
+        "return type": < 'value' "*return type*" 'text' >
+        "block": < 'component' "statement block" >
+
+    } >
+    "statement block": < {
+        "nested functions": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "function": < 'component' "function" >
+        } 'dictionary' "name" >
+        "statements": < 'collection' {
+            "type": < 'state group' "if" {
+                "if": < {
+
+                } >
+            }>
+        } 'list' >
+    } >
+    "namespace": < {
+        "type parameters": < 'collection' {
+            "name": < 'value' "" 'text' >
+        } 'dictionary' "name" >
+        "interfaces": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "members": < 'collection' {
+                "name": < 'value' "" 'text' >
+                "type": < 'state group' "method" {
+                        "method": < {
+                            "parameters": < 'collection' {
+                                "name": < 'value' "" 'text' >
+                                "type": < 'value' "*parameter type*" 'text' >
+                            } 'dictionary' "name" >
+                            "return type": < 'value' "*return type*" 'text' >
+                        } >
+                        "sub interface": < {
+                            "interface": < 'value' "*interface*" 'text' >
+                            "type arguments": < 'collection' {
+                                "name": < 'value' "" 'text' >
+                                "type": < 'value' "*type argument type*" 'text' >
+                            } 'dictionary' "name" >
+                        } >
+                } >
+            } 'dictionary' "name" >
+        } 'dictionary' "name" >
+        "types": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "type": < 'component' "type" >
+
+        } 'dictionary' "name" >
+        "functions": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "function": < 'component' "function" >
+        } 'dictionary' "name" >
+        "namespaces": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "namespace": < 'component' "namespace" >
+        } 'dictionary' "name" >
+    } >
+    "root": < {
+        "namespace": < 'component' "namespace" >
+    } >
+} "root" >

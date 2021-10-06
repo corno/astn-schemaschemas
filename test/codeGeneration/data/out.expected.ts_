@@ -4,9 +4,13 @@
     "camelcase": 0,
     "dot-notation": 0,
     "no-underscore-dangle": 0,
-    "quote-props": 0
+    "quote-props": 0,
+    "max-len": 0
 */
 import * as astn from "astn"
+function assertUnreachable<RT>(_x: never): RT {
+    throw new Error("unreachable")
+}
 
 interface IDictionary<T> {
     forEach(callback: (e: T, key: string) => void): void
@@ -18,7 +22,7 @@ interface IArray<T> {
 
 function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
     return {
-        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach(key => { callback(raw[key], key) }) },
+        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
     }
 }
 
@@ -75,29 +79,29 @@ export type __priority_TU_Builder =
     | ["Medium", __Medium_B]
 
 export type __tasks_B = {
-    readonly "action holder": string
-    readonly "cost": string
-    readonly "description": string
-    readonly "enddate": string
-    readonly "involved team members": { callback: (key: string, value: __involved_team_members_B ) => void }
-    readonly "priority": __priority_TU_Builder
-    readonly "startdate": string
+    readonly "action holder" ?: string
+    readonly "cost" ?: string
+    readonly "description" ?: string
+    readonly "enddate" ?: string
+    readonly "involved team members" ?: { [key:string]: __involved_team_members_B } //| (add: (key: string, entry: __involved_team_members_B ) => void )
+    readonly "priority" ?: __priority_TU_Builder
+    readonly "startdate" ?: string
 }
 
 export type __projects_B = {
-    readonly "tasks": { callback: (key: string, value: __tasks_B ) => void }
+    readonly "tasks" ?: { [key:string]: __tasks_B } //| (add: (key: string, entry: __tasks_B ) => void )
 }
 
 export type __root_B = {
-    readonly "projects": { callback: (key: string, value: __projects_B ) => void }
+    readonly "projects" ?: { [key:string]: __projects_B } //| (add: (key: string, entry: __projects_B ) => void )
 }
 
 export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
     raiseValidationError: (message: string, annotation: TokenAnnotation) => void,
     callback: (result: __root_T) => void,
-): astn.RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
-    function wrap(handler: astn.ValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return {
             exists: handler,
             missing: () => {
@@ -107,7 +111,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     }
     function _generateHandler_root(
         callback: (out: __root_T) => void,
-    ): astn.ValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __root_T) => void) => {
             const _projects_v: { [key: string]: __projects_T } = {}
             return context.expectVerboseGroup({
@@ -115,7 +119,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     "projects": {
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(context.expectDictionary({
-                            onProperty: propertyData => {
+                            onProperty: (propertyData) => {
                                 return wrap(((callback: (out: __projects_T) => void) => {
                                     const _tasks_v: { [key: string]: __tasks_T } = {}
                                     return context.expectVerboseGroup({
@@ -123,7 +127,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             "tasks": {
                                                 onNotExists: () => { /**/ },
                                                 onExists: () => wrap(context.expectDictionary({
-                                                    onProperty: propertyData => {
+                                                    onProperty: (propertyData) => {
                                                         return wrap(((callback: (out: __tasks_T) => void) => {
                                                             let _action_holder_v: string | null = null
                                                             let _cost_v: string | null = null
@@ -138,7 +142,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onNotExists: () => { /**/ },
                                                                         onExists: () => wrap(context.expectQuotedString({
                                                                             warningOnly: true,
-                                                                            callback: $ => {
+                                                                            callback: ($) => {
                                                                                 _action_holder_v = $.token.data.value
                                                                             },
                                                                         })),
@@ -151,7 +155,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onNotExists: () => { /**/ },
                                                                         onExists: () => wrap(context.expectQuotedString({
                                                                             warningOnly: true,
-                                                                            callback: $ => {
+                                                                            callback: ($) => {
                                                                                 _description_v = $.token.data.value
                                                                             },
                                                                         })),
@@ -160,7 +164,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onNotExists: () => { /**/ },
                                                                         onExists: () => wrap(context.expectQuotedString({
                                                                             warningOnly: true,
-                                                                            callback: $ => {
+                                                                            callback: ($) => {
                                                                                 _enddate_v = $.token.data.value
                                                                             },
                                                                         })),
@@ -168,7 +172,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     "involved team members": {
                                                                         onNotExists: () => { /**/ },
                                                                         onExists: () => wrap(context.expectDictionary({
-                                                                            onProperty: propertyData => {
+                                                                            onProperty: (propertyData) => {
                                                                                 return wrap(((callback: (out: __involved_team_members_T) => void) => {
                                                                                     return context.expectVerboseGroup({
                                                                                         properties: {
@@ -178,7 +182,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             })
                                                                                         },
                                                                                     })
-                                                                                })(node => _involved_team_members_v[propertyData.token.data.value] = node))
+                                                                                })((node) => _involved_team_members_v[propertyData.token.data.value] = node))
                                                                             },
                                                                         })),
                                                                     },
@@ -196,7 +200,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 })
                                                                                             },
                                                                                         })
-                                                                                    })(node => _priority_v = ["High", node]))
+                                                                                    })((node) => _priority_v = ["High", node]))
                                                                                 },
                                                                                 "Low": () => {
                                                                                     return wrap(((callback: (out: __Low_T) => void) => {
@@ -208,7 +212,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 })
                                                                                             },
                                                                                         })
-                                                                                    })(node => _priority_v = ["Low", node]))
+                                                                                    })((node) => _priority_v = ["Low", node]))
                                                                                 },
                                                                                 "Medium": () => {
                                                                                     return wrap(((callback: (out: __Medium_T) => void) => {
@@ -220,7 +224,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 })
                                                                                             },
                                                                                         })
-                                                                                    })(node => _priority_v = ["Medium", node]))
+                                                                                    })((node) => _priority_v = ["Medium", node]))
                                                                                 },
                                                                             },
                                                                         })),
@@ -229,7 +233,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onNotExists: () => { /**/ },
                                                                         onExists: () => wrap(context.expectQuotedString({
                                                                             warningOnly: true,
-                                                                            callback: $ => {
+                                                                            callback: ($) => {
                                                                                 _startdate_v = $.token.data.value
                                                                             },
                                                                         })),
@@ -266,7 +270,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })(node => _tasks_v[propertyData.token.data.value] = node))
+                                                        })((node) => _tasks_v[propertyData.token.data.value] = node))
                                                     },
                                                 })),
                                             },
@@ -277,7 +281,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })(node => _projects_v[propertyData.token.data.value] = node))
+                                })((node) => _projects_v[propertyData.token.data.value] = node))
                             },
                         })),
                     },
@@ -288,8 +292,78 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     })
                 },
             })
-        })(node => callback(node))
+        })((node) => callback(node))
     }
 
     return wrap(_generateHandler_root(callback))
+}
+
+export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
+    intermediate: __root_B,
+): __root_T {
+    function _generateBuilder_root(
+        intermediate: __root_B,
+    ): __root_T {
+        return {
+            "projects": intermediate["projects"] === undefined ? createDictionary({}) : ((): IDictionary<__projects_T> => {{
+                const source = intermediate["projects"]
+                const target: { [key:string]: __projects_T} = {}
+                Object.keys(source).forEach((key) => {
+                    const entry = source[key]
+                    target[key] = {
+                        "tasks": entry["tasks"] === undefined ? createDictionary({}) : ((): IDictionary<__tasks_T> => {{
+                            const source = entry["tasks"]
+                            const target: { [key:string]: __tasks_T} = {}
+                            Object.keys(source).forEach((key) => {
+                                const entry = source[key]
+                                target[key] = {
+                                    "action holder": entry["action holder"] === undefined ? "" : entry["action holder"],
+                                    "cost": entry["cost"] === undefined ? "" : entry["cost"],
+                                    "description": entry["description"] === undefined ? "" : entry["description"],
+                                    "enddate": entry["enddate"] === undefined ? "" : entry["enddate"],
+                                    "involved team members": entry["involved team members"] === undefined ? createDictionary({}) : ((): IDictionary<__involved_team_members_T> => {{
+                                        const source = entry["involved team members"]
+                                        const target: { [key:string]: __involved_team_members_T} = {}
+                                        Object.keys(source).forEach((key) => {
+                                            const entry = source[key]
+                                            target[key] = {
+                                            }
+                                        })
+                                        return createDictionary(target)
+                                    }})(),
+                                    "priority": entry["priority"] === undefined ? [ "Medium", {
+                                    } ] : ((): __priority_TU => {
+                                        switch (entry["priority"][0]) {
+                                            case "High":
+                                                return [ "High", {
+                                                } ]
+                                            case "Low":
+                                                return [ "Low", {
+                                                } ]
+                                            case "Medium":
+                                                return [ "Medium", {
+                                                } ]
+                                            default: return assertUnreachable(entry["priority"][0])
+                                        }
+                                    })(),
+                                    "startdate": entry["startdate"] === undefined ? "" : entry["startdate"],
+                                }
+                            })
+                            return createDictionary(target)
+                        }})(),
+                    }
+                })
+                return createDictionary(target)
+            }})(),
+        }
+    }
+
+    function _default_generateBuilder_root(
+    ): __root_T {
+        return {
+            "projects": createDictionary({}),
+        }
+    }
+
+    return _generateBuilder_root(intermediate)
 }
