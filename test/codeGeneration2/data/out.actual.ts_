@@ -1,14 +1,27 @@
 /* eslint
     "camelcase": 0,
+    "dot-notation": 0,
+    "no-underscore-dangle": 0,
+    "max-len": 0,
     "@typescript-eslint/ban-types": 0,
     "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/no-empty-interface": 0,
     "@typescript-eslint/no-unused-vars": 0,
 */
 
+interface IDictionary<T> {
+    forEach(callback: (e: T, key: string) => void): void
+}
+
+function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
+    return {
+        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
+    }
+}
+
 type root_B_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D_G = {}
 
-type root_B_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D = { [key: string]: root_B_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D_G }
+type root_B_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D = IDictionary<root_B_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D_G>
 
 type root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O_G = {}
 
@@ -17,9 +30,9 @@ type root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O_G = {}
 type root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O_G = {}
 
 type root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU =
-    | root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O_G
-    | root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O_G
-    | root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O_G
+    | ["High", root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O_G]
+    | ["Low", root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O_G]
+    | ["Medium", root_B_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O_G]
 
 type root_B_T_G_projects_P_D_G_tasks_P_D_G = {
     readonly "action holder"?: string
@@ -31,13 +44,13 @@ type root_B_T_G_projects_P_D_G_tasks_P_D_G = {
     readonly "startdate"?: string
 }
 
-type root_B_T_G_projects_P_D_G_tasks_P_D = { [key: string]: root_B_T_G_projects_P_D_G_tasks_P_D_G }
+type root_B_T_G_projects_P_D_G_tasks_P_D = IDictionary<root_B_T_G_projects_P_D_G_tasks_P_D_G>
 
 type root_B_T_G_projects_P_D_G = {
     readonly "tasks"?: root_B_T_G_projects_P_D_G_tasks_P_D
 }
 
-type root_B_T_G_projects_P_D = { [key: string]: root_B_T_G_projects_P_D_G }
+type root_B_T_G_projects_P_D = IDictionary<root_B_T_G_projects_P_D_G>
 
 type root_B_T_G = {
     readonly "projects"?: root_B_T_G_projects_P_D
@@ -47,7 +60,7 @@ type root_B_T = root_B_T_G
 
 type root_T_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D_G = {}
 
-type root_T_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D = { [key: string]: root_T_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D_G }
+type root_T_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D = IDictionary<root_T_T_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D_G>
 
 type root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O_G = {}
 
@@ -56,9 +69,9 @@ type root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O_G = {}
 type root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O_G = {}
 
 type root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU =
-    | root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O_G
-    | root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O_G
-    | root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O_G
+    | ["High", root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O_G]
+    | ["Low", root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O_G]
+    | ["Medium", root_T_T_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O_G]
 
 type root_T_T_G_projects_P_D_G_tasks_P_D_G = {
     readonly "action holder": string
@@ -70,13 +83,13 @@ type root_T_T_G_projects_P_D_G_tasks_P_D_G = {
     readonly "startdate": string
 }
 
-type root_T_T_G_projects_P_D_G_tasks_P_D = { [key: string]: root_T_T_G_projects_P_D_G_tasks_P_D_G }
+type root_T_T_G_projects_P_D_G_tasks_P_D = IDictionary<root_T_T_G_projects_P_D_G_tasks_P_D_G>
 
 type root_T_T_G_projects_P_D_G = {
     readonly "tasks": root_T_T_G_projects_P_D_G_tasks_P_D
 }
 
-type root_T_T_G_projects_P_D = { [key: string]: root_T_T_G_projects_P_D_G }
+type root_T_T_G_projects_P_D = IDictionary<root_T_T_G_projects_P_D_G>
 
 type root_T_T_G = {
     readonly "projects": root_T_T_G_projects_P_D
@@ -84,31 +97,273 @@ type root_T_T_G = {
 
 type root_T_T = root_T_T_G
 
-export function createBuilder_F(): *return type*_I{
-    throw new Error("IMPLEMENT ME")
+export type deserialize_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation> = {
+    "exists": deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    "missing": ($: deserialize_Empty_T<NonTokenAnnotation, TokenAnnotation>) => void
 }
 
-export interface deserialize_ExpectContext_I<NonTokenAnnotation, TokenAnnotation> {}
+export type deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> = {}
 
-export interface deserialize_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-    exists: ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
-    missing(): void
+type deserialize_Empty_T_G<NonTokenAnnotation, TokenAnnotation> = {}
+
+type deserialize_Empty_T<NonTokenAnnotation, TokenAnnotation> = deserialize_Empty_T_G<NonTokenAnnotation, TokenAnnotation>
+
+type deserialize_StringToken_T_G_token_P_G_data_P_G<NonTokenAnnotation, TokenAnnotation> = {
+    readonly "value": string
 }
 
-export interface deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {}
+type deserialize_StringToken_T_G_token_P_G<NonTokenAnnotation, TokenAnnotation> = {
+    readonly "data": deserialize_StringToken_T_G_token_P_G_data_P_G<NonTokenAnnotation, TokenAnnotation>
+}
 
-export function deserialize_createDeserializer_F<NonTokenAnnotation, TokenAnnotation>(
-    callback: (
-        result: deserialize_root_T,
-    ) => void,
-    context: IExpectContext<NonTokenAnnotation, TokenAnnotation>,
-    raiseValidationError: (
-        annotation: TokenAnnotation,
-        message: string,
-    ) => void,
-): *return type*_I{
-    function root_F(): root_I{
-        throw new Error("IMPLEMENT ME")
+type deserialize_StringToken_T_G<NonTokenAnnotation, TokenAnnotation> = {
+    readonly "annotation": TokenAnnotation
+    readonly "token": deserialize_StringToken_T_G_token_P_G<NonTokenAnnotation, TokenAnnotation>
+}
+
+type deserialize_StringToken_T<NonTokenAnnotation, TokenAnnotation> = deserialize_StringToken_T_G<NonTokenAnnotation, TokenAnnotation>
+
+type deserialize_ValidationError_T_G<NonTokenAnnotation, TokenAnnotation> = {
+    readonly "annotation": TokenAnnotation
+    readonly "message": string
+}
+
+type deserialize_ValidationError_T<NonTokenAnnotation, TokenAnnotation> = deserialize_ValidationError_T_G<NonTokenAnnotation, TokenAnnotation>
+
+export interface deserialize_ExpectContext_IB<NonTokenAnnotation, TokenAnnotation> {
+    "expectDictionary": ($f: {
+        "onProperty": ($: deserialize_StringToken_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    }) => deserialize_deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    "expectList": ($f: {
+        "onElement": ($: deserialize_Empty_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    }) => deserialize_deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    "expectQuotedString": ($f: {
+        "callback": ($: deserialize_StringToken_T<NonTokenAnnotation, TokenAnnotation>) => void
+    }) => deserialize_deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    "expectTaggedUnion": ($f: {
+        "options": {
+            [key: string]: ($: deserialize_Empty_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+        }
+    }) => deserialize_deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    "expectVerboseGroup": ($f: {
+        "onEnd": ($: deserialize_Empty_T<NonTokenAnnotation, TokenAnnotation>) => void
+        "properties": {
+            [key: string]: {
+                "onExists": ($: deserialize_Empty_T<NonTokenAnnotation, TokenAnnotation>) => void
+            }
+        }
+    }) => deserialize_deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+}
+
+export function deserialize_createDeserializer_IC<NonTokenAnnotation, TokenAnnotation>($f: {
+    "callback": ($: deserialize_root_T<NonTokenAnnotation, TokenAnnotation>) => void
+    "context": deserialize_ExpectContext_IB<NonTokenAnnotation, TokenAnnotation>
+    "raiseValidationError": ($: deserialize_ValidationError_T<NonTokenAnnotation, TokenAnnotation>) => void
+}) : deserialize_deserialize_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>{
+    function root_NIC($f: {
+        "callback": ($: deserialize_root_T<NonTokenAnnotation, TokenAnnotation>) => void
+    }) : deserialize_deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>{
+        function temp_NIC($f: {
+            "out": ($: deserialize_FIXME_*name_of_type*_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+        }) : deserialize_{}{
+            const projects: { [key:string]: FOO_D } = {}
+            return $f.context.expectVerboseGroup({
+                "onEnd": ($cb) => {
+                    out({
+                        "projects": createDictionary(projects)
+                    })
+                },
+                "properties": {
+                    "projects": {
+                        "onExists": ($cb) => {
+                            return wrap_NIC({
+                                "handler": $f.context.expectDictionary({
+                                    "onProperty": ($cb) => {
+                                        return wrap_NIC({
+                                            "handler": ($cb) => {
+                                                function temp_NIC($f: {
+                                                    "out": ($: deserialize_FIXME_*name_of_type*_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+                                                }) : deserialize_{}{
+                                                    const tasks: { [key:string]: FOO_D } = {}
+                                                    return $f.context.expectVerboseGroup({
+                                                        "onEnd": ($cb) => {
+                                                            out({
+                                                                "tasks": createDictionary(tasks)
+                                                            })
+                                                        },
+                                                        "properties": {
+                                                            "tasks": {
+                                                                "onExists": ($cb) => {
+                                                                    return wrap_NIC({
+                                                                        "handler": $f.context.expectDictionary({
+                                                                            "onProperty": ($cb) => {
+                                                                                return wrap_NIC({
+                                                                                    "handler": ($cb) => {
+                                                                                        function temp_NIC($f: {
+                                                                                            "out": ($: deserialize_FIXME_*name_of_type*_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+                                                                                        }) : deserialize_{}{
+                                                                                            let action_holder = "ikke"
+                                                                                            let cost = ""
+                                                                                            let description = ""
+                                                                                            let enddate = ""
+                                                                                            const involved_team_members: { [key:string]: FOO_D } = {}
+                                                                                            const priority: deserialize_priority_T = ["Medium", {} ]
+                                                                                            let startdate = ""
+                                                                                            return $f.context.expectVerboseGroup({
+                                                                                                "onEnd": ($cb) => {
+                                                                                                    out({
+                                                                                                        "action holder": action_holder
+                                                                                                        "cost": cost
+                                                                                                        "description": description
+                                                                                                        "enddate": enddate
+                                                                                                        "involved team members": createDictionary(involved_team_members)
+                                                                                                        "priority": priority
+                                                                                                        "startdate": startdate
+                                                                                                    })
+                                                                                                },
+                                                                                                "properties": {
+                                                                                                    "action holder": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return $f.context.expectQuotedString({
+                                                                                                                "callback": ($cb) => {
+                                                                                                                    action_holder = $.token.data.value
+                                                                                                                },
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                    "cost": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return $f.context.expectQuotedString({
+                                                                                                                "callback": ($cb) => {
+                                                                                                                    cost = $.token.data.value
+                                                                                                                },
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                    "description": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return $f.context.expectQuotedString({
+                                                                                                                "callback": ($cb) => {
+                                                                                                                    description = $.token.data.value
+                                                                                                                },
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                    "enddate": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return $f.context.expectQuotedString({
+                                                                                                                "callback": ($cb) => {
+                                                                                                                    enddate = $.token.data.value
+                                                                                                                },
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                    "involved team members": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return wrap_NIC({
+                                                                                                                "handler": $f.context.expectDictionary({
+                                                                                                                    "onProperty": ($cb) => {
+                                                                                                                        return wrap_NIC({
+                                                                                                                            "handler": ($cb) => {
+                                                                                                                                function temp_NIC($f: {
+                                                                                                                                    "out": ($: deserialize_FIXME_*name_of_type*_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+                                                                                                                                }) : deserialize_{}{
+                                                                                                                                    return $f.context.expectVerboseGroup({
+                                                                                                                                        "onEnd": ($cb) => {
+                                                                                                                                            out({})
+                                                                                                                                        },
+                                                                                                                                        "properties": {},
+                                                                                                                                    })
+                                                                                                                                }
+                                                                                                                                return temp_NIC({
+                                                                                                                                    "out": ($cb) => {
+                                                                                                                                        involved_team_members[FIXME_KEY] = $.FIXME_CONTEXT_PROP
+                                                                                                                                    },
+                                                                                                                                })
+                                                                                                                            },
+                                                                                                                        })
+                                                                                                                    },
+                                                                                                                }),
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                    "priority": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return $f.context.expectTaggedUnion({
+                                                                                                                "options": {
+                                                                                                                    "High": ($cb) => {
+                                                                                                                        return wrap_NIC({
+                                                                                                                            "handler": ($cb) => {},
+                                                                                                                        })
+                                                                                                                    },
+                                                                                                                    "Low": ($cb) => {
+                                                                                                                        return wrap_NIC({
+                                                                                                                            "handler": ($cb) => {},
+                                                                                                                        })
+                                                                                                                    },
+                                                                                                                    "Medium": ($cb) => {
+                                                                                                                        return wrap_NIC({
+                                                                                                                            "handler": ($cb) => {},
+                                                                                                                        })
+                                                                                                                    },
+                                                                                                                },
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                    "startdate": {
+                                                                                                        "onExists": ($cb) => {
+                                                                                                            return $f.context.expectQuotedString({
+                                                                                                                "callback": ($cb) => {
+                                                                                                                    startdate = $.token.data.value
+                                                                                                                },
+                                                                                                            })
+                                                                                                        },
+                                                                                                    },
+                                                                                                },
+                                                                                            })
+                                                                                        }
+                                                                                        return temp_NIC({
+                                                                                            "out": ($cb) => {
+                                                                                                tasks[FIXME_KEY] = $.FIXME_CONTEXT_PROP
+                                                                                            },
+                                                                                        })
+                                                                                    },
+                                                                                })
+                                                                            },
+                                                                        }),
+                                                                    })
+                                                                },
+                                                            },
+                                                        },
+                                                    })
+                                                }
+                                                return temp_NIC({
+                                                    "out": ($cb) => {
+                                                        projects[FIXME_KEY] = $.FIXME_CONTEXT_PROP
+                                                    },
+                                                })
+                                            },
+                                        })
+                                    },
+                                }),
+                            })
+                        },
+                    },
+                },
+            })
+        }
     }
-    throw new Error("IMPLEMENT ME")
+    function wrap_NIC($f: {
+        "handler": deserialize_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    }) : deserialize_deserialize_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>{
+        return {
+            "exists": $f["handler"],
+            "missing": ($cb) => {},
+        }
+    }
+    return wrap_NIC({
+        "handler": root_NIC({
+            "callback": $f["callback"],
+        }),
+    })
 }

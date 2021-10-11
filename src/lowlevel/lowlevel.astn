@@ -5,8 +5,11 @@
             "string": < { } >
             "number": < { } >
             "boolean": < { } >
+            "type argument": < {
+                "argument": < 'value' "*type argument*" 'text' >
+            } >
             "type reference": < {
-                "type": < 'value' "*type*" 'text' >
+                "type": < 'component' "type reference" >
             } >
             "tagged union": < {
                 "options": < 'collection' {
@@ -32,87 +35,302 @@
             } >
         } >
     } >
-    "function": < {
+    "type initializer": < {
+        "type": < 'state group' "string" {
+            "string": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+                        "value": < 'value' "" 'text' >
+                    } >
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } > 
+            } >
+            "number": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+                        "value": < 'value' "0" 'text' >
+                    } >
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } >              
+            } >
+            "boolean": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+                        "value": < 'value' "true" 'text' >
+                    } >
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } >
+            } >
+            "tagged union": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+                        "option": < 'value' "*option*" 'text' >
+                        "data": < 'component' "type initializer" >
+                    }>
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } >
+            } >
+            "dictionary": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+
+                    } >
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } >         
+            } >
+            "list": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+
+                    } >
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } >
+            } >
+            "group": < {
+                "strategy": < 'state group' "literal" {
+                    "literal": < {
+                        "properties": < 'collection' {
+                            "name": < 'value' "" 'text' >
+                            "initializer": < 'component' "type initializer" >
+                        } 'dictionary' "name" >
+                    } >
+                    "from state": < {
+                        "state": < 'value' "*state*" 'text'>
+                    } >
+                } >
+            } >
+        } >
+    } >
+    "type reference": < {
+        "type": < 'value' "*type reference*" 'text' >
+    }>
+    "function declaration": < {
+        "interface": < 'component' "interface definition" >
         "parameters": < 'collection' {
             "name": < 'value' "" 'text' >
             "type": < 'state group' "interface" {
+                "dictionary": < {
+                    "entry": < 'component' "interface definition" >
+                } >
                 "interface": < {
-                    "interface": < 'value' "*interface*" 'text' >
+                    "interface": < 'component' "interface definition" >
+                } >
+                "builder": < {
+                    "builder": < 'value' "*referenced builder*" 'text' >
                     "type arguments": < 'collection' {
                         "name": < 'value' "" 'text' >
                         "type": < 'value' "*type argument type*" 'text' >
                     } 'dictionary' "name" >
                 } >
-                "callback": < {
-                    "parameters": < 'collection' {
+            }>
+        } 'dictionary' "name" >
+    } >
+    "function call": < {
+        "arguments": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "type": < 'state group' "interface initializer" {
+                "interface initializer": < {
+                    "initializer": < 'component' "interface initializer" >
+                } >
+                "dictionary": < {
+                    "entries": < 'collection' {
                         "name": < 'value' "" 'text' >
-                        "type": < 'state group' "string" {
-                            "string": < {} >
-                            "typex": < {
-                                "upsteps": < 'collection' { } 'list'>
-                                "type": < 'value' "*type*" 'text' >
-                            } >
-                            "type argument": < {
-                                "argument": < 'value' "*type argument*" 'text' >
-                            } >
-                        }>
-
+                        "initializer": < 'component' "interface initializer" >
                     } 'dictionary' "name" >
                 } >
-            }>
-
+                "builder": < {
+                    "argument": < 'value' "*argument*" 'text' >
+                } >
+            } >
         } 'dictionary' "name" >
-        "return type": < 'value' "*return type*" 'text' >
-        "block": < 'component' "statement block" >
-
     } >
-    "statement block": < {
+    "named function call": < {
+        "type": < 'state group' "local" {
+            "local": < {
+                "function": < 'value' "*function*" 'text' >
+            } >
+            "external": < {
+                "builder": < 'value' "*builder*" 'text' >
+                "method": < 'value' "*method*" 'text' >
+            } >
+        } >
+        "function call": < 'component' "function call" >
+    } >
+    "interface definition": < {
+        "type": < 'state group' "group" {
+            "group": < {
+                "members": < 'collection' {
+                    "name": < 'value' "" 'text' >
+                    "definition": < 'component' "interface definition">
+                } 'dictionary' "name" >
+            } >
+            "method": < {
+                "type": < 'component' "type reference" >
+                "return type": < 'state group' "void" {
+                    "void": < { } >
+                    "interface": < {
+                        "interface": < 'component' "interface definition" >
+                    } >
+                } >
+            } >
+            "reference": < {
+                "interface": < 'value' "*referenced interface*" 'text' >
+                "type arguments": < 'collection' {
+                    "name": < 'value' "" 'text' >
+                    "type": < 'value' "*type argument type*" 'text' >
+                } 'dictionary' "name" >
+            } >
+        } >
+    } >
+    "interface initializer": < {
+        "type": < 'state group' "method" {
+            "method": < {
+                "strategy": < 'state group' "function implementation" {
+                    "argument": < {
+                        "argument": < 'value' "*argument*" 'text' >
+                    } >
+                    "function implementation": < {
+                        "block": < 'component' "function block" >
+                    } >
+                    "inline function": < {
+                        "specification": < 'component' "function specification" >
+                        "call": < 'component' "function call" >
+                    } >
+                } >
+            } >
+            "group": < {
+                "strategy": < 'state group' "inline" {
+                    "inline": < {
+                        "members": < 'collection' {
+                            "name": < 'value' "" 'text' >
+                            "initializer": < 'component' "interface initializer" >
+                        } 'dictionary' "name" >
+                    } >
+                } >
+            } >
+            "reference": < {
+                "strategy": < 'state group' "function call6" {
+                    "function call6": < {
+                        "function call": < 'component' "named function call" >
+                    } >
+                } >
+            } >
+        }>
+    } >
+    "nested type reference": < {
+        "type": < 'component' "type reference" >
+        "steps": < 'collection' {
+            "type": < 'state group' "dictionary" {
+                "group": < {
+                    "property": < 'value' "*property*" 'text' >
+                } >
+                "dictionary": < {
+                } >
+                "list": < {
+                } >
+                "tagged union option": < {
+                    "option": < 'value' "*option*" 'text' >
+                } >
+            } >
+        } 'list'>
+    } >
+    "dictionary reference": < {
+        "nested type reference": < 'component' "nested type reference" >
+        "dictionary": < 'value' "*dictionary*" 'text' >
+    } >
+    "list reference": < {
+        "nested type reference": < 'component' "nested type reference" >
+        "list": < 'value' "*list*" 'text' >
+    } >
+    "function block": < {
         "nested functions": < 'collection' {
             "name": < 'value' "" 'text' >
-            "function": < 'component' "function" >
+            "specification": < 'component' "function specification" >
         } 'dictionary' "name" >
-        "statements": < 'collection' {
-            "type": < 'state group' "if" {
-                "if": < {
-
+        "states": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "type": < 'state group' "string" {
+                "string": < {
+                    "initial value": < 'value' "" 'text' >
                 } >
-            }>
+                "dictionary": < {
+                    "type": < 'component' "dictionary reference">
+                } >
+                "list": < {
+                    "type": < 'component' "list reference">
+                } >
+                "type5": < {
+                    "type": < 'component' "type reference" >
+                    "initializer": < 'component' "type initializer" >
+                } >
+            } >
+        } 'dictionary' "name" >
+        "effects": < 'collection' {
+            "type": < 'state group' "interface call" {
+                "interface call": < {
+                    "interface": < 'value' "*interface*" 'text' >
+                    "initializer": < 'component' "type initializer" >
+                } >
+                "state change": < {
+                    "type": < 'state group' "set string" {
+                        "set string": < {
+                            "state": < 'value' "*state*" 'text' >
+                            "context property": < 'value' "*context property*" 'text' >
+                        } >
+                        "add entry": < {
+                            "state": < 'value' "*state*" 'text' >
+                            "key": < 'value' "*key*" 'text'>
+                            "context property": < 'value' "*context property*" 'text' >
+                        } >
+                    } >
+                } >
+            } >
         } 'list' >
+        "return value": < 'state group' "void" {
+            "void": < { } >
+            "interface": < {
+                "initializer": < 'component' "interface initializer" >
+            } >
+        } >
+    } >
+    "function specification": < {
+        "declaration": < 'component' "function declaration" >
+        "block": < 'component' "function block" >
     } >
     "namespace": < {
         "type parameters": < 'collection' {
             "name": < 'value' "" 'text' >
         } 'dictionary' "name" >
-        "interfaces": < 'collection' {
-            "name": < 'value' "" 'text' >
-            "members": < 'collection' {
-                "name": < 'value' "" 'text' >
-                "type": < 'state group' "method" {
-                        "method": < {
-                            "parameters": < 'collection' {
-                                "name": < 'value' "" 'text' >
-                                "type": < 'value' "*parameter type*" 'text' >
-                            } 'dictionary' "name" >
-                            "return type": < 'value' "*return type*" 'text' >
-                        } >
-                        "sub interface": < {
-                            "interface": < 'value' "*interface*" 'text' >
-                            "type arguments": < 'collection' {
-                                "name": < 'value' "" 'text' >
-                                "type": < 'value' "*type argument type*" 'text' >
-                            } 'dictionary' "name" >
-                        } >
-                } >
-            } 'dictionary' "name" >
-        } 'dictionary' "name" >
         "types": < 'collection' {
             "name": < 'value' "" 'text' >
             "type": < 'component' "type" >
-
+        } 'dictionary' "name" >
+        "interfaces": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "definition": < 'component' "interface definition" >
+        } 'dictionary' "name" >
+        "interface builders": < 'collection' {
+            "name": < 'value' "" 'text' >
+            "methods": < 'collection' {
+                "name": < 'value' "" 'text' >
+                "declaration": < 'component' "function declaration" >
+            } 'dictionary' "name" >
         } 'dictionary' "name" >
         "functions": < 'collection' {
             "name": < 'value' "" 'text' >
-            "function": < 'component' "function" >
+            "specification": < 'component' "function specification" >
         } 'dictionary' "name" >
         "namespaces": < 'collection' {
             "name": < 'value' "" 'text' >

@@ -12,7 +12,10 @@ export function runProgram(
 ): void {
     const ssp = createStreamConsumer(
         (str) => process.stdout.write(str),
-        (str) => console.error(str)
+        (str) => {
+            process.exitCode = 1
+            console.error(str)
+        }
     )
     process.stdin.setEncoding("utf-8")
     process.stdin.pipe(
