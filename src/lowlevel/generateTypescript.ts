@@ -127,6 +127,25 @@ interface TaggedUnionNameBuilder {
     getIdentifier(): string
 }
 
+function find<T>(
+    dict: IDictionary<T>,
+    name: string,
+): T {
+    let res: T | null = null
+    let options = ""
+    dict.forEach(($, k) => {
+        options += ` ${k}`
+        if (k === name) {
+            res = $
+        }
+    })
+    if (res !== null) {
+        return res
+    } else {
+        throw new Error(`missing: ${name}, options: ${options}`)
+    }
+}
+
 
 function createTypeNameBuilder(
     prefix: string,
@@ -175,9 +194,62 @@ function createNameBuilder(
 }
 
 export function generateTypeScript(
-    data: ll.__root_T,
+    $: ll.__root_T,
     $w: Block,
 ): void {
+    const $root = $
+    function generateNamespacedIdentifier(
+        $: ll.__optional_namespace_reference_T,
+        $w: Line,
+        identifier: ($w: Line) => void,
+        namespaceName: string,
+        typeArgumentsCallback: ($w: Line) => void,
+    ) {
+        switch ($.namespace[0]) {
+            case "current":
+                cc($.namespace[1], ($) => {
+                    $w.snippet(`${generateIdentifier(namespaceName)}`)
+                    identifier($w)
+                    typeArgumentsCallback($w)
+                })
+                break
+            case "other":
+                cc($.namespace[1], ($) => {
+                    function generateNamespaceReference(
+                        $: ll.__namespace_reference_T,
+                        $w: Line,
+                    ) {
+                        $w.snippet(`${generateIdentifier($.namespace)}`)
+                        identifier($w)
+                        doDictionary(
+                            $["type arguments"],
+                            () => {
+                                //
+                            },
+                            () => {
+                                $w.snippet(`<`)
+                            },
+                            () => {
+                                $w.snippet(`>`)
+                            },
+                            ($, key) => {
+                                $w.snippet(`${generateIdentifier(key)}`)
+                            },
+                            () => {
+                                $w.snippet(`, `)
+                            },
+                        )
+                    }
+                    generateNamespaceReference(
+                        $.namespace,
+                        $w,
+                    )
+                })
+                break
+            default:
+                assertUnreachable($.namespace[0])
+        }
+    }
     function generateProcedureDeclaration(
         $: ll.__procedure_declaration_T,
         $w: Line,
@@ -221,24 +293,32 @@ export function generateTypeScript(
                             break
                         case "builder":
                             cc($.type[1], ($) => {
-                                $w.snippet(`${generateIdentifier(namespaceName)}_${$.builder}_IB`)
-                                doDictionary(
-                                    $["type arguments"],
-                                    () => {
-                                        //
+                                generateNamespacedIdentifier(
+                                    $.namespace,
+                                    $w,
+                                    ($w) => {
+                                        $w.snippet(`_${$.builder}_IB`)
                                     },
-                                    () => {
-                                        $w.snippet(`<`)
-                                    },
-                                    () => {
-                                        $w.snippet(`>`)
-                                    },
-                                    ($, key) => {
-                                        $w.snippet(`${generateIdentifier(key)}`)
-                                    },
-                                    () => {
-                                        $w.snippet(`, `)
-                                    },
+                                    namespaceName,
+                                    typeArgumentsCallback,
+                                )
+                            })
+                            break
+                        case "function":
+                            cc($.type[1], ($) => {
+                                $w.snippet(`($p: `)
+                                generateTypeReference(
+                                    $.in,
+                                    $w,
+                                    namespaceName,
+                                    typeArgumentsCallback,
+                                )
+                                $w.snippet(`) => `)
+                                generateTypeReference(
+                                    $.out,
+                                    $w,
+                                    namespaceName,
+                                    typeArgumentsCallback,
                                 )
                             })
                             break
@@ -249,7 +329,7 @@ export function generateTypeScript(
             })
         })
         $w.snippet(`}`)
-        $w.snippet(`): `)
+        $w.snippet(`)${arrowOrColon} `)
         switch ($["return type"][0]) {
             case "interface":
                 cc($["return type"][1], ($) => {
@@ -269,6 +349,23 @@ export function generateTypeScript(
             default:
                 assertUnreachable($["return type"][0])
         }
+    }
+    function generateTypeReference(
+        $: ll.__type_reference_T,
+        $w: Line,
+        namespaceName: string,
+        typeArgumentsCallback: ($w: Line) => void,
+    ) {
+        const $$ = $
+        generateNamespacedIdentifier(
+            $.namespace,
+            $w,
+            ($w) => {
+                $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
+            },
+            namespaceName,
+            typeArgumentsCallback,
+        )
     }
     function generateInterfaceDefinition(
         $: ll.__interface_definition_T,
@@ -298,59 +395,13 @@ export function generateTypeScript(
                 break
             case "method":
                 cc($.type[1], ($) => {
-                    function generateTypeReference(
-                        $: ll.__type_reference_T,
-                        $w: Line,
-                    ) {
-                        const $$ = $
-                        switch ($.namespace[0]) {
-                            case "current":
-                                cc($.namespace[1], ($) => {
-                                    $w.snippet(`${generateIdentifier(namespaceName)}`)
-                                    $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
-                                    typeArgumentsCallback($w)
-                                })
-                                break
-                            case "other":
-                                cc($.namespace[1], ($) => {
-                                    function generateNamespaceReference(
-                                        $: ll.__namespace_reference_T,
-                                        $w: Line,
-                                    ) {
-                                        $w.snippet(`${$.namespace}`)
-                                        $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
-                                        doDictionary(
-                                            $["type arguments"],
-                                            () => {
-                                                //
-                                            },
-                                            () => {
-                                                $w.snippet(`<`)
-                                            },
-                                            () => {
-                                                $w.snippet(`>`)
-                                            },
-                                            ($, key) => {
-                                                $w.snippet(`${generateIdentifier(key)}`)
-                                            },
-                                            () => {
-                                                $w.snippet(`, `)
-                                            },
-                                        )
-
-                                    }
-                                    generateNamespaceReference(
-                                        $.namespace,
-                                        $w,
-                                    )
-                                })
-                                break
-                            default:
-                                assertUnreachable($.namespace[0])
-                        }
-                    }
                     $w.snippet(`($: `)
-                    generateTypeReference($.type, $w)
+                    generateTypeReference(
+                        $.type,
+                        $w,
+                        namespaceName,
+                        typeArgumentsCallback,
+                    )
                     $w.snippet(`) => `)
                     switch ($["return type"][0]) {
                         case "interface":
@@ -375,25 +426,16 @@ export function generateTypeScript(
                 break
             case "reference":
                 cc($.type[1], ($) => {
-                    $w.snippet(`${generateIdentifier(namespaceName)}_${$.interface}_I`)
-                    // doDictionary(
-                    //     $["type arguments"],
-                    //     () => {
-                    //         //
-                    //     },
-                    //     () => {
-                    //         $w.snippet(`<`)
-                    //     },
-                    //     () => {
-                    //         $w.snippet(`>`)
-                    //     },
-                    //     ($, key) => {
-                    //         $w.snippet(`${generateIdentifier(key)}`)
-                    //     },
-                    //     () => {
-                    //         $w.snippet(`, `)
-                    //     },
-                    // )
+                    const x = $.interface
+                    generateNamespacedIdentifier(
+                        $.namespace,
+                        $w,
+                        ($w) => {
+                            $w.snippet(`_${x}_I`)
+                        },
+                        namespaceName,
+                        typeArgumentsCallback,
+                    )
                 })
                 break
             default:
@@ -462,7 +504,7 @@ export function generateTypeScript(
         })
         $w.snippet(`}`)
     })
-    data.namespaces.forEach((ns, namespaceName) => {
+    $.namespaces.forEach((ns, namespaceName) => {
         function generateTypeParameters(
             $w: Line
         ) {
@@ -490,104 +532,37 @@ export function generateTypeScript(
             $w: Line,
         ) {
             const $$ = $
-            switch ($.namespace[0]) {
-                case "current":
-                    cc($.namespace[1], ($) => {
-                        $w.snippet(`${generateIdentifier(namespaceName)}`)
-                        $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
-                        doDictionary(
-                            ns["type parameters"],
-                            () => {
-                                //
-                            },
-                            () => {
-                                $w.snippet(`<`)
-                            },
-                            () => {
-                                $w.snippet(`>`)
-                            },
-                            ($, key) => {
-                                $w.snippet(`${generateIdentifier(key)}`)
-                            },
-                            () => {
-                                $w.snippet(`, `)
-                            },
-                        )
-                    })
-                    break
-                case "other":
-                    cc($.namespace[1], ($) => {
-                        function generateNamespaceReference(
-                            $: ll.__namespace_reference_T,
-                            $w: Line,
-                        ) {
-                            $w.snippet(`${$.namespace}`)
-                            $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
-                            doDictionary(
-                                $["type arguments"],
-                                () => {
-                                    //
-                                },
-                                () => {
-                                    $w.snippet(`<`)
-                                },
-                                () => {
-                                    $w.snippet(`>`)
-                                },
-                                ($, key) => {
-                                    $w.snippet(`${generateIdentifier(key)}`)
-                                },
-                                () => {
-                                    $w.snippet(`, `)
-                                },
-                            )
-
-                        }
-                        generateNamespaceReference(
-                            $.namespace,
-                            $w,
-                        )
-                    })
-                    break
-                default:
-                    assertUnreachable($.namespace[0])
-            }
+            generateNamespacedIdentifier(
+                $.namespace,
+                $w,
+                ($w) => {
+                    $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
+                },
+                namespaceName,
+                ($w) => {
+                    doDictionary(
+                        ns["type parameters"],
+                        () => {
+                            //
+                        },
+                        () => {
+                            $w.snippet(`<`)
+                        },
+                        () => {
+                            $w.snippet(`>`)
+                        },
+                        ($, key) => {
+                            $w.snippet(`${generateIdentifier(key)}`)
+                        },
+                        () => {
+                            $w.snippet(`, `)
+                        },
+                    )
+                }
+            )
         }
-        ns.interfaces.forEach(($, key) => {
-            $w.line(() => { })
-            $w.line(($w) => {
-                $w.snippet(`export type ${generateIdentifier(namespaceName)}_${generateIdentifier(key)}_I`)
-                generateTypeParameters($w)
-                $w.snippet(` = `)
-                generateInterfaceDefinition(
-                    $["definition"],
-                    $w,
-                    namespaceName,
-                    ($w) => {
-                        doDictionary(
-                            ns["type parameters"],
-                            () => {
-                                //
-                            },
-                            () => {
-                                $w.snippet(`<`)
-                            },
-                            () => {
-                                $w.snippet(`>`)
-                            },
-                            ($, key) => {
-                                $w.snippet(`${generateIdentifier(key)}`)
-                            },
-                            () => {
-                                $w.snippet(`, `)
-                            },
-                        )
-                    }
-                )
-            })
-        })
         ns.types.forEach(($, key) => {
-            function doType(
+            function generateTypeUsage(
                 $: ll.__type_T,
                 x: TypeNameBuilder,
                 $w: Line,
@@ -664,7 +639,7 @@ export function generateTypeScript(
                             $w.snippet(`type ${x.dictionary().getIdentifier()}`)
                             generateTypeParameters($w)
                             $w.snippet(` = IDictionary<`)
-                            doType(
+                            generateTypeUsage(
                                 $.entry,
                                 x.dictionary(),
                                 $w,
@@ -703,7 +678,7 @@ export function generateTypeScript(
                                                 assertUnreachable($$.occurence[0])
                                         }
                                         $w.snippet(`: `)
-                                        doType(
+                                        generateTypeUsage(
                                             $$.type,
                                             x.group().property(key),
                                             $w,
@@ -727,7 +702,7 @@ export function generateTypeScript(
                             $w.snippet(`type ${x.getIdentifier()}`)
                             generateTypeParameters($w)
                             $w.snippet(` = `)
-                            doType(
+                            generateTypeUsage(
                                 $.element,
                                 x.list(),
                                 $w,
@@ -760,7 +735,7 @@ export function generateTypeScript(
                                 $.options.forEach(($, key) => {
                                     $w.line(($w) => {
                                         $w.snippet(`| [${generateQuoted(key)}, `)
-                                        doType(
+                                        generateTypeUsage(
                                             $.type,
                                             tu.option(key),
                                             $w,
@@ -791,10 +766,43 @@ export function generateTypeScript(
                 $w.snippet(`type ${generateIdentifier(namespaceName)}_${generateIdentifier(key)}_T`)
                 generateTypeParameters($w)
                 $w.snippet(` = `)
-                doType(
+                generateTypeUsage(
                     $.type,
                     createNameBuilder(namespaceName).type(key),
                     $w,
+                )
+            })
+        })
+        ns.interfaces.forEach(($, key) => {
+            $w.line(() => { })
+            $w.line(($w) => {
+                $w.snippet(`export type ${generateIdentifier(namespaceName)}_${generateIdentifier(key)}_I`)
+                generateTypeParameters($w)
+                $w.snippet(` = `)
+                generateInterfaceDefinition(
+                    $["definition"],
+                    $w,
+                    namespaceName,
+                    ($w) => {
+                        doDictionary(
+                            ns["type parameters"],
+                            () => {
+                                //
+                            },
+                            () => {
+                                $w.snippet(`<`)
+                            },
+                            () => {
+                                $w.snippet(`>`)
+                            },
+                            ($, key) => {
+                                $w.snippet(`${generateIdentifier(key)}`)
+                            },
+                            () => {
+                                $w.snippet(`, `)
+                            },
+                        )
+                    }
                 )
             })
         })
@@ -846,6 +854,7 @@ export function generateTypeScript(
             $w.line(($w) => {
                 $w.snippet(`export type ${generateIdentifier(namespaceName)}_${generateIdentifier(key)}_PD`)
                 generateTypeParameters($w)
+                $w.snippet(` = `)
                 generateProcedureDeclaration(
                     $.declaration,
                     $w,
@@ -875,8 +884,8 @@ export function generateTypeScript(
             })
         })
     })
-    data["procedure implementations"].forEach(($, key) => {
-        const ns = $.namespace
+    $["procedure implementations"].forEach(($, key) => {
+        const ns2 = $.namespace
         function generateStringInitializer(
             $: ll.__string_initializer_T,
             $w: Line,
@@ -899,7 +908,7 @@ export function generateTypeScript(
                     break
                 case "from variable":
                     cc($.strategy[1], ($) => {
-                        $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
+                        $w.snippet(`${$.variable}_v${generateIdentifier($.path)}`)
                     })
                     break
                 default:
@@ -910,68 +919,85 @@ export function generateTypeScript(
             $: ll.__type_initializer_T,
             $w: Line,
         ) {
-            switch ($.type[0]) {
-                case "boolean":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${generateIdentifier($.state)}`)
+            switch ($.strategy[0]) {
+                case "from state":
+                    cc($.strategy[1], ($) => {
+                        const $$ = $
+                        switch ($.type[0]) {
+                            case "boolean":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`${generateIdentifier($$.state)}`)
                                 })
                                 break
-                            case "from callback":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`$cb${generateIdentifier($.path)}`)
+                            case "dictionary":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`createDictionary(${generateIdentifier($$.state)})`)
                                 })
                                 break
-                            case "literal":
-                                cc($.strategy[1], ($) => {
+                            case "list":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`${generateIdentifier($$.state)}`)
+                                })
+                                break
+                            case "number":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`${generateIdentifier($$.state)}`)
+                                })
+                                break
+                            case "string":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`${generateIdentifier($$.state)}`)
+                                })
+                                break
+                            default:
+                                assertUnreachable($.type[0])
+                        }
+                    })
+                    break
+                case "from callback":
+                    cc($.strategy[1], ($) => {
+                        $w.snippet(`$cb${generateIdentifier($.path)}`)
+                    })
+                    break
+                case "from function":
+                    cc($.strategy[1], ($) => {
+                        switch ($.context[0]) {
+                            case "argument":
+                                cc($.context[1], ($) => {
+                                    $w.snippet(`$f`)
+                                })
+                                break
+                            case "variable":
+                                cc($.context[1], ($) => {
+                                    $w.snippet(`${generateIdentifier($.variable)}_v`)
+                                })
+                                break
+                            default:
+                                assertUnreachable($.context[0])
+                        }
+                        $w.snippet(`.${generateIdentifier($.function)}(`)
+                        generateTypeInitializer(
+                            $.argument,
+                            $w,
+                        )
+                        $w.snippet(`)`)
+                    })
+                    break
+                case "literal":
+                    cc($.strategy[1], ($) => {
+                        switch ($.type[0]) {
+                            case "boolean":
+                                cc($.type[1], ($) => {
                                     $w.snippet(`${generateQuoted($.value)}`)
                                 })
                                 break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
-                                })
-                                break
-                            default:
-                                assertUnreachable($.strategy[0])
-                        }
-                    })
-                    break
-                case "dictionary":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`createDictionary(${generateIdentifier($.state)})`)
-                                })
-                                break
-                            case "literal":
-                                cc($.strategy[1], (_$) => {
+                            case "dictionary":
+                                cc($.type[1], ($) => {
                                     $w.snippet(`{}`)
                                 })
                                 break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
-                                })
-                                break
-                            default:
-                                assertUnreachable($.strategy[0])
-                        }
-                    })
-                    break
-                case "group":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`createList(${generateIdentifier($.state)})`)
-                                })
-                                break
-                            case "literal":
-                                cc($.strategy[1], ($) => {
+                            case "group":
+                                cc($.type[1], ($) => {
                                     $w.snippet(`{`)
                                     $w.indent(($w) => {
                                         $.properties.forEach(($, k) => {
@@ -988,108 +1014,36 @@ export function generateTypeScript(
                                     $w.snippet(`}`)
                                 })
                                 break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
-                                })
-                                break
-                            default:
-                                assertUnreachable($.strategy[0])
-                        }
-                    })
-                    break
-                case "list":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`createList(${generateIdentifier($.state)})`)
-                                })
-                                break
-                            case "literal":
-                                cc($.strategy[1], (_$) => {
+                            case "list":
+                                cc($.type[1], ($) => {
                                     $w.snippet(`[]`)
                                 })
                                 break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
-                                })
-                                break
-                            default:
-                                assertUnreachable($.strategy[0])
-                        }
-                    })
-                    break
-                case "number":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${generateIdentifier($.state)}`)
-                                })
-                                break
-                            case "literal":
-                                cc($.strategy[1], ($) => {
+                            case "number":
+                                cc($.type[1], ($) => {
                                     $w.snippet(`${generateQuoted($.value)}`)
                                 })
                                 break
-                            case "from callback":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`$cb${generateIdentifier($.path)}`)
+                            case "string":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`${generateQuoted($.value)}`)
                                 })
                                 break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
+                            case "type argument":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`FIXME`)
                                 })
                                 break
-                            default:
-                                assertUnreachable($.strategy[0])
-                        }
-                    })
-                    break
-                case "string":
-                    cc($.type[1], ($) => {
-                        generateStringInitializer(
-                            $.initializer,
-                            $w,
-                        )
-                    })
-                    break
-                case "type argument":
-                    cc($.type[1], ($) => {
-                        $w.snippet(`FIXME`)
-                    })
-                    break
-                case "type reference":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${generateIdentifier($.state)}`)
+                            case "type reference":
+                                cc($.type[1], ($) => {
+                                    generateTypeInitializer(
+                                        $.initializer,
+                                        $w,
+                                    )
                                 })
                                 break
-                            case "from callback":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`$cb${generateIdentifier($.path)}`)
-                                })
-                                break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
-                                })
-                                break
-                            default:
-                                assertUnreachable($.strategy[0])
-                        }
-                    })
-                    break
-                case "tagged union":
-                    cc($.type[1], ($) => {
-                        switch ($.strategy[0]) {
-                            case "literal":
-                                cc($.strategy[1], ($) => {
+                            case "tagged union":
+                                cc($.type[1], ($) => {
                                     $w.snippet(`[${generateQuoted($.option)}, `)
                                     generateTypeInitializer(
                                         $.data,
@@ -1098,23 +1052,18 @@ export function generateTypeScript(
                                     $w.snippet(` ]`)
                                 })
                                 break
-                            case "from state":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${generateIdentifier($.state)}`)
-                                })
-                                break
-                            case "from variable":
-                                cc($.strategy[1], ($) => {
-                                    $w.snippet(`${$.variable}${generateIdentifier($.path)}`)
-                                })
-                                break
                             default:
-                                assertUnreachable($.strategy[0])
+                                assertUnreachable($.type[0])
                         }
                     })
                     break
+                case "from variable":
+                    cc($.strategy[1], ($) => {
+                        $w.snippet(`${$.variable}_v${generateIdentifier($.path)}`)
+                    })
+                    break
                 default:
-                    assertUnreachable($.type[0])
+                    assertUnreachable($.strategy[0])
             }
         }
         function generateProcedureCall(
@@ -1167,19 +1116,52 @@ export function generateTypeScript(
             })
             $w.snippet(`})`)
         }
-        function generateProcedureSpecification(
-            $: ll.__procedure_specification_T,
+        function generateInternalProcedureSpecification(
+            $: ll.__internal_procedure_specification_T,
             $w: Line,
-            typeArgumentsCallback: ($w: Line) => void
+            arrowOrNothing: string,
         ) {
-            generateProcedureDeclaration(
-                $.declaration,
-                $w,
-                `:`,
-                ns.namespace,
-                typeArgumentsCallback,
-            )
-            $w.snippet(` `)
+            $w.snippet(`($p: `)
+            $w.snippet(`{`)
+            $w.indent(($w) => {
+                $.parameters.forEach(($, key) => {
+                    $w.line(($w) => {
+                        $w.snippet(`${generateQuoted(key)}: `)
+                        generateInterfaceDefinition(
+                            $.interface,
+                            $w,
+                            ns2.namespace,
+                            ($w) => {
+
+                            },
+                        )
+                    })
+                })
+            })
+            $w.snippet(`}`)
+            $w.snippet(`): `)
+            switch ($["return type"][0]) {
+                case "interface":
+                    cc($["return type"][1], ($) => {
+                        generateInterfaceDefinition(
+                            $.interface,
+                            $w,
+                            ns2.namespace,
+                            ($w) => {
+
+                            },
+                        )
+                    })
+                    break
+                case "void":
+                    cc($["return type"][1], ($) => {
+                        $w.snippet(`void`)
+                    })
+                    break
+                default:
+                    assertUnreachable($["return type"][0])
+            }
+            $w.snippet(`${arrowOrNothing} `)
             generateprocedureBlock(
                 $.block,
                 $w,
@@ -1212,22 +1194,16 @@ export function generateTypeScript(
                             case "inline procedure": {
                                 cc($.strategy[1], ($) => {
                                     $w.snippet(`(`)
-                                    generateProcedureSpecification(
+                                    generateInternalProcedureSpecification(
                                         $.specification,
                                         $w,
-                                        ($w) => {
-                                            $w.snippet(`FIXME TYPE ARGUMENTS`)
-                                        },
+                                        ` =>`,
                                     )
                                     $w.snippet(`)`)
                                     generateProcedureCall(
                                         $.call,
                                         $w,
                                     )
-                                    // doBlock(
-                                    //     $.block,
-                                    //     $w,
-                                    // )
                                 })
                                 break
                             }
@@ -1313,27 +1289,54 @@ export function generateTypeScript(
                     assertUnreachable($.type[0])
             }
         }
-        function generateTypeParameters(
-            $w: Line
+        function navigateToNestedType(
+            $: ll.__nested_type_reference_T,
         ) {
-            doDictionary(
-                ns["type arguments"],
-                () => {
-                    //
-                },
-                () => {
-                    $w.snippet(`<`)
-                },
-                () => {
-                    $w.snippet(`>`)
-                },
-                ($, key) => {
-                    $w.snippet(`${generateIdentifier(key)}`)
-                },
-                () => {
-                    $w.snippet(`, `)
-                },
-            )
+            let nameBuilder = createNameBuilder($.namespace.namespace).type($.type)
+            //let t = find(ns.types, $.type).type
+            $.steps.forEach(($) => {
+                switch ($.type[0]) {
+                    case "dictionary":
+                        cc($.type[1], ($) => {
+                            // if (t.type[0] !== "dictionary") {
+                            //     throw new Error("not a dictionary")
+                            // }
+                            //t = t.type[1].entry
+                            nameBuilder = nameBuilder.dictionary()
+                        })
+                        break
+                    case "group":
+                        cc($.type[1], ($) => {
+                            // if (t.type[0] !== "group") {
+                            //     throw new Error("not a group")
+                            // }
+                            // t = find(t.type[1].properties, $.property).type
+                            nameBuilder = nameBuilder.group().property($.property)
+                        })
+                        break
+                    case "list":
+                        cc($.type[1], ($) => {
+                            // if (t.type[0] !== "list") {
+                            //     throw new Error("not a list")
+                            // }
+                            // t = t.type[1].element
+                            nameBuilder = nameBuilder.list()
+                        })
+                        break
+                    case "tagged union option":
+                        cc($.type[1], ($) => {
+                            // if (t.type[0] !== "tagged union") {
+                            //     throw new Error("not a tagged union")
+                            // }
+                            // t = find(t.type[1].options, $.option).type
+                            nameBuilder = nameBuilder.taggedUnion().option($.option)
+                        })
+                        break
+                    default:
+                        assertUnreachable($.type[0])
+                }
+            })
+            return nameBuilder
         }
         function generateprocedureBlock(
             $: ll.__procedure_block_T,
@@ -1343,90 +1346,23 @@ export function generateTypeScript(
             $w.indent(($w) => {
                 $.variables.forEach(($, key) => {
                     $w.line(($w) => {
-                        $w.snippet(`const ${generateIdentifier(key)} = ${$.path}`)
+                        $w.snippet(`const ${generateIdentifier(key)}_v = ${$.path}`)
                     })
                 })
                 $.states.forEach(($, key) => {
                     $w.line(($w) => {
-                        function navigateToNestedType(
-                            $: ll.__nested_type_reference_T,
-                        ) {
-                            function find<T>(
-                                dict: IDictionary<T>,
-                                name: string,
-                            ): T {
-                                let res: T | null = null
-                                let options = ""
-                                dict.forEach(($, k) => {
-                                    options += ` ${k}`
-                                    if (k === name) {
-                                        res = $
-                                    }
-                                })
-                                if (res !== null) {
-                                    return res
-                                } else {
-                                    throw new Error(`missing: ${name}, options: ${options}`)
-                                }
-                            }
-                            let nameBuilder = createTypeNameBuilder("FOO")
-                            //let t = find(ns.types, $.type).type
-                            $.steps.forEach(($) => {
-                                switch ($.type[0]) {
-                                    case "dictionary":
-                                        cc($.type[1], ($) => {
-                                            // if (t.type[0] !== "dictionary") {
-                                            //     throw new Error("not a dictionary")
-                                            // }
-                                            //t = t.type[1].entry
-                                            nameBuilder = nameBuilder.dictionary()
-                                        })
-                                        break
-                                    case "group":
-                                        cc($.type[1], ($) => {
-                                            // if (t.type[0] !== "group") {
-                                            //     throw new Error("not a group")
-                                            // }
-                                            // t = find(t.type[1].properties, $.property).type
-                                            nameBuilder = nameBuilder.group().property($.property)
-                                        })
-                                        break
-                                    case "list":
-                                        cc($.type[1], ($) => {
-                                            // if (t.type[0] !== "list") {
-                                            //     throw new Error("not a list")
-                                            // }
-                                            // t = t.type[1].element
-                                            nameBuilder = nameBuilder.list()
-                                        })
-                                        break
-                                    case "tagged union option":
-                                        cc($.type[1], ($) => {
-                                            // if (t.type[0] !== "tagged union") {
-                                            //     throw new Error("not a tagged union")
-                                            // }
-                                            // t = find(t.type[1].options, $.option).type
-                                            nameBuilder = nameBuilder.taggedUnion().option($.option)
-                                        })
-                                        break
-                                    default:
-                                        assertUnreachable($.type[0])
-                                }
-                            })
-                            return nameBuilder
-                        }
                         switch ($.type[0]) {
                             case "dictionary":
                                 cc($.type[1], ($) => {
-                                    $w.snippet(`const ${generateIdentifier(key)}: { [key:string]: `)
-                                    $w.snippet(`${navigateToNestedType($.type["nested type reference"]).dictionary().getIdentifier()}`)
+                                    $w.snippet(`const ${generateIdentifier(key)}: { [key: string]: `)
+                                    $w.snippet(`${navigateToNestedType($.type["nested type"]).getIdentifier()}_${$.type["dictionary"]}`)
                                     $w.snippet(` } = {}`)
                                 })
                                 break
                             case "list":
                                 cc($.type[1], ($) => {
                                     $w.snippet(`const ${generateIdentifier(key)}: `)
-                                    $w.snippet(`${navigateToNestedType($.type["nested type reference"]).list().getIdentifier()}`)
+                                    $w.snippet(`${navigateToNestedType($.type["nested type"]).getIdentifier()}`)
                                     $w.snippet(`[] = []`)
                                 })
                                 break
@@ -1437,76 +1373,25 @@ export function generateTypeScript(
                                 break
                             case "type5":
                                 cc($.type[1], ($) => {
-                                    function generateTypeReference(
-                                        $: ll.__type_reference_T,
-                                        $w: Line,
-                                    ) {
-                                        const $$ = $
-                                        switch ($.namespace[0]) {
-                                            case "current":
-                                                cc($.namespace[1], ($) => {
-                                                    $w.snippet(`${generateIdentifier(ns.namespace)}`)
-                                                    $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
-                                                    doDictionary(
-                                                        ns["type arguments"],
-                                                        () => {
-                                                            //
-                                                        },
-                                                        () => {
-                                                            $w.snippet(`<`)
-                                                        },
-                                                        () => {
-                                                            $w.snippet(`>`)
-                                                        },
-                                                        ($, key) => {
-                                                            $w.snippet(`${generateIdentifier(key)}`)
-                                                        },
-                                                        () => {
-                                                            $w.snippet(`, `)
-                                                        },
-                                                    )
-                                                })
-                                                break
-                                            case "other":
-                                                cc($.namespace[1], ($) => {
-                                                    function generateNamespaceReference(
-                                                        $: ll.__namespace_reference_T,
-                                                        $w: Line,
-                                                    ) {
-                                                        $w.snippet(`${$.namespace}`)
-                                                        $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
-                                                        doDictionary(
-                                                            $["type arguments"],
-                                                            () => {
-                                                                //
-                                                            },
-                                                            () => {
-                                                                $w.snippet(`<`)
-                                                            },
-                                                            () => {
-                                                                $w.snippet(`>`)
-                                                            },
-                                                            ($, key) => {
-                                                                $w.snippet(`${generateIdentifier(key)}`)
-                                                            },
-                                                            () => {
-                                                                $w.snippet(`, `)
-                                                            },
-                                                        )
-
-                                                    }
-                                                    generateNamespaceReference(
-                                                        $.namespace,
-                                                        $w,
-                                                    )
-                                                })
-                                                break
-                                            default:
-                                                assertUnreachable($.namespace[0])
-                                        }
-                                    }
                                     $w.snippet(`const ${generateIdentifier(key)}: `)
-                                    generateTypeReference($.type, $w)
+                                    $w.snippet(`${navigateToNestedType($["nested type"]).taggedUnion().option(key).getIdentifier()}`)
+                                    doDictionary(
+                                        $["nested type"].namespace["type arguments"],
+                                        () => {
+                                        },
+                                        () => {
+                                            $w.snippet(`<`)
+                                        },
+                                        () => {
+                                            $w.snippet(`>`)
+                                        },
+                                        ($, key) => {
+                                            $w.snippet(`${generateIdentifier(key)}`)
+                                        },
+                                        () => {
+                                            $w.snippet(`, `)
+                                        },
+                                    )
                                     $w.snippet(` = `)
                                     generateTypeInitializer(
                                         $.initializer,
@@ -1522,12 +1407,10 @@ export function generateTypeScript(
                 $["nested procedures"].forEach(($, key) => {
                     $w.line(($w) => {
                         $w.snippet(`function ${generateIdentifier(key)}_NIC`)
-                        generateProcedureSpecification(
+                        generateInternalProcedureSpecification(
                             $.specification,
                             $w,
-                            ($w) => {
-                                $w.snippet(`FIXME TA`)
-                            }
+                            ``,
                         )
                     })
                 })
@@ -1626,8 +1509,55 @@ export function generateTypeScript(
         }
         $w.line(() => { })
         $w.line(($w) => {
-            $w.snippet(`export const ${generateIdentifier(ns.namespace)}_${generateIdentifier(key)}_pi: ${$.declaration} = ($p) => `)
-            generateTypeParameters($w)
+            const decl = find(find($root.namespaces, ns2.namespace)["procedure declarations"], $.declaration)
+            $w.snippet(`export function ${generateIdentifier(ns2.namespace)}_${generateIdentifier(key)}_pi`)
+            doDictionary(
+                $["type parameters"],
+                () => {
+                    //
+                },
+                () => {
+                    $w.snippet(`<`)
+                },
+                () => {
+                    $w.snippet(`>`)
+                },
+                ($, key) => {
+                    $w.snippet(`${generateIdentifier(key)}`)
+                },
+                () => {
+                    $w.snippet(`, `)
+                },
+            )
+            generateProcedureDeclaration(
+                decl.declaration,
+                $w,
+                ":",
+                $.namespace.namespace,
+                ($w) => {
+                    doDictionary(
+                        //should be parameters
+                        $.namespace["type arguments"],
+                        () => {
+                            //
+                        },
+                        () => {
+                            $w.snippet(`<`)
+                        },
+                        () => {
+                            $w.snippet(`>`)
+                        },
+                        ($, key) => {
+                            $w.snippet(`${generateIdentifier(key)}`)
+                        },
+                        () => {
+                            $w.snippet(`, `)
+                        },
+                    )
+
+                }
+            )
+            $w.snippet(` `)
             generateprocedureBlock(
                 $.block,
                 $w,

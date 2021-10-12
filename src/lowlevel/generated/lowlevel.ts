@@ -28,7 +28,7 @@ function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
 
 export type __dictionary_reference_T = {
     readonly "dictionary": string
-    readonly "nested type reference": __nested_type_reference_T
+    readonly "nested type": __nested_type_reference_T
 }
 
 export type __members_T = {
@@ -57,6 +57,7 @@ export type __method_T = {
 
 export type __reference_T = {
     readonly "interface": string
+    readonly "namespace": __optional_namespace_reference_T
 }
 
 export type __type_TU =
@@ -89,7 +90,7 @@ export type __argument_T = {
 
 export type __inline_procedure_T = {
     readonly "call": __procedure_call_T
-    readonly "specification": __procedure_specification_T
+    readonly "specification": __internal_procedure_specification_T
 }
 
 export type __procedure_implementation_T = {
@@ -125,9 +126,30 @@ export type __interface_initializer_T = {
     readonly "type": __type_interface_initializer_TU
 }
 
+export type __parameters_T = {
+    readonly "interface": __interface_definition_T
+}
+
+export type __interface_return_type_T = {
+    readonly "interface": __interface_definition_T
+}
+
+export type __void_return_type_T = {
+}
+
+export type __return_type_internal_procedure_specification_TU =
+    | ["interface", __interface_return_type_T]
+    | ["void", __void_return_type_T]
+
+export type __internal_procedure_specification_T = {
+    readonly "block": __procedure_block_T
+    readonly "parameters": IDictionary<__parameters_T>
+    readonly "return type": __return_type_internal_procedure_specification_TU
+}
+
 export type __list_reference_T = {
     readonly "list": string
-    readonly "nested type reference": __nested_type_reference_T
+    readonly "nested type": __nested_type_reference_T
 }
 
 export type __external_T = {
@@ -188,8 +210,24 @@ export type __steps_T = {
 }
 
 export type __nested_type_reference_T = {
+    readonly "namespace": __namespace_reference_T
     readonly "steps": IArray<__steps_T>
-    readonly "type": __type_reference_T
+    readonly "type": string
+}
+
+export type __current_T = {
+}
+
+export type __other_T = {
+    readonly "namespace": __namespace_reference_T
+}
+
+export type __namespace_TU =
+    | ["current", __current_T]
+    | ["other", __other_T]
+
+export type __optional_namespace_reference_T = {
+    readonly "namespace": __namespace_TU
 }
 
 export type __interface_call_T = {
@@ -243,7 +281,7 @@ export type __effects_T = {
 }
 
 export type __nested_procedures_T = {
-    readonly "specification": __procedure_specification_T
+    readonly "specification": __internal_procedure_specification_T
 }
 
 export type __interface_return_value_T = {
@@ -271,7 +309,7 @@ export type __string_type_T = {
 
 export type __type5_T = {
     readonly "initializer": __type_initializer_T
-    readonly "type": __type_reference_T
+    readonly "nested type": __nested_type_reference_T
 }
 
 export type __type_states_TU =
@@ -325,17 +363,18 @@ export type __procedure_call_T = {
     readonly "arguments": IDictionary<__arguments_T>
 }
 
-export type __type_arguments_builder_T = {
-    readonly "type": string
-}
-
 export type __builder_type_T = {
     readonly "builder": string
-    readonly "type arguments": IDictionary<__type_arguments_builder_T>
+    readonly "namespace": __optional_namespace_reference_T
 }
 
 export type __dictionary_type_parameters_T = {
     readonly "entry": __interface_definition_T
+}
+
+export type __function_T = {
+    readonly "in": __type_reference_T
+    readonly "out": __type_reference_T
 }
 
 export type __interface_type_T = {
@@ -345,31 +384,27 @@ export type __interface_type_T = {
 export type __type_parameters_TU =
     | ["builder", __builder_type_T]
     | ["dictionary", __dictionary_type_parameters_T]
+    | ["function", __function_T]
     | ["interface", __interface_type_T]
 
-export type __parameters_T = {
+export type __parameters_procedure_declaration_T = {
     readonly "type": __type_parameters_TU
 }
 
-export type __interface_return_type_T = {
+export type __interface_return_type_procedure_declaration_T = {
     readonly "interface": __interface_definition_T
 }
 
-export type __void_return_type_T = {
+export type __void_return_type_procedure_declaration_T = {
 }
 
 export type __return_type_procedure_declaration_TU =
-    | ["interface", __interface_return_type_T]
-    | ["void", __void_return_type_T]
+    | ["interface", __interface_return_type_procedure_declaration_T]
+    | ["void", __void_return_type_procedure_declaration_T]
 
 export type __procedure_declaration_T = {
-    readonly "parameters": IDictionary<__parameters_T>
+    readonly "parameters": IDictionary<__parameters_procedure_declaration_T>
     readonly "return type": __return_type_procedure_declaration_TU
-}
-
-export type __procedure_specification_T = {
-    readonly "block": __procedure_block_T
-    readonly "declaration": __procedure_declaration_T
 }
 
 export type __methods_T = {
@@ -403,10 +438,14 @@ export type __namespaces_T = {
     readonly "types": IDictionary<__types_T>
 }
 
+export type __type_parameters_procedure_implementations_T = {
+}
+
 export type __procedure_implementations_T = {
     readonly "block": __procedure_block_T
     readonly "declaration": string
     readonly "namespace": __namespace_reference_T
+    readonly "type parameters": IDictionary<__type_parameters_procedure_implementations_T>
 }
 
 export type __root_T = {
@@ -512,8 +551,48 @@ export type __from_callback_strategy_T = {
     readonly "path": string
 }
 
+export type __argument_context_T = {
+}
+
+export type __variable_context_T = {
+    readonly "variable": string
+}
+
+export type __context_TU =
+    | ["argument", __argument_context_T]
+    | ["variable", __variable_context_T]
+
+export type __from_function_T = {
+    readonly "argument": __type_initializer_T
+    readonly "context": __context_TU
+    readonly "function": string
+}
+
+export type __boolean_type_T = {
+}
+
+export type __dictionary_type_from_state_T = {
+}
+
+export type __list_type_from_state_T = {
+}
+
+export type __number_type_T = {
+}
+
+export type __string_type_from_state_T = {
+}
+
+export type __type_from_state_TU =
+    | ["boolean", __boolean_type_T]
+    | ["dictionary", __dictionary_type_from_state_T]
+    | ["list", __list_type_from_state_T]
+    | ["number", __number_type_T]
+    | ["string", __string_type_from_state_T]
+
 export type __from_state_strategy_T = {
     readonly "state": string
+    readonly "type": __type_from_state_TU
 }
 
 export type __from_variable_strategy_T = {
@@ -521,201 +600,78 @@ export type __from_variable_strategy_T = {
     readonly "variable": string
 }
 
-export type __literal_strategy_T = {
+export type __boolean_type_literal_T = {
     readonly "value": string
 }
 
-export type __strategy_boolean_TU =
-    | ["from callback", __from_callback_strategy_T]
-    | ["from state", __from_state_strategy_T]
-    | ["from variable", __from_variable_strategy_T]
-    | ["literal", __literal_strategy_T]
-
-export type __boolean_type_T = {
-    readonly "strategy": __strategy_boolean_TU
+export type __dictionary_type_literal_T = {
 }
 
-export type __from_state_strategy_dictionary_T = {
-    readonly "state": string
-}
-
-export type __from_variable_strategy_dictionary_T = {
-    readonly "path": string
-    readonly "variable": string
-}
-
-export type __literal_strategy_dictionary_T = {
-}
-
-export type __strategy_dictionary_type_TU =
-    | ["from state", __from_state_strategy_dictionary_T]
-    | ["from variable", __from_variable_strategy_dictionary_T]
-    | ["literal", __literal_strategy_dictionary_T]
-
-export type __dictionary_type_type_initializer_T = {
-    readonly "strategy": __strategy_dictionary_type_TU
-}
-
-export type __from_state_strategy_group_T = {
-    readonly "state": string
-}
-
-export type __from_variable_strategy_group_T = {
-    readonly "path": string
-    readonly "variable": string
-}
-
-export type __properties_literal_T = {
+export type __properties_group_T = {
     readonly "initializer": __type_initializer_T
 }
 
-export type __literal_strategy_group_T = {
-    readonly "properties": IDictionary<__properties_literal_T>
+export type __group_type_literal_T = {
+    readonly "properties": IDictionary<__properties_group_T>
 }
 
-export type __strategy_group_TU =
-    | ["from state", __from_state_strategy_group_T]
-    | ["from variable", __from_variable_strategy_group_T]
-    | ["literal", __literal_strategy_group_T]
-
-export type __group_type_type_initializer_T = {
-    readonly "strategy": __strategy_group_TU
+export type __list_type_literal_T = {
 }
 
-export type __from_state_strategy_list_T = {
-    readonly "state": string
-}
-
-export type __from_variable_strategy_list_T = {
-    readonly "path": string
-    readonly "variable": string
-}
-
-export type __literal_strategy_list_T = {
-}
-
-export type __strategy_list_type_TU =
-    | ["from state", __from_state_strategy_list_T]
-    | ["from variable", __from_variable_strategy_list_T]
-    | ["literal", __literal_strategy_list_T]
-
-export type __list_type_type_initializer_T = {
-    readonly "strategy": __strategy_list_type_TU
-}
-
-export type __from_callback_strategy_number_T = {
-    readonly "path": string
-}
-
-export type __from_state_strategy_number_T = {
-    readonly "state": string
-}
-
-export type __from_variable_strategy_number_T = {
-    readonly "path": string
-    readonly "variable": string
-}
-
-export type __literal_strategy_number_T = {
+export type __number_type_literal_T = {
     readonly "value": string
 }
 
-export type __strategy_number_TU =
-    | ["from callback", __from_callback_strategy_number_T]
-    | ["from state", __from_state_strategy_number_T]
-    | ["from variable", __from_variable_strategy_number_T]
-    | ["literal", __literal_strategy_number_T]
-
-export type __number_type_T = {
-    readonly "strategy": __strategy_number_TU
+export type __string_type_literal_T = {
+    readonly "value": string
 }
-
-export type __string_type_type_initializer_T = {
-    readonly "initializer": __string_initializer_T
-}
-
-export type __from_state_strategy_tagged_union_T = {
-    readonly "state": string
-}
-
-export type __from_variable_strategy_tagged_union_T = {
-    readonly "path": string
-    readonly "variable": string
-}
-
-export type __literal_strategy_tagged_union_T = {
-    readonly "data": __type_initializer_T
-    readonly "option": string
-}
-
-export type __strategy_tagged_union_TU =
-    | ["from state", __from_state_strategy_tagged_union_T]
-    | ["from variable", __from_variable_strategy_tagged_union_T]
-    | ["literal", __literal_strategy_tagged_union_T]
 
 export type __tagged_union_type_T = {
-    readonly "strategy": __strategy_tagged_union_TU
+    readonly "data": __type_initializer_T
+    readonly "option": string
 }
 
 export type __type_argument_type_T = {
 }
 
-export type __from_callback_strategy_type_reference_T = {
-    readonly "path": string
+export type __type_reference_type_literal_T = {
+    readonly "initializer": __type_initializer_T
 }
 
-export type __from_state_strategy_type_reference_T = {
-    readonly "state": string
-}
-
-export type __from_variable_strategy_type_reference_T = {
-    readonly "path": string
-    readonly "variable": string
-}
-
-export type __strategy_type_reference_TU =
-    | ["from callback", __from_callback_strategy_type_reference_T]
-    | ["from state", __from_state_strategy_type_reference_T]
-    | ["from variable", __from_variable_strategy_type_reference_T]
-
-export type __type_reference_type_type_initializer_T = {
-    readonly "strategy": __strategy_type_reference_TU
-}
-
-export type __type_type_initializer_TU =
-    | ["boolean", __boolean_type_T]
-    | ["dictionary", __dictionary_type_type_initializer_T]
-    | ["group", __group_type_type_initializer_T]
-    | ["list", __list_type_type_initializer_T]
-    | ["number", __number_type_T]
-    | ["string", __string_type_type_initializer_T]
+export type __type_literal_TU =
+    | ["boolean", __boolean_type_literal_T]
+    | ["dictionary", __dictionary_type_literal_T]
+    | ["group", __group_type_literal_T]
+    | ["list", __list_type_literal_T]
+    | ["number", __number_type_literal_T]
+    | ["string", __string_type_literal_T]
     | ["tagged union", __tagged_union_type_T]
     | ["type argument", __type_argument_type_T]
-    | ["type reference", __type_reference_type_type_initializer_T]
+    | ["type reference", __type_reference_type_literal_T]
+
+export type __literal_strategy_T = {
+    readonly "type": __type_literal_TU
+}
+
+export type __strategy_type_initializer_TU =
+    | ["from callback", __from_callback_strategy_T]
+    | ["from function", __from_function_T]
+    | ["from state", __from_state_strategy_T]
+    | ["from variable", __from_variable_strategy_T]
+    | ["literal", __literal_strategy_T]
 
 export type __type_initializer_T = {
-    readonly "type": __type_type_initializer_TU
+    readonly "strategy": __strategy_type_initializer_TU
 }
-
-export type __current_T = {
-}
-
-export type __other_T = {
-    readonly "namespace": __namespace_reference_T
-}
-
-export type __namespace_TU =
-    | ["current", __current_T]
-    | ["other", __other_T]
 
 export type __type_reference_T = {
-    readonly "namespace": __namespace_TU
+    readonly "namespace": __optional_namespace_reference_T
     readonly "type": string
 }
 
 export type __dictionary_reference_B = {
     readonly "dictionary" ?: string
-    readonly "nested type reference" ?: __nested_type_reference_B
+    readonly "nested type" ?: __nested_type_reference_B
 }
 
 export type __members_B = {
@@ -744,6 +700,7 @@ export type __method_B = {
 
 export type __reference_B = {
     readonly "interface" ?: string
+    readonly "namespace" ?: __optional_namespace_reference_B
 }
 
 export type __type_TU_Builder =
@@ -776,7 +733,7 @@ export type __argument_B = {
 
 export type __inline_procedure_B = {
     readonly "call" ?: __procedure_call_B
-    readonly "specification" ?: __procedure_specification_B
+    readonly "specification" ?: __internal_procedure_specification_B
 }
 
 export type __procedure_implementation_B = {
@@ -812,9 +769,30 @@ export type __interface_initializer_B = {
     readonly "type" ?: __type_interface_initializer_TU_Builder
 }
 
+export type __parameters_B = {
+    readonly "interface" ?: __interface_definition_B
+}
+
+export type __interface_return_type_B = {
+    readonly "interface" ?: __interface_definition_B
+}
+
+export type __void_return_type_B = {
+}
+
+export type __return_type_internal_procedure_specification_TU_Builder =
+    | ["interface", __interface_return_type_B]
+    | ["void", __void_return_type_B]
+
+export type __internal_procedure_specification_B = {
+    readonly "block" ?: __procedure_block_B
+    readonly "parameters" ?: { [key:string]: __parameters_B } //| (add: (key: string, entry: __parameters_B ) => void )
+    readonly "return type" ?: __return_type_internal_procedure_specification_TU_Builder
+}
+
 export type __list_reference_B = {
     readonly "list" ?: string
-    readonly "nested type reference" ?: __nested_type_reference_B
+    readonly "nested type" ?: __nested_type_reference_B
 }
 
 export type __external_B = {
@@ -875,8 +853,24 @@ export type __steps_B = {
 }
 
 export type __nested_type_reference_B = {
+    readonly "namespace" ?: __namespace_reference_B
     readonly "steps" ?: __steps_B[] //| { callback: (value: __steps_B ) => void }
-    readonly "type" ?: __type_reference_B
+    readonly "type" ?: string
+}
+
+export type __current_B = {
+}
+
+export type __other_B = {
+    readonly "namespace" ?: __namespace_reference_B
+}
+
+export type __namespace_TU_Builder =
+    | ["current", __current_B]
+    | ["other", __other_B]
+
+export type __optional_namespace_reference_B = {
+    readonly "namespace" ?: __namespace_TU_Builder
 }
 
 export type __interface_call_B = {
@@ -930,7 +924,7 @@ export type __effects_B = {
 }
 
 export type __nested_procedures_B = {
-    readonly "specification" ?: __procedure_specification_B
+    readonly "specification" ?: __internal_procedure_specification_B
 }
 
 export type __interface_return_value_B = {
@@ -958,7 +952,7 @@ export type __string_type_B = {
 
 export type __type5_B = {
     readonly "initializer" ?: __type_initializer_B
-    readonly "type" ?: __type_reference_B
+    readonly "nested type" ?: __nested_type_reference_B
 }
 
 export type __type_states_TU_Builder =
@@ -1012,17 +1006,18 @@ export type __procedure_call_B = {
     readonly "arguments" ?: { [key:string]: __arguments_B } //| (add: (key: string, entry: __arguments_B ) => void )
 }
 
-export type __type_arguments_builder_B = {
-    readonly "type" ?: string
-}
-
 export type __builder_type_B = {
     readonly "builder" ?: string
-    readonly "type arguments" ?: { [key:string]: __type_arguments_builder_B } //| (add: (key: string, entry: __type_arguments_builder_B ) => void )
+    readonly "namespace" ?: __optional_namespace_reference_B
 }
 
 export type __dictionary_type_parameters_B = {
     readonly "entry" ?: __interface_definition_B
+}
+
+export type __function_B = {
+    readonly "in" ?: __type_reference_B
+    readonly "out" ?: __type_reference_B
 }
 
 export type __interface_type_B = {
@@ -1032,31 +1027,27 @@ export type __interface_type_B = {
 export type __type_parameters_TU_Builder =
     | ["builder", __builder_type_B]
     | ["dictionary", __dictionary_type_parameters_B]
+    | ["function", __function_B]
     | ["interface", __interface_type_B]
 
-export type __parameters_B = {
+export type __parameters_procedure_declaration_B = {
     readonly "type" ?: __type_parameters_TU_Builder
 }
 
-export type __interface_return_type_B = {
+export type __interface_return_type_procedure_declaration_B = {
     readonly "interface" ?: __interface_definition_B
 }
 
-export type __void_return_type_B = {
+export type __void_return_type_procedure_declaration_B = {
 }
 
 export type __return_type_procedure_declaration_TU_Builder =
-    | ["interface", __interface_return_type_B]
-    | ["void", __void_return_type_B]
+    | ["interface", __interface_return_type_procedure_declaration_B]
+    | ["void", __void_return_type_procedure_declaration_B]
 
 export type __procedure_declaration_B = {
-    readonly "parameters" ?: { [key:string]: __parameters_B } //| (add: (key: string, entry: __parameters_B ) => void )
+    readonly "parameters" ?: { [key:string]: __parameters_procedure_declaration_B } //| (add: (key: string, entry: __parameters_procedure_declaration_B ) => void )
     readonly "return type" ?: __return_type_procedure_declaration_TU_Builder
-}
-
-export type __procedure_specification_B = {
-    readonly "block" ?: __procedure_block_B
-    readonly "declaration" ?: __procedure_declaration_B
 }
 
 export type __methods_B = {
@@ -1090,10 +1081,14 @@ export type __namespaces_B = {
     readonly "types" ?: { [key:string]: __types_B } //| (add: (key: string, entry: __types_B ) => void )
 }
 
+export type __type_parameters_procedure_implementations_B = {
+}
+
 export type __procedure_implementations_B = {
     readonly "block" ?: __procedure_block_B
     readonly "declaration" ?: string
     readonly "namespace" ?: __namespace_reference_B
+    readonly "type parameters" ?: { [key:string]: __type_parameters_procedure_implementations_B } //| (add: (key: string, entry: __type_parameters_procedure_implementations_B ) => void )
 }
 
 export type __root_B = {
@@ -1199,8 +1194,48 @@ export type __from_callback_strategy_B = {
     readonly "path" ?: string
 }
 
+export type __argument_context_B = {
+}
+
+export type __variable_context_B = {
+    readonly "variable" ?: string
+}
+
+export type __context_TU_Builder =
+    | ["argument", __argument_context_B]
+    | ["variable", __variable_context_B]
+
+export type __from_function_B = {
+    readonly "argument" ?: __type_initializer_B
+    readonly "context" ?: __context_TU_Builder
+    readonly "function" ?: string
+}
+
+export type __boolean_type_B = {
+}
+
+export type __dictionary_type_from_state_B = {
+}
+
+export type __list_type_from_state_B = {
+}
+
+export type __number_type_B = {
+}
+
+export type __string_type_from_state_B = {
+}
+
+export type __type_from_state_TU_Builder =
+    | ["boolean", __boolean_type_B]
+    | ["dictionary", __dictionary_type_from_state_B]
+    | ["list", __list_type_from_state_B]
+    | ["number", __number_type_B]
+    | ["string", __string_type_from_state_B]
+
 export type __from_state_strategy_B = {
     readonly "state" ?: string
+    readonly "type" ?: __type_from_state_TU_Builder
 }
 
 export type __from_variable_strategy_B = {
@@ -1208,195 +1243,72 @@ export type __from_variable_strategy_B = {
     readonly "variable" ?: string
 }
 
-export type __literal_strategy_B = {
+export type __boolean_type_literal_B = {
     readonly "value" ?: string
 }
 
-export type __strategy_boolean_TU_Builder =
-    | ["from callback", __from_callback_strategy_B]
-    | ["from state", __from_state_strategy_B]
-    | ["from variable", __from_variable_strategy_B]
-    | ["literal", __literal_strategy_B]
-
-export type __boolean_type_B = {
-    readonly "strategy" ?: __strategy_boolean_TU_Builder
+export type __dictionary_type_literal_B = {
 }
 
-export type __from_state_strategy_dictionary_B = {
-    readonly "state" ?: string
-}
-
-export type __from_variable_strategy_dictionary_B = {
-    readonly "path" ?: string
-    readonly "variable" ?: string
-}
-
-export type __literal_strategy_dictionary_B = {
-}
-
-export type __strategy_dictionary_type_TU_Builder =
-    | ["from state", __from_state_strategy_dictionary_B]
-    | ["from variable", __from_variable_strategy_dictionary_B]
-    | ["literal", __literal_strategy_dictionary_B]
-
-export type __dictionary_type_type_initializer_B = {
-    readonly "strategy" ?: __strategy_dictionary_type_TU_Builder
-}
-
-export type __from_state_strategy_group_B = {
-    readonly "state" ?: string
-}
-
-export type __from_variable_strategy_group_B = {
-    readonly "path" ?: string
-    readonly "variable" ?: string
-}
-
-export type __properties_literal_B = {
+export type __properties_group_B = {
     readonly "initializer" ?: __type_initializer_B
 }
 
-export type __literal_strategy_group_B = {
-    readonly "properties" ?: { [key:string]: __properties_literal_B } //| (add: (key: string, entry: __properties_literal_B ) => void )
+export type __group_type_literal_B = {
+    readonly "properties" ?: { [key:string]: __properties_group_B } //| (add: (key: string, entry: __properties_group_B ) => void )
 }
 
-export type __strategy_group_TU_Builder =
-    | ["from state", __from_state_strategy_group_B]
-    | ["from variable", __from_variable_strategy_group_B]
-    | ["literal", __literal_strategy_group_B]
-
-export type __group_type_type_initializer_B = {
-    readonly "strategy" ?: __strategy_group_TU_Builder
+export type __list_type_literal_B = {
 }
 
-export type __from_state_strategy_list_B = {
-    readonly "state" ?: string
-}
-
-export type __from_variable_strategy_list_B = {
-    readonly "path" ?: string
-    readonly "variable" ?: string
-}
-
-export type __literal_strategy_list_B = {
-}
-
-export type __strategy_list_type_TU_Builder =
-    | ["from state", __from_state_strategy_list_B]
-    | ["from variable", __from_variable_strategy_list_B]
-    | ["literal", __literal_strategy_list_B]
-
-export type __list_type_type_initializer_B = {
-    readonly "strategy" ?: __strategy_list_type_TU_Builder
-}
-
-export type __from_callback_strategy_number_B = {
-    readonly "path" ?: string
-}
-
-export type __from_state_strategy_number_B = {
-    readonly "state" ?: string
-}
-
-export type __from_variable_strategy_number_B = {
-    readonly "path" ?: string
-    readonly "variable" ?: string
-}
-
-export type __literal_strategy_number_B = {
+export type __number_type_literal_B = {
     readonly "value" ?: string
 }
 
-export type __strategy_number_TU_Builder =
-    | ["from callback", __from_callback_strategy_number_B]
-    | ["from state", __from_state_strategy_number_B]
-    | ["from variable", __from_variable_strategy_number_B]
-    | ["literal", __literal_strategy_number_B]
-
-export type __number_type_B = {
-    readonly "strategy" ?: __strategy_number_TU_Builder
+export type __string_type_literal_B = {
+    readonly "value" ?: string
 }
-
-export type __string_type_type_initializer_B = {
-    readonly "initializer" ?: __string_initializer_B
-}
-
-export type __from_state_strategy_tagged_union_B = {
-    readonly "state" ?: string
-}
-
-export type __from_variable_strategy_tagged_union_B = {
-    readonly "path" ?: string
-    readonly "variable" ?: string
-}
-
-export type __literal_strategy_tagged_union_B = {
-    readonly "data" ?: __type_initializer_B
-    readonly "option" ?: string
-}
-
-export type __strategy_tagged_union_TU_Builder =
-    | ["from state", __from_state_strategy_tagged_union_B]
-    | ["from variable", __from_variable_strategy_tagged_union_B]
-    | ["literal", __literal_strategy_tagged_union_B]
 
 export type __tagged_union_type_B = {
-    readonly "strategy" ?: __strategy_tagged_union_TU_Builder
+    readonly "data" ?: __type_initializer_B
+    readonly "option" ?: string
 }
 
 export type __type_argument_type_B = {
 }
 
-export type __from_callback_strategy_type_reference_B = {
-    readonly "path" ?: string
+export type __type_reference_type_literal_B = {
+    readonly "initializer" ?: __type_initializer_B
 }
 
-export type __from_state_strategy_type_reference_B = {
-    readonly "state" ?: string
-}
-
-export type __from_variable_strategy_type_reference_B = {
-    readonly "path" ?: string
-    readonly "variable" ?: string
-}
-
-export type __strategy_type_reference_TU_Builder =
-    | ["from callback", __from_callback_strategy_type_reference_B]
-    | ["from state", __from_state_strategy_type_reference_B]
-    | ["from variable", __from_variable_strategy_type_reference_B]
-
-export type __type_reference_type_type_initializer_B = {
-    readonly "strategy" ?: __strategy_type_reference_TU_Builder
-}
-
-export type __type_type_initializer_TU_Builder =
-    | ["boolean", __boolean_type_B]
-    | ["dictionary", __dictionary_type_type_initializer_B]
-    | ["group", __group_type_type_initializer_B]
-    | ["list", __list_type_type_initializer_B]
-    | ["number", __number_type_B]
-    | ["string", __string_type_type_initializer_B]
+export type __type_literal_TU_Builder =
+    | ["boolean", __boolean_type_literal_B]
+    | ["dictionary", __dictionary_type_literal_B]
+    | ["group", __group_type_literal_B]
+    | ["list", __list_type_literal_B]
+    | ["number", __number_type_literal_B]
+    | ["string", __string_type_literal_B]
     | ["tagged union", __tagged_union_type_B]
     | ["type argument", __type_argument_type_B]
-    | ["type reference", __type_reference_type_type_initializer_B]
+    | ["type reference", __type_reference_type_literal_B]
+
+export type __literal_strategy_B = {
+    readonly "type" ?: __type_literal_TU_Builder
+}
+
+export type __strategy_type_initializer_TU_Builder =
+    | ["from callback", __from_callback_strategy_B]
+    | ["from function", __from_function_B]
+    | ["from state", __from_state_strategy_B]
+    | ["from variable", __from_variable_strategy_B]
+    | ["literal", __literal_strategy_B]
 
 export type __type_initializer_B = {
-    readonly "type" ?: __type_type_initializer_TU_Builder
+    readonly "strategy" ?: __strategy_type_initializer_TU_Builder
 }
-
-export type __current_B = {
-}
-
-export type __other_B = {
-    readonly "namespace" ?: __namespace_reference_B
-}
-
-export type __namespace_TU_Builder =
-    | ["current", __current_B]
-    | ["other", __other_B]
 
 export type __type_reference_B = {
-    readonly "namespace" ?: __namespace_TU_Builder
+    readonly "namespace" ?: __optional_namespace_reference_B
     readonly "type" ?: string
 }
 
@@ -1418,7 +1330,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __dictionary_reference_T) => void) => {
             let _dictionary_v: string | null = null
-            let _nested_type_reference_v: __nested_type_reference_T | null = null
+            let _nested_type_v: __nested_type_reference_T | null = null
             return context.expectVerboseGroup({
                 properties: {
                     "dictionary": {
@@ -1430,10 +1342,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                             },
                         })),
                     },
-                    "nested type reference": {
+                    "nested type": {
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(_generateHandler_nested_type_reference(
-                            (node) => _nested_type_reference_v = node
+                            (node) => _nested_type_v = node
                         )),
                     },
                 },
@@ -1441,19 +1353,19 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     if (_dictionary_v === null) {
                         _dictionary_v = "*dictionary*"
                     }
-                    if (_nested_type_reference_v === null) {
-                        _nested_type_reference_v = {
-                            "steps": [],
-                            "type": {
-                                "namespace": [ "current", {
-                                } ],
-                                "type": "*type reference*",
+                    if (_nested_type_v === null) {
+                        _nested_type_v = {
+                            "namespace": {
+                                "namespace": "*namespace*",
+                                "type arguments": createDictionary({}),
                             },
+                            "steps": [],
+                            "type": "*type reference*",
                         }
                     }
                     callback({
                         "dictionary": _dictionary_v,
-                        "nested type reference": _nested_type_reference_v,
+                        "nested type": _nested_type_v,
                     })
                 },
             })
@@ -1583,8 +1495,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 }
                                                 if (_type_v === null) {
                                                     _type_v = {
-                                                        "namespace": [ "current", {
-                                                        } ],
+                                                        "namespace": {
+                                                            "namespace": [ "current", {
+                                                            } ],
+                                                        },
                                                         "type": "*type reference*",
                                                     }
                                                 }
@@ -1599,6 +1513,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                 "reference": () => {
                                     return wrap(((callback: (out: __reference_T) => void) => {
                                         let _interface_v: string | null = null
+                                        let _namespace_v: __optional_namespace_reference_T | null = null
                                         return context.expectVerboseGroup({
                                             properties: {
                                                 "interface": {
@@ -1610,13 +1525,26 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         },
                                                     })),
                                                 },
+                                                "namespace": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(_generateHandler_optional_namespace_reference(
+                                                        (node) => _namespace_v = node
+                                                    )),
+                                                },
                                             },
                                             onEnd: () => {
                                                 if (_interface_v === null) {
                                                     _interface_v = "*referenced interface*"
                                                 }
+                                                if (_namespace_v === null) {
+                                                    _namespace_v = {
+                                                        "namespace": [ "current", {
+                                                        } ],
+                                                    }
+                                                }
                                                 callback({
                                                     "interface": _interface_v,
+                                                    "namespace": _namespace_v,
                                                 })
                                             },
                                         })
@@ -1770,7 +1698,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                             "inline procedure": () => {
                                                                 return wrap(((callback: (out: __inline_procedure_T) => void) => {
                                                                     let _call_v: __procedure_call_T | null = null
-                                                                    let _specification_v: __procedure_specification_T | null = null
+                                                                    let _specification_v: __internal_procedure_specification_T | null = null
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
                                                                             "call": {
@@ -1781,7 +1709,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             },
                                                                             "specification": {
                                                                                 onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(_generateHandler_procedure_specification(
+                                                                                onExists: () => wrap(_generateHandler_internal_procedure_specification(
                                                                                     (node) => _specification_v = node
                                                                                 )),
                                                                             },
@@ -1802,11 +1730,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                         "states": createDictionary({}),
                                                                                         "variables": createDictionary({}),
                                                                                     },
-                                                                                    "declaration": {
-                                                                                        "parameters": createDictionary({}),
-                                                                                        "return type": [ "void", {
-                                                                                        } ],
-                                                                                    },
+                                                                                    "parameters": createDictionary({}),
+                                                                                    "return type": [ "void", {
+                                                                                    } ],
                                                                                 }
                                                                             }
                                                                             callback({
@@ -1961,12 +1887,131 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         })((node) => callback(node))
     }
 
+    function _generateHandler_internal_procedure_specification(
+        callback: (out: __internal_procedure_specification_T) => void,
+    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        return ((callback: (out: __internal_procedure_specification_T) => void) => {
+            let _block_v: __procedure_block_T | null = null
+            const _parameters_v: { [key: string]: __parameters_T } = {}
+            let _return_type_v: __return_type_internal_procedure_specification_TU | null = null
+            return context.expectVerboseGroup({
+                properties: {
+                    "block": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(_generateHandler_procedure_block(
+                            (node) => _block_v = node
+                        )),
+                    },
+                    "parameters": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(context.expectDictionary({
+                            onProperty: (propertyData) => {
+                                return wrap(((callback: (out: __parameters_T) => void) => {
+                                    let _interface_v: __interface_definition_T | null = null
+                                    return context.expectVerboseGroup({
+                                        properties: {
+                                            "interface": {
+                                                onNotExists: () => { /**/ },
+                                                onExists: () => wrap(_generateHandler_interface_definition(
+                                                    (node) => _interface_v = node
+                                                )),
+                                            },
+                                        },
+                                        onEnd: () => {
+                                            if (_interface_v === null) {
+                                                _interface_v = {
+                                                    "type": [ "group", {
+                                                        "members": createDictionary({}),
+                                                    } ],
+                                                }
+                                            }
+                                            callback({
+                                                "interface": _interface_v,
+                                            })
+                                        },
+                                    })
+                                })((node) => _parameters_v[propertyData.token.data.value] = node))
+                            },
+                        })),
+                    },
+                    "return type": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(context.expectTaggedUnion({
+                            options: {
+                                "interface": () => {
+                                    return wrap(((callback: (out: __interface_return_type_T) => void) => {
+                                        let _interface_v: __interface_definition_T | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "interface": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(_generateHandler_interface_definition(
+                                                        (node) => _interface_v = node
+                                                    )),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_interface_v === null) {
+                                                    _interface_v = {
+                                                        "type": [ "group", {
+                                                            "members": createDictionary({}),
+                                                        } ],
+                                                    }
+                                                }
+                                                callback({
+                                                    "interface": _interface_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _return_type_v = ["interface", node]))
+                                },
+                                "void": () => {
+                                    return wrap(((callback: (out: __void_return_type_T) => void) => {
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                            },
+                                            onEnd: () => {
+                                                callback({
+                                                })
+                                            },
+                                        })
+                                    })((node) => _return_type_v = ["void", node]))
+                                },
+                            },
+                        })),
+                    },
+                },
+                onEnd: () => {
+                    if (_block_v === null) {
+                        _block_v = {
+                            "effects": [],
+                            "nested procedures": createDictionary({}),
+                            "return value": [ "void", {
+                            } ],
+                            "states": createDictionary({}),
+                            "variables": createDictionary({}),
+                        }
+                    }
+                    if (_return_type_v === null) {
+                        _return_type_v = ["void", {
+                        }]
+                    }
+                    callback({
+                        "block": _block_v,
+                        "parameters": createDictionary(_parameters_v),
+                        "return type": _return_type_v,
+                    })
+                },
+            })
+        })((node) => callback(node))
+    }
+
     function _generateHandler_list_reference(
         callback: (out: __list_reference_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __list_reference_T) => void) => {
             let _list_v: string | null = null
-            let _nested_type_reference_v: __nested_type_reference_T | null = null
+            let _nested_type_v: __nested_type_reference_T | null = null
             return context.expectVerboseGroup({
                 properties: {
                     "list": {
@@ -1978,10 +2023,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                             },
                         })),
                     },
-                    "nested type reference": {
+                    "nested type": {
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(_generateHandler_nested_type_reference(
-                            (node) => _nested_type_reference_v = node
+                            (node) => _nested_type_v = node
                         )),
                     },
                 },
@@ -1989,19 +2034,19 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     if (_list_v === null) {
                         _list_v = "*list*"
                     }
-                    if (_nested_type_reference_v === null) {
-                        _nested_type_reference_v = {
-                            "steps": [],
-                            "type": {
-                                "namespace": [ "current", {
-                                } ],
-                                "type": "*type reference*",
+                    if (_nested_type_v === null) {
+                        _nested_type_v = {
+                            "namespace": {
+                                "namespace": "*namespace*",
+                                "type arguments": createDictionary({}),
                             },
+                            "steps": [],
+                            "type": "*type reference*",
                         }
                     }
                     callback({
                         "list": _list_v,
-                        "nested type reference": _nested_type_reference_v,
+                        "nested type": _nested_type_v,
                     })
                 },
             })
@@ -2222,10 +2267,17 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         callback: (out: __nested_type_reference_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __nested_type_reference_T) => void) => {
+            let _namespace_v: __namespace_reference_T | null = null
             const _steps_v: __steps_T[] = []
-            let _type_v: __type_reference_T | null = null
+            let _type_v: string | null = null
             return context.expectVerboseGroup({
                 properties: {
+                    "namespace": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(_generateHandler_namespace_reference(
+                            (node) => _namespace_v = node
+                        )),
+                    },
                     "steps": {
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(context.expectList({
@@ -2334,22 +2386,94 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     },
                     "type": {
                         onNotExists: () => { /**/ },
-                        onExists: () => wrap(_generateHandler_type_reference(
-                            (node) => _type_v = node
-                        )),
+                        onExists: () => wrap(context.expectQuotedString({
+                            warningOnly: true,
+                            callback: ($) => {
+                                _type_v = $.token.data.value
+                            },
+                        })),
                     },
                 },
                 onEnd: () => {
-                    if (_type_v === null) {
-                        _type_v = {
-                            "namespace": [ "current", {
-                            } ],
-                            "type": "*type reference*",
+                    if (_namespace_v === null) {
+                        _namespace_v = {
+                            "namespace": "*namespace*",
+                            "type arguments": createDictionary({}),
                         }
                     }
+                    if (_type_v === null) {
+                        _type_v = "*type reference*"
+                    }
                     callback({
+                        "namespace": _namespace_v,
                         "steps": _steps_v,
                         "type": _type_v,
+                    })
+                },
+            })
+        })((node) => callback(node))
+    }
+
+    function _generateHandler_optional_namespace_reference(
+        callback: (out: __optional_namespace_reference_T) => void,
+    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        return ((callback: (out: __optional_namespace_reference_T) => void) => {
+            let _namespace_v: __namespace_TU | null = null
+            return context.expectVerboseGroup({
+                properties: {
+                    "namespace": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(context.expectTaggedUnion({
+                            options: {
+                                "current": () => {
+                                    return wrap(((callback: (out: __current_T) => void) => {
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                            },
+                                            onEnd: () => {
+                                                callback({
+                                                })
+                                            },
+                                        })
+                                    })((node) => _namespace_v = ["current", node]))
+                                },
+                                "other": () => {
+                                    return wrap(((callback: (out: __other_T) => void) => {
+                                        let _namespace_v: __namespace_reference_T | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "namespace": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(_generateHandler_namespace_reference(
+                                                        (node) => _namespace_v = node
+                                                    )),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_namespace_v === null) {
+                                                    _namespace_v = {
+                                                        "namespace": "*namespace*",
+                                                        "type arguments": createDictionary({}),
+                                                    }
+                                                }
+                                                callback({
+                                                    "namespace": _namespace_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _namespace_v = ["other", node]))
+                                },
+                            },
+                        })),
+                    },
+                },
+                onEnd: () => {
+                    if (_namespace_v === null) {
+                        _namespace_v = ["current", {
+                        }]
+                    }
+                    callback({
+                        "namespace": _namespace_v,
                     })
                 },
             })
@@ -2404,12 +2528,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_initializer_v === null) {
                                                                             _initializer_v = {
-                                                                                "type": [ "string", {
-                                                                                    "initializer": {
-                                                                                        "strategy": [ "literal", {
-                                                                                            "value": "",
-                                                                                        } ],
-                                                                                    },
+                                                                                "strategy": [ "literal", {
+                                                                                    "type": [ "string", {
+                                                                                        "value": "",
+                                                                                    } ],
                                                                                 } ],
                                                                             }
                                                                         }
@@ -2474,12 +2596,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                             onEnd: () => {
                                                                                                                                 if (_initializer_v === null) {
                                                                                                                                     _initializer_v = {
-                                                                                                                                        "type": [ "string", {
-                                                                                                                                            "initializer": {
-                                                                                                                                                "strategy": [ "literal", {
-                                                                                                                                                    "value": "",
-                                                                                                                                                } ],
-                                                                                                                                            },
+                                                                                                                                        "strategy": [ "literal", {
+                                                                                                                                            "type": [ "string", {
+                                                                                                                                                "value": "",
+                                                                                                                                            } ],
                                                                                                                                         } ],
                                                                                                                                     }
                                                                                                                                 }
@@ -2506,12 +2626,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     if (_strategy_v === null) {
                                                                                                         _strategy_v = ["add entry", {
                                                                                                             "initializer": {
-                                                                                                                "type": [ "string", {
-                                                                                                                    "initializer": {
-                                                                                                                        "strategy": [ "literal", {
-                                                                                                                            "value": "",
-                                                                                                                        } ],
-                                                                                                                    },
+                                                                                                                "strategy": [ "literal", {
+                                                                                                                    "type": [ "string", {
+                                                                                                                        "value": "",
+                                                                                                                    } ],
                                                                                                                 } ],
                                                                                                             },
                                                                                                             "key": {
@@ -2552,12 +2670,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                             onEnd: () => {
                                                                                                                                 if (_initializer_v === null) {
                                                                                                                                     _initializer_v = {
-                                                                                                                                        "type": [ "string", {
-                                                                                                                                            "initializer": {
-                                                                                                                                                "strategy": [ "literal", {
-                                                                                                                                                    "value": "",
-                                                                                                                                                } ],
-                                                                                                                                            },
+                                                                                                                                        "strategy": [ "literal", {
+                                                                                                                                            "type": [ "string", {
+                                                                                                                                                "value": "",
+                                                                                                                                            } ],
                                                                                                                                         } ],
                                                                                                                                     }
                                                                                                                                 }
@@ -2576,12 +2692,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     if (_strategy_v === null) {
                                                                                                         _strategy_v = ["add element", {
                                                                                                             "initializer": {
-                                                                                                                "type": [ "string", {
-                                                                                                                    "initializer": {
-                                                                                                                        "strategy": [ "literal", {
-                                                                                                                            "value": "",
-                                                                                                                        } ],
-                                                                                                                    },
+                                                                                                                "strategy": [ "literal", {
+                                                                                                                    "type": [ "string", {
+                                                                                                                        "value": "",
+                                                                                                                    } ],
                                                                                                                 } ],
                                                                                                             },
                                                                                                         }]
@@ -2653,12 +2767,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_type_v === null) {
                                                 _type_v = ["interface call", {
                                                     "initializer": {
-                                                        "type": [ "string", {
-                                                            "initializer": {
-                                                                "strategy": [ "literal", {
-                                                                    "value": "",
-                                                                } ],
-                                                            },
+                                                        "strategy": [ "literal", {
+                                                            "type": [ "string", {
+                                                                "value": "",
+                                                            } ],
                                                         } ],
                                                     },
                                                     "interface": "*interface*",
@@ -2678,12 +2790,12 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onExists: () => wrap(context.expectDictionary({
                             onProperty: (propertyData) => {
                                 return wrap(((callback: (out: __nested_procedures_T) => void) => {
-                                    let _specification_v: __procedure_specification_T | null = null
+                                    let _specification_v: __internal_procedure_specification_T | null = null
                                     return context.expectVerboseGroup({
                                         properties: {
                                             "specification": {
                                                 onNotExists: () => { /**/ },
-                                                onExists: () => wrap(_generateHandler_procedure_specification(
+                                                onExists: () => wrap(_generateHandler_internal_procedure_specification(
                                                     (node) => _specification_v = node
                                                 )),
                                             },
@@ -2699,11 +2811,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         "states": createDictionary({}),
                                                         "variables": createDictionary({}),
                                                     },
-                                                    "declaration": {
-                                                        "parameters": createDictionary({}),
-                                                        "return type": [ "void", {
-                                                        } ],
-                                                    },
+                                                    "parameters": createDictionary({}),
+                                                    "return type": [ "void", {
+                                                    } ],
                                                 }
                                             }
                                             callback({
@@ -2798,13 +2908,13 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         if (_type_v === null) {
                                                                             _type_v = {
                                                                                 "dictionary": "*dictionary*",
-                                                                                "nested type reference": {
-                                                                                    "steps": [],
-                                                                                    "type": {
-                                                                                        "namespace": [ "current", {
-                                                                                        } ],
-                                                                                        "type": "*type reference*",
+                                                                                "nested type": {
+                                                                                    "namespace": {
+                                                                                        "namespace": "*namespace*",
+                                                                                        "type arguments": createDictionary({}),
                                                                                     },
+                                                                                    "steps": [],
+                                                                                    "type": "*type reference*",
                                                                                 },
                                                                             }
                                                                         }
@@ -2831,13 +2941,13 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         if (_type_v === null) {
                                                                             _type_v = {
                                                                                 "list": "*list*",
-                                                                                "nested type reference": {
-                                                                                    "steps": [],
-                                                                                    "type": {
-                                                                                        "namespace": [ "current", {
-                                                                                        } ],
-                                                                                        "type": "*type reference*",
+                                                                                "nested type": {
+                                                                                    "namespace": {
+                                                                                        "namespace": "*namespace*",
+                                                                                        "type arguments": createDictionary({}),
                                                                                     },
+                                                                                    "steps": [],
+                                                                                    "type": "*type reference*",
                                                                                 },
                                                                             }
                                                                         }
@@ -2877,7 +2987,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         "type5": () => {
                                                             return wrap(((callback: (out: __type5_T) => void) => {
                                                                 let _initializer_v: __type_initializer_T | null = null
-                                                                let _type_v: __type_reference_T | null = null
+                                                                let _nested_type_v: __nested_type_reference_T | null = null
                                                                 return context.expectVerboseGroup({
                                                                     properties: {
                                                                         "initializer": {
@@ -2886,35 +2996,36 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 (node) => _initializer_v = node
                                                                             )),
                                                                         },
-                                                                        "type": {
+                                                                        "nested type": {
                                                                             onNotExists: () => { /**/ },
-                                                                            onExists: () => wrap(_generateHandler_type_reference(
-                                                                                (node) => _type_v = node
+                                                                            onExists: () => wrap(_generateHandler_nested_type_reference(
+                                                                                (node) => _nested_type_v = node
                                                                             )),
                                                                         },
                                                                     },
                                                                     onEnd: () => {
                                                                         if (_initializer_v === null) {
                                                                             _initializer_v = {
-                                                                                "type": [ "string", {
-                                                                                    "initializer": {
-                                                                                        "strategy": [ "literal", {
-                                                                                            "value": "",
-                                                                                        } ],
-                                                                                    },
+                                                                                "strategy": [ "literal", {
+                                                                                    "type": [ "string", {
+                                                                                        "value": "",
+                                                                                    } ],
                                                                                 } ],
                                                                             }
                                                                         }
-                                                                        if (_type_v === null) {
-                                                                            _type_v = {
-                                                                                "namespace": [ "current", {
-                                                                                } ],
+                                                                        if (_nested_type_v === null) {
+                                                                            _nested_type_v = {
+                                                                                "namespace": {
+                                                                                    "namespace": "*namespace*",
+                                                                                    "type arguments": createDictionary({}),
+                                                                                },
+                                                                                "steps": [],
                                                                                 "type": "*type reference*",
                                                                             }
                                                                         }
                                                                         callback({
                                                                             "initializer": _initializer_v,
-                                                                            "type": _type_v,
+                                                                            "nested type": _nested_type_v,
                                                                         })
                                                                     },
                                                                 })
@@ -3170,7 +3281,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         callback: (out: __procedure_declaration_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __procedure_declaration_T) => void) => {
-            const _parameters_v: { [key: string]: __parameters_T } = {}
+            const _parameters_v: { [key: string]: __parameters_procedure_declaration_T } = {}
             let _return_type_v: __return_type_procedure_declaration_TU | null = null
             return context.expectVerboseGroup({
                 properties: {
@@ -3178,7 +3289,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(context.expectDictionary({
                             onProperty: (propertyData) => {
-                                return wrap(((callback: (out: __parameters_T) => void) => {
+                                return wrap(((callback: (out: __parameters_procedure_declaration_T) => void) => {
                                     let _type_v: __type_parameters_TU | null = null
                                     return context.expectVerboseGroup({
                                         properties: {
@@ -3189,7 +3300,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         "builder": () => {
                                                             return wrap(((callback: (out: __builder_type_T) => void) => {
                                                                 let _builder_v: string | null = null
-                                                                const _type_arguments_v: { [key: string]: __type_arguments_builder_T } = {}
+                                                                let _namespace_v: __optional_namespace_reference_T | null = null
                                                                 return context.expectVerboseGroup({
                                                                     properties: {
                                                                         "builder": {
@@ -3201,45 +3312,26 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 },
                                                                             })),
                                                                         },
-                                                                        "type arguments": {
+                                                                        "namespace": {
                                                                             onNotExists: () => { /**/ },
-                                                                            onExists: () => wrap(context.expectDictionary({
-                                                                                onProperty: (propertyData) => {
-                                                                                    return wrap(((callback: (out: __type_arguments_builder_T) => void) => {
-                                                                                        let _type_v: string | null = null
-                                                                                        return context.expectVerboseGroup({
-                                                                                            properties: {
-                                                                                                "type": {
-                                                                                                    onNotExists: () => { /**/ },
-                                                                                                    onExists: () => wrap(context.expectQuotedString({
-                                                                                                        warningOnly: true,
-                                                                                                        callback: ($) => {
-                                                                                                            _type_v = $.token.data.value
-                                                                                                        },
-                                                                                                    })),
-                                                                                                },
-                                                                                            },
-                                                                                            onEnd: () => {
-                                                                                                if (_type_v === null) {
-                                                                                                    _type_v = "*type argument type*"
-                                                                                                }
-                                                                                                callback({
-                                                                                                    "type": _type_v,
-                                                                                                })
-                                                                                            },
-                                                                                        })
-                                                                                    })((node) => _type_arguments_v[propertyData.token.data.value] = node))
-                                                                                },
-                                                                            })),
+                                                                            onExists: () => wrap(_generateHandler_optional_namespace_reference(
+                                                                                (node) => _namespace_v = node
+                                                                            )),
                                                                         },
                                                                     },
                                                                     onEnd: () => {
                                                                         if (_builder_v === null) {
                                                                             _builder_v = "*referenced builder*"
                                                                         }
+                                                                        if (_namespace_v === null) {
+                                                                            _namespace_v = {
+                                                                                "namespace": [ "current", {
+                                                                                } ],
+                                                                            }
+                                                                        }
                                                                         callback({
                                                                             "builder": _builder_v,
-                                                                            "type arguments": createDictionary(_type_arguments_v),
+                                                                            "namespace": _namespace_v,
                                                                         })
                                                                     },
                                                                 })
@@ -3271,6 +3363,52 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     },
                                                                 })
                                                             })((node) => _type_v = ["dictionary", node]))
+                                                        },
+                                                        "function": () => {
+                                                            return wrap(((callback: (out: __function_T) => void) => {
+                                                                let _in_v: __type_reference_T | null = null
+                                                                let _out_v: __type_reference_T | null = null
+                                                                return context.expectVerboseGroup({
+                                                                    properties: {
+                                                                        "in": {
+                                                                            onNotExists: () => { /**/ },
+                                                                            onExists: () => wrap(_generateHandler_type_reference(
+                                                                                (node) => _in_v = node
+                                                                            )),
+                                                                        },
+                                                                        "out": {
+                                                                            onNotExists: () => { /**/ },
+                                                                            onExists: () => wrap(_generateHandler_type_reference(
+                                                                                (node) => _out_v = node
+                                                                            )),
+                                                                        },
+                                                                    },
+                                                                    onEnd: () => {
+                                                                        if (_in_v === null) {
+                                                                            _in_v = {
+                                                                                "namespace": {
+                                                                                    "namespace": [ "current", {
+                                                                                    } ],
+                                                                                },
+                                                                                "type": "*type reference*",
+                                                                            }
+                                                                        }
+                                                                        if (_out_v === null) {
+                                                                            _out_v = {
+                                                                                "namespace": {
+                                                                                    "namespace": [ "current", {
+                                                                                    } ],
+                                                                                },
+                                                                                "type": "*type reference*",
+                                                                            }
+                                                                        }
+                                                                        callback({
+                                                                            "in": _in_v,
+                                                                            "out": _out_v,
+                                                                        })
+                                                                    },
+                                                                })
+                                                            })((node) => _type_v = ["function", node]))
                                                         },
                                                         "interface": () => {
                                                             return wrap(((callback: (out: __interface_type_T) => void) => {
@@ -3327,7 +3465,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onExists: () => wrap(context.expectTaggedUnion({
                             options: {
                                 "interface": () => {
-                                    return wrap(((callback: (out: __interface_return_type_T) => void) => {
+                                    return wrap(((callback: (out: __interface_return_type_procedure_declaration_T) => void) => {
                                         let _interface_v: __interface_definition_T | null = null
                                         return context.expectVerboseGroup({
                                             properties: {
@@ -3354,7 +3492,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                     })((node) => _return_type_v = ["interface", node]))
                                 },
                                 "void": () => {
-                                    return wrap(((callback: (out: __void_return_type_T) => void) => {
+                                    return wrap(((callback: (out: __void_return_type_procedure_declaration_T) => void) => {
                                         return context.expectVerboseGroup({
                                             properties: {
                                             },
@@ -3377,54 +3515,6 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     callback({
                         "parameters": createDictionary(_parameters_v),
                         "return type": _return_type_v,
-                    })
-                },
-            })
-        })((node) => callback(node))
-    }
-
-    function _generateHandler_procedure_specification(
-        callback: (out: __procedure_specification_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
-        return ((callback: (out: __procedure_specification_T) => void) => {
-            let _block_v: __procedure_block_T | null = null
-            let _declaration_v: __procedure_declaration_T | null = null
-            return context.expectVerboseGroup({
-                properties: {
-                    "block": {
-                        onNotExists: () => { /**/ },
-                        onExists: () => wrap(_generateHandler_procedure_block(
-                            (node) => _block_v = node
-                        )),
-                    },
-                    "declaration": {
-                        onNotExists: () => { /**/ },
-                        onExists: () => wrap(_generateHandler_procedure_declaration(
-                            (node) => _declaration_v = node
-                        )),
-                    },
-                },
-                onEnd: () => {
-                    if (_block_v === null) {
-                        _block_v = {
-                            "effects": [],
-                            "nested procedures": createDictionary({}),
-                            "return value": [ "void", {
-                            } ],
-                            "states": createDictionary({}),
-                            "variables": createDictionary({}),
-                        }
-                    }
-                    if (_declaration_v === null) {
-                        _declaration_v = {
-                            "parameters": createDictionary({}),
-                            "return type": [ "void", {
-                            } ],
-                        }
-                    }
-                    callback({
-                        "block": _block_v,
-                        "declaration": _declaration_v,
                     })
                 },
             })
@@ -3637,6 +3727,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                     let _block_v: __procedure_block_T | null = null
                                     let _declaration_v: string | null = null
                                     let _namespace_v: __namespace_reference_T | null = null
+                                    const _type_parameters_v: { [key: string]: __type_parameters_procedure_implementations_T } = {}
                                     return context.expectVerboseGroup({
                                         properties: {
                                             "block": {
@@ -3659,6 +3750,23 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 onExists: () => wrap(_generateHandler_namespace_reference(
                                                     (node) => _namespace_v = node
                                                 )),
+                                            },
+                                            "type parameters": {
+                                                onNotExists: () => { /**/ },
+                                                onExists: () => wrap(context.expectDictionary({
+                                                    onProperty: (propertyData) => {
+                                                        return wrap(((callback: (out: __type_parameters_procedure_implementations_T) => void) => {
+                                                            return context.expectVerboseGroup({
+                                                                properties: {
+                                                                },
+                                                                onEnd: () => {
+                                                                    callback({
+                                                                    })
+                                                                },
+                                                            })
+                                                        })((node) => _type_parameters_v[propertyData.token.data.value] = node))
+                                                    },
+                                                })),
                                             },
                                         },
                                         onEnd: () => {
@@ -3685,6 +3793,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 "block": _block_v,
                                                 "declaration": _declaration_v,
                                                 "namespace": _namespace_v,
+                                                "type parameters": createDictionary(_type_parameters_v),
                                             })
                                         },
                                     })
@@ -4117,8 +4226,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_type_v === null) {
                                                     _type_v = {
-                                                        "namespace": [ "current", {
-                                                        } ],
+                                                        "namespace": {
+                                                            "namespace": [ "current", {
+                                                            } ],
+                                                        },
                                                         "type": "*type reference*",
                                                     }
                                                 }
@@ -4150,89 +4261,73 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         callback: (out: __type_initializer_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __type_initializer_T) => void) => {
-            let _type_v: __type_type_initializer_TU | null = null
+            let _strategy_v: __strategy_type_initializer_TU | null = null
             return context.expectVerboseGroup({
                 properties: {
-                    "type": {
+                    "strategy": {
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(context.expectTaggedUnion({
                             options: {
-                                "boolean": () => {
-                                    return wrap(((callback: (out: __boolean_type_T) => void) => {
-                                        let _strategy_v: __strategy_boolean_TU | null = null
+                                "from callback": () => {
+                                    return wrap(((callback: (out: __from_callback_strategy_T) => void) => {
+                                        let _path_v: string | null = null
                                         return context.expectVerboseGroup({
                                             properties: {
-                                                "strategy": {
+                                                "path": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectQuotedString({
+                                                        warningOnly: true,
+                                                        callback: ($) => {
+                                                            _path_v = $.token.data.value
+                                                        },
+                                                    })),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_path_v === null) {
+                                                    _path_v = ""
+                                                }
+                                                callback({
+                                                    "path": _path_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _strategy_v = ["from callback", node]))
+                                },
+                                "from function": () => {
+                                    return wrap(((callback: (out: __from_function_T) => void) => {
+                                        let _argument_v: __type_initializer_T | null = null
+                                        let _context_v: __context_TU | null = null
+                                        let _function_v: string | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "argument": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(_generateHandler_type_initializer(
+                                                        (node) => _argument_v = node
+                                                    )),
+                                                },
+                                                "context": {
                                                     onNotExists: () => { /**/ },
                                                     onExists: () => wrap(context.expectTaggedUnion({
                                                         options: {
-                                                            "from callback": () => {
-                                                                return wrap(((callback: (out: __from_callback_strategy_T) => void) => {
-                                                                    let _path_v: string | null = null
+                                                            "argument": () => {
+                                                                return wrap(((callback: (out: __argument_context_T) => void) => {
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
                                                                         },
                                                                         onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
                                                                             callback({
-                                                                                "path": _path_v,
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["from callback", node]))
+                                                                })((node) => _context_v = ["argument", node]))
                                                             },
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_T) => void) => {
-                                                                    let _state_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "state": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _state_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
-                                                                            }
-                                                                            callback({
-                                                                                "state": _state_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from state", node]))
-                                                            },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_T) => void) => {
-                                                                    let _path_v: string | null = null
+                                                            "variable": () => {
+                                                                return wrap(((callback: (out: __variable_context_T) => void) => {
                                                                     let _variable_v: string | null = null
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
                                                                             "variable": {
                                                                                 onNotExists: () => { /**/ },
                                                                                 onExists: () => wrap(context.expectQuotedString({
@@ -4244,22 +4339,205 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             },
                                                                         },
                                                                         onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
                                                                             if (_variable_v === null) {
                                                                                 _variable_v = "*variable*"
                                                                             }
                                                                             callback({
-                                                                                "path": _path_v,
                                                                                 "variable": _variable_v,
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["from variable", node]))
+                                                                })((node) => _context_v = ["variable", node]))
                                                             },
-                                                            "literal": () => {
-                                                                return wrap(((callback: (out: __literal_strategy_T) => void) => {
+                                                        },
+                                                    })),
+                                                },
+                                                "function": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectQuotedString({
+                                                        warningOnly: true,
+                                                        callback: ($) => {
+                                                            _function_v = $.token.data.value
+                                                        },
+                                                    })),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_argument_v === null) {
+                                                    _argument_v = {
+                                                        "strategy": [ "literal", {
+                                                            "type": [ "string", {
+                                                                "value": "",
+                                                            } ],
+                                                        } ],
+                                                    }
+                                                }
+                                                if (_context_v === null) {
+                                                    _context_v = ["argument", {
+                                                    }]
+                                                }
+                                                if (_function_v === null) {
+                                                    _function_v = "*function*"
+                                                }
+                                                callback({
+                                                    "argument": _argument_v,
+                                                    "context": _context_v,
+                                                    "function": _function_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _strategy_v = ["from function", node]))
+                                },
+                                "from state": () => {
+                                    return wrap(((callback: (out: __from_state_strategy_T) => void) => {
+                                        let _state_v: string | null = null
+                                        let _type_v: __type_from_state_TU | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "state": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectQuotedString({
+                                                        warningOnly: true,
+                                                        callback: ($) => {
+                                                            _state_v = $.token.data.value
+                                                        },
+                                                    })),
+                                                },
+                                                "type": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectTaggedUnion({
+                                                        options: {
+                                                            "boolean": () => {
+                                                                return wrap(((callback: (out: __boolean_type_T) => void) => {
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            callback({
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["boolean", node]))
+                                                            },
+                                                            "dictionary": () => {
+                                                                return wrap(((callback: (out: __dictionary_type_from_state_T) => void) => {
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            callback({
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["dictionary", node]))
+                                                            },
+                                                            "list": () => {
+                                                                return wrap(((callback: (out: __list_type_from_state_T) => void) => {
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            callback({
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["list", node]))
+                                                            },
+                                                            "number": () => {
+                                                                return wrap(((callback: (out: __number_type_T) => void) => {
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            callback({
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["number", node]))
+                                                            },
+                                                            "string": () => {
+                                                                return wrap(((callback: (out: __string_type_from_state_T) => void) => {
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            callback({
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["string", node]))
+                                                            },
+                                                        },
+                                                    })),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_state_v === null) {
+                                                    _state_v = "*state*"
+                                                }
+                                                if (_type_v === null) {
+                                                    _type_v = ["string", {
+                                                    }]
+                                                }
+                                                callback({
+                                                    "state": _state_v,
+                                                    "type": _type_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _strategy_v = ["from state", node]))
+                                },
+                                "from variable": () => {
+                                    return wrap(((callback: (out: __from_variable_strategy_T) => void) => {
+                                        let _path_v: string | null = null
+                                        let _variable_v: string | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "path": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectQuotedString({
+                                                        warningOnly: true,
+                                                        callback: ($) => {
+                                                            _path_v = $.token.data.value
+                                                        },
+                                                    })),
+                                                },
+                                                "variable": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectQuotedString({
+                                                        warningOnly: true,
+                                                        callback: ($) => {
+                                                            _variable_v = $.token.data.value
+                                                        },
+                                                    })),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_path_v === null) {
+                                                    _path_v = ""
+                                                }
+                                                if (_variable_v === null) {
+                                                    _variable_v = "*variable*"
+                                                }
+                                                callback({
+                                                    "path": _path_v,
+                                                    "variable": _variable_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _strategy_v = ["from variable", node]))
+                                },
+                                "literal": () => {
+                                    return wrap(((callback: (out: __literal_strategy_T) => void) => {
+                                        let _type_v: __type_literal_TU | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "type": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectTaggedUnion({
+                                                        options: {
+                                                            "boolean": () => {
+                                                                return wrap(((callback: (out: __boolean_type_literal_T) => void) => {
                                                                     let _value_v: string | null = null
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
@@ -4282,102 +4560,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["literal", node]))
+                                                                })((node) => _type_v = ["boolean", node]))
                                                             },
-                                                        },
-                                                    })),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["literal", {
-                                                        "value": "true",
-                                                    }]
-                                                }
-                                                callback({
-                                                    "strategy": _strategy_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["boolean", node]))
-                                },
-                                "dictionary": () => {
-                                    return wrap(((callback: (out: __dictionary_type_type_initializer_T) => void) => {
-                                        let _strategy_v: __strategy_dictionary_type_TU | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "strategy": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                        options: {
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_dictionary_T) => void) => {
-                                                                    let _state_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "state": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _state_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
-                                                                            }
-                                                                            callback({
-                                                                                "state": _state_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from state", node]))
-                                                            },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_dictionary_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    let _variable_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                            "variable": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _variable_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            if (_variable_v === null) {
-                                                                                _variable_v = "*variable*"
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                                "variable": _variable_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from variable", node]))
-                                                            },
-                                                            "literal": () => {
-                                                                return wrap(((callback: (out: __literal_strategy_dictionary_T) => void) => {
+                                                            "dictionary": () => {
+                                                                return wrap(((callback: (out: __dictionary_type_literal_T) => void) => {
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
                                                                         },
@@ -4386,109 +4572,18 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["literal", node]))
+                                                                })((node) => _type_v = ["dictionary", node]))
                                                             },
-                                                        },
-                                                    })),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["literal", {
-                                                    }]
-                                                }
-                                                callback({
-                                                    "strategy": _strategy_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["dictionary", node]))
-                                },
-                                "group": () => {
-                                    return wrap(((callback: (out: __group_type_type_initializer_T) => void) => {
-                                        let _strategy_v: __strategy_group_TU | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "strategy": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                        options: {
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_group_T) => void) => {
-                                                                    let _state_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "state": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _state_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
-                                                                            }
-                                                                            callback({
-                                                                                "state": _state_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from state", node]))
-                                                            },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_group_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    let _variable_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                            "variable": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _variable_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            if (_variable_v === null) {
-                                                                                _variable_v = "*variable*"
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                                "variable": _variable_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from variable", node]))
-                                                            },
-                                                            "literal": () => {
-                                                                return wrap(((callback: (out: __literal_strategy_group_T) => void) => {
-                                                                    const _properties_v: { [key: string]: __properties_literal_T } = {}
+                                                            "group": () => {
+                                                                return wrap(((callback: (out: __group_type_literal_T) => void) => {
+                                                                    const _properties_v: { [key: string]: __properties_group_T } = {}
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
                                                                             "properties": {
                                                                                 onNotExists: () => { /**/ },
                                                                                 onExists: () => wrap(context.expectDictionary({
                                                                                     onProperty: (propertyData) => {
-                                                                                        return wrap(((callback: (out: __properties_literal_T) => void) => {
+                                                                                        return wrap(((callback: (out: __properties_group_T) => void) => {
                                                                                             let _initializer_v: __type_initializer_T | null = null
                                                                                             return context.expectVerboseGroup({
                                                                                                 properties: {
@@ -4502,12 +4597,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onEnd: () => {
                                                                                                     if (_initializer_v === null) {
                                                                                                         _initializer_v = {
-                                                                                                            "type": [ "string", {
-                                                                                                                "initializer": {
-                                                                                                                    "strategy": [ "literal", {
-                                                                                                                        "value": "",
-                                                                                                                    } ],
-                                                                                                                },
+                                                                                                            "strategy": [ "literal", {
+                                                                                                                "type": [ "string", {
+                                                                                                                    "value": "",
+                                                                                                                } ],
                                                                                                             } ],
                                                                                                         }
                                                                                                     }
@@ -4527,102 +4620,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["literal", node]))
+                                                                })((node) => _type_v = ["group", node]))
                                                             },
-                                                        },
-                                                    })),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["literal", {
-                                                        "properties": createDictionary({}),
-                                                    }]
-                                                }
-                                                callback({
-                                                    "strategy": _strategy_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["group", node]))
-                                },
-                                "list": () => {
-                                    return wrap(((callback: (out: __list_type_type_initializer_T) => void) => {
-                                        let _strategy_v: __strategy_list_type_TU | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "strategy": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                        options: {
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_list_T) => void) => {
-                                                                    let _state_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "state": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _state_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
-                                                                            }
-                                                                            callback({
-                                                                                "state": _state_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from state", node]))
-                                                            },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_list_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    let _variable_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                            "variable": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _variable_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            if (_variable_v === null) {
-                                                                                _variable_v = "*variable*"
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                                "variable": _variable_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from variable", node]))
-                                                            },
-                                                            "literal": () => {
-                                                                return wrap(((callback: (out: __literal_strategy_list_T) => void) => {
+                                                            "list": () => {
+                                                                return wrap(((callback: (out: __list_type_literal_T) => void) => {
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
                                                                         },
@@ -4631,127 +4632,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["literal", node]))
+                                                                })((node) => _type_v = ["list", node]))
                                                             },
-                                                        },
-                                                    })),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["literal", {
-                                                    }]
-                                                }
-                                                callback({
-                                                    "strategy": _strategy_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["list", node]))
-                                },
-                                "number": () => {
-                                    return wrap(((callback: (out: __number_type_T) => void) => {
-                                        let _strategy_v: __strategy_number_TU | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "strategy": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                        options: {
-                                                            "from callback": () => {
-                                                                return wrap(((callback: (out: __from_callback_strategy_number_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from callback", node]))
-                                                            },
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_number_T) => void) => {
-                                                                    let _state_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "state": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _state_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
-                                                                            }
-                                                                            callback({
-                                                                                "state": _state_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from state", node]))
-                                                            },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_number_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    let _variable_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                            "variable": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _variable_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            if (_variable_v === null) {
-                                                                                _variable_v = "*variable*"
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                                "variable": _variable_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from variable", node]))
-                                                            },
-                                                            "literal": () => {
-                                                                return wrap(((callback: (out: __literal_strategy_number_T) => void) => {
+                                                            "number": () => {
+                                                                return wrap(((callback: (out: __number_type_literal_T) => void) => {
                                                                     let _value_v: string | null = null
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
@@ -4774,129 +4658,36 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["literal", node]))
+                                                                })((node) => _type_v = ["number", node]))
                                                             },
-                                                        },
-                                                    })),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["literal", {
-                                                        "value": "0",
-                                                    }]
-                                                }
-                                                callback({
-                                                    "strategy": _strategy_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["number", node]))
-                                },
-                                "string": () => {
-                                    return wrap(((callback: (out: __string_type_type_initializer_T) => void) => {
-                                        let _initializer_v: __string_initializer_T | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "initializer": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(_generateHandler_string_initializer(
-                                                        (node) => _initializer_v = node
-                                                    )),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_initializer_v === null) {
-                                                    _initializer_v = {
-                                                        "strategy": [ "literal", {
-                                                            "value": "",
-                                                        } ],
-                                                    }
-                                                }
-                                                callback({
-                                                    "initializer": _initializer_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["string", node]))
-                                },
-                                "tagged union": () => {
-                                    return wrap(((callback: (out: __tagged_union_type_T) => void) => {
-                                        let _strategy_v: __strategy_tagged_union_TU | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "strategy": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                        options: {
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_tagged_union_T) => void) => {
-                                                                    let _state_v: string | null = null
+                                                            "string": () => {
+                                                                return wrap(((callback: (out: __string_type_literal_T) => void) => {
+                                                                    let _value_v: string | null = null
                                                                     return context.expectVerboseGroup({
                                                                         properties: {
-                                                                            "state": {
+                                                                            "value": {
                                                                                 onNotExists: () => { /**/ },
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _state_v = $.token.data.value
+                                                                                        _value_v = $.token.data.value
                                                                                     },
                                                                                 })),
                                                                             },
                                                                         },
                                                                         onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
+                                                                            if (_value_v === null) {
+                                                                                _value_v = ""
                                                                             }
                                                                             callback({
-                                                                                "state": _state_v,
+                                                                                "value": _value_v,
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["from state", node]))
+                                                                })((node) => _type_v = ["string", node]))
                                                             },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_tagged_union_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    let _variable_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                            "variable": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _variable_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            if (_variable_v === null) {
-                                                                                _variable_v = "*variable*"
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                                "variable": _variable_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from variable", node]))
-                                                            },
-                                                            "literal": () => {
-                                                                return wrap(((callback: (out: __literal_strategy_tagged_union_T) => void) => {
+                                                            "tagged union": () => {
+                                                                return wrap(((callback: (out: __tagged_union_type_T) => void) => {
                                                                     let _data_v: __type_initializer_T | null = null
                                                                     let _option_v: string | null = null
                                                                     return context.expectVerboseGroup({
@@ -4920,12 +4711,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onEnd: () => {
                                                                             if (_data_v === null) {
                                                                                 _data_v = {
-                                                                                    "type": [ "string", {
-                                                                                        "initializer": {
-                                                                                            "strategy": [ "literal", {
-                                                                                                "value": "",
-                                                                                            } ],
-                                                                                        },
+                                                                                    "strategy": [ "literal", {
+                                                                                        "type": [ "string", {
+                                                                                            "value": "",
+                                                                                        } ],
                                                                                     } ],
                                                                                 }
                                                                             }
@@ -4938,180 +4727,80 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             })
                                                                         },
                                                                     })
-                                                                })((node) => _strategy_v = ["literal", node]))
+                                                                })((node) => _type_v = ["tagged union", node]))
+                                                            },
+                                                            "type argument": () => {
+                                                                return wrap(((callback: (out: __type_argument_type_T) => void) => {
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            callback({
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["type argument", node]))
+                                                            },
+                                                            "type reference": () => {
+                                                                return wrap(((callback: (out: __type_reference_type_literal_T) => void) => {
+                                                                    let _initializer_v: __type_initializer_T | null = null
+                                                                    return context.expectVerboseGroup({
+                                                                        properties: {
+                                                                            "initializer": {
+                                                                                onNotExists: () => { /**/ },
+                                                                                onExists: () => wrap(_generateHandler_type_initializer(
+                                                                                    (node) => _initializer_v = node
+                                                                                )),
+                                                                            },
+                                                                        },
+                                                                        onEnd: () => {
+                                                                            if (_initializer_v === null) {
+                                                                                _initializer_v = {
+                                                                                    "strategy": [ "literal", {
+                                                                                        "type": [ "string", {
+                                                                                            "value": "",
+                                                                                        } ],
+                                                                                    } ],
+                                                                                }
+                                                                            }
+                                                                            callback({
+                                                                                "initializer": _initializer_v,
+                                                                            })
+                                                                        },
+                                                                    })
+                                                                })((node) => _type_v = ["type reference", node]))
                                                             },
                                                         },
                                                     })),
                                                 },
                                             },
                                             onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["literal", {
-                                                        "data": {
-                                                            "type": [ "string", {
-                                                                "initializer": {
-                                                                    "strategy": [ "literal", {
-                                                                        "value": "",
-                                                                    } ],
-                                                                },
-                                                            } ],
-                                                        },
-                                                        "option": "*option*",
+                                                if (_type_v === null) {
+                                                    _type_v = ["string", {
+                                                        "value": "",
                                                     }]
                                                 }
                                                 callback({
-                                                    "strategy": _strategy_v,
+                                                    "type": _type_v,
                                                 })
                                             },
                                         })
-                                    })((node) => _type_v = ["tagged union", node]))
-                                },
-                                "type argument": () => {
-                                    return wrap(((callback: (out: __type_argument_type_T) => void) => {
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                            },
-                                            onEnd: () => {
-                                                callback({
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["type argument", node]))
-                                },
-                                "type reference": () => {
-                                    return wrap(((callback: (out: __type_reference_type_type_initializer_T) => void) => {
-                                        let _strategy_v: __strategy_type_reference_TU | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "strategy": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                        options: {
-                                                            "from callback": () => {
-                                                                return wrap(((callback: (out: __from_callback_strategy_type_reference_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from callback", node]))
-                                                            },
-                                                            "from state": () => {
-                                                                return wrap(((callback: (out: __from_state_strategy_type_reference_T) => void) => {
-                                                                    let _state_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "state": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _state_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_state_v === null) {
-                                                                                _state_v = "*state*"
-                                                                            }
-                                                                            callback({
-                                                                                "state": _state_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from state", node]))
-                                                            },
-                                                            "from variable": () => {
-                                                                return wrap(((callback: (out: __from_variable_strategy_type_reference_T) => void) => {
-                                                                    let _path_v: string | null = null
-                                                                    let _variable_v: string | null = null
-                                                                    return context.expectVerboseGroup({
-                                                                        properties: {
-                                                                            "path": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _path_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                            "variable": {
-                                                                                onNotExists: () => { /**/ },
-                                                                                onExists: () => wrap(context.expectQuotedString({
-                                                                                    warningOnly: true,
-                                                                                    callback: ($) => {
-                                                                                        _variable_v = $.token.data.value
-                                                                                    },
-                                                                                })),
-                                                                            },
-                                                                        },
-                                                                        onEnd: () => {
-                                                                            if (_path_v === null) {
-                                                                                _path_v = ""
-                                                                            }
-                                                                            if (_variable_v === null) {
-                                                                                _variable_v = "*variable*"
-                                                                            }
-                                                                            callback({
-                                                                                "path": _path_v,
-                                                                                "variable": _variable_v,
-                                                                            })
-                                                                        },
-                                                                    })
-                                                                })((node) => _strategy_v = ["from variable", node]))
-                                                            },
-                                                        },
-                                                    })),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_strategy_v === null) {
-                                                    _strategy_v = ["from callback", {
-                                                        "path": "",
-                                                    }]
-                                                }
-                                                callback({
-                                                    "strategy": _strategy_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _type_v = ["type reference", node]))
+                                    })((node) => _strategy_v = ["literal", node]))
                                 },
                             },
                         })),
                     },
                 },
                 onEnd: () => {
-                    if (_type_v === null) {
-                        _type_v = ["string", {
-                            "initializer": {
-                                "strategy": [ "literal", {
-                                    "value": "",
-                                } ],
-                            },
+                    if (_strategy_v === null) {
+                        _strategy_v = ["literal", {
+                            "type": [ "string", {
+                                "value": "",
+                            } ],
                         }]
                     }
                     callback({
-                        "type": _type_v,
+                        "strategy": _strategy_v,
                     })
                 },
             })
@@ -5122,54 +4811,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         callback: (out: __type_reference_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __type_reference_T) => void) => {
-            let _namespace_v: __namespace_TU | null = null
+            let _namespace_v: __optional_namespace_reference_T | null = null
             let _type_v: string | null = null
             return context.expectVerboseGroup({
                 properties: {
                     "namespace": {
                         onNotExists: () => { /**/ },
-                        onExists: () => wrap(context.expectTaggedUnion({
-                            options: {
-                                "current": () => {
-                                    return wrap(((callback: (out: __current_T) => void) => {
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                            },
-                                            onEnd: () => {
-                                                callback({
-                                                })
-                                            },
-                                        })
-                                    })((node) => _namespace_v = ["current", node]))
-                                },
-                                "other": () => {
-                                    return wrap(((callback: (out: __other_T) => void) => {
-                                        let _namespace_v: __namespace_reference_T | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "namespace": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(_generateHandler_namespace_reference(
-                                                        (node) => _namespace_v = node
-                                                    )),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_namespace_v === null) {
-                                                    _namespace_v = {
-                                                        "namespace": "*namespace*",
-                                                        "type arguments": createDictionary({}),
-                                                    }
-                                                }
-                                                callback({
-                                                    "namespace": _namespace_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _namespace_v = ["other", node]))
-                                },
-                            },
-                        })),
+                        onExists: () => wrap(_generateHandler_optional_namespace_reference(
+                            (node) => _namespace_v = node
+                        )),
                     },
                     "type": {
                         onNotExists: () => { /**/ },
@@ -5183,8 +4833,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 },
                 onEnd: () => {
                     if (_namespace_v === null) {
-                        _namespace_v = ["current", {
-                        }]
+                        _namespace_v = {
+                            "namespace": [ "current", {
+                            } ],
+                        }
                     }
                     if (_type_v === null) {
                         _type_v = "*type reference*"
@@ -5209,7 +4861,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __dictionary_reference_T {
         return {
             "dictionary": intermediate["dictionary"] === undefined ? "*dictionary*" : intermediate["dictionary"],
-            "nested type reference": intermediate["nested type reference"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(intermediate["nested type reference"]),
+            "nested type": intermediate["nested type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(intermediate["nested type"]),
         }
     }
 
@@ -5217,7 +4869,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __dictionary_reference_T {
         return {
             "dictionary": "*dictionary*",
-            "nested type reference": _default_generateBuilder_nested_type_reference(),
+            "nested type": _default_generateBuilder_nested_type_reference(),
         }
     }
 
@@ -5263,6 +4915,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                     case "reference":
                         return [ "reference", {
                             "interface": intermediate["type"][1]["interface"] === undefined ? "*referenced interface*" : intermediate["type"][1]["interface"],
+                            "namespace": intermediate["type"][1]["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(intermediate["type"][1]["namespace"]),
                         } ]
                     default: return assertUnreachable(intermediate["type"][0])
                 }
@@ -5326,7 +4979,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                     case "inline procedure":
                                         return [ "inline procedure", {
                                             "call": intermediate["type"][1]["strategy"][1]["call"] === undefined ? _default_generateBuilder_procedure_call() : _generateBuilder_procedure_call(intermediate["type"][1]["strategy"][1]["call"]),
-                                            "specification": intermediate["type"][1]["strategy"][1]["specification"] === undefined ? _default_generateBuilder_procedure_specification() : _generateBuilder_procedure_specification(intermediate["type"][1]["strategy"][1]["specification"]),
+                                            "specification": intermediate["type"][1]["strategy"][1]["specification"] === undefined ? _default_generateBuilder_internal_procedure_specification() : _generateBuilder_internal_procedure_specification(intermediate["type"][1]["strategy"][1]["specification"]),
                                         } ]
                                     case "procedure implementation":
                                         return [ "procedure implementation", {
@@ -5367,12 +5020,54 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         }
     }
 
+    function _generateBuilder_internal_procedure_specification(
+        intermediate: __internal_procedure_specification_B,
+    ): __internal_procedure_specification_T {
+        return {
+            "block": intermediate["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(intermediate["block"]),
+            "parameters": intermediate["parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__parameters_T> => {{
+                const source = intermediate["parameters"]
+                const target: { [key:string]: __parameters_T} = {}
+                Object.keys(source).forEach((key) => {
+                    const entry = source[key]
+                    target[key] = {
+                        "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
+                    }
+                })
+                return createDictionary(target)
+            }})(),
+            "return type": intermediate["return type"] === undefined ? [ "void", {
+            } ] : ((): __return_type_internal_procedure_specification_TU => {
+                switch (intermediate["return type"][0]) {
+                    case "interface":
+                        return [ "interface", {
+                            "interface": intermediate["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(intermediate["return type"][1]["interface"]),
+                        } ]
+                    case "void":
+                        return [ "void", {
+                        } ]
+                    default: return assertUnreachable(intermediate["return type"][0])
+                }
+            })(),
+        }
+    }
+
+    function _default_generateBuilder_internal_procedure_specification(
+    ): __internal_procedure_specification_T {
+        return {
+            "block": _default_generateBuilder_procedure_block(),
+            "parameters": createDictionary({}),
+            "return type": [ "void", {
+            } ],
+        }
+    }
+
     function _generateBuilder_list_reference(
         intermediate: __list_reference_B,
     ): __list_reference_T {
         return {
             "list": intermediate["list"] === undefined ? "*list*" : intermediate["list"],
-            "nested type reference": intermediate["nested type reference"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(intermediate["nested type reference"]),
+            "nested type": intermediate["nested type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(intermediate["nested type"]),
         }
     }
 
@@ -5380,7 +5075,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __list_reference_T {
         return {
             "list": "*list*",
-            "nested type reference": _default_generateBuilder_nested_type_reference(),
+            "nested type": _default_generateBuilder_nested_type_reference(),
         }
     }
 
@@ -5454,6 +5149,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __nested_type_reference_B,
     ): __nested_type_reference_T {
         return {
+            "namespace": intermediate["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace"]),
             "steps": intermediate["steps"] === undefined ? [] : ((): __steps_T[] => {{
                 const source = intermediate["steps"]
                 const target: __steps_T[] = []
@@ -5483,15 +5179,44 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                 })
                 return target
             }})(),
-            "type": intermediate["type"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(intermediate["type"]),
+            "type": intermediate["type"] === undefined ? "*type reference*" : intermediate["type"],
         }
     }
 
     function _default_generateBuilder_nested_type_reference(
     ): __nested_type_reference_T {
         return {
+            "namespace": _default_generateBuilder_namespace_reference(),
             "steps": [],
-            "type": _default_generateBuilder_type_reference(),
+            "type": "*type reference*",
+        }
+    }
+
+    function _generateBuilder_optional_namespace_reference(
+        intermediate: __optional_namespace_reference_B,
+    ): __optional_namespace_reference_T {
+        return {
+            "namespace": intermediate["namespace"] === undefined ? [ "current", {
+            } ] : ((): __namespace_TU => {
+                switch (intermediate["namespace"][0]) {
+                    case "current":
+                        return [ "current", {
+                        } ]
+                    case "other":
+                        return [ "other", {
+                            "namespace": intermediate["namespace"][1]["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace"][1]["namespace"]),
+                        } ]
+                    default: return assertUnreachable(intermediate["namespace"][0])
+                }
+            })(),
+        }
+    }
+
+    function _default_generateBuilder_optional_namespace_reference(
+    ): __optional_namespace_reference_T {
+        return {
+            "namespace": [ "current", {
+            } ],
         }
     }
 
@@ -5572,7 +5297,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                 Object.keys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
-                        "specification": entry["specification"] === undefined ? _default_generateBuilder_procedure_specification() : _generateBuilder_procedure_specification(entry["specification"]),
+                        "specification": entry["specification"] === undefined ? _default_generateBuilder_internal_procedure_specification() : _generateBuilder_internal_procedure_specification(entry["specification"]),
                     }
                 })
                 return createDictionary(target)
@@ -5615,7 +5340,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                 case "type5":
                                     return [ "type5", {
                                         "initializer": entry["type"][1]["initializer"] === undefined ? _default_generateBuilder_type_initializer() : _generateBuilder_type_initializer(entry["type"][1]["initializer"]),
-                                        "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(entry["type"][1]["type"]),
+                                        "nested type": entry["type"][1]["nested type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["nested type"]),
                                     } ]
                                 default: return assertUnreachable(entry["type"][0])
                             }
@@ -5707,9 +5432,9 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __procedure_declaration_B,
     ): __procedure_declaration_T {
         return {
-            "parameters": intermediate["parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__parameters_T> => {{
+            "parameters": intermediate["parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__parameters_procedure_declaration_T> => {{
                 const source = intermediate["parameters"]
-                const target: { [key:string]: __parameters_T} = {}
+                const target: { [key:string]: __parameters_procedure_declaration_T} = {}
                 Object.keys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
@@ -5720,21 +5445,16 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                 case "builder":
                                     return [ "builder", {
                                         "builder": entry["type"][1]["builder"] === undefined ? "*referenced builder*" : entry["type"][1]["builder"],
-                                        "type arguments": entry["type"][1]["type arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__type_arguments_builder_T> => {{
-                                            const source = entry["type"][1]["type arguments"]
-                                            const target: { [key:string]: __type_arguments_builder_T} = {}
-                                            Object.keys(source).forEach((key) => {
-                                                const entry = source[key]
-                                                target[key] = {
-                                                    "type": entry["type"] === undefined ? "*type argument type*" : entry["type"],
-                                                }
-                                            })
-                                            return createDictionary(target)
-                                        }})(),
+                                        "namespace": entry["type"][1]["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(entry["type"][1]["namespace"]),
                                     } ]
                                 case "dictionary":
                                     return [ "dictionary", {
                                         "entry": entry["type"][1]["entry"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["type"][1]["entry"]),
+                                    } ]
+                                case "function":
+                                    return [ "function", {
+                                        "in": entry["type"][1]["in"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(entry["type"][1]["in"]),
+                                        "out": entry["type"][1]["out"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(entry["type"][1]["out"]),
                                     } ]
                                 case "interface":
                                     return [ "interface", {
@@ -5769,23 +5489,6 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "parameters": createDictionary({}),
             "return type": [ "void", {
             } ],
-        }
-    }
-
-    function _generateBuilder_procedure_specification(
-        intermediate: __procedure_specification_B,
-    ): __procedure_specification_T {
-        return {
-            "block": intermediate["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(intermediate["block"]),
-            "declaration": intermediate["declaration"] === undefined ? _default_generateBuilder_procedure_declaration() : _generateBuilder_procedure_declaration(intermediate["declaration"]),
-        }
-    }
-
-    function _default_generateBuilder_procedure_specification(
-    ): __procedure_specification_T {
-        return {
-            "block": _default_generateBuilder_procedure_block(),
-            "declaration": _default_generateBuilder_procedure_declaration(),
         }
     }
 
@@ -5876,6 +5579,16 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "block": entry["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(entry["block"]),
                         "declaration": entry["declaration"] === undefined ? "*procedure declaration*" : entry["declaration"],
                         "namespace": entry["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace"]),
+                        "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_procedure_implementations_T> => {{
+                            const source = entry["type parameters"]
+                            const target: { [key:string]: __type_parameters_procedure_implementations_T} = {}
+                            Object.keys(source).forEach((key) => {
+                                const entry = source[key]
+                                target[key] = {
+                                }
+                            })
+                            return createDictionary(target)
+                        }})(),
                     }
                 })
                 return createDictionary(target)
@@ -6021,78 +5734,82 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __type_initializer_B,
     ): __type_initializer_T {
         return {
-            "type": intermediate["type"] === undefined ? [ "string", {
-                "initializer": _default_generateBuilder_string_initializer(),
-            } ] : ((): __type_type_initializer_TU => {
-                switch (intermediate["type"][0]) {
-                    case "boolean":
-                        return [ "boolean", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "literal", {
-                                "value": "true",
-                            } ] : ((): __strategy_boolean_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from callback":
-                                        return [ "from callback", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
+            "strategy": intermediate["strategy"] === undefined ? [ "literal", {
+                "type": [ "string", {
+                    "value": "",
+                } ],
+            } ] : ((): __strategy_type_initializer_TU => {
+                switch (intermediate["strategy"][0]) {
+                    case "from callback":
+                        return [ "from callback", {
+                            "path": intermediate["strategy"][1]["path"] === undefined ? "" : intermediate["strategy"][1]["path"],
+                        } ]
+                    case "from function":
+                        return [ "from function", {
+                            "argument": intermediate["strategy"][1]["argument"] === undefined ? _default_generateBuilder_type_initializer() : _generateBuilder_type_initializer(intermediate["strategy"][1]["argument"]),
+                            "context": intermediate["strategy"][1]["context"] === undefined ? [ "argument", {
+                            } ] : ((): __context_TU => {
+                                switch (intermediate["strategy"][1]["context"][0]) {
+                                    case "argument":
+                                        return [ "argument", {
                                         } ]
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
+                                    case "variable":
+                                        return [ "variable", {
+                                            "variable": intermediate["strategy"][1]["context"][1]["variable"] === undefined ? "*variable*" : intermediate["strategy"][1]["context"][1]["variable"],
                                         } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
+                                    default: return assertUnreachable(intermediate["strategy"][1]["context"][0])
+                                }
+                            })(),
+                            "function": intermediate["strategy"][1]["function"] === undefined ? "*function*" : intermediate["strategy"][1]["function"],
+                        } ]
+                    case "from state":
+                        return [ "from state", {
+                            "state": intermediate["strategy"][1]["state"] === undefined ? "*state*" : intermediate["strategy"][1]["state"],
+                            "type": intermediate["strategy"][1]["type"] === undefined ? [ "string", {
+                            } ] : ((): __type_from_state_TU => {
+                                switch (intermediate["strategy"][1]["type"][0]) {
+                                    case "boolean":
+                                        return [ "boolean", {
                                         } ]
-                                    case "literal":
-                                        return [ "literal", {
-                                            "value": intermediate["type"][1]["strategy"][1]["value"] === undefined ? "true" : intermediate["type"][1]["strategy"][1]["value"],
+                                    case "dictionary":
+                                        return [ "dictionary", {
                                         } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
+                                    case "list":
+                                        return [ "list", {
+                                        } ]
+                                    case "number":
+                                        return [ "number", {
+                                        } ]
+                                    case "string":
+                                        return [ "string", {
+                                        } ]
+                                    default: return assertUnreachable(intermediate["strategy"][1]["type"][0])
                                 }
                             })(),
                         } ]
-                    case "dictionary":
-                        return [ "dictionary", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "literal", {
-                            } ] : ((): __strategy_dictionary_type_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
-                                        } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
-                                        } ]
-                                    case "literal":
-                                        return [ "literal", {
-                                        } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
-                                }
-                            })(),
+                    case "from variable":
+                        return [ "from variable", {
+                            "path": intermediate["strategy"][1]["path"] === undefined ? "" : intermediate["strategy"][1]["path"],
+                            "variable": intermediate["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["strategy"][1]["variable"],
                         } ]
-                    case "group":
-                        return [ "group", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "literal", {
-                                "properties": createDictionary({}),
-                            } ] : ((): __strategy_group_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
+                    case "literal":
+                        return [ "literal", {
+                            "type": intermediate["strategy"][1]["type"] === undefined ? [ "string", {
+                                "value": "",
+                            } ] : ((): __type_literal_TU => {
+                                switch (intermediate["strategy"][1]["type"][0]) {
+                                    case "boolean":
+                                        return [ "boolean", {
+                                            "value": intermediate["strategy"][1]["type"][1]["value"] === undefined ? "true" : intermediate["strategy"][1]["type"][1]["value"],
                                         } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
+                                    case "dictionary":
+                                        return [ "dictionary", {
                                         } ]
-                                    case "literal":
-                                        return [ "literal", {
-                                            "properties": intermediate["type"][1]["strategy"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_literal_T> => {{
-                                                const source = intermediate["type"][1]["strategy"][1]["properties"]
-                                                const target: { [key:string]: __properties_literal_T} = {}
+                                    case "group":
+                                        return [ "group", {
+                                            "properties": intermediate["strategy"][1]["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_group_T> => {{
+                                                const source = intermediate["strategy"][1]["type"][1]["properties"]
+                                                const target: { [key:string]: __properties_group_T} = {}
                                                 Object.keys(source).forEach((key) => {
                                                     const entry = source[key]
                                                     target[key] = {
@@ -6102,114 +5819,34 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                                 return createDictionary(target)
                                             }})(),
                                         } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
+                                    case "list":
+                                        return [ "list", {
+                                        } ]
+                                    case "number":
+                                        return [ "number", {
+                                            "value": intermediate["strategy"][1]["type"][1]["value"] === undefined ? "0" : intermediate["strategy"][1]["type"][1]["value"],
+                                        } ]
+                                    case "string":
+                                        return [ "string", {
+                                            "value": intermediate["strategy"][1]["type"][1]["value"] === undefined ? "" : intermediate["strategy"][1]["type"][1]["value"],
+                                        } ]
+                                    case "tagged union":
+                                        return [ "tagged union", {
+                                            "data": intermediate["strategy"][1]["type"][1]["data"] === undefined ? _default_generateBuilder_type_initializer() : _generateBuilder_type_initializer(intermediate["strategy"][1]["type"][1]["data"]),
+                                            "option": intermediate["strategy"][1]["type"][1]["option"] === undefined ? "*option*" : intermediate["strategy"][1]["type"][1]["option"],
+                                        } ]
+                                    case "type argument":
+                                        return [ "type argument", {
+                                        } ]
+                                    case "type reference":
+                                        return [ "type reference", {
+                                            "initializer": intermediate["strategy"][1]["type"][1]["initializer"] === undefined ? _default_generateBuilder_type_initializer() : _generateBuilder_type_initializer(intermediate["strategy"][1]["type"][1]["initializer"]),
+                                        } ]
+                                    default: return assertUnreachable(intermediate["strategy"][1]["type"][0])
                                 }
                             })(),
                         } ]
-                    case "list":
-                        return [ "list", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "literal", {
-                            } ] : ((): __strategy_list_type_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
-                                        } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
-                                        } ]
-                                    case "literal":
-                                        return [ "literal", {
-                                        } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
-                                }
-                            })(),
-                        } ]
-                    case "number":
-                        return [ "number", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "literal", {
-                                "value": "0",
-                            } ] : ((): __strategy_number_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from callback":
-                                        return [ "from callback", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                        } ]
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
-                                        } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
-                                        } ]
-                                    case "literal":
-                                        return [ "literal", {
-                                            "value": intermediate["type"][1]["strategy"][1]["value"] === undefined ? "0" : intermediate["type"][1]["strategy"][1]["value"],
-                                        } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
-                                }
-                            })(),
-                        } ]
-                    case "string":
-                        return [ "string", {
-                            "initializer": intermediate["type"][1]["initializer"] === undefined ? _default_generateBuilder_string_initializer() : _generateBuilder_string_initializer(intermediate["type"][1]["initializer"]),
-                        } ]
-                    case "tagged union":
-                        return [ "tagged union", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "literal", {
-                                "data": _default_generateBuilder_type_initializer(),
-                                "option": "*option*",
-                            } ] : ((): __strategy_tagged_union_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
-                                        } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
-                                        } ]
-                                    case "literal":
-                                        return [ "literal", {
-                                            "data": intermediate["type"][1]["strategy"][1]["data"] === undefined ? _default_generateBuilder_type_initializer() : _generateBuilder_type_initializer(intermediate["type"][1]["strategy"][1]["data"]),
-                                            "option": intermediate["type"][1]["strategy"][1]["option"] === undefined ? "*option*" : intermediate["type"][1]["strategy"][1]["option"],
-                                        } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
-                                }
-                            })(),
-                        } ]
-                    case "type argument":
-                        return [ "type argument", {
-                        } ]
-                    case "type reference":
-                        return [ "type reference", {
-                            "strategy": intermediate["type"][1]["strategy"] === undefined ? [ "from callback", {
-                                "path": "",
-                            } ] : ((): __strategy_type_reference_TU => {
-                                switch (intermediate["type"][1]["strategy"][0]) {
-                                    case "from callback":
-                                        return [ "from callback", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                        } ]
-                                    case "from state":
-                                        return [ "from state", {
-                                            "state": intermediate["type"][1]["strategy"][1]["state"] === undefined ? "*state*" : intermediate["type"][1]["strategy"][1]["state"],
-                                        } ]
-                                    case "from variable":
-                                        return [ "from variable", {
-                                            "path": intermediate["type"][1]["strategy"][1]["path"] === undefined ? "" : intermediate["type"][1]["strategy"][1]["path"],
-                                            "variable": intermediate["type"][1]["strategy"][1]["variable"] === undefined ? "*variable*" : intermediate["type"][1]["strategy"][1]["variable"],
-                                        } ]
-                                    default: return assertUnreachable(intermediate["type"][1]["strategy"][0])
-                                }
-                            })(),
-                        } ]
-                    default: return assertUnreachable(intermediate["type"][0])
+                    default: return assertUnreachable(intermediate["strategy"][0])
                 }
             })(),
         }
@@ -6218,8 +5855,10 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_type_initializer(
     ): __type_initializer_T {
         return {
-            "type": [ "string", {
-                "initializer": _default_generateBuilder_string_initializer(),
+            "strategy": [ "literal", {
+                "type": [ "string", {
+                    "value": "",
+                } ],
             } ],
         }
     }
@@ -6228,19 +5867,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __type_reference_B,
     ): __type_reference_T {
         return {
-            "namespace": intermediate["namespace"] === undefined ? [ "current", {
-            } ] : ((): __namespace_TU => {
-                switch (intermediate["namespace"][0]) {
-                    case "current":
-                        return [ "current", {
-                        } ]
-                    case "other":
-                        return [ "other", {
-                            "namespace": intermediate["namespace"][1]["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace"][1]["namespace"]),
-                        } ]
-                    default: return assertUnreachable(intermediate["namespace"][0])
-                }
-            })(),
+            "namespace": intermediate["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(intermediate["namespace"]),
             "type": intermediate["type"] === undefined ? "*type reference*" : intermediate["type"],
         }
     }
@@ -6248,8 +5875,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_type_reference(
     ): __type_reference_T {
         return {
-            "namespace": [ "current", {
-            } ],
+            "namespace": _default_generateBuilder_optional_namespace_reference(),
             "type": "*type reference*",
         }
     }

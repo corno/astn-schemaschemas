@@ -97,22 +97,20 @@ type core_root_T_G = {
 
 type core_root_T = core_root_T_G
 
-export type deserialize_createDeserializer_PD($p: {
-    "callback": ($: deserialize_*type_reference*_T) => void
-    "context": deserialize_ExpectContext_IB<NonTokenAnnotation, TokenAnnotation>
-    "raiseValidationError": ($: deserialize_ValidationError_T) => void
-}): deserialize_RequiredValueHandler_I
+export type deserialize_createDeserializer_PD<NonTokenAnnotation, TokenAnnotation> = ($p: {
+    "callback": ($: core_root_T) => void
+    "context": deserialize_api_ExpectContext_IB<NonTokenAnnotation, TokenAnnotation>
+    "raiseValidationError": ($: deserialize_api_ValidationError_T<NonTokenAnnotation, TokenAnnotation>) => void
+    "stringToBoolean": ($p: lang_string_T) => lang_boolean_T
+    "stringToNumber": ($p: lang_string_T) => lang_number_T
+}) => deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>
 
 export type deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation> = {
-    "exists": deserialize_api_ValueHandler_I
-    "missing": ($: deserialize_api_Empty_T<NonTokenAnnotation, TokenAnnotation>) => void
+    "exists": deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    "missing": ($: lang_nothing_T) => void
 }
 
 export type deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> = {}
-
-type deserialize_api_Empty_T_G<NonTokenAnnotation, TokenAnnotation> = {}
-
-type deserialize_api_Empty_T<NonTokenAnnotation, TokenAnnotation> = deserialize_api_Empty_T_G<NonTokenAnnotation, TokenAnnotation>
 
 type deserialize_api_StringToken_T_G_token_P_G_data_P_G<NonTokenAnnotation, TokenAnnotation> = {
     readonly "value": string
@@ -138,37 +136,54 @@ type deserialize_api_ValidationError_T<NonTokenAnnotation, TokenAnnotation> = de
 
 export interface deserialize_api_ExpectContext_IB<NonTokenAnnotation, TokenAnnotation> {
     "expectDictionary"($p: {
-        "onProperty": ($: deserialize_api_StringToken_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_api_RequiredValueHandler_I
-    }): deserialize_api_ValueHandler_I
+        "onProperty": ($: deserialize_api_StringToken_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
     "expectList"($p: {
-        "onElement": ($: deserialize_api_Empty_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_api_ValueHandler_I
-    }): deserialize_api_ValueHandler_I
+        "onElement": ($: lang_nothing_T) => deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
     "expectQuotedString"($p: {
         "callback": ($: deserialize_api_StringToken_T<NonTokenAnnotation, TokenAnnotation>) => void
-    }): deserialize_api_ValueHandler_I
+    }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
     "expectTaggedUnion"($p: {
         "options": {
-            [key: string]: ($: deserialize_api_Empty_T<NonTokenAnnotation, TokenAnnotation>) => deserialize_api_RequiredValueHandler_I
+            [key: string]: ($: lang_nothing_T) => deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation>
         }
-    }): deserialize_api_ValueHandler_I
+    }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
     "expectVerboseGroup"($p: {
-        "onEnd": ($: deserialize_api_Empty_T<NonTokenAnnotation, TokenAnnotation>) => void
+        "onEnd": ($: lang_nothing_T) => void
         "properties": {
             [key: string]: {
-                "onExists": ($: deserialize_api_Empty_T<NonTokenAnnotation, TokenAnnotation>) => void
+                "onExists": ($: lang_nothing_T) => void
             }
         }
-    }): deserialize_api_ValueHandler_I
+    }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
 }
 
-export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
+type lang_boolean_T = boolean
+
+type lang_nothing_T_G = {}
+
+type lang_nothing_T = lang_nothing_T_G
+
+type lang_number_T = number
+
+type lang_string_T = string
+
+export function deserialize_createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>($p: {
+    "callback": ($: core_root_T) => void
+    "context": deserialize_api_ExpectContext_IB<NonTokenAnnotation, TokenAnnotation>
+    "raiseValidationError": ($: deserialize_api_ValidationError_T<NonTokenAnnotation, TokenAnnotation>) => void
+    "stringToBoolean": ($p: lang_string_T) => lang_boolean_T
+    "stringToNumber": ($p: lang_string_T) => lang_number_T
+}): deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
+    const x_v = $p
     function root_NIC($p: {
-        "callback": ($: *namespace*_root_T) => void
-    }): *namespace*_ValueHandler_I {
+        "callback": ($: core_root_T) => void
+    }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
         function temp_NIC($p: {
-            "out": ($: *namespace*_FIXME_*name_of_type*_TFIXME TA) => void
-        }): *namespace*_ValueHandler_I {
-            const projects: { [key:string]: FOO_D } = {}
+            "out": ($: core_root_T) => void
+        }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
+            const projects: { [key: string]: core_root_T_projects } = {}
             return x_v.context.expectVerboseGroup({
                 "onEnd": ($cb) => {
                     $p.out({
@@ -181,12 +196,13 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
                             return wrap_NIC({
                                 "handler": x_v.context.expectDictionary({
                                     "onProperty": ($cb) => {
+                                        const y_v = $cb
                                         return wrap_NIC({
-                                            "handler": (($p: {}): void {
+                                            "handler": (($p: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                 function temp_NIC($p: {
-                                                    "out": ($: *namespace*_FIXME_*name_of_type*_TFIXME TA) => void
-                                                }): *namespace*_ValueHandler_I {
-                                                    const tasks: { [key:string]: FOO_D } = {}
+                                                    "out": ($: core_root_T) => void
+                                                }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
+                                                    const tasks: { [key: string]: core_root_T_G_projects_P_D_tasks } = {}
                                                     return x_v.context.expectVerboseGroup({
                                                         "onEnd": ($cb) => {
                                                             $p.out({
@@ -199,23 +215,24 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
                                                                     return wrap_NIC({
                                                                         "handler": x_v.context.expectDictionary({
                                                                             "onProperty": ($cb) => {
+                                                                                const y_v = $cb
                                                                                 return wrap_NIC({
-                                                                                    "handler": (($p: {}): void {
+                                                                                    "handler": (($p: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                         function temp_NIC($p: {
-                                                                                            "out": ($: *namespace*_FIXME_*name_of_type*_TFIXME TA) => void
-                                                                                        }): *namespace*_ValueHandler_I {
+                                                                                            "out": ($: core_root_T) => void
+                                                                                        }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
                                                                                             let action_holder = "ikke"
                                                                                             let cost = ""
                                                                                             let description = ""
                                                                                             let enddate = ""
-                                                                                            const involved_team_members: { [key:string]: FOO_D } = {}
-                                                                                            const priority: *namespace*_priority_T = ["Medium", {} ]
+                                                                                            const involved_team_members: { [key: string]: core_root_T_G_projects_P_D_G_tasks_P_D_involved team members } = {}
+                                                                                            const priority: core_root_T_G_projects_P_D_G_tasks_P_D_TU_priority_O = ["Medium", {} ]
                                                                                             let startdate = ""
                                                                                             return x_v.context.expectVerboseGroup({
                                                                                                 "onEnd": ($cb) => {
                                                                                                     $p.out({
                                                                                                         "action holder": action_holder,
-                                                                                                        "cost": cost,
+                                                                                                        "cost": x_v.stringToNumber(cost),
                                                                                                         "description": description,
                                                                                                         "enddate": enddate,
                                                                                                         "involved team members": createDictionary(involved_team_members),
@@ -265,11 +282,12 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
                                                                                                             return wrap_NIC({
                                                                                                                 "handler": x_v.context.expectDictionary({
                                                                                                                     "onProperty": ($cb) => {
+                                                                                                                        const y_v = $cb
                                                                                                                         return wrap_NIC({
-                                                                                                                            "handler": (($p: {}): void {
+                                                                                                                            "handler": (($p: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                                                                 function temp_NIC($p: {
-                                                                                                                                    "out": ($: *namespace*_FIXME_*name_of_type*_TFIXME TA) => void
-                                                                                                                                }): *namespace*_ValueHandler_I {
+                                                                                                                                    "out": ($: core_root_T) => void
+                                                                                                                                }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
                                                                                                                                     return x_v.context.expectVerboseGroup({
                                                                                                                                         "onEnd": ($cb) => {
                                                                                                                                             $p.out({})
@@ -279,7 +297,7 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
                                                                                                                                 }
                                                                                                                                 return temp_NIC({
                                                                                                                                     "out": ($cb) => {
-                                                                                                                                        involved_team_members[y.token.data.value] = $cb
+                                                                                                                                        involved_team_members[y_v.token.data.value] = $cb
                                                                                                                                     },
                                                                                                                                 })
                                                                                                                             })({}),
@@ -326,7 +344,7 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
                                                                                         }
                                                                                         return temp_NIC({
                                                                                             "out": ($cb) => {
-                                                                                                tasks[y.token.data.value] = $cb
+                                                                                                tasks[y_v.token.data.value] = $cb
                                                                                             },
                                                                                         })
                                                                                     })({}),
@@ -341,7 +359,7 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
                                                 }
                                                 return temp_NIC({
                                                     "out": ($cb) => {
-                                                        projects[y.token.data.value] = $cb
+                                                        projects[y_v.token.data.value] = $cb
                                                     },
                                                 })
                                             })({}),
@@ -361,8 +379,8 @@ export const *namespace*_createDeserializer_pi: createDeserializer = ($p) => {
         })
     }
     function wrap_NIC($p: {
-        "handler": *namespace*_ValueHandler_I
-    }): *namespace*_RequiredValueHandler_I {
+        "handler": deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation>
+    }): deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
         return {
             "exists": $p["handler"],
             "missing": ($cb) => {},

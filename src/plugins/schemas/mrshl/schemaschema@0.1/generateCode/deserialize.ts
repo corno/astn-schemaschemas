@@ -31,28 +31,94 @@ export function generateDeserializeNamespace(
     schema: def.Schema,
 ): t.__namespaces_B {
     return {
+        "type parameters": {
+            "TokenAnnotation": {},
+            "NonTokenAnnotation": {},
+        },
         "procedure declarations": {
             "createDeserializer": {
                 "declaration": {
                     "return type": ["interface", {
                         "interface": {
                             "type": ["reference", {
+                                "namespace": {
+                                    "namespace": ["other", {
+                                        "namespace": {
+                                            "namespace": "deserialize api",
+                                            "type arguments": {
+                                                "TokenAnnotation": {},
+                                                "NonTokenAnnotation": {},
+                                            },
+                                        },
+                                    }],
+                                },
                                 "interface": "RequiredValueHandler",
-                                // "type arguments": {
-                                //     "TokenAnnotation": {},
-                                //     "NonTokenAnnotation": {},
-                                // },
                             }],
                         },
 
                     }],
                     "parameters": {
+                        "stringToBoolean": {
+                            "type": ["function", {
+                                "in": {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "lang",
+                                            },
+                                        }],
+                                    },
+                                    "type": "string",
+                                },
+                                "out": {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "lang",
+                                            },
+                                        }],
+                                    },
+                                    "type": "boolean",
+                                },
+                            }],
+                        },
+                        "stringToNumber": {
+                            "type": ["function", {
+                                "in": {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "lang",
+                                            },
+                                        }],
+                                    },
+                                    "type": "string",
+                                },
+                                "out": {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "lang",
+                                            },
+                                        }],
+                                    },
+                                    "type": "number",
+                                },
+                            }],
+                        },
                         "context": {
                             "type": ["builder", {
                                 "builder": "ExpectContext",
-                                "type arguments": {
-                                    "TokenAnnotation": {},
-                                    "NonTokenAnnotation": {},
+                                "namespace": {
+                                    "namespace": ["other", {
+                                        "namespace": {
+                                            "namespace": "deserialize api",
+                                            "type arguments": {
+                                                "TokenAnnotation": {},
+                                                "NonTokenAnnotation": {},
+                                            },
+                                        },
+                                    }],
                                 },
                             }],
                         },
@@ -61,6 +127,17 @@ export function generateDeserializeNamespace(
                                 "interface": {
                                     "type": ["method", {
                                         "type": {
+                                            "namespace": {
+                                                "namespace": ["other", {
+                                                    "namespace": {
+                                                        "namespace": "deserialize api",
+                                                        "type arguments": {
+                                                            "TokenAnnotation": {},
+                                                            "NonTokenAnnotation": {},
+                                                        },
+                                                    },
+                                                }],
+                                            },
                                             "type": "ValidationError",
                                         },
                                     }],
@@ -71,12 +148,16 @@ export function generateDeserializeNamespace(
                             "type": ["interface", {
                                 "interface": {
                                     "type": ["method", {
-                                        // "type": {
-                                        //     "namespace": ["other", {
-                                        //         "namespace": "core",
-                                        //     }],
-                                        //     "type": schema["root type"].name,
-                                        // },
+                                        "type": {
+                                            "namespace": {
+                                                "namespace": ["other", {
+                                                    "namespace": {
+                                                        "namespace": "core",
+                                                    },
+                                                }],
+                                            },
+                                            "type": schema["root type"].name,
+                                        },
                                     }],
                                 },
                             }],

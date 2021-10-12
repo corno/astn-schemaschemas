@@ -14,12 +14,6 @@ export function generateDeserializeAPI(
             "NonTokenAnnotation": {},
         },
         "types": {
-            "Empty": {
-                "type": {
-                    "type": ["group", {
-                    }],
-                },
-            },
             "StringToken": {
                 "type": {
                     "type": ["group", {
@@ -105,7 +99,14 @@ export function generateDeserializeAPI(
                                 "definition": {
                                     "type": ["method", {
                                         "type": {
-                                            "type": "Empty",
+                                            "namespace": {
+                                                "namespace": ["other", {
+                                                    "namespace": {
+                                                        "namespace": "lang",
+                                                    },
+                                                }],
+                                            },
+                                            "type": "nothing",
                                         },
                                     }],
                                 },
@@ -142,7 +143,14 @@ export function generateDeserializeAPI(
                                                         "definition": {
                                                             "type": ["method", {
                                                                 "type": {
-                                                                    "type": "Empty",
+                                                                    "namespace": {
+                                                                        "namespace": ["other", {
+                                                                            "namespace": {
+                                                                                "namespace": "lang",
+                                                                            },
+                                                                        }],
+                                                                    },
+                                                                    "type": "nothing",
                                                                 },
                                                             }],
                                                         },
@@ -157,7 +165,14 @@ export function generateDeserializeAPI(
                                         "interface": {
                                             "type": ["method", {
                                                 "type": {
-                                                    "type": "Empty",
+                                                    "namespace": {
+                                                        "namespace": ["other", {
+                                                            "namespace": {
+                                                                "namespace": "lang",
+                                                            },
+                                                        }],
+                                                    },
+                                                    "type": "nothing",
                                                 },
                                             }],
                                         },
@@ -255,7 +270,14 @@ export function generateDeserializeAPI(
                                         "entry": {
                                             "type": ["method", {
                                                 "type": {
-                                                    "type": "Empty",
+                                                    "namespace": {
+                                                        "namespace": ["other", {
+                                                            "namespace": {
+                                                                "namespace": "lang",
+                                                            },
+                                                        }],
+                                                    },
+                                                    "type": "nothing",
                                                 },
                                                 "return type": ["interface", {
                                                     "interface": {
@@ -295,7 +317,14 @@ export function generateDeserializeAPI(
                                         "interface": {
                                             "type": ["method", {
                                                 "type": {
-                                                    "type": "Empty",
+                                                    "namespace": {
+                                                        "namespace": ["other", {
+                                                            "namespace": {
+                                                                "namespace": "lang",
+                                                            },
+                                                        }],
+                                                    },
+                                                    "type": "nothing",
                                                 },
                                                 "return type": ["interface", {
                                                     "interface": {

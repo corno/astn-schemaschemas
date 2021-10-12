@@ -32,36 +32,62 @@ export function generateCreateDeserializer(
     schema: def.Schema,
 ): t.__procedure_implementations_B {
     return {
+        "type parameters": {
+            "TokenAnnotation": {},
+            "NonTokenAnnotation": {},
+        },
+        "namespace": {
+            "namespace": "deserialize",
+            "type arguments": {
+                "TokenAnnotation": {},
+                "NonTokenAnnotation": {},
+            },
+        },
         "declaration": "createDeserializer",
         "block": {
+            "variables": {
+                "x": {
+                    "path": "$p",
+                },
+            },
             "nested procedures": buildDictionary((add) => {
                 add("wrap", {
                     "specification": {
-                        "declaration": {
-                            "return type": ["interface", {
+                        "return type": ["interface", {
+                            "interface": {
+                                "type": ["reference", {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "deserialize api",
+                                                "type arguments": {
+                                                    "TokenAnnotation": {},
+                                                    "NonTokenAnnotation": {},
+                                                },
+                                            },
+                                        }],
+                                    },
+                                    "interface": "RequiredValueHandler",
+                                }],
+                            },
+
+                        }],
+                        "parameters": {
+                            "handler": {
                                 "interface": {
                                     "type": ["reference", {
-                                        "interface": "RequiredValueHandler",
-                                        // "type arguments": {
-                                        //     "TokenAnnotation": {},
-                                        //     "NonTokenAnnotation": {},
-                                        // },
-                                    }],
-                                },
-
-                            }],
-                            "parameters": {
-                                "handler": {
-                                    "type": ["interface", {
-                                        "interface": {
-                                            "type": ["reference", {
-                                                "interface": "ValueHandler",
-                                                // "type arguments": {
-                                                //     "TokenAnnotation": {},
-                                                //     "NonTokenAnnotation": {},
-                                                // },
+                                        "namespace": {
+                                            "namespace": ["other", {
+                                                "namespace": {
+                                                    "namespace": "deserialize api",
+                                                    "type arguments": {
+                                                        "TokenAnnotation": {},
+                                                        "NonTokenAnnotation": {},
+                                                    },
+                                                },
                                             }],
                                         },
+                                        "interface": "ValueHandler",
                                     }],
                                 },
                             },
@@ -99,38 +125,60 @@ export function generateCreateDeserializer(
                 })
                 schema["component types"].forEach((e2, k) => {
                     const typeName = k
+                    type Step = {
+                        "type":
+                        | ["group", {
+                            "property": string
+                        }]
+                        | ["dictionary", {
+                        }]
+                        | ["list", {
+                        }]
+                        | ["tagged union option", {
+                            "option": string
+                        }]
+                    }
                     function generateNodeDeserializer(
                         $: def.Node,
                         keyProperty: def.Property | null,
-                    ): t.__procedure_specification_B {
+                        path: Step[],
+                    ): t.__internal_procedure_specification_B {
                         return {
-                            "declaration": {
-                                "return type": ["interface", {
-                                    "interface": {
-                                        "type": ["reference", {
-                                            "interface": "ValueHandler",
-                                            // "type arguments": {
-                                            //     "TokenAnnotation": {},
-                                            //     "NonTokenAnnotation": {},
-                                            // },
-                                        }],
-                                    },
-                                }],
-                                "parameters": {
-                                    "out": {
-                                        "type": ["interface", {
-                                            "interface": {
-                                                "type": ["method", {
-                                                    "type": {
-                                                        // "namespace": ["other", {
-                                                        //     "namespace": "core",
-                                                        // }],
-                                                        "type": "FIXME *name of type*",
+                            "return type": ["interface", {
+                                "interface": {
+                                    "type": ["reference", {
+
+                                        "namespace": {
+                                            "namespace": ["other", {
+                                                "namespace": {
+                                                    "namespace": "deserialize api",
+                                                    "type arguments": {
+                                                        "TokenAnnotation": {},
+                                                        "NonTokenAnnotation": {},
                                                     },
-                                                    "return type": ["void", {
+                                                },
+                                            }],
+                                        },
+                                        "interface": "ValueHandler",
+                                    }],
+                                },
+                            }],
+                            "parameters": {
+                                "out": {
+                                    "interface": {
+                                        "type": ["method", {
+                                            "type": {
+                                                "namespace": {
+                                                    "namespace": ["other", {
+                                                        "namespace": {
+                                                            "namespace": "core",
+                                                        },
                                                     }],
-                                                }],
+                                                },
+                                                "type": k,
                                             },
+                                            "return type": ["void", {
+                                            }],
                                         }],
                                     },
                                 },
@@ -143,8 +191,8 @@ export function generateCreateDeserializer(
                                             keyProperty: def.Property | null,
                                         ): t.__type_initializer_B {
                                             return {
-                                                "type": ["group", {
-                                                    "strategy": ["literal", {
+                                                "strategy": ["literal", {
+                                                    "type": ["group", {
                                                         "properties": buildDictionary((add) => {
                                                             $.properties.forEach(($, k) => {
                                                                 if ($ === keyProperty) {
@@ -152,22 +200,22 @@ export function generateCreateDeserializer(
                                                                 }
                                                                 add(k, {
                                                                     "initializer": {
-                                                                        "type": ((): t.__type_type_initializer_TU_Builder => {
+                                                                        "strategy": ((): t.__strategy_type_initializer_TU_Builder => {
                                                                             switch ($.type[0]) {
                                                                                 case "collection":
-                                                                                    return cc($.type[1], ($): t.__type_type_initializer_TU_Builder => {
+                                                                                    return cc($.type[1], ($): t.__strategy_type_initializer_TU_Builder => {
                                                                                         switch ($.type[0]) {
                                                                                             case "dictionary":
                                                                                                 return cc($.type[1], ($) => {
-                                                                                                    return ["dictionary", {
-                                                                                                        "strategy": ["literal", {
+                                                                                                    return ["literal", {
+                                                                                                        "type": ["dictionary", {
                                                                                                         }],
                                                                                                     }]
                                                                                                 })
                                                                                             case "list":
                                                                                                 return cc($.type[1], ($) => {
-                                                                                                    return ["list", {
-                                                                                                        "strategy": ["literal", {
+                                                                                                    return ["literal", {
+                                                                                                        "type": ["list", {
                                                                                                         }],
                                                                                                     }]
                                                                                                 })
@@ -177,18 +225,16 @@ export function generateCreateDeserializer(
                                                                                     })
                                                                                 case "component":
                                                                                     return cc($.type[1], ($) => {
-                                                                                        return ["string", {
-                                                                                            "initializer": {
-                                                                                                "strategy": ["literal", {
-                                                                                                    "value": "FIXME COMP",
-                                                                                                }],
-                                                                                            },
+                                                                                        return ["literal", {
+                                                                                            "type": ["string", {
+                                                                                                "value": "FIXME COMP",
+                                                                                            }],
                                                                                         }]
                                                                                     })
                                                                                 case "state group":
                                                                                     return cc($.type[1], ($) => {
-                                                                                        return ["tagged union", {
-                                                                                            "strategy": ["literal", {
+                                                                                        return ["literal", {
+                                                                                            "type": ["tagged union", {
                                                                                                 "option": $["default state"].name,
                                                                                                 "data": generateInitializer(
                                                                                                     $["default state"].get().node,
@@ -199,12 +245,32 @@ export function generateCreateDeserializer(
                                                                                     })
                                                                                 case "value":
                                                                                     return cc($.type[1], ($) => {
-                                                                                        return ["string", {
-                                                                                            "initializer": {
-                                                                                                "strategy": ["literal", {
-                                                                                                    "value": $["default value"],
-                                                                                                }],
-                                                                                            },
+                                                                                        const $$ = $
+                                                                                        return ["literal", {
+                                                                                            "type": ((): t.__type_literal_TU_Builder => {
+                                                                                                switch ($.type[0]) {
+                                                                                                    case "boolean":
+                                                                                                        return cc($.type[1], ($) => {
+                                                                                                            return ["boolean", {
+                                                                                                                "value": $$["default value"],
+                                                                                                            }]
+                                                                                                        })
+                                                                                                    case "number":
+                                                                                                        return cc($.type[1], ($) => {
+                                                                                                            return ["number", {
+                                                                                                                "value": $$["default value"],
+                                                                                                            }]
+                                                                                                        })
+                                                                                                    case "string":
+                                                                                                        return cc($.type[1], ($) => {
+                                                                                                            return ["string", {
+                                                                                                                "value": $$["default value"],
+                                                                                                            }]
+                                                                                                        })
+                                                                                                    default:
+                                                                                                        return assertUnreachable($.type[0])
+                                                                                                }
+                                                                                            })(),
                                                                                         }]
                                                                                     })
                                                                                 default:
@@ -224,22 +290,54 @@ export function generateCreateDeserializer(
                                         }
                                         add(k, {
                                             "type": ((): t.__type_states_TU_Builder => {
+                                                function generateSteps(
+                                                    $: Step[],
+                                                ): t.__steps_B[] {
+                                                    return $.map(($): t.__steps_B => {
+                                                        return {
+                                                            "type": ((): t.__type_steps_TU_Builder => {
+                                                                switch ($.type[0]) {
+                                                                    case "dictionary":
+                                                                        return cc($.type[1], ($): t.__type_steps_TU_Builder => {
+                                                                            return ["dictionary", {}]
+                                                                        })
+                                                                    case "group":
+                                                                        return cc($.type[1], ($) => {
+                                                                            return ["group", {
+                                                                                "property": $.property,
+                                                                            }]
+                                                                        })
+                                                                    case "list":
+                                                                        return cc($.type[1], ($) => {
+                                                                            return ["list", {}]
+                                                                        })
+                                                                    case "tagged union option":
+                                                                        return cc($.type[1], ($) => {
+                                                                            return ["tagged union option", {
+                                                                                "option": $.option,
+                                                                            }]
+                                                                        })
+                                                                    default:
+                                                                        return assertUnreachable($.type[0])
+                                                                }
+                                                            })(),
+                                                        }
+                                                    })
+                                                }
                                                 switch ($.type[0]) {
                                                     case "collection":
                                                         return cc($.type[1], ($) => {
                                                             switch ($.type[0]) {
                                                                 case "dictionary":
-                                                                    return cc($.type[1], ($) => {
+                                                                    return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                                         return ["dictionary", {
                                                                             "type": {
-                                                                                "nested type reference": {
-                                                                                    "type": {
-                                                                                        // "namespace": ["other", {
-                                                                                        //     "namespace": "core",
-                                                                                        // }],
-                                                                                        "type": typeName,
+                                                                                "nested type": {
+                                                                                    "namespace": {
+                                                                                        "namespace": "core",
                                                                                     },
-                                                                                    "steps": [],
+                                                                                    "type": typeName,
+                                                                                    "steps": generateSteps(path),
                                                                                 },
                                                                                 "dictionary": k,
                                                                             },
@@ -249,14 +347,12 @@ export function generateCreateDeserializer(
                                                                     return cc($.type[1], ($) => {
                                                                         return ["list", {
                                                                             "type": {
-                                                                                "nested type reference": {
-                                                                                    "type": {
-                                                                                        // "namespace": ["other", {
-                                                                                        //     "namespace": "core",
-                                                                                        // }],
-                                                                                        "type": typeName,
+                                                                                "nested type": {
+                                                                                    "namespace": {
+                                                                                        "namespace": "core",
                                                                                     },
-                                                                                    "steps": [],
+                                                                                    "type": typeName,
+                                                                                    "steps": generateSteps(path),
                                                                                 },
                                                                                 "list": k,
                                                                             },
@@ -275,15 +371,18 @@ export function generateCreateDeserializer(
                                                     case "state group":
                                                         return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                             return ["type5", {
-                                                                "type": {
-                                                                    "namespace": ["other", {
-                                                                        //"namespace": "core",
-                                                                    }],
-                                                                    "type": k,
+                                                                "nested type": {
+                                                                    "namespace": {
+                                                                        "namespace": "core",
+                                                                    },
+                                                                    "type": typeName,
+                                                                    "steps": generateSteps(path),
                                                                 },
+
+                                                                // "type": k,
                                                                 "initializer": {
-                                                                    "type": ["tagged union", {
-                                                                        "strategy": ["literal", {
+                                                                    "strategy": ["literal", {
+                                                                        "type": ["tagged union", {
                                                                             "option": $["default state"].name,
                                                                             "data": generateInitializer(
                                                                                 $["default state"].get().node,
@@ -371,6 +470,11 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                                         "type": ["method", {
                                                                                                                                                                                                                             "strategy": ["procedure implementation", {
                                                                                                                                                                                                                                 "block": {
+                                                                                                                                                                                                                                    "variables": {
+                                                                                                                                                                                                                                        "y": {
+                                                                                                                                                                                                                                            "path": "$cb",
+                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                    },
                                                                                                                                                                                                                                     "return value": ["interface", {
                                                                                                                                                                                                                                         "initializer": {
                                                                                                                                                                                                                                             "type": ["reference", {
@@ -388,13 +492,41 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                                                                                                 "strategy": ["inline procedure", {
 
                                                                                                                                                                                                                                                                                     "specification": {
-                                                                                                                                                                                                                                                                                        "declaration": {
-
-                                                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                                                        "return type": ["interface", {
+                                                                                                                                                                                                                                                                                            "interface": {
+                                                                                                                                                                                                                                                                                                "type": ["reference", {
+                                                                                                                                                                                                                                                                                                    "namespace": {
+                                                                                                                                                                                                                                                                                                        "namespace": ["other", {
+                                                                                                                                                                                                                                                                                                            "namespace": {
+                                                                                                                                                                                                                                                                                                                "namespace": "deserialize api",
+                                                                                                                                                                                                                                                                                                                "type arguments": {
+                                                                                                                                                                                                                                                                                                                    "TokenAnnotation": {},
+                                                                                                                                                                                                                                                                                                                    "NonTokenAnnotation": {},
+                                                                                                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                                                                    "interface": "ValueHandler",
+                                                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                        }],
                                                                                                                                                                                                                                                                                         "block": {
                                                                                                                                                                                                                                                                                             "nested procedures": {
                                                                                                                                                                                                                                                                                                 "temp": { //temp
-                                                                                                                                                                                                                                                                                                    "specification": generateNodeDeserializer($.node, $$["key property"].get()),
+                                                                                                                                                                                                                                                                                                    "specification": generateNodeDeserializer(
+                                                                                                                                                                                                                                                                                                        $.node,
+                                                                                                                                                                                                                                                                                                        $$["key property"].get(),
+                                                                                                                                                                                                                                                                                                        path.concat([
+                                                                                                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                                                                                                "type": ["group", {
+                                                                                                                                                                                                                                                                                                                    "property": k,
+                                                                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                                                                                                "type": ["dictionary", {}],
+                                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                                        ]),
+                                                                                                                                                                                                                                                                                                    ),
                                                                                                                                                                                                                                                                                                 },
                                                                                                                                                                                                                                                                                             },
                                                                                                                                                                                                                                                                                             "return value": ["interface", {
@@ -426,10 +558,8 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                                                                                                                                                                                         }],
                                                                                                                                                                                                                                                                                                                                                                     },
                                                                                                                                                                                                                                                                                                                                                                     "initializer": {
-                                                                                                                                                                                                                                                                                                                                                                        "type": ["type reference", {
-                                                                                                                                                                                                                                                                                                                                                                            "strategy": ["from callback", {
+                                                                                                                                                                                                                                                                                                                                                                        "strategy": ["from callback", {
 
-                                                                                                                                                                                                                                                                                                                                                                            }],
                                                                                                                                                                                                                                                                                                                                                                         }],
                                                                                                                                                                                                                                                                                                                                                                     },
                                                                                                                                                                                                                                                                                                                                                                 }],
@@ -503,7 +633,20 @@ export function generateCreateDeserializer(
                                                                                                                                                                                     "arguments": {
                                                                                                                                                                                         "onElement": {
                                                                                                                                                                                             "strategy": ["procedure implementation", {
-                                                                                                                                                                                                "block": generateNodeDeserializer($.node, null),
+                                                                                                                                                                                                "block": generateNodeDeserializer(
+                                                                                                                                                                                                    $.node,
+                                                                                                                                                                                                    null,
+                                                                                                                                                                                                    path.concat([
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            "type": ["group", {
+                                                                                                                                                                                                                "property": k,
+                                                                                                                                                                                                            }],
+                                                                                                                                                                                                        },
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            "type": ["list", {}],
+                                                                                                                                                                                                        },
+                                                                                                                                                                                                    ]),
+                                                                                                                                                                                                ),
                                                                                                                                                                                             }],
                                                                                                                                                                                         },
                                                                                                                                                                                     },
@@ -611,6 +754,7 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                         "initializer": {
                                                                                                                                                                                                             "strategy": ["from callback", {
                                                                                                                                                                                                                 "path": ".token.data.value",
+
                                                                                                                                                                                                             }],
                                                                                                                                                                                                         },
                                                                                                                                                                                                     }],
@@ -660,8 +804,8 @@ export function generateCreateDeserializer(
                                                                                             "type": ["interface call", {
                                                                                                 "interface": "out",
                                                                                                 "initializer": {
-                                                                                                    "type": ["group", {
-                                                                                                        "strategy": ["literal", {
+                                                                                                    "strategy": ["literal", {
+                                                                                                        "type": ["group", {
                                                                                                             "properties": buildDictionary((add) => {
                                                                                                                 $.properties.forEach(($, k) => {
                                                                                                                     if ($ === keyProperty) {
@@ -669,25 +813,24 @@ export function generateCreateDeserializer(
                                                                                                                     }
                                                                                                                     add(k, {
                                                                                                                         "initializer": {
-                                                                                                                            "type": ((): t.__type_type_initializer_TU_Builder => {
+                                                                                                                            "strategy": ((): t.__strategy_type_initializer_TU_Builder => {
                                                                                                                                 switch ($.type[0]) {
                                                                                                                                     case "collection":
                                                                                                                                         return cc($.type[1], ($) => {
                                                                                                                                             switch ($.type[0]) {
                                                                                                                                                 case "dictionary":
                                                                                                                                                     return cc($.type[1], ($) => {
-                                                                                                                                                        return ["dictionary", {
-                                                                                                                                                            "strategy": ["from state", {
-                                                                                                                                                                "state": k,
-                                                                                                                                                            }],
+                                                                                                                                                        return ["from state", {
+                                                                                                                                                            "type": ["dictionary", {}],
+                                                                                                                                                            "state": k,
+
                                                                                                                                                         }]
                                                                                                                                                     })
                                                                                                                                                 case "list":
                                                                                                                                                     return cc($.type[1], ($) => {
-                                                                                                                                                        return ["list", {
-                                                                                                                                                            "strategy": ["from state", {
-                                                                                                                                                                "state": k,
-                                                                                                                                                            }],
+                                                                                                                                                        return ["from state", {
+                                                                                                                                                            "state": k,
+                                                                                                                                                            "type": ["list", {}],
                                                                                                                                                         }]
                                                                                                                                                     })
                                                                                                                                                 default:
@@ -696,49 +839,58 @@ export function generateCreateDeserializer(
                                                                                                                                         })
                                                                                                                                     case "component":
                                                                                                                                         return cc($.type[1], ($) => {
-                                                                                                                                            return ["string", {
-                                                                                                                                                "initializer": {
-                                                                                                                                                    "strategy": ["literal", {
-                                                                                                                                                        "value": "FIXME COMP",
-                                                                                                                                                    }],
-                                                                                                                                                },
+                                                                                                                                            return ["from state", {
+                                                                                                                                                "state": k,
+
                                                                                                                                             }]
                                                                                                                                         })
                                                                                                                                     case "state group":
                                                                                                                                         return cc($.type[1], ($) => {
-                                                                                                                                            return ["tagged union", {
-                                                                                                                                                "strategy": ["from state", {
-                                                                                                                                                    "state": k,
-                                                                                                                                                }],
+                                                                                                                                            return ["from state", {
+                                                                                                                                                "state": k,
+                                                                                                                                                //"type": ["tagged union", {}],//FIXME
                                                                                                                                             }]
                                                                                                                                         })
                                                                                                                                     case "value":
                                                                                                                                         return cc($.type[1], ($) => {
                                                                                                                                             switch ($.type[0]) {
                                                                                                                                                 case "boolean":
-                                                                                                                                                    return cc($.type[1], ($) => {
-                                                                                                                                                        return ["boolean", {
-                                                                                                                                                            "strategy": ["from state", {
-                                                                                                                                                                "state": k,
+                                                                                                                                                    return cc($.type[1], ($): t.__strategy_type_initializer_TU_Builder => {
+                                                                                                                                                        return ["from function", {
+                                                                                                                                                            "context": ["variable", {
+                                                                                                                                                                "variable": "x",
                                                                                                                                                             }],
+                                                                                                                                                            "function": "stringToBoolean",
+                                                                                                                                                            "argument": {
+                                                                                                                                                                "strategy": ["from state", {
+                                                                                                                                                                    "state": k,
+                                                                                                                                                                    "type": ["boolean", {}],
+
+                                                                                                                                                                }],
+                                                                                                                                                            },
                                                                                                                                                         }]
                                                                                                                                                     })
                                                                                                                                                 case "number":
                                                                                                                                                     return cc($.type[1], ($) => {
-                                                                                                                                                        return ["number", {
-                                                                                                                                                            "strategy": ["from state", {
-                                                                                                                                                                "state": k,
+                                                                                                                                                        return ["from function", {
+                                                                                                                                                            "context": ["variable", {
+                                                                                                                                                                "variable": "x",
                                                                                                                                                             }],
+                                                                                                                                                            "function": "stringToNumber",
+                                                                                                                                                            "argument": {
+                                                                                                                                                                "strategy": ["from state", {
+                                                                                                                                                                    "state": k,
+                                                                                                                                                                    "type": ["boolean", {}],
+
+                                                                                                                                                                }],
+                                                                                                                                                            },
                                                                                                                                                         }]
                                                                                                                                                     })
                                                                                                                                                 case "string":
                                                                                                                                                     return cc($.type[1], ($) => {
-                                                                                                                                                        return ["string", {
-                                                                                                                                                            "initializer": {
-                                                                                                                                                                "strategy": ["from state", {
-                                                                                                                                                                    "state": k,
-                                                                                                                                                                }],
-                                                                                                                                                            },
+                                                                                                                                                        return ["from state", {
+                                                                                                                                                            "state": k,
+                                                                                                                                                            "type": ["string", {}],
                                                                                                                                                         }]
                                                                                                                                                     })
                                                                                                                                                 default:
@@ -777,31 +929,40 @@ export function generateCreateDeserializer(
                     }
                     add(`${k}`, {
                         "specification": {
-                            "declaration": {
-                                "return type": ["interface", {
-                                    "interface": {
-                                        "type": ["reference", {
-                                            "interface": "ValueHandler",
-                                            // "type arguments": {
-                                            //     "TokenAnnotation": {},
-                                            //     "NonTokenAnnotation": {},
-                                            // },
-                                        }],
-                                    },
-
-                                }],
-                                "parameters": {
-                                    "callback": {
-                                        "type": ["interface", {
-                                            "interface": {
-                                                "type": ["method", {
-                                                    "type": {
-                                                        "namespace": ["other", {
-                                                            //"namespace": "core",
-                                                        }],
-                                                        "type": k,
+                            "return type": ["interface", {
+                                "interface": {
+                                    "type": ["reference", {
+                                        "namespace": {
+                                            "namespace": ["other", {
+                                                "namespace": {
+                                                    "namespace": "deserialize api",
+                                                    "type arguments": {
+                                                        "TokenAnnotation": {},
+                                                        "NonTokenAnnotation": {},
                                                     },
-                                                }],
+
+                                                },
+
+                                            }],
+                                        },
+                                        "interface": "ValueHandler",
+                                    }],
+                                },
+
+                            }],
+                            "parameters": {
+                                "callback": {
+                                    "interface": {
+                                        "type": ["method", {
+                                            "type": {
+                                                "namespace": {
+                                                    "namespace": ["other", {
+                                                        "namespace": {
+                                                            "namespace": "core",
+                                                        },
+                                                    }],
+                                                },
+                                                "type": k,
                                             },
                                         }],
                                     },
@@ -810,7 +971,11 @@ export function generateCreateDeserializer(
                             "block": {
                                 "nested procedures": {
                                     "temp": {
-                                        "specification": generateNodeDeserializer(e2.node, null),
+                                        "specification": generateNodeDeserializer(
+                                            e2.node,
+                                            null,
+                                            [],
+                                        ),
                                     },
                                 },
                                 "return value": ["interface", {
@@ -834,10 +999,8 @@ export function generateCreateDeserializer(
                                                                                             "type": ["interface call", {
                                                                                                 "interface": "callback",
                                                                                                 "initializer": {
-                                                                                                    "type": ["type reference", {
-                                                                                                        "strategy": ["from callback", {
-                                                                                                            "path": "",
-                                                                                                        }],
+                                                                                                    "strategy": ["from callback", {
+                                                                                                        "path": "",
                                                                                                     }],
                                                                                                 },
                                                                                             }],

@@ -55,6 +55,31 @@ export function generateCode2(
 ): void {
     callback({
         "namespaces": {
+            "lang": {
+                "types": {
+                    "boolean": {
+                        "type": {
+                            "type": ["boolean", {}],
+                        },
+                    },
+                    "number": {
+                        "type": {
+                            "type": ["number", {}],
+                        },
+                    },
+                    "string": {
+                        "type": {
+                            "type": ["string", {}],
+                        },
+                    },
+                    "nothing": {
+                        "type": {
+                            "type": ["group", {
+                            }],
+                        },
+                    },
+                },
+            },
             "core": generateCore(
                 schema,
             ),
