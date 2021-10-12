@@ -6,7 +6,7 @@ import {
     ITempBlock,
     ILine,
     generateCode,
-} from "./generateCode"
+} from "./generateCode_old"
 
 export const createCodeGenerator: CreateStreamConsumer = (
     write: (str: string) => void,

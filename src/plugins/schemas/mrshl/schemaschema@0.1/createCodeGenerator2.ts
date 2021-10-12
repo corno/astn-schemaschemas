@@ -3,7 +3,7 @@ import { createSchemaStreamProcesser } from "./createSchemaStreamProcessor"
 import * as p from "pareto"
 import * as ll from "../../../../lowlevel/generated/lowlevel"
 import * as gts from "../../../../lowlevel/generateTypescript"
-import { generateCode2 } from "./generateCode2"
+import { generateCode2 } from "./generateCode"
 
 export const createCodeGenerator2: CreateStreamConsumer = (
     write: (str: string) => void,
