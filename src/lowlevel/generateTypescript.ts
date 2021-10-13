@@ -119,12 +119,10 @@ interface TypeNameBuilder {
 
 interface GroupNameBuilder {
     property(name: string): TypeNameBuilder
-    getIdentifier(): string
 }
 
 interface TaggedUnionNameBuilder {
     option(name: string): TypeNameBuilder
-    getIdentifier(): string
 }
 
 function find<T>(
@@ -159,9 +157,6 @@ function createTypeNameBuilder(
         },
         group: () => {
             return {
-                getIdentifier: () => {
-                    return `${generateIdentifier(prefix)}_G`
-                },
                 property: (name) => {
                     return createTypeNameBuilder(`${prefix}_G_${name}_P`)
                 },
@@ -171,9 +166,6 @@ function createTypeNameBuilder(
             return {
                 option: (optName) => {
                     return createTypeNameBuilder(`${prefix}_TU_${optName}_O`)
-                },
-                getIdentifier: () => {
-                    return generateIdentifier(`${prefix}_TU`)
                 },
             }
         },
@@ -188,7 +180,7 @@ function createNameBuilder(
 ) {
     return {
         type: (name: string) => {
-            return createTypeNameBuilder(`${generateIdentifier(namespaceName)}_${name}_T`)
+            return createTypeNameBuilder(`${generateIdentifier(namespaceName)}_${name}`)
         },
     }
 }
@@ -361,7 +353,7 @@ export function generateTypeScript(
             $.namespace,
             $w,
             ($w) => {
-                $w.snippet(`${createNameBuilder("").type($$.type).getIdentifier()}`)
+                $w.snippet(`_${generateIdentifier($.type)}_T`)
             },
             namespaceName,
             typeArgumentsCallback,
@@ -573,17 +565,17 @@ export function generateTypeScript(
                         break
                     }
                     case "dictionary": {
-                        $w.snippet(`${x.dictionary().getIdentifier()}`)
+                        $w.snippet(`${x.getIdentifier()}`)
                         generateTypeParameters($w)
                         break
                     }
                     case "group": {
-                        $w.snippet(`${x.group().getIdentifier()}`)
+                        $w.snippet(`${x.getIdentifier()}`)
                         generateTypeParameters($w)
                         break
                     }
                     case "list": {
-                        $w.snippet(`${x.list().getIdentifier()}`)
+                        $w.snippet(`${x.getIdentifier()}`)
                         generateTypeParameters($w)
                         break
                     }
@@ -596,7 +588,7 @@ export function generateTypeScript(
                         break
                     }
                     case "tagged union": {
-                        $w.snippet(`${x.taggedUnion().getIdentifier()}`)
+                        $w.snippet(`${x.getIdentifier()}`)
                         generateTypeParameters($w)
                         break
                     }
@@ -636,7 +628,7 @@ export function generateTypeScript(
                         )
                         $w.line(() => { })
                         $w.line(($w) => {
-                            $w.snippet(`type ${x.dictionary().getIdentifier()}`)
+                            $w.snippet(`type ${x.getIdentifier()}`)
                             generateTypeParameters($w)
                             $w.snippet(` = IDictionary<`)
                             generateTypeUsage(
@@ -659,7 +651,7 @@ export function generateTypeScript(
                         //generate code for this type
                         $w.line(() => { })
                         $w.line(($w) => {
-                            $w.snippet(`type ${x.group().getIdentifier()}`)
+                            $w.snippet(`type ${x.getIdentifier()}`)
                             generateTypeParameters($w)
                             $w.snippet(` = {`)
                             $w.indent(($w) => {
@@ -728,7 +720,7 @@ export function generateTypeScript(
                         })
                         $w.line(() => { })
                         $w.line(($w) => {
-                            $w.snippet(`type ${tu.getIdentifier()}`)
+                            $w.snippet(`type ${x.getIdentifier()}`)
                             generateTypeParameters($w)
                             $w.snippet(` = `)
                             $w.indent(($w) => {
@@ -1125,16 +1117,77 @@ export function generateTypeScript(
             $w.snippet(`{`)
             $w.indent(($w) => {
                 $.parameters.forEach(($, key) => {
+                    const namespaceName = ns2.namespace
+                    const typeArgumentsCallback = () => {}
                     $w.line(($w) => {
                         $w.snippet(`${generateQuoted(key)}: `)
-                        generateInterfaceDefinition(
-                            $.interface,
-                            $w,
-                            ns2.namespace,
-                            ($w) => {
+                        switch ($.type[0]) {
+                            case "group":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`{`)
+                                    $w.indent(($w) => {
+                                        $.members.forEach(($, key) => {
+                                            $w.line(($w) => {
+                                                $w.snippet(`${generateQuoted(key)}: `)
+                                                generateInterfaceDefinition(
+                                                    $.definition,
+                                                    $w,
+                                                    namespaceName,
+                                                    typeArgumentsCallback,
+                                                )
+                                            })
+                                        })
+                                    })
+                                    $w.snippet(`}`)
+                                })
+                                break
+                            case "method":
+                                cc($.type[1], ($) => {
+                                    $w.snippet(`($: `)
+                                    navigateToNestedType(
+                                        $.type,
+                                    )
+                                    $w.snippet(`${navigateToNestedType($.type).getIdentifier()}`)
 
-                            },
-                        )
+                                    $w.snippet(`) => `)
+                                    switch ($["return type"][0]) {
+                                        case "interface":
+                                            cc($["return type"][1], ($) => {
+                                                generateInterfaceDefinition(
+                                                    $.interface,
+                                                    $w,
+                                                    namespaceName,
+                                                    typeArgumentsCallback,
+                                                )
+                                            })
+                                            break
+                                        case "void":
+                                            cc($["return type"][1], () => {
+                                                $w.snippet(`void`)
+                                            })
+                                            break
+                                        default:
+                                            assertUnreachable($["return type"][0])
+                                    }
+                                })
+                                break
+                            case "reference":
+                                cc($.type[1], ($) => {
+                                    const x = $.interface
+                                    generateNamespacedIdentifier(
+                                        $.namespace,
+                                        $w,
+                                        ($w) => {
+                                            $w.snippet(`_${x}_I`)
+                                        },
+                                        namespaceName,
+                                        typeArgumentsCallback,
+                                    )
+                                })
+                                break
+                            default:
+                                assertUnreachable($.type[0])
+                        }
                     })
                 })
             })
@@ -1355,14 +1408,14 @@ export function generateTypeScript(
                             case "dictionary":
                                 cc($.type[1], ($) => {
                                     $w.snippet(`const ${generateIdentifier(key)}: { [key: string]: `)
-                                    $w.snippet(`${navigateToNestedType($.type["nested type"]).getIdentifier()}_${$.type["dictionary"]}`)
+                                    $w.snippet(`${navigateToNestedType($.type).dictionary().getIdentifier()}`)
                                     $w.snippet(` } = {}`)
                                 })
                                 break
                             case "list":
                                 cc($.type[1], ($) => {
                                     $w.snippet(`const ${generateIdentifier(key)}: `)
-                                    $w.snippet(`${navigateToNestedType($.type["nested type"]).getIdentifier()}`)
+                                    $w.snippet(`${navigateToNestedType($.type).list().getIdentifier()}`)
                                     $w.snippet(`[] = []`)
                                 })
                                 break
@@ -1374,7 +1427,7 @@ export function generateTypeScript(
                             case "type5":
                                 cc($.type[1], ($) => {
                                     $w.snippet(`const ${generateIdentifier(key)}: `)
-                                    $w.snippet(`${navigateToNestedType($["nested type"]).taggedUnion().option(key).getIdentifier()}`)
+                                    $w.snippet(`${navigateToNestedType($["nested type"]).getIdentifier()}`)
                                     doDictionary(
                                         $["nested type"].namespace["type arguments"],
                                         () => {

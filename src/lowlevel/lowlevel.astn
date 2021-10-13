@@ -207,7 +207,27 @@
         } >
         "parameters": < 'collection' {
             "name": < 'value' "" 'text' >
-            "interface": < 'component' "interface definition" >
+            "type": < 'state group' "group" {
+                "group": < {
+                    "members": < 'collection' {
+                        "name": < 'value' "" 'text' >
+                        "definition": < 'component' "interface definition">
+                    } 'dictionary' "name" >
+                } >
+                "method": < {
+                    "type": < 'component' "nested type reference" >
+                    "return type": < 'state group' "void" {
+                        "void": < { } >
+                        "interface": < {
+                            "interface": < 'component' "interface definition" >
+                        } >
+                    } >
+                } >
+                "reference": < {
+                    "namespace": < 'component' "optional namespace reference" >
+                    "interface": < 'value' "*referenced interface*" 'text' >
+                } >
+            } >
         } 'dictionary' "name" >
         "block": < 'component' "procedure block" >
     } >
@@ -299,14 +319,6 @@
             } >
         } 'list'>
     } >
-    "dictionary reference": < {
-        "nested type": < 'component' "nested type reference" >
-        "dictionary": < 'value' "*dictionary*" 'text' >
-    } >
-    "list reference": < {
-        "nested type": < 'component' "nested type reference" >
-        "list": < 'value' "*list*" 'text' >
-    } >
     "procedure block": < {
         "nested procedures": < 'collection' {
             "name": < 'value' "" 'text' >
@@ -323,10 +335,10 @@
                     "initial value": < 'value' "" 'text' >
                 } >
                 "dictionary": < {
-                    "type": < 'component' "dictionary reference">
+                    "type": < 'component' "nested type reference">
                 } >
                 "list": < {
-                    "type": < 'component' "list reference">
+                    "type": < 'component' "nested type reference">
                 } >
                 "type5": < {
                     "nested type": < 'component' "nested type reference" >

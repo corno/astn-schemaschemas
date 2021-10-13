@@ -74,22 +74,20 @@ export function generateCreateDeserializer(
                         }],
                         "parameters": {
                             "handler": {
-                                "interface": {
-                                    "type": ["reference", {
-                                        "namespace": {
-                                            "namespace": ["other", {
-                                                "namespace": {
-                                                    "namespace": "deserialize api",
-                                                    "type arguments": {
-                                                        "TokenAnnotation": {},
-                                                        "NonTokenAnnotation": {},
-                                                    },
+                                "type": ["reference", {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "deserialize api",
+                                                "type arguments": {
+                                                    "TokenAnnotation": {},
+                                                    "NonTokenAnnotation": {},
                                                 },
-                                            }],
-                                        },
-                                        "interface": "ValueHandler",
-                                    }],
-                                },
+                                            },
+                                        }],
+                                    },
+                                    "interface": "ValueHandler",
+                                }],
                             },
                         },
                         "block": {
@@ -138,10 +136,44 @@ export function generateCreateDeserializer(
                             "option": string
                         }]
                     }
+                    function generateSteps(
+                        $: Step[],
+                    ): t.__steps_B[] {
+                        return $.map(($): t.__steps_B => {
+                            return {
+                                "type": ((): t.__type_steps_TU_Builder => {
+                                    switch ($.type[0]) {
+                                        case "dictionary":
+                                            return cc($.type[1], ($): t.__type_steps_TU_Builder => {
+                                                return ["dictionary", {}]
+                                            })
+                                        case "group":
+                                            return cc($.type[1], ($) => {
+                                                return ["group", {
+                                                    "property": $.property,
+                                                }]
+                                            })
+                                        case "list":
+                                            return cc($.type[1], ($) => {
+                                                return ["list", {}]
+                                            })
+                                        case "tagged union option":
+                                            return cc($.type[1], ($) => {
+                                                return ["tagged union option", {
+                                                    "option": $.option,
+                                                }]
+                                            })
+                                        default:
+                                            return assertUnreachable($.type[0])
+                                    }
+                                })(),
+                            }
+                        })
+                    }
                     function generateNodeDeserializer(
                         $: def.Node,
                         keyProperty: def.Property | null,
-                        path: Step[],
+                        typePath: Step[],
                     ): t.__internal_procedure_specification_B {
                         return {
                             "return type": ["interface", {
@@ -165,27 +197,23 @@ export function generateCreateDeserializer(
                             }],
                             "parameters": {
                                 "out": {
-                                    "interface": {
-                                        "type": ["method", {
-                                            "type": {
-                                                "namespace": {
-                                                    "namespace": ["other", {
-                                                        "namespace": {
-                                                            "namespace": "core",
-                                                        },
-                                                    }],
-                                                },
-                                                "type": k,
+                                    "type": ["method", {
+                                        "type": {
+                                            "namespace": {
+                                                "namespace": "core",
                                             },
-                                            "return type": ["void", {
-                                            }],
+                                            "type": k,
+                                            "steps": generateSteps(typePath),
+                                        },
+                                        "return type": ["void", {
                                         }],
-                                    },
+                                    }],
                                 },
                             },
                             "block": {
                                 "states": buildDictionary((add) => {
                                     $.properties.forEach(($, k) => {
+                                        const newPath = typePath.concat([{ "type": ["group", { "property": k }] }])
                                         function generateInitializer(
                                             $: def.Node,
                                             keyProperty: def.Property | null,
@@ -290,40 +318,6 @@ export function generateCreateDeserializer(
                                         }
                                         add(k, {
                                             "type": ((): t.__type_states_TU_Builder => {
-                                                function generateSteps(
-                                                    $: Step[],
-                                                ): t.__steps_B[] {
-                                                    return $.map(($): t.__steps_B => {
-                                                        return {
-                                                            "type": ((): t.__type_steps_TU_Builder => {
-                                                                switch ($.type[0]) {
-                                                                    case "dictionary":
-                                                                        return cc($.type[1], ($): t.__type_steps_TU_Builder => {
-                                                                            return ["dictionary", {}]
-                                                                        })
-                                                                    case "group":
-                                                                        return cc($.type[1], ($) => {
-                                                                            return ["group", {
-                                                                                "property": $.property,
-                                                                            }]
-                                                                        })
-                                                                    case "list":
-                                                                        return cc($.type[1], ($) => {
-                                                                            return ["list", {}]
-                                                                        })
-                                                                    case "tagged union option":
-                                                                        return cc($.type[1], ($) => {
-                                                                            return ["tagged union option", {
-                                                                                "option": $.option,
-                                                                            }]
-                                                                        })
-                                                                    default:
-                                                                        return assertUnreachable($.type[0])
-                                                                }
-                                                            })(),
-                                                        }
-                                                    })
-                                                }
                                                 switch ($.type[0]) {
                                                     case "collection":
                                                         return cc($.type[1], ($) => {
@@ -332,14 +326,11 @@ export function generateCreateDeserializer(
                                                                     return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                                         return ["dictionary", {
                                                                             "type": {
-                                                                                "nested type": {
-                                                                                    "namespace": {
-                                                                                        "namespace": "core",
-                                                                                    },
-                                                                                    "type": typeName,
-                                                                                    "steps": generateSteps(path),
+                                                                                "namespace": {
+                                                                                    "namespace": "core",
                                                                                 },
-                                                                                "dictionary": k,
+                                                                                "type": typeName,
+                                                                                "steps": generateSteps(newPath),
                                                                             },
                                                                         }]
                                                                     })
@@ -347,14 +338,11 @@ export function generateCreateDeserializer(
                                                                     return cc($.type[1], ($) => {
                                                                         return ["list", {
                                                                             "type": {
-                                                                                "nested type": {
-                                                                                    "namespace": {
-                                                                                        "namespace": "core",
-                                                                                    },
-                                                                                    "type": typeName,
-                                                                                    "steps": generateSteps(path),
+                                                                                "namespace": {
+                                                                                    "namespace": "core",
                                                                                 },
-                                                                                "list": k,
+                                                                                "type": typeName,
+                                                                                "steps": generateSteps(newPath),
                                                                             },
                                                                         }]
                                                                     })
@@ -376,7 +364,7 @@ export function generateCreateDeserializer(
                                                                         "namespace": "core",
                                                                     },
                                                                     "type": typeName,
-                                                                    "steps": generateSteps(path),
+                                                                    "steps": generateSteps(newPath),
                                                                 },
 
                                                                 // "type": k,
@@ -425,6 +413,7 @@ export function generateCreateDeserializer(
                                                                             if (p === keyProperty) {
                                                                                 return
                                                                             }
+                                                                            const newPath = typePath.concat([{ "type": ["group", { "property": k }] }])
                                                                             add(k, {
                                                                                 "initializer": {
                                                                                     "type": ["group", {
@@ -516,12 +505,7 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                                                                                                                     "specification": generateNodeDeserializer(
                                                                                                                                                                                                                                                                                                         $.node,
                                                                                                                                                                                                                                                                                                         $$["key property"].get(),
-                                                                                                                                                                                                                                                                                                        path.concat([
-                                                                                                                                                                                                                                                                                                            {
-                                                                                                                                                                                                                                                                                                                "type": ["group", {
-                                                                                                                                                                                                                                                                                                                    "property": k,
-                                                                                                                                                                                                                                                                                                                }],
-                                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                                        newPath.concat([
                                                                                                                                                                                                                                                                                                             {
                                                                                                                                                                                                                                                                                                                 "type": ["dictionary", {}],
                                                                                                                                                                                                                                                                                                             },
@@ -636,12 +620,7 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                 "block": generateNodeDeserializer(
                                                                                                                                                                                                     $.node,
                                                                                                                                                                                                     null,
-                                                                                                                                                                                                    path.concat([
-                                                                                                                                                                                                        {
-                                                                                                                                                                                                            "type": ["group", {
-                                                                                                                                                                                                                "property": k,
-                                                                                                                                                                                                            }],
-                                                                                                                                                                                                        },
+                                                                                                                                                                                                    newPath.concat([
                                                                                                                                                                                                         {
                                                                                                                                                                                                             "type": ["list", {}],
                                                                                                                                                                                                         },
@@ -952,20 +931,14 @@ export function generateCreateDeserializer(
                             }],
                             "parameters": {
                                 "callback": {
-                                    "interface": {
-                                        "type": ["method", {
-                                            "type": {
-                                                "namespace": {
-                                                    "namespace": ["other", {
-                                                        "namespace": {
-                                                            "namespace": "core",
-                                                        },
-                                                    }],
-                                                },
-                                                "type": k,
+                                    "type": ["method", {
+                                        "type": {
+                                            "namespace": {
+                                                "namespace": "core",
                                             },
-                                        }],
-                                    },
+                                            "type": k,
+                                        },
+                                    }],
                                 },
                             },
                             "block": {
