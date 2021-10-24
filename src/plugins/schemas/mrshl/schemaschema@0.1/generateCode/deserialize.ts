@@ -37,128 +37,137 @@ export function generateDeserializeNamespace(
         },
         "procedure declarations": {
             "createDeserializer": {
-                "declaration": {
-                    "return type": ["interface", {
-                        "interface": {
-                            "type": ["reference", {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
-                                            "namespace": "deserialize api",
-                                            "type arguments": {
-                                                "TokenAnnotation": {},
-                                                "NonTokenAnnotation": {},
-                                            },
+                "context": {
+                    "namespace": {
+                        "namespace": ["other", {
+                            "namespace": {
+                                "namespace": "lang",
+                            },
+                        }],
+                    },
+                    "type": "nothing",
+                },
+                "return type": ["interface", {
+                    "interface": {
+                        "type": ["reference", {
+                            "namespace": {
+                                "namespace": ["other", {
+                                    "namespace": {
+                                        "namespace": "deserialize api",
+                                        "type arguments": {
+                                            "TokenAnnotation": {},
+                                            "NonTokenAnnotation": {},
                                         },
-                                    }],
-                                },
-                                "interface": "RequiredValueHandler",
-                            }],
-                        },
+                                    },
+                                }],
+                            },
+                            "interface": "RequiredValueHandler",
+                        }],
+                    },
 
-                    }],
-                    "parameters": {
-                        "stringToBoolean": {
-                            "type": ["function", {
-                                "in": {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
-                                                "namespace": "lang",
-                                            },
-                                        }],
-                                    },
-                                    "type": "string",
-                                },
-                                "out": {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
-                                                "namespace": "lang",
-                                            },
-                                        }],
-                                    },
-                                    "type": "boolean",
-                                },
-                            }],
-                        },
-                        "stringToNumber": {
-                            "type": ["function", {
-                                "in": {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
-                                                "namespace": "lang",
-                                            },
-                                        }],
-                                    },
-                                    "type": "string",
-                                },
-                                "out": {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
-                                                "namespace": "lang",
-                                            },
-                                        }],
-                                    },
-                                    "type": "number",
-                                },
-                            }],
-                        },
-                        "context": {
-                            "type": ["builder", {
-                                "builder": "ExpectContext",
+                }],
+                "functions": {
+                    "stringToBoolean": {
+                        "declaration": {
+
+                            "in": {
                                 "namespace": {
                                     "namespace": ["other", {
                                         "namespace": {
-                                            "namespace": "deserialize api",
-                                            "type arguments": {
-                                                "TokenAnnotation": {},
-                                                "NonTokenAnnotation": {},
-                                            },
+                                            "namespace": "lang",
                                         },
                                     }],
                                 },
-                            }],
-                        },
-                        "raiseValidationError": {
-                            "type": ["interface", {
-                                "interface": {
-                                    "type": ["method", {
-                                        "type": {
-                                            "namespace": {
-                                                "namespace": ["other", {
-                                                    "namespace": {
-                                                        "namespace": "deserialize api",
-                                                        "type arguments": {
-                                                            "TokenAnnotation": {},
-                                                            "NonTokenAnnotation": {},
-                                                        },
-                                                    },
-                                                }],
-                                            },
-                                            "type": "ValidationError",
+                                "type": "string",
+                            },
+                            "out": {
+                                "namespace": {
+                                    "namespace": ["other", {
+                                        "namespace": {
+                                            "namespace": "lang",
                                         },
                                     }],
                                 },
-                            }],
+                                "type": "boolean",
+                            },
                         },
-                        "callback": {
-                            "type": ["interface", {
-                                "interface": {
-                                    "type": ["method", {
-                                        "type": {
-                                            "namespace": {
-                                                "namespace": ["other", {
-                                                    "namespace": {
-                                                        "namespace": "core",
-                                                    },
-                                                }],
-                                            },
-                                            "type": schema["root type"].name,
+                    },
+                    "stringToNumber": {
+                        "declaration": {
+                            "in": {
+                                "namespace": {
+                                    "namespace": ["other", {
+                                        "namespace": {
+                                            "namespace": "lang",
                                         },
                                     }],
+                                },
+                                "type": "string",
+                            },
+                            "out": {
+                                "namespace": {
+                                    "namespace": ["other", {
+                                        "namespace": {
+                                            "namespace": "lang",
+                                        },
+                                    }],
+                                },
+                                "type": "number",
+                            },
+                        },
+                    },
+
+                },
+                "interfaces": {
+                    "raiseValidationError": {
+                        "interface": {
+                            "type": ["method", {
+                                "type": {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "deserialize api",
+                                                "type arguments": {
+                                                    "TokenAnnotation": {},
+                                                    "NonTokenAnnotation": {},
+                                                },
+                                            },
+                                        }],
+                                    },
+                                    "type": "ValidationError",
+                                },
+                            }],
+                        },
+                    },
+                    "callback": {
+                        "interface": {
+                            "type": ["method", {
+                                "type": {
+                                    "namespace": {
+                                        "namespace": ["other", {
+                                            "namespace": {
+                                                "namespace": "core",
+                                            },
+                                        }],
+                                    },
+                                    "type": schema["root type"].name,
+                                },
+                            }],
+                        },
+                    },
+
+                },
+                "builders": {
+                    "context": {
+                        "builder": "ExpectContext",
+                        "namespace": {
+                            "namespace": ["other", {
+                                "namespace": {
+                                    "namespace": "deserialize api",
+                                    "type arguments": {
+                                        "TokenAnnotation": {},
+                                        "NonTokenAnnotation": {},
+                                    },
                                 },
                             }],
                         },

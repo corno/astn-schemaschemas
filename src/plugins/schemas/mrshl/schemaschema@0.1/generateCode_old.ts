@@ -591,8 +591,26 @@ export function generateCode(
                                         break
                                     }
                                     case "value": {
-                                        //const $$ = $.type[1]
-                                        $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: string | null = null`))
+                                        const $$ = $.type[1]
+                                        switch ($$.type[0]) {
+                                            case "boolean":
+                                                cc($$.type[1], (_$$) => {
+                                                    $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: boolean | null = null`))
+                                                })
+                                                break
+                                            case "number":
+                                                cc($$.type[1], (_$$) => {
+                                                    $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: number | null = null`))
+                                                })
+                                                break
+                                            case "string":
+                                                cc($$.type[1], (_$$) => {
+                                                    $w.variable(($w) => $w.snippet(`let ${generateVariableIdentifier(key)}: string | null = null`))
+                                                })
+                                                break
+                                            default:
+                                                assertUnreachable($$.type[0])
+                                        }
                                         break
                                     }
                                     default:
@@ -908,73 +926,74 @@ export function generateCode(
     })
     $w.fullLine(`): ${createIdentifierGenerator(schema["root type"].name).generateNodeIdentifier()} {`)
     $w.statementsBlock(($w) => {
-        schema["component types"].forEach(($, key) => {                                                    function generateDefaultInitializationCodeForNode(
-            node: def.Node,
-            keyProperty: def.Property | null,
-            $w: ILine,
-        ) {
+        schema["component types"].forEach(($, key) => {
+            function generateDefaultInitializationCodeForNode(
+                node: def.Node,
+                keyProperty: def.Property | null,
+                $w: ILine,
+            ) {
 
-            $w.snippet(`{`)
-            $w.tempBlock(($w) => {
+                $w.snippet(`{`)
+                $w.tempBlock(($w) => {
 
-                node.properties.forEach(($, key) => {
-                    if ($ === keyProperty) {
-                        return
-                    }
-                    $w.line(($w) => {
-                        $w.snippet(`"${key}": `)
-                        switch ($.type[0]) {
-                            case "collection": {
-                                const $$ = $.type[1]
-                                // const newPath = path.collection(key)
-                                // const node = $$.node
-                                switch ($$.type[0]) {
-                                    case "dictionary": {
-                                        // const $$$ = $$.type[1]
-                                        $w.snippet(`createDictionary({})`)
-                                        break
-                                    }
-                                    case "list": {
-                                        $w.snippet(`[]`)
-                                        break
-                                    }
-                                    default:
-                                        assertUnreachable($$.type[0])
-                                }
-                                break
-                            }
-                            case "component": {
-                                const $$ = $.type[1]
-                                $w.snippet(`_default${generateBuilderFunctionName($$.type.name)}()`)
-                                break
-                            }
-                            case "state group": {
-                                const $$ = $.type[1]
-
-                                $w.snippet(`[ "${$$["default state"].name}", `)
-                                generateDefaultInitializationCodeForNode(
-                                    $$["default state"].get().node,
-                                    null,
-                                    $w,
-                                )
-                                $w.snippet(` ]`)
-                                break
-                            }
-                            case "value": {
-                                const $$ = $.type[1]
-                                $w.snippet(`"${$$["default value"]}"`)
-                                break
-                            }
-                            default:
-                                assertUnreachable($.type[0])
+                    node.properties.forEach(($, key) => {
+                        if ($ === keyProperty) {
+                            return
                         }
-                        $w.snippet(`,`)
+                        $w.line(($w) => {
+                            $w.snippet(`"${key}": `)
+                            switch ($.type[0]) {
+                                case "collection": {
+                                    const $$ = $.type[1]
+                                    // const newPath = path.collection(key)
+                                    // const node = $$.node
+                                    switch ($$.type[0]) {
+                                        case "dictionary": {
+                                            // const $$$ = $$.type[1]
+                                            $w.snippet(`createDictionary({})`)
+                                            break
+                                        }
+                                        case "list": {
+                                            $w.snippet(`[]`)
+                                            break
+                                        }
+                                        default:
+                                            assertUnreachable($$.type[0])
+                                    }
+                                    break
+                                }
+                                case "component": {
+                                    const $$ = $.type[1]
+                                    $w.snippet(`_default${generateBuilderFunctionName($$.type.name)}()`)
+                                    break
+                                }
+                                case "state group": {
+                                    const $$ = $.type[1]
 
+                                    $w.snippet(`[ "${$$["default state"].name}", `)
+                                    generateDefaultInitializationCodeForNode(
+                                        $$["default state"].get().node,
+                                        null,
+                                        $w,
+                                    )
+                                    $w.snippet(` ]`)
+                                    break
+                                }
+                                case "value": {
+                                    const $$ = $.type[1]
+                                    $w.snippet(`"${$$["default value"]}"`)
+                                    break
+                                }
+                                default:
+                                    assertUnreachable($.type[0])
+                            }
+                            $w.snippet(`,`)
+
+                        })
                     })
                 })
-            })
-            $w.snippet(`}`)
-        }
+                $w.snippet(`}`)
+            }
             $w.fullLine(`function ${generateBuilderFunctionName(key)}(`)
             $w.parameters(($w) => {
                 $w.fullLine(`intermediate: ${createIdentifierGenerator(key).generateNodeBuilderIdentifier()},`)

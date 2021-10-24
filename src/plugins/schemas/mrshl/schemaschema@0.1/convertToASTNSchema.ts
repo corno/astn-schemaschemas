@@ -159,7 +159,7 @@ export function convertToASTNSchema(schema: Schema): astn.Schema {
     )
     const success = resolveRegistry.resolve(
         ($) => {
-            throw new Error(`unexpected error: ${$.message}`)
+            throw new Error(`unexpected resolve error: ${$.message}`)
         }
     )
     if (!success) {

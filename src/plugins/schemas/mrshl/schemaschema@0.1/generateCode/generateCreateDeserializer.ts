@@ -45,11 +45,6 @@ export function generateCreateDeserializer(
         },
         "declaration": "createDeserializer",
         "block": {
-            "variables": {
-                "x": {
-                    "path": "$p",
-                },
-            },
             "nested procedures": buildDictionary((add) => {
                 add("wrap", {
                     "specification": {
@@ -70,7 +65,6 @@ export function generateCreateDeserializer(
                                     "interface": "RequiredValueHandler",
                                 }],
                             },
-
                         }],
                         "parameters": {
                             "handler": {
@@ -92,28 +86,34 @@ export function generateCreateDeserializer(
                         },
                         "block": {
                             "return value": ["interface", {
-                                "initializer": {
-                                    "type": ["group", {
-                                        "strategy": ["inline", {
-                                            "members": {
-                                                "exists": {
-                                                    "initializer": {
-                                                        "type": ["method", {
-                                                            "strategy": ["argument", {
-                                                                "argument": "handler",
+                                "expression": {
+                                    "type": ["initialize", {
+                                        "type": ["group", {
+                                            "strategy": ["inline", {
+                                                "members": {
+                                                    "exists": {
+                                                        "expression": {
+                                                            "type": ["initialize", {
+                                                                "type": ["method", {
+                                                                    "strategy": ["argument", {
+                                                                        "argument": "handler",
+                                                                    }],
+                                                                }],
                                                             }],
-                                                        }],
+                                                        },
+                                                    },
+                                                    "missing": {
+                                                        "expression": {
+                                                            "type": ["initialize", {
+                                                                "type": ["method", {
+                                                                    "strategy": ["procedure implementation", {
+                                                                    }],
+                                                                }],
+                                                            }],
+                                                        },
                                                     },
                                                 },
-                                                "missing": {
-                                                    "initializer": {
-                                                        "type": ["method", {
-                                                            "strategy": ["procedure implementation", {
-                                                            }],
-                                                        }],
-                                                    },
-                                                },
-                                            },
+                                            }],
                                         }],
                                     }],
                                 },
@@ -138,8 +138,8 @@ export function generateCreateDeserializer(
                     }
                     function generateSteps(
                         $: Step[],
-                    ): t.__steps_B[] {
-                        return $.map(($): t.__steps_B => {
+                    ): t.__steps_nested_type_reference_B[] {
+                        return $.map(($): t.__steps_nested_type_reference_B => {
                             return {
                                 "type": ((): t.__type_steps_TU_Builder => {
                                     switch ($.type[0]) {
@@ -179,7 +179,6 @@ export function generateCreateDeserializer(
                             "return type": ["interface", {
                                 "interface": {
                                     "type": ["reference", {
-
                                         "namespace": {
                                             "namespace": ["other", {
                                                 "namespace": {
@@ -217,7 +216,7 @@ export function generateCreateDeserializer(
                                         function generateInitializer(
                                             $: def.Node,
                                             keyProperty: def.Property | null,
-                                        ): t.__type_initializer_B {
+                                        ): t.__type_expression_B {
                                             return {
                                                 "strategy": ["literal", {
                                                     "type": ["group", {
@@ -227,11 +226,11 @@ export function generateCreateDeserializer(
                                                                     return
                                                                 }
                                                                 add(k, {
-                                                                    "initializer": {
-                                                                        "strategy": ((): t.__strategy_type_initializer_TU_Builder => {
+                                                                    "expression": {
+                                                                        "strategy": ((): t.__strategy_type_expression_TU_Builder => {
                                                                             switch ($.type[0]) {
                                                                                 case "collection":
-                                                                                    return cc($.type[1], ($): t.__strategy_type_initializer_TU_Builder => {
+                                                                                    return cc($.type[1], ($): t.__strategy_type_expression_TU_Builder => {
                                                                                         switch ($.type[0]) {
                                                                                             case "dictionary":
                                                                                                 return cc($.type[1], ($) => {
@@ -335,7 +334,7 @@ export function generateCreateDeserializer(
                                                                         }]
                                                                     })
                                                                 case "list":
-                                                                    return cc($.type[1], ($) => {
+                                                                    return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                                         return ["list", {
                                                                             "type": {
                                                                                 "namespace": {
@@ -353,7 +352,7 @@ export function generateCreateDeserializer(
                                                     case "component":
                                                         return cc($.type[1], ($) => {
                                                             return ["type5", {
-                                                                "initializer": generateInitializer($.type.get().node, null),
+                                                                "expression": generateInitializer($.type.get().node, null),
                                                             }]
                                                         })
                                                     case "state group":
@@ -366,9 +365,8 @@ export function generateCreateDeserializer(
                                                                     "type": typeName,
                                                                     "steps": generateSteps(newPath),
                                                                 },
-
                                                                 // "type": k,
-                                                                "initializer": {
+                                                                "expression": {
                                                                     "strategy": ["literal", {
                                                                         "type": ["tagged union", {
                                                                             "option": $["default state"].name,
@@ -396,509 +394,649 @@ export function generateCreateDeserializer(
                                     })
                                 }),
                                 "return value": ["interface", {
-                                    "initializer": {
-                                        "type": ["reference", {
-                                            "strategy": ["procedure call6", {
-                                                "procedure call": {
-                                                    "type": ["variable", {
-                                                        "variable": "x",
-                                                        "path": ".context.expectVerboseGroup",
-                                                    }],
+                                    "expression": {
+                                        "type": ["initialize", {
+                                            "type": ["reference", {
+                                                "strategy": ["procedure call6", {
                                                     "procedure call": {
-                                                        "arguments": {
-                                                            "properties": {
-                                                                "type": ["dictionary", {
-                                                                    "entries": buildDictionary((add) => {
-                                                                        $.properties.forEach((p, k) => {
-                                                                            if (p === keyProperty) {
-                                                                                return
-                                                                            }
-                                                                            const newPath = typePath.concat([{ "type": ["group", { "property": k }] }])
-                                                                            add(k, {
-                                                                                "initializer": {
-                                                                                    "type": ["group", {
-                                                                                        "strategy": ["inline", {
-                                                                                            "members": {
-                                                                                                "onExists": {
-                                                                                                    "initializer": {
-                                                                                                        "type": ["method", {
-                                                                                                            "strategy": ["procedure implementation", {
-                                                                                                                "block": {
-                                                                                                                    "return value": ["interface", {
-                                                                                                                        "initializer": {
-                                                                                                                            "type": ((): t.__type_interface_initializer_TU_Builder => {
-                                                                                                                                switch (p.type[0]) {
-                                                                                                                                    case "collection":
-                                                                                                                                        return cc(p.type[1], ($): t.__type_interface_initializer_TU_Builder => {
-                                                                                                                                            switch ($.type[0]) {
-                                                                                                                                                case "dictionary":
-                                                                                                                                                    return cc($.type[1], ($$): t.__type_interface_initializer_TU_Builder => {
-                                                                                                                                                        return ["reference", {
-                                                                                                                                                            "strategy": ["procedure call6", {
-                                                                                                                                                                "procedure call": {
-                                                                                                                                                                    "type": ["local", {
-                                                                                                                                                                        "procedure": "wrap",
-                                                                                                                                                                    }],
-                                                                                                                                                                    "procedure call": {
-                                                                                                                                                                        "arguments": {
-                                                                                                                                                                            "handler": {
-                                                                                                                                                                                "type": ["interface initializer", {
-                                                                                                                                                                                    "initializer": {
-                                                                                                                                                                                        "type": ["reference", {
-                                                                                                                                                                                            "strategy": ["procedure call6", {
-                                                                                                                                                                                                "procedure call": {
-                                                                                                                                                                                                    "type": ["variable", {
-                                                                                                                                                                                                        "variable": "x",
-                                                                                                                                                                                                        "path": ".context.expectDictionary",
-                                                                                                                                                                                                    }],
-                                                                                                                                                                                                    "procedure call": {
-                                                                                                                                                                                                        "arguments": {
-                                                                                                                                                                                                            "onProperty": {
-                                                                                                                                                                                                                "type": ["interface initializer", {
-                                                                                                                                                                                                                    "initializer": {
-                                                                                                                                                                                                                        "type": ["method", {
-                                                                                                                                                                                                                            "strategy": ["procedure implementation", {
-                                                                                                                                                                                                                                "block": {
-                                                                                                                                                                                                                                    "variables": {
-                                                                                                                                                                                                                                        "y": {
-                                                                                                                                                                                                                                            "path": "$cb",
+                                                        "type": ["external", {
+                                                            "builder": "context",
+                                                            "method": "expectVerboseGroup",
+                                                        }],
+                                                        "procedure call": {
+                                                            "interface arguments": {
+                                                                "properties": {
+                                                                    "expression": {
+                                                                        "type": ["initialize", {
+                                                                            "type": ["dictionary", {
+                                                                                "entries": buildDictionary((add: (key: string, v: t.__entries_B) => void) => {
+                                                                                    $.properties.forEach((p, k) => {
+                                                                                        if (p === keyProperty) {
+                                                                                            return
+                                                                                        }
+                                                                                        const newPath = typePath.concat([{ "type": ["group", { "property": k }] }])
+                                                                                        add(k, {
+                                                                                            "expression": {
+                                                                                                "type": ["initialize", {
+                                                                                                    "type": ["group", {
+                                                                                                        "strategy": ["inline", {
+                                                                                                            "members": {
+                                                                                                                "onExists": {
+                                                                                                                    "expression": {
+                                                                                                                        "type": ["initialize", {
+                                                                                                                            "type": ["method", {
+                                                                                                                                "strategy": ["procedure implementation", {
+                                                                                                                                    "block": {
+                                                                                                                                        "return value": ["interface", {
+                                                                                                                                            "expression": {
+                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                    "type": ((): t.__type_initialize_TU_Builder => {
+                                                                                                                                                        function x(
+                                                                                                                                                            internalProcedure: t.__internal_procedure_specification_B,
+                                                                                                                                                            effect: t.__effects_B,
+                                                                                                                                                        ): t.__interface_expression_B {
+                                                                                                                                                            return {//HIER
+                                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                                    "type": ["reference", {
+                                                                                                                                                                        "strategy": ["procedure call6", {
+                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                "type": ["local", {
+                                                                                                                                                                                    "procedure": "wrap", //wrap
+                                                                                                                                                                                }],
+                                                                                                                                                                                "procedure call": {
+                                                                                                                                                                                    "interface arguments": {
+                                                                                                                                                                                        "handler": { //handler
+                                                                                                                                                                                            "expression": {
+                                                                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                                                                    "type": ["method", {
+                                                                                                                                                                                                        "strategy": ["inline procedure", {
+                                                                                                                                                                                                            "specification": {
+                                                                                                                                                                                                                "return type": ["interface", {
+                                                                                                                                                                                                                    "interface": {
+                                                                                                                                                                                                                        "type": ["reference", {
+                                                                                                                                                                                                                            "namespace": {
+                                                                                                                                                                                                                                "namespace": ["other", {
+                                                                                                                                                                                                                                    "namespace": {
+                                                                                                                                                                                                                                        "namespace": "deserialize api",
+                                                                                                                                                                                                                                        "type arguments": {
+                                                                                                                                                                                                                                            "TokenAnnotation": {},
+                                                                                                                                                                                                                                            "NonTokenAnnotation": {},
                                                                                                                                                                                                                                         },
                                                                                                                                                                                                                                     },
-                                                                                                                                                                                                                                    "return value": ["interface", {
-                                                                                                                                                                                                                                        "initializer": {
-                                                                                                                                                                                                                                            "type": ["reference", {
-                                                                                                                                                                                                                                                "strategy": ["procedure call6", {
-                                                                                                                                                                                                                                                    "procedure call": {
-                                                                                                                                                                                                                                                        "type": ["local", {
-                                                                                                                                                                                                                                                            "procedure": "wrap", //wrap
-                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                        "procedure call": {
-                                                                                                                                                                                                                                                            "arguments": {
-                                                                                                                                                                                                                                                                "handler": { //handler
-                                                                                                                                                                                                                                                                    "type": ["interface initializer", {
-                                                                                                                                                                                                                                                                        "initializer": {
-                                                                                                                                                                                                                                                                            "type": ["method", {
-                                                                                                                                                                                                                                                                                "strategy": ["inline procedure", {
-
-                                                                                                                                                                                                                                                                                    "specification": {
-                                                                                                                                                                                                                                                                                        "return type": ["interface", {
-                                                                                                                                                                                                                                                                                            "interface": {
-                                                                                                                                                                                                                                                                                                "type": ["reference", {
-                                                                                                                                                                                                                                                                                                    "namespace": {
-                                                                                                                                                                                                                                                                                                        "namespace": ["other", {
-                                                                                                                                                                                                                                                                                                            "namespace": {
-                                                                                                                                                                                                                                                                                                                "namespace": "deserialize api",
-                                                                                                                                                                                                                                                                                                                "type arguments": {
-                                                                                                                                                                                                                                                                                                                    "TokenAnnotation": {},
-                                                                                                                                                                                                                                                                                                                    "NonTokenAnnotation": {},
-                                                                                                                                                                                                                                                                                                                },
-                                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                                                                    },
-                                                                                                                                                                                                                                                                                                    "interface": "ValueHandler",
-                                                                                                                                                                                                                                                                                                }],
-                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                                                        "block": {
-                                                                                                                                                                                                                                                                                            "nested procedures": {
-                                                                                                                                                                                                                                                                                                "temp": { //temp
-                                                                                                                                                                                                                                                                                                    "specification": generateNodeDeserializer(
-                                                                                                                                                                                                                                                                                                        $.node,
-                                                                                                                                                                                                                                                                                                        $$["key property"].get(),
-                                                                                                                                                                                                                                                                                                        newPath.concat([
-                                                                                                                                                                                                                                                                                                            {
-                                                                                                                                                                                                                                                                                                                "type": ["dictionary", {}],
-                                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                                        ]),
-                                                                                                                                                                                                                                                                                                    ),
-                                                                                                                                                                                                                                                                                                },
-                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                            "return value": ["interface", {
-                                                                                                                                                                                                                                                                                                "initializer": {
-                                                                                                                                                                                                                                                                                                    "type": ["reference", {
-                                                                                                                                                                                                                                                                                                        "strategy": ["procedure call6", {
-                                                                                                                                                                                                                                                                                                            "procedure call": {
-                                                                                                                                                                                                                                                                                                                "type": ["local", {
-                                                                                                                                                                                                                                                                                                                    "procedure": "temp",
-                                                                                                                                                                                                                                                                                                                }],
-                                                                                                                                                                                                                                                                                                                "procedure call": {
-                                                                                                                                                                                                                                                                                                                    "arguments": {
-                                                                                                                                                                                                                                                                                                                        "out": {
-                                                                                                                                                                                                                                                                                                                            "type": ["interface initializer", {
-                                                                                                                                                                                                                                                                                                                                "initializer": {
-                                                                                                                                                                                                                                                                                                                                    "type": ["method", {
-                                                                                                                                                                                                                                                                                                                                        "strategy": ["procedure implementation", {
-                                                                                                                                                                                                                                                                                                                                            "block": {
-                                                                                                                                                                                                                                                                                                                                                "effects": [
-                                                                                                                                                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                                                                                                                                                        "type": ["state change", {
-                                                                                                                                                                                                                                                                                                                                                            "state": k,
-                                                                                                                                                                                                                                                                                                                                                            "type": ["dictionary", {
-                                                                                                                                                                                                                                                                                                                                                                "strategy": ["add entry", {
-                                                                                                                                                                                                                                                                                                                                                                    "key": {
-                                                                                                                                                                                                                                                                                                                                                                        "strategy": ["from variable", {
-                                                                                                                                                                                                                                                                                                                                                                            "variable": "y",
-                                                                                                                                                                                                                                                                                                                                                                            "path": ".token.data.value",
-                                                                                                                                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                                                                                                                                    },
-                                                                                                                                                                                                                                                                                                                                                                    "initializer": {
-                                                                                                                                                                                                                                                                                                                                                                        "strategy": ["from callback", {
-
-                                                                                                                                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                                                                                                                                    },
-                                                                                                                                                                                                                                                                                                                                                                }],
-                                                                                                                                                                                                                                                                                                                                                            }],
-                                                                                                                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                                                                                                                    },
-                                                                                                                                                                                                                                                                                                                                                ],
-                                                                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                                                                                                                                    }],
-                                                                                                                                                                                                                                                                                                                                },
-                                                                                                                                                                                                                                                                                                                            }],
-                                                                                                                                                                                                                                                                                                                        },
-                                                                                                                                                                                                                                                                                                                    },
-                                                                                                                                                                                                                                                                                                                },
-                                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                            "interface": "ValueHandler",
+                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                "block": {
+                                                                                                                                                                                                                    "nested procedures": {
+                                                                                                                                                                                                                        "temp": { //temp
+                                                                                                                                                                                                                            "specification": internalProcedure,
+                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                    "return value": ["interface", {
+                                                                                                                                                                                                                        "expression": {
+                                                                                                                                                                                                                            "type": ["initialize", {
+                                                                                                                                                                                                                                "type": ["reference", {
+                                                                                                                                                                                                                                    "strategy": ["procedure call6", {
+                                                                                                                                                                                                                                        "procedure call": {
+                                                                                                                                                                                                                                            "type": ["local", {
+                                                                                                                                                                                                                                                "procedure": "temp",
+                                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                                                                                "interface arguments": {
+                                                                                                                                                                                                                                                    "out": {
+                                                                                                                                                                                                                                                        "expression": {
+                                                                                                                                                                                                                                                            "type": ["initialize", {
+                                                                                                                                                                                                                                                                "type": ["method", {
+                                                                                                                                                                                                                                                                    "strategy": ["procedure implementation", {
+                                                                                                                                                                                                                                                                        "block": {
+                                                                                                                                                                                                                                                                            "effects": [
+                                                                                                                                                                                                                                                                                effect,
+                                                                                                                                                                                                                                                                            ],
+                                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                },
+                                                                                                                                                                                                            },
+                                                                                                                                                                                                        }],
+                                                                                                                                                                                                    }],
+                                                                                                                                                                                                }],
+                                                                                                                                                                                            },
+                                                                                                                                                                                        },
+                                                                                                                                                                                    },
+                                                                                                                                                                                },
+                                                                                                                                                                            },
+                                                                                                                                                                        }],
+                                                                                                                                                                    }],
+                                                                                                                                                                }],
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                        switch (p.type[0]) {
+                                                                                                                                                            case "collection":
+                                                                                                                                                                return cc(p.type[1], ($): t.__type_initialize_TU_Builder => {
+                                                                                                                                                                    switch ($.type[0]) {
+                                                                                                                                                                        case "dictionary":
+                                                                                                                                                                            return cc($.type[1], ($$): t.__type_initialize_TU_Builder => {
+                                                                                                                                                                                return ["reference", {
+                                                                                                                                                                                    "strategy": ["procedure call6", {
+                                                                                                                                                                                        "procedure call": {
+                                                                                                                                                                                            "type": ["local", {
+                                                                                                                                                                                                "procedure": "wrap",
+                                                                                                                                                                                            }],
+                                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                                "interface arguments": {
+                                                                                                                                                                                                    "handler": {
+                                                                                                                                                                                                        "expression": {
+                                                                                                                                                                                                            "type": ["initialize", {
+                                                                                                                                                                                                                "type": ["reference", {
+                                                                                                                                                                                                                    "strategy": ["procedure call6", {
+                                                                                                                                                                                                                        "procedure call": {
+                                                                                                                                                                                                                            "type": ["external", {
+                                                                                                                                                                                                                                "builder": "context",
+                                                                                                                                                                                                                                "method": "expectDictionary",
+                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                                                                "interface arguments": {
+                                                                                                                                                                                                                                    "onProperty": {//onProperty
+                                                                                                                                                                                                                                        "expression": {
+                                                                                                                                                                                                                                            "type": ["initialize", {
+                                                                                                                                                                                                                                                "type": ["method", {
+                                                                                                                                                                                                                                                    "strategy": ["procedure implementation", {
+                                                                                                                                                                                                                                                        "block": {
+                                                                                                                                                                                                                                                            "markers": {
+                                                                                                                                                                                                                                                                "y": {},
+                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                            "return value": ["interface", {
+                                                                                                                                                                                                                                                                "expression": x(
+                                                                                                                                                                                                                                                                    generateNodeDeserializer(
+                                                                                                                                                                                                                                                                        $.node,
+                                                                                                                                                                                                                                                                        $$["key property"].get(),
+                                                                                                                                                                                                                                                                        newPath.concat([
+                                                                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                                                                "type": ["dictionary", {}],
+                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                        ]),
+                                                                                                                                                                                                                                                                    ),
+                                                                                                                                                                                                                                                                    {
+                                                                                                                                                                                                                                                                        "type": ["state change", {
+                                                                                                                                                                                                                                                                            "state": k,
+                                                                                                                                                                                                                                                                            "type": ["dictionary", {
+                                                                                                                                                                                                                                                                                "strategy": ["add entry", {
+                                                                                                                                                                                                                                                                                    "key": {
+                                                                                                                                                                                                                                                                                        "strategy": ["select", {
+                                                                                                                                                                                                                                                                                            "context": {
+                                                                                                                                                                                                                                                                                                "start": {
+                                                                                                                                                                                                                                                                                                    "start": ["marked value", {
+                                                                                                                                                                                                                                                                                                        "marker": "y",
                                                                                                                                                                                                                                                                                                     }],
                                                                                                                                                                                                                                                                                                 },
-                                                                                                                                                                                                                                                                                            }],
-                                                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                                                                "steps": [
+                                                                                                                                                                                                                                                                                                    { "property": "token" },
+                                                                                                                                                                                                                                                                                                    { "property": "data" },
+                                                                                                                                                                                                                                                                                                    { "property": "value" },
+                                                                                                                                                                                                                                                                                                ],
+                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                                                    "expression": {
+                                                                                                                                                                                                                                                                                        "strategy": ["copy", {
+                                                                                                                                                                                                                                                                                        }],
                                                                                                                                                                                                                                                                                     },
                                                                                                                                                                                                                                                                                 }],
                                                                                                                                                                                                                                                                             }],
-                                                                                                                                                                                                                                                                        },
-                                                                                                                                                                                                                                                                    }],
-                                                                                                                                                                                                                                                                },
-                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                ),
+                                                                                                                                                                                                                                                            }],
                                                                                                                                                                                                                                                         },
-                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                    }],
                                                                                                                                                                                                                                                 }],
                                                                                                                                                                                                                                             }],
+                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                }],
+                                                                                                                                                                                                            }],
+                                                                                                                                                                                                        },
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                },
+                                                                                                                                                                                            },
+                                                                                                                                                                                        },
+                                                                                                                                                                                    }],
+                                                                                                                                                                                }]
+                                                                                                                                                                            })
+                                                                                                                                                                        case "list":
+                                                                                                                                                                            return cc($.type[1], ($$) => {
+                                                                                                                                                                                return ["reference", {
+                                                                                                                                                                                    "strategy": ["procedure call6", {
+                                                                                                                                                                                        "procedure call": {
+                                                                                                                                                                                            "type": ["local", {
+                                                                                                                                                                                                "procedure": "wrap",
+                                                                                                                                                                                            }],
+                                                                                                                                                                                            "arguments": {
+                                                                                                                                                                                                "handler": {
+                                                                                                                                                                                                    "type": ["procedure call2", {
+                                                                                                                                                                                                        "procedure call3": {
+                                                                                                                                                                                                            "type": ["external", {
+                                                                                                                                                                                                                "builder": "context",
+                                                                                                                                                                                                                "method": "expectList",
+                                                                                                                                                                                                            }],
+                                                                                                                                                                                                            "arguments": {
+                                                                                                                                                                                                                "onElement": {
+                                                                                                                                                                                                                    "strategy": ["procedure implementation", {
+                                                                                                                                                                                                                        "block": generateNodeDeserializer(
+                                                                                                                                                                                                                            $.node,
+                                                                                                                                                                                                                            null,
+                                                                                                                                                                                                                            newPath.concat([
+                                                                                                                                                                                                                                {
+                                                                                                                                                                                                                                    "type": ["list", {}],
+                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                            ]),
+                                                                                                                                                                                                                        ),
+                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                },
+                                                                                                                                                                                                            },
+                                                                                                                                                                                                        },
+                                                                                                                                                                                                    }],
+                                                                                                                                                                                                },
+                                                                                                                                                                                            },
+                                                                                                                                                                                        },
+                                                                                                                                                                                    }],
+                                                                                                                                                                                }]
+                                                                                                                                                                            })
+                                                                                                                                                                        default:
+                                                                                                                                                                            return assertUnreachable($.type[0])
+                                                                                                                                                                    }
+                                                                                                                                                                })
+                                                                                                                                                            case "component":
+                                                                                                                                                                return cc(p.type[1], ($): t.__type_initialize_TU_Builder => {
+                                                                                                                                                                    return ["reference", {
+                                                                                                                                                                        "strategy": ["procedure call6", {
+                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                "type": ["external", {
+                                                                                                                                                                                    "builder": "context",
+                                                                                                                                                                                    "method": "expectFoo",
+                                                                                                                                                                                }],
+                                                                                                                                                                            },
+                                                                                                                                                                        }],
+                                                                                                                                                                    }]
+                                                                                                                                                                })
+                                                                                                                                                            case "state group":
+                                                                                                                                                                return cc(p.type[1], ($): t.__type_initialize_TU_Builder => {
+                                                                                                                                                                    return ["reference", {
+                                                                                                                                                                        "strategy": ["procedure call6", {
+                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                "type": ["external", {
+                                                                                                                                                                                    "builder": "context",
+                                                                                                                                                                                    "method": "expectTaggedUnion",
+                                                                                                                                                                                }],
+                                                                                                                                                                                "procedure call": {
+                                                                                                                                                                                    "interface arguments": {
+                                                                                                                                                                                        "options": {
+                                                                                                                                                                                            "expression": {
+                                                                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                                                                    "type": ["dictionary", {
+                                                                                                                                                                                                        "entries": buildDictionary((add) => {
+                                                                                                                                                                                                            const tuKey = k
+                                                                                                                                                                                                            $.states.forEach(($, k) => {
+                                                                                                                                                                                                                add(k, {
+                                                                                                                                                                                                                    "expression": {
+                                                                                                                                                                                                                        "type": ["initialize", {
+                                                                                                                                                                                                                            "type": ["method", {
+                                                                                                                                                                                                                                "strategy": ["procedure implementation", {
+                                                                                                                                                                                                                                    "block": {
+                                                                                                                                                                                                                                        "return value": ["interface", {
+                                                                                                                                                                                                                                            "expression": {
+                                                                                                                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                                                                                                                    "type": ["reference", {
+                                                                                                                                                                                                                                                        "strategy": ["procedure call6", {
+                                                                                                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                                                                                                "type": ["local", {
+                                                                                                                                                                                                                                                                    "procedure": "wrap",
+                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                                "procedure call": {
+                                                                                                                                                                                                                                                                    "interface arguments": {
+                                                                                                                                                                                                                                                                        "handler": {
+                                                                                                                                                                                                                                                                            "expression": {
+                                                                                                                                                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                                                                                                                                                    "type": ["method", {
+                                                                                                                                                                                                                                                                                        "strategy": ["procedure implementation", {
+                                                                                                                                                                                                                                                                                            "block": {
+                                                                                                                                                                                                                                                                                                "return value": ["interface", {
+                                                                                                                                                                                                                                                                                                    "expression": x(
+                                                                                                                                                                                                                                                                                                        generateNodeDeserializer(
+                                                                                                                                                                                                                                                                                                            $.node,
+                                                                                                                                                                                                                                                                                                            null,
+                                                                                                                                                                                                                                                                                                            newPath.concat([
+                                                                                                                                                                                                                                                                                                                {
+                                                                                                                                                                                                                                                                                                                    "type": ["tagged union option", { "option": k }],
+                                                                                                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                                                                                                            ]),
+                                                                                                                                                                                                                                                                                                        ),
+                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                            "type": ["state change", {
+                                                                                                                                                                                                                                                                                                                "state": tuKey,
+                                                                                                                                                                                                                                                                                                                "type": ["type4", {
+                                                                                                                                                                                                                                                                                                                    "expression": {
+                                                                                                                                                                                                                                                                                                                        "strategy": ["literal", {
+                                                                                                                                                                                                                                                                                                                            "type": ["tagged union", {
+                                                                                                                                                                                                                                                                                                                                "option": k,
+                                                                                                                                                                                                                                                                                                                                "data": {
+                                                                                                                                                                                                                                                                                                                                    "strategy": ["copy", {
+                                                                                                                                                                                                                                                                                                                                        "context": {
+                                                                                                                                                                                                                                                                                                                                            "start": {
+                                                                                                                                                                                                                                                                                                                                                "start": ["context", {}],
+                                                                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                    ),
+                                                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                                },
+                                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                                    }],
+                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                            }],
+                                                                                                                                                                                                                        }],
+                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                })
+                                                                                                                                                                                                            })
+                                                                                                                                                                                                        }),
+                                                                                                                                                                                                    }],
+                                                                                                                                                                                                }],
+                                                                                                                                                                                            },
+                                                                                                                                                                                        },
+                                                                                                                                                                                    },
+                                                                                                                                                                                },
+                                                                                                                                                                            },
+                                                                                                                                                                        }],
+                                                                                                                                                                    }]
+                                                                                                                                                                })
+                                                                                                                                                            case "value":
+                                                                                                                                                                return cc(p.type[1], ($): t.__type_initialize_TU_Builder => {
+                                                                                                                                                                    return ["reference", {
+                                                                                                                                                                        "strategy": ["procedure call6", {
+                                                                                                                                                                            "procedure call": {
+                                                                                                                                                                                "type": ["external", {
+                                                                                                                                                                                    "builder": "context",
+                                                                                                                                                                                    "method": "expectQuotedString",
+                                                                                                                                                                                }],
+                                                                                                                                                                                "procedure call": {
+                                                                                                                                                                                    "interface arguments": {
+                                                                                                                                                                                        "callback": {
+                                                                                                                                                                                            "expression": {
+                                                                                                                                                                                                "type": ["initialize", {
+                                                                                                                                                                                                    "type": ["method", {
+                                                                                                                                                                                                        "strategy": ["procedure implementation", {
+                                                                                                                                                                                                            "block": {
+                                                                                                                                                                                                                "effects": [
+                                                                                                                                                                                                                    {
+                                                                                                                                                                                                                        "type": ["state change", {
+                                                                                                                                                                                                                            "state": k,
+                                                                                                                                                                                                                            "type": ["string", {
+                                                                                                                                                                                                                                "initializer": {
+                                                                                                                                                                                                                                    "strategy": ["select", {
+                                                                                                                                                                                                                                        "context": {
+                                                                                                                                                                                                                                            "start": {
+                                                                                                                                                                                                                                                "start": ["context", {
+
+                                                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                            "steps": [
+                                                                                                                                                                                                                                                { "property": "token" },
+                                                                                                                                                                                                                                                { "property": "data" },
+                                                                                                                                                                                                                                                { "property": "value" },
+                                                                                                                                                                                                                                            ],
                                                                                                                                                                                                                                         },
                                                                                                                                                                                                                                     }],
                                                                                                                                                                                                                                 },
                                                                                                                                                                                                                             }],
                                                                                                                                                                                                                         }],
                                                                                                                                                                                                                     },
-                                                                                                                                                                                                                }],
+                                                                                                                                                                                                                ],
                                                                                                                                                                                                             },
-                                                                                                                                                                                                        },
-                                                                                                                                                                                                    },
-                                                                                                                                                                                                },
-                                                                                                                                                                                            }],
-                                                                                                                                                                                        }],
-                                                                                                                                                                                    },
-                                                                                                                                                                                }],
-                                                                                                                                                                            },
-                                                                                                                                                                        },
-                                                                                                                                                                    },
-                                                                                                                                                                },
-                                                                                                                                                            }],
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                case "list":
-                                                                                                                                                    return cc($.type[1], ($$) => {
-                                                                                                                                                        return ["reference", {
-                                                                                                                                                            "strategy": ["procedure call6", {
-                                                                                                                                                                "procedure call": {
-                                                                                                                                                                    "type": ["local", {
-                                                                                                                                                                        "procedure": "wrap",
-                                                                                                                                                                    }],
-                                                                                                                                                                    "arguments": {
-                                                                                                                                                                        "handler": {
-                                                                                                                                                                            "type": ["procedure call2", {
-                                                                                                                                                                                "procedure call3": {
-                                                                                                                                                                                    "type": ["external", {
-                                                                                                                                                                                        "builder": "context",
-                                                                                                                                                                                        "method": "expectList",
-                                                                                                                                                                                    }],
-                                                                                                                                                                                    "arguments": {
-                                                                                                                                                                                        "onElement": {
-                                                                                                                                                                                            "strategy": ["procedure implementation", {
-                                                                                                                                                                                                "block": generateNodeDeserializer(
-                                                                                                                                                                                                    $.node,
-                                                                                                                                                                                                    null,
-                                                                                                                                                                                                    newPath.concat([
-                                                                                                                                                                                                        {
-                                                                                                                                                                                                            "type": ["list", {}],
-                                                                                                                                                                                                        },
-                                                                                                                                                                                                    ]),
-                                                                                                                                                                                                ),
-                                                                                                                                                                                            }],
-                                                                                                                                                                                        },
-                                                                                                                                                                                    },
-                                                                                                                                                                                },
-                                                                                                                                                                            }],
-                                                                                                                                                                        },
-                                                                                                                                                                    },
-                                                                                                                                                                },
-                                                                                                                                                            }],
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                default:
-                                                                                                                                                    return assertUnreachable($.type[0])
-                                                                                                                                            }
-                                                                                                                                        })
-                                                                                                                                    case "component":
-                                                                                                                                        return cc(p.type[1], ($): t.__type_interface_initializer_TU_Builder => {
-                                                                                                                                            return ["reference", {
-                                                                                                                                                "strategy": ["procedure call6", {
-                                                                                                                                                    "procedure call": {
-                                                                                                                                                        "type": ["external", {
-                                                                                                                                                            "builder": "context",
-                                                                                                                                                            "method": "expectFoo",
-                                                                                                                                                        }],
-                                                                                                                                                    },
-                                                                                                                                                }],
-                                                                                                                                            }]
-                                                                                                                                        })
-                                                                                                                                    case "state group":
-                                                                                                                                        return cc(p.type[1], ($): t.__type_interface_initializer_TU_Builder => {
-                                                                                                                                            return ["reference", {
-                                                                                                                                                "strategy": ["procedure call6", {
-                                                                                                                                                    "procedure call": {
-                                                                                                                                                        "type": ["variable", {
-                                                                                                                                                            "variable": "x",
-                                                                                                                                                            "path": ".context.expectTaggedUnion",
-                                                                                                                                                        }],
-                                                                                                                                                        "procedure call": {
-                                                                                                                                                            "arguments": {
-                                                                                                                                                                "options": {
-                                                                                                                                                                    "type": ["dictionary", {
-                                                                                                                                                                        "entries": buildDictionary((add) => {
-                                                                                                                                                                            $.states.forEach(($, k) => {
-                                                                                                                                                                                add(k, {
-                                                                                                                                                                                    "initializer": {
-                                                                                                                                                                                        "type": ["method", {
-                                                                                                                                                                                            "strategy": ["procedure implementation", {
-                                                                                                                                                                                                "block": {
-                                                                                                                                                                                                    "return value": ["interface", {
-                                                                                                                                                                                                        "initializer": {
-                                                                                                                                                                                                            "type": ["reference", {
-                                                                                                                                                                                                                "strategy": ["procedure call6", {
-                                                                                                                                                                                                                    "procedure call": {
-                                                                                                                                                                                                                        "type": ["local", {
-                                                                                                                                                                                                                            "procedure": "wrap",
-                                                                                                                                                                                                                        }],
-                                                                                                                                                                                                                        "procedure call": {
-                                                                                                                                                                                                                            "arguments": {
-                                                                                                                                                                                                                                "handler": {
-                                                                                                                                                                                                                                },
-                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                        },
-                                                                                                                                                                                                                    },
-                                                                                                                                                                                                                }],
-                                                                                                                                                                                                            }],
-                                                                                                                                                                                                        },
-                                                                                                                                                                                                    }],
-                                                                                                                                                                                                },
-                                                                                                                                                                                            }],
-                                                                                                                                                                                        }],
-                                                                                                                                                                                    },
-                                                                                                                                                                                })
-                                                                                                                                                                            })
-                                                                                                                                                                        }),
-                                                                                                                                                                    }],
-                                                                                                                                                                },
-                                                                                                                                                            },
-                                                                                                                                                        },
-                                                                                                                                                    },
-                                                                                                                                                }],
-                                                                                                                                            }]
-                                                                                                                                        })
-                                                                                                                                    case "value":
-                                                                                                                                        return cc(p.type[1], ($): t.__type_interface_initializer_TU_Builder => {
-                                                                                                                                            return ["reference", {
-                                                                                                                                                "strategy": ["procedure call6", {
-                                                                                                                                                    "procedure call": {
-                                                                                                                                                        "type": ["variable", {
-                                                                                                                                                            "variable": "x",
-                                                                                                                                                            "path": ".context.expectQuotedString",
-                                                                                                                                                        }],
-                                                                                                                                                        "procedure call": {
-                                                                                                                                                            "arguments": {
-                                                                                                                                                                "callback": {
-                                                                                                                                                                    "type": ["interface initializer", {
-                                                                                                                                                                        "initializer": {
-                                                                                                                                                                            "type": ["method", {
-                                                                                                                                                                                "strategy": ["procedure implementation", {
-                                                                                                                                                                                    "block": {
-                                                                                                                                                                                        "effects": [
-                                                                                                                                                                                            {
-                                                                                                                                                                                                "type": ["state change", {
-                                                                                                                                                                                                    "state": k,
-                                                                                                                                                                                                    "type": ["string", {
-                                                                                                                                                                                                        "initializer": {
-                                                                                                                                                                                                            "strategy": ["from callback", {
-                                                                                                                                                                                                                "path": ".token.data.value",
-
-                                                                                                                                                                                                            }],
-                                                                                                                                                                                                        },
+                                                                                                                                                                                                        }],
                                                                                                                                                                                                     }],
                                                                                                                                                                                                 }],
                                                                                                                                                                                             },
-                                                                                                                                                                                        ],
+                                                                                                                                                                                        },
                                                                                                                                                                                     },
-                                                                                                                                                                                }],
-                                                                                                                                                                            }],
-                                                                                                                                                                        },
-                                                                                                                                                                    }],
-                                                                                                                                                                },
-                                                                                                                                                            },
-                                                                                                                                                        },
-                                                                                                                                                    },
+                                                                                                                                                                                },
+                                                                                                                                                                            },
+                                                                                                                                                                        }],
+                                                                                                                                                                    }]
+                                                                                                                                                                })
+                                                                                                                                                            default:
+                                                                                                                                                                return assertUnreachable(p.type[0])
+                                                                                                                                                        }
+                                                                                                                                                    })(),
                                                                                                                                                 }],
-                                                                                                                                            }]
-                                                                                                                                        })
-                                                                                                                                    default:
-                                                                                                                                        return assertUnreachable(p.type[0])
-                                                                                                                                }
-                                                                                                                            })(),
-                                                                                                                        },
-                                                                                                                    }],
+                                                                                                                                            },
+                                                                                                                                        }],
+                                                                                                                                    },
+                                                                                                                                }],
+                                                                                                                            }],
+                                                                                                                        }],
+                                                                                                                    },
                                                                                                                 },
-                                                                                                            }],
-                                                                                                        }],
-                                                                                                    },
-                                                                                                },
-                                                                                            },
-                                                                                        }],
-                                                                                    }],
-                                                                                },
-                                                                            })
-                                                                        })
-                                                                    }),
-                                                                }],
-                                                            },
-                                                            "onEnd": {
-                                                                "type": ["interface initializer", {
-                                                                    "initializer": {
-                                                                        "type": ["method", {
-                                                                            "strategy": ["procedure implementation", {
-                                                                                "block": {
-                                                                                    "effects": [
-                                                                                        {
-                                                                                            "type": ["interface call", {
-                                                                                                "interface": "out",
-                                                                                                "initializer": {
-                                                                                                    "strategy": ["literal", {
-                                                                                                        "type": ["group", {
-                                                                                                            "properties": buildDictionary((add) => {
-                                                                                                                $.properties.forEach(($, k) => {
-                                                                                                                    if ($ === keyProperty) {
-                                                                                                                        return
-                                                                                                                    }
-                                                                                                                    add(k, {
-                                                                                                                        "initializer": {
-                                                                                                                            "strategy": ((): t.__strategy_type_initializer_TU_Builder => {
-                                                                                                                                switch ($.type[0]) {
-                                                                                                                                    case "collection":
-                                                                                                                                        return cc($.type[1], ($) => {
-                                                                                                                                            switch ($.type[0]) {
-                                                                                                                                                case "dictionary":
-                                                                                                                                                    return cc($.type[1], ($) => {
-                                                                                                                                                        return ["from state", {
-                                                                                                                                                            "type": ["dictionary", {}],
-                                                                                                                                                            "state": k,
-
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                case "list":
-                                                                                                                                                    return cc($.type[1], ($) => {
-                                                                                                                                                        return ["from state", {
-                                                                                                                                                            "state": k,
-                                                                                                                                                            "type": ["list", {}],
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                default:
-                                                                                                                                                    return assertUnreachable($.type[0])
-                                                                                                                                            }
-                                                                                                                                        })
-                                                                                                                                    case "component":
-                                                                                                                                        return cc($.type[1], ($) => {
-                                                                                                                                            return ["from state", {
-                                                                                                                                                "state": k,
-
-                                                                                                                                            }]
-                                                                                                                                        })
-                                                                                                                                    case "state group":
-                                                                                                                                        return cc($.type[1], ($) => {
-                                                                                                                                            return ["from state", {
-                                                                                                                                                "state": k,
-                                                                                                                                                //"type": ["tagged union", {}],//FIXME
-                                                                                                                                            }]
-                                                                                                                                        })
-                                                                                                                                    case "value":
-                                                                                                                                        return cc($.type[1], ($) => {
-                                                                                                                                            switch ($.type[0]) {
-                                                                                                                                                case "boolean":
-                                                                                                                                                    return cc($.type[1], ($): t.__strategy_type_initializer_TU_Builder => {
-                                                                                                                                                        return ["from function", {
-                                                                                                                                                            "context": ["variable", {
-                                                                                                                                                                "variable": "x",
-                                                                                                                                                            }],
-                                                                                                                                                            "function": "stringToBoolean",
-                                                                                                                                                            "argument": {
-                                                                                                                                                                "strategy": ["from state", {
-                                                                                                                                                                    "state": k,
-                                                                                                                                                                    "type": ["boolean", {}],
-
-                                                                                                                                                                }],
-                                                                                                                                                            },
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                case "number":
-                                                                                                                                                    return cc($.type[1], ($) => {
-                                                                                                                                                        return ["from function", {
-                                                                                                                                                            "context": ["variable", {
-                                                                                                                                                                "variable": "x",
-                                                                                                                                                            }],
-                                                                                                                                                            "function": "stringToNumber",
-                                                                                                                                                            "argument": {
-                                                                                                                                                                "strategy": ["from state", {
-                                                                                                                                                                    "state": k,
-                                                                                                                                                                    "type": ["boolean", {}],
-
-                                                                                                                                                                }],
-                                                                                                                                                            },
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                case "string":
-                                                                                                                                                    return cc($.type[1], ($) => {
-                                                                                                                                                        return ["from state", {
-                                                                                                                                                            "state": k,
-                                                                                                                                                            "type": ["string", {}],
-                                                                                                                                                        }]
-                                                                                                                                                    })
-                                                                                                                                                default:
-                                                                                                                                                    return assertUnreachable($.type[0])
-                                                                                                                                            }
-                                                                                                                                        })
-                                                                                                                                    default:
-                                                                                                                                        return assertUnreachable($.type[0])
-                                                                                                                                }
-                                                                                                                            })(),
-                                                                                                                        },
-                                                                                                                    })
-                                                                                                                })
-                                                                                                            }),
+                                                                                                            },
                                                                                                         }],
                                                                                                     }],
-                                                                                                },
-                                                                                            }],
-                                                                                        },
-                                                                                    ],
-                                                                                },
+                                                                                                }],
+                                                                                            },
+                                                                                        })
+                                                                                    })
+                                                                                }),
                                                                             }],
                                                                         }],
                                                                     },
-                                                                }],
+                                                                },
+                                                                "onEnd": {
+                                                                    "expression": {
+                                                                        "type": ["initialize", {
+                                                                            "type": ["method", {
+                                                                                "strategy": ["procedure implementation", {
+                                                                                    "block": {
+                                                                                        "effects": [
+                                                                                            {
+                                                                                                "type": ["internal interface call", {
+                                                                                                    "interface": "out",
+                                                                                                    "expression": {
+                                                                                                        "strategy": ["literal", {
+                                                                                                            "type": ["group", {
+                                                                                                                "properties": buildDictionary((add) => {
+                                                                                                                    $.properties.forEach(($, k) => {
+                                                                                                                        if ($ === keyProperty) {
+                                                                                                                            return
+                                                                                                                        }
+                                                                                                                        add(k, {
+                                                                                                                            "expression": {
+                                                                                                                                "strategy": ((): t.__strategy_type_expression_TU_Builder => {
+                                                                                                                                    switch ($.type[0]) {
+                                                                                                                                        case "collection":
+                                                                                                                                            return cc($.type[1], ($): t.__strategy_type_expression_TU_Builder => {
+                                                                                                                                                switch ($.type[0]) {
+                                                                                                                                                    case "dictionary":
+                                                                                                                                                        return cc($.type[1], ($) => {
+                                                                                                                                                            return ["dictionary from state", {
+                                                                                                                                                                "state": k,
+                                                                                                                                                            }]
+                                                                                                                                                        })
+                                                                                                                                                    case "list":
+                                                                                                                                                        return cc($.type[1], ($) => {
+                                                                                                                                                            return ["copy", {
+                                                                                                                                                                "context": {
+                                                                                                                                                                    "start": {
+                                                                                                                                                                        "start": ["state", {
+                                                                                                                                                                            "state": k,
+                                                                                                                                                                        }],
+                                                                                                                                                                    },
+                                                                                                                                                                },
+                                                                                                                                                            }]
+                                                                                                                                                        })
+                                                                                                                                                    default:
+                                                                                                                                                        return assertUnreachable($.type[0])
+                                                                                                                                                }
+                                                                                                                                            })
+                                                                                                                                        case "component":
+                                                                                                                                            return cc($.type[1], ($): t.__strategy_type_expression_TU_Builder => {
+                                                                                                                                                return ["copy", {
+                                                                                                                                                    "context": {
+                                                                                                                                                        "start": {
+                                                                                                                                                            "start": ["state", {
+                                                                                                                                                                "state": k,
+                                                                                                                                                            }],
+                                                                                                                                                        },
+                                                                                                                                                    },
+                                                                                                                                                }]
+                                                                                                                                            })
+                                                                                                                                        case "state group":
+                                                                                                                                            return cc($.type[1], ($) => {
+                                                                                                                                                return ["copy", {
+                                                                                                                                                    "context": {
+                                                                                                                                                        "start": {
+                                                                                                                                                            "start": ["state", {
+                                                                                                                                                                "state": k,
+                                                                                                                                                            }],
+                                                                                                                                                        },
+                                                                                                                                                    },
+                                                                                                                                                }]
+                                                                                                                                            })
+                                                                                                                                        case "value":
+                                                                                                                                            return cc($.type[1], ($): t.__strategy_type_expression_TU_Builder => {
+                                                                                                                                                switch ($.type[0]) {
+                                                                                                                                                    case "boolean":
+                                                                                                                                                        return cc($.type[1], ($): t.__strategy_type_expression_TU_Builder => {
+                                                                                                                                                            return ["copy", {
+                                                                                                                                                                "context": {
+                                                                                                                                                                    "start": {
+                                                                                                                                                                        "start": ["function", {
+                                                                                                                                                                            "context": ["argument", {
+                                                                                                                                                                                "function": "stringToBoolean",
+                                                                                                                                                                            }],
+                                                                                                                                                                            // ""
+                                                                                                                                                                            // "context": ["from marked", {
+                                                                                                                                                                            //     "marker": "x",
+                                                                                                                                                                            // }],
+                                                                                                                                                                            "argument": {
+                                                                                                                                                                                "strategy": ["copy", {
+                                                                                                                                                                                    "context": {
+                                                                                                                                                                                        "start": {
+                                                                                                                                                                                            "start": ["state", {
+                                                                                                                                                                                                "state": k,
+                                                                                                                                                                                            }],
+                                                                                                                                                                                        },
+                                                                                                                                                                                    },
+                                                                                                                                                                                }],
+                                                                                                                                                                            },
+                                                                                                                                                                        }],
+                                                                                                                                                                    },
+                                                                                                                                                                },
+                                                                                                                                                            }]
+                                                                                                                                                        })
+                                                                                                                                                    case "number":
+                                                                                                                                                        return cc($.type[1], ($) => {
+                                                                                                                                                            return ["copy", {
+                                                                                                                                                                "context": {
+                                                                                                                                                                    "start": {
+                                                                                                                                                                        "start": ["function", {
+                                                                                                                                                                            "context": ["argument", {
+                                                                                                                                                                                "function": "stringToNumber",
+                                                                                                                                                                            }],
+                                                                                                                                                                            // "context": ["from marked", {
+                                                                                                                                                                            //     "marker": "x",
+                                                                                                                                                                            // }],
+                                                                                                                                                                            "argument": {
+                                                                                                                                                                                "strategy": ["copy", {
+                                                                                                                                                                                    "context": {
+                                                                                                                                                                                        "start": {
+                                                                                                                                                                                            "start": ["state", {
+                                                                                                                                                                                                "state": k,
+                                                                                                                                                                                            }],
+                                                                                                                                                                                        },
+                                                                                                                                                                                    },
+                                                                                                                                                                                }],
+                                                                                                                                                                            },
+                                                                                                                                                                        }],
+                                                                                                                                                                    },
+                                                                                                                                                                },
+                                                                                                                                                            }]
+                                                                                                                                                        })
+                                                                                                                                                    case "string":
+                                                                                                                                                        return cc($.type[1], ($) => {
+                                                                                                                                                            return ["copy", {
+                                                                                                                                                                "context": {
+
+                                                                                                                                                                    "start": {
+                                                                                                                                                                        "start": ["state", {
+                                                                                                                                                                            "state": k,
+                                                                                                                                                                        }],
+                                                                                                                                                                    },
+                                                                                                                                                                },
+                                                                                                                                                            }]
+                                                                                                                                                        })
+                                                                                                                                                    default:
+                                                                                                                                                        return assertUnreachable($.type[0])
+                                                                                                                                                }
+                                                                                                                                            })
+                                                                                                                                        default:
+                                                                                                                                            return assertUnreachable($.type[0])
+                                                                                                                                    }
+                                                                                                                                })(),
+                                                                                                                            },
+                                                                                                                        })
+                                                                                                                    })
+                                                                                                                }),
+                                                                                                            }],
+                                                                                                        }],
+                                                                                                    },
+                                                                                                }],
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                }],
+                                                                            }],
+                                                                        }],
+                                                                    },
+                                                                },
                                                             },
                                                         },
                                                     },
-                                                },
+                                                }],
                                             }],
                                         }],
                                     },
@@ -919,15 +1057,12 @@ export function generateCreateDeserializer(
                                                         "TokenAnnotation": {},
                                                         "NonTokenAnnotation": {},
                                                     },
-
                                                 },
-
                                             }],
                                         },
                                         "interface": "ValueHandler",
                                     }],
                                 },
-
                             }],
                             "parameters": {
                                 "callback": {
@@ -952,42 +1087,43 @@ export function generateCreateDeserializer(
                                     },
                                 },
                                 "return value": ["interface", {
-                                    "initializer": {
-                                        "type": ["reference", {
-                                            "strategy": ["procedure call6", {
-                                                "procedure call": {
-                                                    "type": ["local", {
-                                                        "procedure": "temp",
-                                                    }],
+                                    "expression": {
+                                        "type": ["initialize", {
+                                            "type": ["reference", {
+                                                "strategy": ["procedure call6", {
                                                     "procedure call": {
-                                                        "arguments": {
-                                                            "out": {
-                                                                "type": ["interface initializer", {
-                                                                    "initializer": {
-                                                                        "type": ["method", {
-                                                                            "strategy": ["procedure implementation", {
-                                                                                "block": {
-                                                                                    "effects": [
-                                                                                        {
-                                                                                            "type": ["interface call", {
-                                                                                                "interface": "callback",
-                                                                                                "initializer": {
-                                                                                                    "strategy": ["from callback", {
-                                                                                                        "path": "",
-                                                                                                    }],
-                                                                                                },
-                                                                                            }],
-                                                                                        },
-                                                                                    ],
-                                                                                },
+                                                        "type": ["local", {
+                                                            "procedure": "temp",
+                                                        }],
+                                                        "procedure call": {
+                                                            "interface arguments": {
+                                                                "out": {
+                                                                    "expression": {
+                                                                        "type": ["initialize", {
+                                                                            "type": ["method", {
+                                                                                "strategy": ["procedure implementation", {
+                                                                                    "block": {
+                                                                                        "effects": [
+                                                                                            {
+                                                                                                "type": ["internal interface call", {
+                                                                                                    "interface": "callback",
+                                                                                                    "expression": {
+                                                                                                        "strategy": ["copy", {
+                                                                                                        }],
+                                                                                                    },
+                                                                                                }],
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                }],
                                                                             }],
                                                                         }],
                                                                     },
-                                                                }],
+                                                                },
                                                             },
                                                         },
                                                     },
-                                                },
+                                                }],
                                             }],
                                         }],
                                     },
@@ -998,42 +1134,46 @@ export function generateCreateDeserializer(
                 })
             }),
             "return value": ["interface", {
-                "initializer": {
-                    "type": ["reference", {
-                        "strategy": ["procedure call6", {
-                            "procedure call": {
-                                "type": ["local", {
-                                    "procedure": "wrap",
-                                }],
+                "expression": {
+                    "type": ["initialize", {
+                        "type": ["reference", {
+                            "strategy": ["procedure call6", {
                                 "procedure call": {
-                                    "arguments": {
-                                        "handler": {
-                                            "type": ["interface initializer", {
-                                                "initializer": {
-                                                    "type": ["reference", {
-                                                        "strategy": ["procedure call6", {
-                                                            "procedure call": {
-                                                                "type": ["local", {
-                                                                    "procedure": `${schema["root type"].name}`,
-                                                                }],
+                                    "type": ["local", {
+                                        "procedure": "wrap",
+                                    }],
+                                    "procedure call": {
+                                        "interface arguments": {
+                                            "handler": {
+                                                "expression": {
+                                                    "type": ["initialize", {
+                                                        "type": ["reference", {
+                                                            "strategy": ["procedure call6", {
                                                                 "procedure call": {
-                                                                    "arguments": {
-                                                                        "callback": {
-                                                                            "type": ["builder", {
-                                                                                "argument": "callback",
-                                                                            }],
+                                                                    "type": ["local", {
+                                                                        "procedure": `${schema["root type"].name}`,
+                                                                    }],
+                                                                    "procedure call": {
+                                                                        "interface arguments": {
+                                                                            "callback": {
+                                                                                "expression": {
+                                                                                    "type": ["argument", {
+                                                                                        "argument": "callback",
+                                                                                    }],
+                                                                                },
+                                                                            },
                                                                         },
                                                                     },
                                                                 },
-                                                            },
+                                                            }],
                                                         }],
                                                     }],
                                                 },
-                                            }],
+                                            },
                                         },
                                     },
                                 },
-                            },
+                            }],
                         }],
                     }],
                 },

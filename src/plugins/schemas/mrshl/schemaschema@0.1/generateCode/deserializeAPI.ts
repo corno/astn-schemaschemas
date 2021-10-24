@@ -133,50 +133,50 @@ export function generateDeserializeAPI(
                                 },
 
                             }],
-                            "parameters": {
+                            "interfaces": {
                                 "properties": {
-                                    "type": ["dictionary", {
-                                        "entry": {
-                                            "type": ["group", {
-                                                "members": {
-                                                    "onExists": {
-                                                        "definition": {
-                                                            "type": ["method", {
-                                                                "type": {
-                                                                    "namespace": {
-                                                                        "namespace": ["other", {
-                                                                            "namespace": {
-                                                                                "namespace": "lang",
-                                                                            },
-                                                                        }],
+                                    "interface": {
+                                        "type": ["dictionary", {
+                                            "entry": {
+                                                "type": ["group", {
+                                                    "members": {
+                                                        "onExists": {
+                                                            "definition": {
+                                                                "type": ["method", {
+                                                                    "type": {
+                                                                        "namespace": {
+                                                                            "namespace": ["other", {
+                                                                                "namespace": {
+                                                                                    "namespace": "lang",
+                                                                                },
+                                                                            }],
+                                                                        },
+                                                                        "type": "nothing",
                                                                     },
-                                                                    "type": "nothing",
-                                                                },
-                                                            }],
+                                                                }],
+                                                            },
                                                         },
                                                     },
-                                                },
-                                            }],
-                                        },
-                                    }],
+                                                }],
+                                            },
+                                        }],
+                                    },
                                 },
                                 "onEnd": {
-                                    "type": ["interface", {
-                                        "interface": {
-                                            "type": ["method", {
-                                                "type": {
-                                                    "namespace": {
-                                                        "namespace": ["other", {
-                                                            "namespace": {
-                                                                "namespace": "lang",
-                                                            },
-                                                        }],
-                                                    },
-                                                    "type": "nothing",
+                                    "interface": {
+                                        "type": ["method", {
+                                            "type": {
+                                                "namespace": {
+                                                    "namespace": ["other", {
+                                                        "namespace": {
+                                                            "namespace": "lang",
+                                                        },
+                                                    }],
                                                 },
-                                            }],
-                                        },
-                                    }],
+                                                "type": "nothing",
+                                            },
+                                        }],
+                                    },
                                 },
                             },
                         },
@@ -195,28 +195,26 @@ export function generateDeserializeAPI(
                                 },
 
                             }],
-                            "parameters": {
+                            "interfaces": {
                                 "onProperty": {
-                                    "type": ["interface", {
-                                        "interface": {
-                                            "type": ["method", {
-                                                "type": {
-                                                    "type": "StringToken",
+                                    "interface": {
+                                        "type": ["method", {
+                                            "type": {
+                                                "type": "StringToken",
+                                            },
+                                            "return type": ["interface", {
+                                                "interface": {
+                                                    "type": ["reference", {
+                                                        "interface": "RequiredValueHandler",
+                                                        // "type arguments": {
+                                                        //     "TokenAnnotation": {},
+                                                        //     "NonTokenAnnotation": {},
+                                                        // },
+                                                    }],
                                                 },
-                                                "return type": ["interface", {
-                                                    "interface": {
-                                                        "type": ["reference", {
-                                                            "interface": "RequiredValueHandler",
-                                                            // "type arguments": {
-                                                            //     "TokenAnnotation": {},
-                                                            //     "NonTokenAnnotation": {},
-                                                            // },
-                                                        }],
-                                                    },
-                                                }],
                                             }],
-                                        },
-                                    }],
+                                        }],
+                                    },
                                 },
                             },
                         },
@@ -235,17 +233,15 @@ export function generateDeserializeAPI(
                                 },
 
                             }],
-                            "parameters": {
+                            "interfaces": {
                                 "callback": {
-                                    "type": ["interface", {
-                                        "interface": {
-                                            "type": ["method", {
-                                                "type": {
-                                                    "type": "StringToken",
-                                                },
-                                            }],
-                                        },
-                                    }],
+                                    "interface": {
+                                        "type": ["method", {
+                                            "type": {
+                                                "type": "StringToken",
+                                            },
+                                        }],
+                                    },
                                 },
                             },
                         },
@@ -264,35 +260,37 @@ export function generateDeserializeAPI(
                                 },
 
                             }],
-                            "parameters": {
+                            "interfaces": {
                                 "options": {
-                                    "type": ["dictionary", {
-                                        "entry": {
-                                            "type": ["method", {
-                                                "type": {
-                                                    "namespace": {
-                                                        "namespace": ["other", {
-                                                            "namespace": {
-                                                                "namespace": "lang",
-                                                            },
-                                                        }],
+                                    "interface": {
+                                        "type": ["dictionary", {
+                                            "entry": {
+                                                "type": ["method", {
+                                                    "type": {
+                                                        "namespace": {
+                                                            "namespace": ["other", {
+                                                                "namespace": {
+                                                                    "namespace": "lang",
+                                                                },
+                                                            }],
+                                                        },
+                                                        "type": "nothing",
                                                     },
-                                                    "type": "nothing",
-                                                },
-                                                "return type": ["interface", {
-                                                    "interface": {
-                                                        "type": ["reference", {
-                                                            "interface": "RequiredValueHandler",
-                                                            // "type arguments": {
-                                                            //     "TokenAnnotation": {},
-                                                            //     "NonTokenAnnotation": {},
-                                                            // },
-                                                        }],
-                                                    },
+                                                    "return type": ["interface", {
+                                                        "interface": {
+                                                            "type": ["reference", {
+                                                                "interface": "RequiredValueHandler",
+                                                                // "type arguments": {
+                                                                //     "TokenAnnotation": {},
+                                                                //     "NonTokenAnnotation": {},
+                                                                // },
+                                                            }],
+                                                        },
+                                                    }],
                                                 }],
-                                            }],
-                                        },
-                                    }],
+                                            },
+                                        }],
+                                    },
                                 },
                             },
                         },
@@ -311,35 +309,33 @@ export function generateDeserializeAPI(
                                 },
 
                             }],
-                            "parameters": {
+                            "interfaces": {
                                 "onElement": {
-                                    "type": ["interface", {
-                                        "interface": {
-                                            "type": ["method", {
-                                                "type": {
-                                                    "namespace": {
-                                                        "namespace": ["other", {
-                                                            "namespace": {
-                                                                "namespace": "lang",
-                                                            },
-                                                        }],
-                                                    },
-                                                    "type": "nothing",
+                                    "interface": {
+                                        "type": ["method", {
+                                            "type": {
+                                                "namespace": {
+                                                    "namespace": ["other", {
+                                                        "namespace": {
+                                                            "namespace": "lang",
+                                                        },
+                                                    }],
                                                 },
-                                                "return type": ["interface", {
-                                                    "interface": {
-                                                        "type": ["reference", {
-                                                            "interface": "ValueHandler",
-                                                            // "type arguments": {
-                                                            //     "TokenAnnotation": {},
-                                                            //     "NonTokenAnnotation": {},
-                                                            // },
-                                                        }],
-                                                    },
-                                                }],
+                                                "type": "nothing",
+                                            },
+                                            "return type": ["interface", {
+                                                "interface": {
+                                                    "type": ["reference", {
+                                                        "interface": "ValueHandler",
+                                                        // "type arguments": {
+                                                        //     "TokenAnnotation": {},
+                                                        //     "NonTokenAnnotation": {},
+                                                        // },
+                                                    }],
+                                                },
                                             }],
-                                        },
-                                    }],
+                                        }],
+                                    },
                                 },
                             },
                         },

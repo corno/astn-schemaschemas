@@ -59,6 +59,13 @@ module.exports = {
         ],
         "@typescript-eslint/triple-slash-reference": "error",
         "@typescript-eslint/unified-signatures": "error",
+        "@typescript-eslint/restrict-template-expressions": ["error", {
+            "allowNumber": false,
+            "allowAny": false,
+            "allowBoolean": false,
+            "allowRegExp": false,
+            "allowNullish": false,
+        }],
         "arrow-parens": [
             "error",
             "always"

@@ -23,307 +23,9 @@ type AnnotatedString<TokenAnnotation> = {
     annotation: TokenAnnotation
 }
 
-function createExpectedValueHandler<TokenAnnotation, NonTokenAnnotation>(
-    context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
-    raiseValidationError: (message: string, annotation: TokenAnnotation) => void,
-    componentTypes: astn.IReadonlyLookup<t.ComponentType>,
-    callback: (node: t.Node) => void,
-    resolveRegistry: astn.IResolveRegistry<TokenAnnotation>,
-): astn.ExpectedProperty<TokenAnnotation, NonTokenAnnotation> {
-
-    function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
-        return {
-            exists: handler,
-            missing: () => {
-                console.error("MISSING VALUE")
-            },
-        }
-    }
-
-    return {
-        onExists: () => {
-            const properties = astn.createDictionaryBuilder<t.Property>()
-            return wrap(context.expectVerboseGroup({
-                properties: {
-                    "properties": {
-                        onExists: () => wrap(context.expectDictionary({
-                            onProperty: (propertyData) => {
-                                let targetPropertyType: t.PropertyType | null = null
-                                return wrap(context.expectVerboseGroup({
-                                    properties: {
-                                        "type": {
-                                            onExists: () => wrap(context.expectTaggedUnion({
-                                                options: {
-                                                    "collection": () => {
-                                                        let targetCollectionType: t.CollectionType | null = null
-                                                        let targetNode: t.Node | null = null
-
-                                                        return wrap(context.expectVerboseGroup({
-                                                            properties: {
-                                                                "node": createExpectedValueHandler(
-                                                                    context,
-                                                                    raiseValidationError,
-                                                                    componentTypes,
-                                                                    (node) => {
-                                                                        targetNode = node
-                                                                    },
-                                                                    resolveRegistry,
-                                                                ),
-                                                                "type": {
-                                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                                        options: {
-                                                                            "dictionary": () => {
-                                                                                let targetKeyProperty: AnnotatedString<TokenAnnotation> | null = null
-                                                                                return wrap(context.expectVerboseGroup({
-                                                                                    properties: {
-                                                                                        "key property": {
-                                                                                            onExists: () => wrap(context.expectQuotedString({
-                                                                                                warningOnly: true,
-                                                                                                callback: ($) => {
-                                                                                                    targetKeyProperty = {
-                                                                                                        value: $.token.data.value,
-                                                                                                        annotation: $.token.annotation,
-                                                                                                    }
-                                                                                                },
-                                                                                            })),
-                                                                                            onNotExists: ($) => {
-                                                                                                targetKeyProperty = {
-                                                                                                    value: "name",
-                                                                                                    annotation: $.beginToken.annotation,
-                                                                                                }
-                                                                                            },
-                                                                                        },
-                                                                                    },
-                                                                                    onEnd: ($) => {
-                                                                                        const assertedTargetNode = assertNotNull(targetNode)
-
-                                                                                        const assertedTargetKeyProperty = assertNotNull(targetKeyProperty)
-                                                                                        targetCollectionType = ["dictionary", {
-                                                                                            "key property": astn.createReference(
-                                                                                                "key property",
-                                                                                                assertedTargetKeyProperty,
-                                                                                                "name",
-                                                                                                $.annotation,
-                                                                                                assertedTargetNode.properties.getLookup(),
-                                                                                                resolveRegistry.getRegistrater(),
-                                                                                            ),
-                                                                                        }]
-
-                                                                                    },
-                                                                                }))
-                                                                            },
-                                                                            "list": () => {
-                                                                                targetCollectionType = ["list", {
-                                                                                }]
-                                                                                return wrap(context.expectVerboseGroup({}))
-                                                                            },
-                                                                        },
-                                                                    })),
-                                                                    onNotExists: () => {
-                                                                        targetCollectionType = ["list", {}]
-                                                                    },
-                                                                },
-                                                            },
-                                                            onEnd: () => {
-                                                                const assertedTargetNode = assertNotNull(targetNode)
-                                                                const asserted = assertNotNull(targetCollectionType)
-                                                                targetPropertyType = ["collection", {
-                                                                    "type": asserted,
-                                                                    "node": assertedTargetNode,
-                                                                }]
-                                                            },
-                                                        }))
-                                                    },
-                                                    "component": () => {
-                                                        let targetComponentTypeName: AnnotatedString<TokenAnnotation> | null = null
-                                                        return wrap(context.expectVerboseGroup({
-                                                            properties: {
-                                                                "type": {
-                                                                    onExists: () => wrap(context.expectQuotedString({
-                                                                        warningOnly: true,
-                                                                        callback: ($) => {
-                                                                            targetComponentTypeName = {
-                                                                                value: $.token.data.value,
-                                                                                annotation: $.token.annotation,
-                                                                            }
-                                                                        },
-                                                                    })),
-                                                                    onNotExists: (data) => {
-                                                                        targetComponentTypeName = {
-                                                                            value: "",
-                                                                            annotation: data.beginToken.annotation,
-                                                                        }
-                                                                    },
-                                                                },
-                                                            },
-                                                            onEnd: ($) => {
-                                                                const assertedTargetComponentTypeName = assertNotNull(targetComponentTypeName)
-                                                                targetPropertyType = ["component", {
-                                                                    "type": astn.createReference(
-                                                                        "type",
-                                                                        assertedTargetComponentTypeName,
-                                                                        "",
-                                                                        $.annotation,
-                                                                        componentTypes,
-                                                                        resolveRegistry.getRegistrater(),
-                                                                    ),
-                                                                }]
-                                                            },
-                                                        }))
-                                                    },
-                                                    "state group": () => {
-                                                        const states = astn.createDictionaryBuilder<t.State>()
-                                                        let targetDefaultState: null | AnnotatedString<TokenAnnotation> = null
-                                                        return wrap(context.expectVerboseGroup({
-                                                            properties: {
-                                                                "states": {
-                                                                    onExists: () => wrap(context.expectDictionary({
-                                                                        onProperty: (stateData) => {
-                                                                            let targetNode: t.Node | null = null
-                                                                            return wrap(context.expectVerboseGroup({
-                                                                                properties: {
-                                                                                    "node": createExpectedValueHandler(
-                                                                                        context,
-                                                                                        raiseValidationError,
-                                                                                        componentTypes,
-                                                                                        (node) => {
-                                                                                            targetNode = node
-                                                                                        },
-                                                                                        resolveRegistry,
-                                                                                    ),
-                                                                                },
-                                                                                onEnd: () => {
-                                                                                    const asserted = assertNotNull(targetNode)
-                                                                                    states.add(stateData.token.data.value, {
-                                                                                        node: asserted,
-                                                                                    })
-                                                                                },
-                                                                            }))
-                                                                        },
-                                                                    })),
-                                                                    onNotExists: () => {
-                                                                        //nothing to do, states dictionary already initialized
-                                                                    },
-                                                                },
-                                                                "default state": {
-                                                                    onExists: () => wrap(context.expectQuotedString({
-                                                                        warningOnly: true,
-                                                                        callback: ($) => {
-                                                                            targetDefaultState = {
-                                                                                value: $.token.data.value,
-                                                                                annotation: $.token.annotation,
-                                                                            }
-                                                                        },
-                                                                    })),
-                                                                    onNotExists: (data) => {
-                                                                        targetDefaultState = {
-                                                                            value: "yes",
-                                                                            annotation: data.beginToken.annotation,
-                                                                        }
-                                                                    },
-                                                                },
-                                                            },
-                                                            onEnd: ($) => {
-                                                                const assertedTargetDefaultState = assertNotNull(targetDefaultState)
-                                                                targetPropertyType = ["state group", {
-                                                                    "states": states.toDictionary(),
-                                                                    "default state": astn.createReference(
-                                                                        "default state",
-                                                                        assertedTargetDefaultState,
-                                                                        "yes",
-                                                                        $.annotation,
-                                                                        states.toDictionary().getLookup(),
-                                                                        resolveRegistry.getRegistrater(),
-                                                                    ),
-                                                                }]
-
-                                                            },
-                                                        }))
-                                                    },
-                                                    "value": () => {
-                                                        let targetValueType: t.ValueType | null = null
-                                                        let defaultValue: string | null = null
-                                                        return wrap(context.expectVerboseGroup({
-                                                            properties: {
-                                                                "type": {
-                                                                    onExists: () => wrap(context.expectTaggedUnion({
-                                                                        options: {
-                                                                            "number": () => {
-                                                                                targetValueType = ["number", {}]
-                                                                                return wrap(context.expectVerboseGroup({}))
-                                                                            },
-                                                                            "text": () => {
-                                                                                targetValueType = ["string", {}]
-                                                                                return wrap(context.expectVerboseGroup({}))
-                                                                            },
-                                                                        },
-                                                                    })),
-                                                                    onNotExists: () => {
-                                                                        targetValueType = ["string", {}]
-                                                                    },
-                                                                },
-                                                                "default value": {
-                                                                    onExists: () => wrap(context.expectQuotedString({
-                                                                        warningOnly: true,
-                                                                        callback: ($) => {
-                                                                            defaultValue = $.token.data.value
-                                                                        },
-                                                                    })),
-                                                                    onNotExists: () => {
-                                                                        defaultValue = ""
-                                                                    },
-                                                                },
-                                                            },
-                                                            onEnd: () => {
-                                                                const assertedTargetValueType = assertNotNull(targetValueType)
-                                                                const assertedDefaultValue = assertNotNull(defaultValue)
-                                                                targetPropertyType = ["value", {
-                                                                    "default value": assertedDefaultValue,
-                                                                    "type": assertedTargetValueType,
-                                                                }]
-                                                            },
-                                                        }))
-                                                    },
-                                                },
-                                            })),
-                                            onNotExists: () => {
-                                                targetPropertyType = ["value", {
-                                                    "default value": "",
-                                                    "type": ["string", {}],
-                                                }]
-                                            },
-                                        },
-                                    },
-                                    onEnd: () => {
-                                        const asserted = assertNotNull(targetPropertyType)
-                                        properties.add(propertyData.token.data.value, {
-                                            type: asserted,
-                                        })
-                                    },
-                                }))
-                            },
-                        })),
-                        onNotExists: () => {
-                            //nothing to do, properties dictionary already created
-                        },
-                    },
-                },
-                onEnd: () => {
-                    callback({ properties: properties.toDictionary() })
-                },
-            }))
-        },
-        onNotExists: () => {
-            callback({
-                properties: astn.createDictionaryBuilder<t.Property>().toDictionary(),
-            })
-        },
-    }
-}
-
 export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     onExpectError: (error: astn.ExpectError, annotation: TokenAnnotation) => void,
-    onValidationError: (message: string, annotation: TokenAnnotation) => void,
+    onResolveError: (message: string, annotation: TokenAnnotation) => void,
     callback: (metaData: null | t.Schema) => void,
     onEnd: () => void,
 ): astn.ITreeHandler<TokenAnnotation, NonTokenAnnotation> {
@@ -351,6 +53,301 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
             },
         }
     }
+
+    function createNodeDeserialiser<TokenAnnotation, NonTokenAnnotation>(
+        context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
+        componentTypes: astn.IReadonlyLookup<t.ComponentType>,
+        callback: (node: t.Node) => void,
+        resolveRegistry: astn.IResolveRegistry<TokenAnnotation>,
+    ): astn.ExpectedProperty<TokenAnnotation, NonTokenAnnotation> {
+
+        function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+            return {
+                exists: handler,
+                missing: () => {
+                    console.error("MISSING VALUE")
+                },
+            }
+        }
+
+        return {
+            onExists: () => {
+                const properties = astn.createDictionaryBuilder<t.Property>()
+                return wrap(context.expectVerboseGroup({
+                    properties: {
+                        "properties": {
+                            onExists: () => wrap(context.expectDictionary({
+                                onProperty: (propertyData) => {
+                                    let targetPropertyType: t.PropertyType | null = null
+                                    return wrap(context.expectVerboseGroup({
+                                        properties: {
+                                            "type": {
+                                                onExists: () => wrap(context.expectTaggedUnion({
+                                                    options: {
+                                                        "collection": () => {
+                                                            let targetCollectionType: t.CollectionType | null = null
+                                                            let targetNode: t.Node | null = null
+
+                                                            return wrap(context.expectVerboseGroup({
+                                                                properties: {
+                                                                    "node": createNodeDeserialiser(
+                                                                        context,
+                                                                        componentTypes,
+                                                                        (node) => {
+                                                                            targetNode = node
+                                                                        },
+                                                                        resolveRegistry,
+                                                                    ),
+                                                                    "type": {
+                                                                        onExists: () => wrap(context.expectTaggedUnion({
+                                                                            options: {
+                                                                                "dictionary": () => {
+                                                                                    let targetKeyProperty: AnnotatedString<TokenAnnotation> | null = null
+                                                                                    return wrap(context.expectVerboseGroup({
+                                                                                        properties: {
+                                                                                            "key property": {
+                                                                                                onExists: () => wrap(context.expectQuotedString({
+                                                                                                    warningOnly: true,
+                                                                                                    callback: ($) => {
+                                                                                                        targetKeyProperty = {
+                                                                                                            value: $.token.data.value,
+                                                                                                            annotation: $.token.annotation,
+                                                                                                        }
+                                                                                                    },
+                                                                                                })),
+                                                                                                onNotExists: ($) => {
+                                                                                                    targetKeyProperty = {
+                                                                                                        value: "name",
+                                                                                                        annotation: $.beginToken.annotation,
+                                                                                                    }
+                                                                                                },
+                                                                                            },
+                                                                                        },
+                                                                                        onEnd: ($) => {
+                                                                                            const assertedTargetNode = assertNotNull(targetNode)
+
+                                                                                            const assertedTargetKeyProperty = assertNotNull(targetKeyProperty)
+                                                                                            targetCollectionType = ["dictionary", {
+                                                                                                "key property": astn.createReference(
+                                                                                                    "key property",
+                                                                                                    assertedTargetKeyProperty,
+                                                                                                    "name",
+                                                                                                    $.annotation,
+                                                                                                    assertedTargetNode.properties.getLookup(),
+                                                                                                    resolveRegistry.getRegistrater(),
+                                                                                                ),
+                                                                                            }]
+
+                                                                                        },
+                                                                                    }))
+                                                                                },
+                                                                                "list": () => {
+                                                                                    targetCollectionType = ["list", {
+                                                                                    }]
+                                                                                    return wrap(context.expectVerboseGroup({}))
+                                                                                },
+                                                                            },
+                                                                        })),
+                                                                        onNotExists: () => {
+                                                                            targetCollectionType = ["list", {}]
+                                                                        },
+                                                                    },
+                                                                },
+                                                                onEnd: () => {
+                                                                    const assertedTargetNode = assertNotNull(targetNode)
+                                                                    const asserted = assertNotNull(targetCollectionType)
+                                                                    targetPropertyType = ["collection", {
+                                                                        "type": asserted,
+                                                                        "node": assertedTargetNode,
+                                                                    }]
+                                                                },
+                                                            }))
+                                                        },
+                                                        "component": () => {
+                                                            let targetComponentTypeName: AnnotatedString<TokenAnnotation> | null = null
+                                                            return wrap(context.expectVerboseGroup({
+                                                                properties: {
+                                                                    "type": {
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: ($) => {
+                                                                                targetComponentTypeName = {
+                                                                                    value: $.token.data.value,
+                                                                                    annotation: $.token.annotation,
+                                                                                }
+                                                                            },
+                                                                        })),
+                                                                        onNotExists: (data) => {
+                                                                            targetComponentTypeName = {
+                                                                                value: "",
+                                                                                annotation: data.beginToken.annotation,
+                                                                            }
+                                                                        },
+                                                                    },
+                                                                },
+                                                                onEnd: ($) => {
+                                                                    const assertedTargetComponentTypeName = assertNotNull(targetComponentTypeName)
+                                                                    targetPropertyType = ["component", {
+                                                                        "type": astn.createReference(
+                                                                            "type",
+                                                                            assertedTargetComponentTypeName,
+                                                                            "",
+                                                                            $.annotation,
+                                                                            componentTypes,
+                                                                            resolveRegistry.getRegistrater(),
+                                                                        ),
+                                                                    }]
+                                                                },
+                                                            }))
+                                                        },
+                                                        "state group": () => {
+                                                            const states = astn.createDictionaryBuilder<t.State>()
+                                                            let targetDefaultState: null | AnnotatedString<TokenAnnotation> = null
+                                                            return wrap(context.expectVerboseGroup({
+                                                                properties: {
+                                                                    "states": {
+                                                                        onExists: () => wrap(context.expectDictionary({
+                                                                            onProperty: (stateData) => {
+                                                                                let targetNode: t.Node | null = null
+                                                                                return wrap(context.expectVerboseGroup({
+                                                                                    properties: {
+                                                                                        "node": createNodeDeserialiser(
+                                                                                            context,
+                                                                                            componentTypes,
+                                                                                            (node) => {
+                                                                                                targetNode = node
+                                                                                            },
+                                                                                            resolveRegistry,
+                                                                                        ),
+                                                                                    },
+                                                                                    onEnd: () => {
+                                                                                        const asserted = assertNotNull(targetNode)
+                                                                                        states.add(stateData.token.data.value, {
+                                                                                            node: asserted,
+                                                                                        })
+                                                                                    },
+                                                                                }))
+                                                                            },
+                                                                        })),
+                                                                        onNotExists: () => {
+                                                                            //nothing to do, states dictionary already initialized
+                                                                        },
+                                                                    },
+                                                                    "default state": {
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: ($) => {
+                                                                                targetDefaultState = {
+                                                                                    value: $.token.data.value,
+                                                                                    annotation: $.token.annotation,
+                                                                                }
+                                                                            },
+                                                                        })),
+                                                                        onNotExists: (data) => {
+                                                                            targetDefaultState = {
+                                                                                value: "yes",
+                                                                                annotation: data.beginToken.annotation,
+                                                                            }
+                                                                        },
+                                                                    },
+                                                                },
+                                                                onEnd: ($) => {
+                                                                    const assertedTargetDefaultState = assertNotNull(targetDefaultState)
+                                                                    targetPropertyType = ["state group", {
+                                                                        "states": states.toDictionary(),
+                                                                        "default state": astn.createReference(
+                                                                            "default state",
+                                                                            assertedTargetDefaultState,
+                                                                            "yes",
+                                                                            $.annotation,
+                                                                            states.toDictionary().getLookup(),
+                                                                            resolveRegistry.getRegistrater(),
+                                                                        ),
+                                                                    }]
+
+                                                                },
+                                                            }))
+                                                        },
+                                                        "value": () => {
+                                                            let targetValueType: t.ValueType | null = null
+                                                            let defaultValue: string | null = null
+                                                            return wrap(context.expectVerboseGroup({
+                                                                properties: {
+                                                                    "type": {
+                                                                        onExists: () => wrap(context.expectTaggedUnion({
+                                                                            options: {
+                                                                                "number": () => {
+                                                                                    targetValueType = ["number", {}]
+                                                                                    return wrap(context.expectVerboseGroup({}))
+                                                                                },
+                                                                                "text": () => {
+                                                                                    targetValueType = ["string", {}]
+                                                                                    return wrap(context.expectVerboseGroup({}))
+                                                                                },
+                                                                            },
+                                                                        })),
+                                                                        onNotExists: () => {
+                                                                            targetValueType = ["string", {}]
+                                                                        },
+                                                                    },
+                                                                    "default value": {
+                                                                        onExists: () => wrap(context.expectQuotedString({
+                                                                            warningOnly: true,
+                                                                            callback: ($) => {
+                                                                                defaultValue = $.token.data.value
+                                                                            },
+                                                                        })),
+                                                                        onNotExists: () => {
+                                                                            defaultValue = ""
+                                                                        },
+                                                                    },
+                                                                },
+                                                                onEnd: () => {
+                                                                    const assertedTargetValueType = assertNotNull(targetValueType)
+                                                                    const assertedDefaultValue = assertNotNull(defaultValue)
+                                                                    targetPropertyType = ["value", {
+                                                                        "default value": assertedDefaultValue,
+                                                                        "type": assertedTargetValueType,
+                                                                    }]
+                                                                },
+                                                            }))
+                                                        },
+                                                    },
+                                                })),
+                                                onNotExists: () => {
+                                                    targetPropertyType = ["value", {
+                                                        "default value": "",
+                                                        "type": ["string", {}],
+                                                    }]
+                                                },
+                                            },
+                                        },
+                                        onEnd: () => {
+                                            const asserted = assertNotNull(targetPropertyType)
+                                            properties.add(propertyData.token.data.value, {
+                                                type: asserted,
+                                            })
+                                        },
+                                    }))
+                                },
+                            })),
+                            onNotExists: () => {
+                                //nothing to do, properties dictionary already created
+                            },
+                        },
+                    },
+                    onEnd: () => {
+                        callback({ properties: properties.toDictionary() })
+                    },
+                }))
+            },
+            onNotExists: () => {
+                callback({
+                    properties: astn.createDictionaryBuilder<t.Property>().toDictionary(),
+                })
+            },
+        }
+    }
     return {
         onEnd: onEnd,
         root: {
@@ -365,9 +362,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                 let targetNode: t.Node | null = null
                                 return wrap(context.expectVerboseGroup({
                                     properties: {
-                                        "node": createExpectedValueHandler(
+                                        "node": createNodeDeserialiser(
                                             context,
-                                            onValidationError,
                                             componentTypes.toDictionary().getLookup(),
                                             (node) => {
                                                 targetNode = node
@@ -421,7 +417,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         ),
                     }
                     const success = resolveRegistry.resolve(
-                        ($) => onValidationError($.message, $.annotation)
+                        ($) => onResolveError($.message, $.annotation)
                     )
                     if (success) {
                         callback(schema)

@@ -8,8 +8,8 @@ import * as t from "../../../../../lowlevel/generated/lowlevel"
 import { generateCore } from "./core"
 import { generateDeserializeAPI } from "./deserializeAPI"
 import { generateDeserializeNamespace } from "./deserialize"
-import { createDeserializer } from "../createDeserializer"
 import { generateCreateDeserializer } from "./generateCreateDeserializer"
+import { generateBuilder } from "./generateBuilder"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -98,8 +98,8 @@ export function generateCode2(
                                                 return
                                             }
                                             add(k, {
-                                                "occurence": ["optional", {}],
                                                 "type": {
+                                                    "occurence": ["optional", {}],
                                                     "type": ((): t.__type_type_TU_Builder => {
                                                         switch (e.type[0]) {
                                                             case "collection": {
@@ -170,18 +170,34 @@ export function generateCode2(
                         })
                     })
                 }),
-                // "functions": {
-                //     // "createBuilder": {
-                //     //     "procedure": {
-                //     //         "parameters": {
-                //     //         },
-                //     //     },
-                //     // },
-                // },
+                "function declarations": {
+                    "build": {
+                        "declaration": {
+                            "in": {
+                                "type": schema["root type"].name,
+                            },
+                            "out": {
+                                "namespace": {
+                                    "namespace": ["other", {
+                                        "namespace": {
+                                            "namespace": "core",
+                                        },
+                                    }],
+                                },
+                                "type": schema["root type"].name,
+                            },
+                        },
+                    },
+                },
             },
             "deserialize api": generateDeserializeAPI(
             ),
             "deserialize": generateDeserializeNamespace(
+                schema,
+            ),
+        },
+        "function implementations": {
+            "build": generateBuilder(
                 schema,
             ),
         },

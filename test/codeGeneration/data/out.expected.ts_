@@ -130,7 +130,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onProperty: (propertyData) => {
                                                         return wrap(((callback: (out: __tasks_T) => void) => {
                                                             let _action_holder_v: string | null = null
-                                                            let _cost_v: string | null = null
+                                                            let _cost_v: number | null = null
                                                             let _description_v: string | null = null
                                                             let _enddate_v: string | null = null
                                                             const _involved_team_members_v: { [key: string]: __involved_team_members_T } = {}
