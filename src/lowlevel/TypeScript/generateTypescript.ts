@@ -126,67 +126,67 @@ interface TaggedUnionNameBuilder {
     option(name: string): TypeNameBuilder
 }
 
-// function createNameBuilder(
-//     schema: ll.__root_T,
-//     namespaceName: string,
-// ) {
-//     const ns = find(schema.namespaces, namespaceName)
-//     function createTypeNameBuilder(
-//         path: string,
-//         type: ll.__type_T
-//     ): TypeNameBuilder {
-//         return {
-//             dictionary: () => {
-//                 if (type.type[0] !== "dictionary") {
-//                     throw new Error(`Not a dictionary: ${generateIdentifier(path)}`)
-//                 }
-//                 return createTypeNameBuilder(`${path}_D`, type.type[1].entry)
-//             },
-//             list: () => {
-//                 if (type.type[0] !== "list") {
-//                     throw new Error(`Not a list: ${generateIdentifier(path)}`)
-//                 }
-//                 return createTypeNameBuilder(`${path}_L`, type.type[1].element)
-//             },
-//             group: () => {
-//                 if (type.type[0] !== "group") {
-//                     throw new Error(`Not a group: ${generateIdentifier(path)}`)
-//                 }
-//                 const $ = type.type[1]
-//                 return {
-//                     property: (name) => {
-//                         return createTypeNameBuilder(`${path}_G_${name}_P`, find($.properties, name).type)
-//                     },
-//                 }
-//             },
-//             taggedUnion: () => {
-//                 if (type.type[0] !== "tagged union") {
-//                     throw new Error(`Not a tagged union: ${generateIdentifier(path)}`)
-//                 }
-//                 const $ = type.type[1]
-//                 return {
-//                     option: (optName) => {
-//                         return createTypeNameBuilder(`${path}_TU_${optName}_O`, find($.options, optName).type)
-//                     },
-//                 }
-//             },
-//             getIdentifier: () => {
-//                 return `${generateIdentifier(path)}`
-//             },
-//             getNamespaceName: () => {
-//                 return namespaceName
-//             },
-//         }
-//     }
-
-//     return {
-//         type: (name: string) => {
-//             return createTypeNameBuilder(`${generateIdentifier(namespaceName)}_${name}`, find(ns.types, name).type)
-//         },
-//     }
-// }
-
 function createNameBuilder(
+    schema: ll.__root_T,
+    namespaceName: string,
+) {
+    const ns = find(schema.namespaces, namespaceName)
+    function createTypeNameBuilder(
+        path: string,
+        type: ll.__type_T
+    ): TypeNameBuilder {
+        return {
+            dictionary: () => {
+                if (type.type[0] !== "dictionary") {
+                    throw new Error(`Not a dictionary: ${generateIdentifier(path)}`)
+                }
+                return createTypeNameBuilder(`${path}_D`, type.type[1].entry)
+            },
+            list: () => {
+                if (type.type[0] !== "list") {
+                    throw new Error(`Not a list: ${generateIdentifier(path)}`)
+                }
+                return createTypeNameBuilder(`${path}_L`, type.type[1].element)
+            },
+            group: () => {
+                if (type.type[0] !== "group") {
+                    throw new Error(`Not a group: ${generateIdentifier(path)}`)
+                }
+                const $ = type.type[1]
+                return {
+                    property: (name) => {
+                        return createTypeNameBuilder(`${path}_G_${name}_P`, find($.properties, name).type)
+                    },
+                }
+            },
+            taggedUnion: () => {
+                if (type.type[0] !== "tagged union") {
+                    throw new Error(`Not a tagged union: ${generateIdentifier(path)}`)
+                }
+                const $ = type.type[1]
+                return {
+                    option: (optName) => {
+                        return createTypeNameBuilder(`${path}_TU_${optName}_O`, find($.options, optName).type)
+                    },
+                }
+            },
+            getIdentifier: () => {
+                return `${generateIdentifier(path)}`
+            },
+            getNamespaceName: () => {
+                return namespaceName
+            },
+        }
+    }
+
+    return {
+        type: (name: string) => {
+            return createTypeNameBuilder(`${generateIdentifier(namespaceName)}_${name}`, find(ns.types, name).type)
+        },
+    }
+}
+
+function createUntypedNameBuilder(
     schema: ll.__root_T,
     namespaceName: string,
 ) {
@@ -227,7 +227,6 @@ function createNameBuilder(
 
     return {
         type: (name: string) => {
-            console.error(`TYPE: ${name}`)
             find(ns.types, name)
             return createTypeNameBuilder(`${generateIdentifier(namespaceName)}_${name}`)
         },
@@ -294,7 +293,7 @@ export function generateTypeScript(
                         $w.line(($w) => {
                             $w.snippet(`${generateQuoted(key)}: `)
                             generateNamespacedIdentifier(
-                                $.namespace,
+                                $["namespace selection"],
                                 $w,
                                 ($w) => {
                                     $w.snippet(`_${$.builder}_IB`)
@@ -349,22 +348,22 @@ export function generateTypeScript(
         }
     }
     function generateNamespacedIdentifier(
-        $: ll.__optional_namespace_reference_T,
+        $: ll.__namespace_selection_T,
         $w: Line,
         identifier: ($w: Line) => void,
         namespaceName: string,
         typeArgumentsCallback: ($w: Line) => void,
     ) {
-        switch ($.namespace[0]) {
+        switch ($.which[0]) {
             case "current":
-                cc($.namespace[1], ($) => {
+                cc($.which[1], ($) => {
                     $w.snippet(`${generateIdentifier(namespaceName)}`)
                     identifier($w)
                     typeArgumentsCallback($w)
                 })
                 break
             case "other":
-                cc($.namespace[1], ($) => {
+                cc($.which[1], ($) => {
                     function generateNamespaceReference(
                         $: ll.__namespace_reference_T,
                         $w: Line,
@@ -391,13 +390,13 @@ export function generateTypeScript(
                         )
                     }
                     generateNamespaceReference(
-                        $.namespace,
+                        $["namespace reference"],
                         $w,
                     )
                 })
                 break
             default:
-                assertUnreachable($.namespace[0])
+                assertUnreachable($.which[0])
         }
     }
     function generateFunctionDeclaration(
@@ -431,7 +430,7 @@ export function generateTypeScript(
     ) {
         const $$ = $
         generateNamespacedIdentifier(
-            $.namespace,
+            $["namespace selection"],
             $w,
             ($w) => {
                 $w.snippet(`_${generateIdentifier($.type)}_T`)
@@ -518,7 +517,7 @@ export function generateTypeScript(
                 cc($.type[1], ($) => {
                     const x = $.interface
                     generateNamespacedIdentifier(
-                        $.namespace,
+                        $["namespace selection"],
                         $w,
                         ($w) => {
                             $w.snippet(`_${x}_I`)
@@ -581,6 +580,106 @@ export function generateTypeScript(
                 assertUnreachable($.guaranteed[0])
         }
     }
+    function getNestedType(
+        $: ll.__nested_type_reference_T,
+    ): TypeNameBuilder {
+        let nameBuilder = createUntypedNameBuilder($root, $["namespace reference"].namespace).type($.type)
+        $.steps.forEach(($) => {
+            switch ($.type[0]) {
+                case "dictionary":
+                    cc($.type[1], ($) => {
+                        nameBuilder = nameBuilder.dictionary()
+                    })
+                    break
+                case "group":
+                    cc($.type[1], ($) => {
+                        nameBuilder = nameBuilder.group().property($.property)
+                    })
+                    break
+                case "list":
+                    cc($.type[1], ($) => {
+                        nameBuilder = nameBuilder.list()
+                    })
+                    break
+                case "tagged union option":
+                    cc($.type[1], ($) => {
+                        nameBuilder = nameBuilder.taggedUnion().option($.option)
+                    })
+                    break
+                default:
+                    assertUnreachable($.type[0])
+            }
+        })
+        return nameBuilder
+    }
+    function getContextStart(
+        $: ll.__context_start_T,
+        $r: {
+            context: TypeNameBuilder
+            markedValues: IDictionary<ll.__markers_T>[]
+            states: IDictionary<ll.__states_T>[]
+            nestedFunctions: IDictionary<ll.__functions_type_expression_block_T>[]
+            externalFunctions: IDictionary<ll.__functions_T> | null
+            currentNamespaceName: string
+        },
+    ): TypeNameBuilder {
+        switch ($.start[0]) {
+            case "marked value":
+                return cc($.start[1], ($) => {
+                    return getContextSelection(
+                        findInStack($r.markedValues, $.marker).selection,
+                        {
+                            context: $r.context,
+                            markedValues: $r.markedValues,
+                            states: $r.states,
+                            nestedFunctions: $r.nestedFunctions,
+                            externalFunctions: $r.externalFunctions,
+                            namespaceName: $r.currentNamespaceName,
+                        },
+                    )
+                })
+            case "context":
+                return cc($.start[1], ($) => {
+                    return $r.context
+                })
+            case "function":
+                return cc($.start[1], ($) => {
+                    switch ($.context[0]) {
+                        case "local function":
+                            return cc($.context[1], ($) => {
+                                return getTypeReference(
+                                    findInStack($r.nestedFunctions, $.function).declaration.out,
+                                    $r.currentNamespaceName,
+                                )
+                            })
+                        case "argument":
+                            return cc($.context[1], ($) => {
+                                if ($r.externalFunctions === null) {
+                                    throw new Error(`unexpected missing external functions`)
+                                }
+                                return getTypeReference(
+                                    find($r.externalFunctions, $.function).declaration.out,
+                                    $r.currentNamespaceName,
+                                )
+                            })
+                        default:
+                            return assertUnreachable($.context[0])
+                    }
+                })
+            case "state":
+                return cc($.start[1], ($) => {
+                    const $$ = $
+                    const $state = findInStack($r.states, $.state)
+                    if ($state.type[0] !== "type5") {
+                        throw new Error(`unexpected state: not a type, ${$.state}`)
+                    }
+                    const $type5 = $state.type[1]
+                    return getNestedType($type5["nested type"])
+                })
+            default:
+                return assertUnreachable($.start[0])
+        }
+    }
     function generateContextStart(
         $: ll.__context_start_T,
         $w: Block,
@@ -592,10 +691,6 @@ export function generateTypeScript(
             externalFunctions: IDictionary<ll.__functions_T> | null
             currentNamespaceName: string
         },
-        callback: (
-            context: TypeNameBuilder,
-            $w: Block
-        ) => void,
     ) {
         let context = $r.context
         $w.line(($w) => {
@@ -603,27 +698,14 @@ export function generateTypeScript(
             switch ($.start[0]) {
                 case "marked value":
                     cc($.start[1], ($) => {
-                        //findInStack($r.markedValues, $.marker)
                         //console.error("SET CONTEXT")
                         $w.snippet(`${$.marker}_m`)
-                        $w.indent(($w) => {
-                            callback(
-                                context,
-                                $w,
-                            )
-                        })
                     })
                     break
                 case "context":
                     cc($.start[1], ($) => {
                         context = context
                         $w.snippet(`$c`)
-                        $w.indent(($w) => {
-                            callback(
-                                context,
-                                $w,
-                            )
-                        })
                     })
                     break
                 case "function":
@@ -646,29 +728,17 @@ export function generateTypeScript(
                                 },
                             )
                             $w.snippet(`)`)
-                            $w.indent(($w) => {
-                                callback(
-                                    functionTarget,
-                                    $w,
-                                )
-                            })
                         }
                         switch ($.context[0]) {
                             case "local function":
                                 cc($.context[1], ($) => {
                                     $w.snippet(`${generateIdentifier($.function)}_fi`)
                                     x2(
-                                        createTypeReferenceNameBuilder(
+                                        getTypeReference(
                                             findInStack($r.nestedFunctions, $.function).declaration.out,
                                             $r.currentNamespaceName,
                                         )
                                     )
-                                    $w.indent(($w) => {
-                                        callback(
-                                            context,
-                                            $w,
-                                        )
-                                    })
                                 })
                                 break
                             case "argument":
@@ -678,54 +748,55 @@ export function generateTypeScript(
                                     }
                                     $w.snippet(`$f[${generateQuoted($.function)}]`)
                                     x2(
-                                        createTypeReferenceNameBuilder(
+                                        getTypeReference(
                                             find($r.externalFunctions, $.function).declaration.out,
                                             $r.currentNamespaceName,
                                         )
                                     )
-                                    $w.indent(($w) => {
-                                        callback(
-                                            context,
-                                            $w,
-                                        )
-                                    })
                                 })
                                 break
-                            // case "from marked":
-                            //     cc($.context[1], ($) => {
-                            //         $w.snippet(`${generateIdentifier($.marker)}_m[${generateQuoted(x.function)}]`)
-                            //         x2(
-                            //             createNameBuilder($root, "SSSFSD3").type("TTTW")
-                            //         )
-                            //     })
-                            //     break
                             default:
                                 assertUnreachable($.context[0])
                         }
-                        //console.error("SET CONTEXT")
                     })
                     break
                 case "state":
                     cc($.start[1], ($) => {
-                        const $$ = $
-                        const $state = findInStack($r.states, $.state)
-                        // if ($state.type[0] !== "type5") {
-                        //     throw new Error(`unexpected state: not a type, ${$.state}`)
-                        // }
-                        //console.error("SET CONTEXT")
-                        $w.snippet(`${generateIdentifier($$.state)}`)
-                        $w.indent(($w) => {
-                            callback(
-                                context,
-                                $w,
-                            )
-                        })
+                        $w.snippet(`${generateIdentifier($.state)}_s`)
                     })
                     break
                 default:
                     assertUnreachable($.start[0])
             }
         })
+    }
+    function getContextSelection(
+        $: ll.__context_selection_T,
+        $r: {
+            context: TypeNameBuilder
+            markedValues: IDictionary<ll.__markers_T>[]
+            states: IDictionary<ll.__states_T>[]
+            nestedFunctions: IDictionary<ll.__functions_type_expression_block_T>[]
+            externalFunctions: IDictionary<ll.__functions_T> | null
+            namespaceName: string
+        },
+    ): TypeNameBuilder {
+
+        let context = getContextStart(
+            $["start"],
+            {
+                context: $r.context,
+                markedValues: $r.markedValues,
+                states: $r.states,
+                nestedFunctions: $r.nestedFunctions,
+                externalFunctions: $r.externalFunctions,
+                currentNamespaceName: $r.namespaceName,
+            },
+        )
+        $.steps.forEach(($) => {
+            context = context//FIXME
+        })
+        return context
     }
     function generateContextSelection(
         $: ll.__context_selection_T,
@@ -738,10 +809,6 @@ export function generateTypeScript(
             externalFunctions: IDictionary<ll.__functions_T> | null
             namespaceName: string
         },
-        callback: (
-            context: TypeNameBuilder,
-            $w: Block
-        ) => void,
     ) {
 
         $w.snippet(`(() => {`)
@@ -757,7 +824,6 @@ export function generateTypeScript(
                     externalFunctions: $r.externalFunctions,
                     currentNamespaceName: $r.namespaceName,
                 },
-                callback,
             )
             $.steps.forEach(($) => {
                 $w.line(($w) => {
@@ -767,50 +833,35 @@ export function generateTypeScript(
             })
         })
         $w.snippet(`})()`)
+    }
+    function getGuaranteedContextSelection(
+        $: ll.__guaranteed_context_selection_T,
+        $r: {
+            context: TypeNameBuilder
+            target: TypeNameBuilder
+            markedValues: IDictionary<ll.__markers_T>[]
+            states: IDictionary<ll.__states_T>[]
+            nestedFunctions: IDictionary<ll.__functions_type_expression_block_T>[]
+            externalFunctions: IDictionary<ll.__functions_T> | null
+            namespaceName: string
+        },
+    ): TypeNameBuilder {
 
-
-        // switch ($.guaranteed[0]) {
-        //     case "no":
-        //         cc($.guaranteed[1], ($) => {
-        //             $w.snippet(`(`)
-        //             generateContextSelection(
-        //                 x["context selection"],
-        //                 $w,
-        //             )
-        //             x.path.forEach(($) => {
-        //                 $w.snippet(`[${generateQuoted($.step)}]`)
-        //             })
-        //             $w.snippet(` === undefined`)
-        //             $w.indent(($w) => {
-        //                 $w.line(($w) => {
-        //                     $w.snippet(`? `)
-        //                     generateTypeExpression(
-        //                         $["on missing"],
-        //                         $w,
-        //                     )
-        //                 })
-        //                 $w.line(($w) => {
-        //                     $w.snippet(`: `)
-        //                     generateContextSelection(
-        //                         x["context selection"],
-        //                         $w,
-        //                     )
-        //                     x.path.forEach(($) => {
-        //                         $w.snippet(`[${generateQuoted($.step)}]`)
-        //                     })
-
-        //                 })
-        //             })
-        //             $w.snippet(`)`)
-        //         })
-        //         break
-        //     case "yes":
-        //         cc($.guaranteed[1], ($) => {
-        //         })
-        //         break
-        //     default:
-        //         assertUnreachable($.guaranteed[0])
-        // }
+        let context = getContextStart(
+            $["start"],
+            {
+                context: $r.context,
+                markedValues: $r.markedValues,
+                states: $r.states,
+                nestedFunctions: $r.nestedFunctions,
+                externalFunctions: $r.externalFunctions,
+                currentNamespaceName: $r.namespaceName,
+            },
+        )
+        $.steps.forEach(($) => {
+            context = context//FIXME
+        })
+        return context
     }
     function generateGuaranteedContextSelection(
         $: ll.__guaranteed_context_selection_T,
@@ -824,10 +875,6 @@ export function generateTypeScript(
             externalFunctions: IDictionary<ll.__functions_T> | null
             namespaceName: string
         },
-        callback: (
-            context: TypeNameBuilder,
-            $w: Block
-        ) => void,
     ) {
 
         $w.snippet(`((): ${$r.target.getIdentifier()} => {`)
@@ -856,7 +903,6 @@ export function generateTypeScript(
                     externalFunctions: $r.externalFunctions,
                     currentNamespaceName: $r.namespaceName,
                 },
-                callback,
             )
             $.steps.forEach(($) => {
                 generateMissingHandler(
@@ -875,54 +921,9 @@ export function generateTypeScript(
                 $w.line(($w) => {
                     $w.snippet(`FIXME STEP ${$.property}`)
                 })
-                //console.error("SET CONTEXT")
             })
         })
         $w.snippet(`})()`)
-
-
-        // switch ($.guaranteed[0]) {
-        //     case "no":
-        //         cc($.guaranteed[1], ($) => {
-        //             $w.snippet(`(`)
-        //             generateContextSelection(
-        //                 x["context selection"],
-        //                 $w,
-        //             )
-        //             x.path.forEach(($) => {
-        //                 $w.snippet(`[${generateQuoted($.step)}]`)
-        //             })
-        //             $w.snippet(` === undefined`)
-        //             $w.indent(($w) => {
-        //                 $w.line(($w) => {
-        //                     $w.snippet(`? `)
-        //                     generateTypeExpression(
-        //                         $["on missing"],
-        //                         $w,
-        //                     )
-        //                 })
-        //                 $w.line(($w) => {
-        //                     $w.snippet(`: `)
-        //                     generateContextSelection(
-        //                         x["context selection"],
-        //                         $w,
-        //                     )
-        //                     x.path.forEach(($) => {
-        //                         $w.snippet(`[${generateQuoted($.step)}]`)
-        //                     })
-
-        //                 })
-        //             })
-        //             $w.snippet(`)`)
-        //         })
-        //         break
-        //     case "yes":
-        //         cc($.guaranteed[1], ($) => {
-        //         })
-        //         break
-        //     default:
-        //         assertUnreachable($.guaranteed[0])
-        // }
     }
     function generateStringExpression(
         $: ll.__string_expression_T,
@@ -942,6 +943,16 @@ export function generateTypeScript(
                     $w.snippet(`${generateQuoted($.value)}`)
                 })
                 break
+            case "state":
+                cc($.strategy[1], ($) => {
+                    const $$ = $
+                    const $state = findInStack($r.states, $.state)
+                    if ($state.type[0] !== "string") {
+                        throw new Error(`unexpected state: not a string, ${$.state}`)
+                    }
+                    $w.snippet(`${generateIdentifier($$.state)}`)
+                })
+                break
             case "select":
                 cc($.strategy[1], ($) => {
                     generateContextSelection(
@@ -955,12 +966,9 @@ export function generateTypeScript(
                             externalFunctions: $r.externalFunctions,
                             namespaceName: $r.namespaceName,
                         },
-                        (context, $w) => {
-                            $w.line(($w) => {
-                                $w.snippet(`FIXME COPY STRING`)
-                            })
-                        }
                     )
+                    $w.snippet(`FIXME COPY STRING`)
+
                 })
                 break
             default:
@@ -996,12 +1004,8 @@ export function generateTypeScript(
                             externalFunctions: $r.externalFunctions,
                             namespaceName: $r.namespaceName,
                         },
-                        (context, $w) => {
-                            $w.line(($w) => {
-                                $w.snippet(`FIXME COPY`)
-                            })
-                        },
                     )
+                    $w.snippet(`FIXME COPY`)
                 })
                 break
             case "literal":
@@ -1072,7 +1076,7 @@ export function generateTypeScript(
                                     $w,
                                     {
                                         context: $r.context,
-                                        target: createNameBuilder($root, "XYZ1").type("xxx1"), //FIXME
+                                        target: createUntypedNameBuilder($root, "XYZ1").type("xxx1"), //FIXME Have to have the type
                                         markedValues: $r.markedValues,
                                         states: $r.states,
                                         nestedFunctions: $r.nestedFunctions,
@@ -1104,7 +1108,6 @@ export function generateTypeScript(
                         default:
                             assertUnreachable($.type[0])
                     }
-                    //console.error(`<LITERAL`)
                 })
                 break
             case "map":
@@ -1121,29 +1124,37 @@ export function generateTypeScript(
                             externalFunctions: $r.externalFunctions,
                             namespaceName: $r.namespaceName,
                         },
-                        (context, $w) => {
-                            $w.line(($w) => {
-                                $w.snippet(`FIXMEMAP`)
-                                generateTypeExpression(
-                                    $.entry,
-                                    $w,
-                                    {
-                                        context: context,
-                                        target: $r.target.dictionary(),
-                                        markedValues: $r.markedValues,
-                                        states: $r.states,
-                                        nestedFunctions: $r.nestedFunctions,
-                                        externalFunctions: $r.externalFunctions,
-                                        namespaceName: $r.namespaceName,
-                                    },
-                                )
-                            })
-                        }
+                    )
+                    $w.snippet(`FIXMEMAP`)
+                    generateTypeExpression(
+                        $.entry,
+                        $w,
+                        {
+                            context: getGuaranteedContextSelection(
+                                $.context,
+                                {
+                                    context: $r.context,
+                                    target: $r.target,
+                                    markedValues: $r.markedValues,
+                                    states: $r.states,
+                                    nestedFunctions: $r.nestedFunctions,
+                                    externalFunctions: $r.externalFunctions,
+                                    namespaceName: $r.namespaceName,
+                                },
+                            ),
+                            target: $r.target.dictionary(),
+                            markedValues: $r.markedValues,
+                            states: $r.states,
+                            nestedFunctions: $r.nestedFunctions,
+                            externalFunctions: $r.externalFunctions,
+                            namespaceName: $r.namespaceName,
+                        },
                     )
                 })
                 break
             case "switch":
                 cc($.strategy[1], ($) => {
+                    const $context = $.context
                     generateGuaranteedContextSelection(
                         $.context,
                         $w,
@@ -1156,48 +1167,55 @@ export function generateTypeScript(
                             externalFunctions: $r.externalFunctions,
                             namespaceName: $r.namespaceName,
                         },
-                        (context, $w) => {
+                    )
+                    $w.snippet(`switch ($c[0]) {`)
+                    $w.indent(($w) => {
+                        $.options.forEach(($, k) => {
                             $w.line(($w) => {
-                                $w.snippet(`switch ($c[0]) {`)
+                                $w.snippet(`case ${generateQuoted(k)}: {`)
                                 $w.indent(($w) => {
-                                    $.options.forEach(($, k) => {
-                                        $w.line(($w) => {
-                                            $w.snippet(`case ${generateQuoted(k)}: {`)
-                                            $w.indent(($w) => {
-                                                $w.line(($w) => {
-                                                    $w.snippet(`return cc($c[1], ($c) => {`)
-                                                    $w.indent(($w) => {
-                                                        $w.line(($w) => {
-                                                            $w.snippet(`return `)
-                                                            generateTypeExpression(
-                                                                $.expression,
-                                                                $w,
-                                                                {
-                                                                    context: context.taggedUnion().option(k),
-                                                                    target: $r.target,
-                                                                    markedValues: $r.markedValues,
-                                                                    states: $r.states,
-                                                                    nestedFunctions: $r.nestedFunctions,
-                                                                    externalFunctions: $r.externalFunctions,
-                                                                    namespaceName: $r.namespaceName,
-                                                                },
-                                                            )
-                                                        })
-                                                    })
-                                                    $w.snippet(`})`)
-                                                })
-                                            })
-                                            $w.snippet(`}`)
-                                        })
-                                    })
                                     $w.line(($w) => {
-                                        $w.snippet(`default: return assertUnreachable($c[0])`)
+                                        $w.snippet(`return cc($c[1], ($c) => {`)
+                                        $w.indent(($w) => {
+                                            $w.line(($w) => {
+                                                $w.snippet(`return `)
+                                                generateTypeExpression(
+                                                    $.expression,
+                                                    $w,
+                                                    {
+                                                        context: getGuaranteedContextSelection(
+                                                            $context,
+                                                            {
+                                                                context: $r.context,
+                                                                target: $r.target,
+                                                                markedValues: $r.markedValues,
+                                                                states: $r.states,
+                                                                nestedFunctions: $r.nestedFunctions,
+                                                                externalFunctions: $r.externalFunctions,
+                                                                namespaceName: $r.namespaceName,
+                                                            },
+                                                        ).taggedUnion().option(k),
+                                                        target: $r.target,
+                                                        markedValues: $r.markedValues,
+                                                        states: $r.states,
+                                                        nestedFunctions: $r.nestedFunctions,
+                                                        externalFunctions: $r.externalFunctions,
+                                                        namespaceName: $r.namespaceName,
+                                                    },
+                                                )
+                                            })
+                                        })
+                                        $w.snippet(`})`)
                                     })
                                 })
                                 $w.snippet(`}`)
                             })
-                        },
-                    )
+                        })
+                        $w.line(($w) => {
+                            $w.snippet(`default: return assertUnreachable($c[0])`)
+                        })
+                    })
+                    $w.snippet(`}`)
                 })
                 break
             case "dictionary from state":
@@ -1209,28 +1227,28 @@ export function generateTypeScript(
                 assertUnreachable($.strategy[0])
         }
     }
-    function getNamespace(
-        $: ll.__optional_namespace_reference_T,
-        currentNamespaceName: string,
-    ): string {
-        switch ($.namespace[0]) {
-            case "current":
-                return cc($.namespace[1], ($) => {
-                    return currentNamespaceName
-                })
-            case "other":
-                return cc($.namespace[1], ($) => {
-                    return $.namespace.namespace
-                })
-            default:
-                return assertUnreachable($.namespace[0])
-        }
-    }
-    function createTypeReferenceNameBuilder(
+    function getTypeReference(
         $: ll.__type_reference_T,
         currentNamespaceName: string,
-    ) {
-        return createNameBuilder($root, getNamespace($.namespace, currentNamespaceName)).type($.type)
+    ): TypeNameBuilder {
+        function getNamespace(
+            $: ll.__namespace_selection_T,
+            currentNamespaceName: string,
+        ): string {
+            switch ($.which[0]) {
+                case "current":
+                    return cc($.which[1], ($) => {
+                        return currentNamespaceName
+                    })
+                case "other":
+                    return cc($.which[1], ($) => {
+                        return $["namespace reference"].namespace
+                    })
+                default:
+                    return assertUnreachable($.which[0])
+            }
+        }
+        return createUntypedNameBuilder($root, getNamespace($["namespace selection"], currentNamespaceName)).type($.type)
     }
     function generateTypeExpressionBlock(
         $: ll.__type_expression_block_T,
@@ -1255,7 +1273,7 @@ export function generateTypeScript(
                     // generateFunctionDeclaration(
                     //     $.declaration,
                     //     $w,
-                    //     $.namespace.namespace,
+                    //     $["namespace reference"].namespace,
                     //     ($w) => {
                     //         doDictionary(
                     //             //should be parameters
@@ -1284,11 +1302,11 @@ export function generateTypeScript(
                         $.block,
                         $w,
                         {
-                            context: createTypeReferenceNameBuilder(
+                            context: getTypeReference(
                                 $.declaration.in,
                                 $r.currentNamespaceName,
                             ),
-                            target: createTypeReferenceNameBuilder(
+                            target: getTypeReference(
                                 $.declaration.out,
                                 $r.currentNamespaceName,
                             ),
@@ -1442,40 +1460,7 @@ export function generateTypeScript(
                 },
             )
         }
-        function generateTypeReference(
-            $: ll.__type_reference_T,
-            $w: Line,
-        ) {
-            const $$ = $
-            generateNamespacedIdentifier(
-                $.namespace,
-                $w,
-                ($w) => {
-                    $w.snippet(`${createNameBuilder($root, "").type($$.type).getIdentifier()}`)
-                },
-                namespaceName,
-                ($w) => {
-                    doDictionary(
-                        ns["type parameters"],
-                        () => {
-                            //
-                        },
-                        () => {
-                            $w.snippet(`<`)
-                        },
-                        () => {
-                            $w.snippet(`>`)
-                        },
-                        ($, key) => {
-                            $w.snippet(`${generateIdentifier(key)}`)
-                        },
-                        () => {
-                            $w.snippet(`, `)
-                        },
-                    )
-                }
-            )
-        }
+
         ns.types.forEach(($, key) => {
             function generateTypeUsage(
                 $: ll.__type_T,
@@ -1536,6 +1521,27 @@ export function generateTypeScript(
                             generateTypeReference(
                                 $.type,
                                 $w,
+                                namespaceName,
+                                ($w) => {
+                                    doDictionary(
+                                        ns["type parameters"],
+                                        () => {
+                                            //
+                                        },
+                                        () => {
+                                            $w.snippet(`<`)
+                                        },
+                                        () => {
+                                            $w.snippet(`>`)
+                                        },
+                                        ($, key) => {
+                                            $w.snippet(`${generateIdentifier(key)}`)
+                                        },
+                                        () => {
+                                            $w.snippet(`, `)
+                                        },
+                                    )
+                                }
                             )
                         })
                         break
@@ -1884,7 +1890,7 @@ export function generateTypeScript(
     })
     $["function implementations"].forEach(($, key) => {
         //console.error(`FUNCTION IMP: ${key}`)
-        const ns2 = $.namespace
+        const ns2 = $["namespace reference"]
         $w.line(() => { })
         $w.line(($w) => {
             const decl = find(find($root.namespaces, ns2.namespace)["function declarations"], $.declaration)
@@ -1911,11 +1917,11 @@ export function generateTypeScript(
                 decl.declaration,
                 $w,
                 `:`,
-                $.namespace.namespace,
+                $["namespace reference"].namespace,
                 ($w) => {
                     doDictionary(
                         //should be parameters
-                        $.namespace["type arguments"],
+                        $["namespace reference"]["type arguments"],
                         () => {
                             //
                         },
@@ -1940,8 +1946,8 @@ export function generateTypeScript(
                 $.block,
                 $w,
                 {
-                    context: createNameBuilder($root, ns2.namespace).type(decl.declaration.in.type),
-                    target: createNameBuilder($root, ns2.namespace).type(decl.declaration.out.type),
+                    context: getTypeReference(decl.declaration.in, ns2.namespace),
+                    target: getTypeReference(decl.declaration.in, ns2.namespace),
                     currentNamespaceName: ns2.namespace,
                     markedValues: [],
                     states: [],
@@ -1954,7 +1960,7 @@ export function generateTypeScript(
     $["procedure implementations"].forEach(($, key) => {
         //console.error(`PROCEDURE IMP: ${key}`)
         const $pi = $
-        const decl = find(find($root.namespaces, $pi.namespace.namespace)["procedure declarations"], $.declaration)
+        const decl = find(find($root.namespaces, $pi["namespace reference"].namespace)["procedure declarations"], $.declaration)
 
         function generateprocedureBlock(
             $: ll.__procedure_block_T,
@@ -1969,55 +1975,7 @@ export function generateTypeScript(
         ) {
             const pb$r = $r
             const allStates = $r.states.concat([$.states])
-            function navigateToNestedType(
-                $: ll.__nested_type_reference_T,
-            ) {
-                let nameBuilder = createNameBuilder($root, $.namespace.namespace).type($.type)
-                //let t = find(ns.types, $.type).type
-                $.steps.forEach(($) => {
-                    switch ($.type[0]) {
-                        case "dictionary":
-                            cc($.type[1], ($) => {
-                                // if (t.type[0] !== "dictionary") {
-                                //     throw new Error("not a dictionary")
-                                // }
-                                //t = t.type[1].entry
-                                nameBuilder = nameBuilder.dictionary()
-                            })
-                            break
-                        case "group":
-                            cc($.type[1], ($) => {
-                                // if (t.type[0] !== "group") {
-                                //     throw new Error("not a group")
-                                // }
-                                // t = find(t.type[1].properties, $.property).type
-                                nameBuilder = nameBuilder.group().property($.property)
-                            })
-                            break
-                        case "list":
-                            cc($.type[1], ($) => {
-                                // if (t.type[0] !== "list") {
-                                //     throw new Error("not a list")
-                                // }
-                                // t = t.type[1].element
-                                nameBuilder = nameBuilder.list()
-                            })
-                            break
-                        case "tagged union option":
-                            cc($.type[1], ($) => {
-                                // if (t.type[0] !== "tagged union") {
-                                //     throw new Error("not a tagged union")
-                                // }
-                                // t = find(t.type[1].options, $.option).type
-                                nameBuilder = nameBuilder.taggedUnion().option($.option)
-                            })
-                            break
-                        default:
-                            assertUnreachable($.type[0])
-                    }
-                })
-                return nameBuilder
-            }
+            const allMarkers = $r.markedValues.concat([$.markers])
             function generateInternalProcedureSpecification(
                 $: ll.__internal_procedure_specification_T,
                 $w: Line,
@@ -2042,7 +2000,7 @@ export function generateTypeScript(
                                                     generateInterfaceDefinition(
                                                         $.definition,
                                                         $w,
-                                                        $pi.namespace.namespace,
+                                                        $pi["namespace reference"].namespace,
                                                         () => { },
                                                     )
                                                 })
@@ -2053,7 +2011,7 @@ export function generateTypeScript(
                                     break
                                 case "method":
                                     cc($.type[1], ($) => {
-                                        $w.snippet(`($: ${navigateToNestedType($.type).getIdentifier()}`)
+                                        $w.snippet(`($: ${getNestedType($.type).getIdentifier()}`)
 
                                         $w.snippet(`) => `)
                                         switch ($["return type"][0]) {
@@ -2062,7 +2020,7 @@ export function generateTypeScript(
                                                     generateInterfaceDefinition(
                                                         $.interface,
                                                         $w,
-                                                        $pi.namespace.namespace,
+                                                        $pi["namespace reference"].namespace,
                                                         () => { },
                                                     )
                                                 })
@@ -2080,12 +2038,12 @@ export function generateTypeScript(
                                 case "reference":
                                     cc($.type[1], ($) => {
                                         generateNamespacedIdentifier(
-                                            $.namespace,
+                                            $["namespace selection"],
                                             $w,
                                             ($w) => {
                                                 $w.snippet(`_${$.interface}_I`)
                                             },
-                                            $pi.namespace.namespace,
+                                            $pi["namespace reference"].namespace,
                                             () => { },
                                         )
                                     })
@@ -2104,7 +2062,7 @@ export function generateTypeScript(
                             generateInterfaceDefinition(
                                 $.interface,
                                 $w,
-                                $pi.namespace.namespace,
+                                $pi["namespace reference"].namespace,
                                 ($w) => {
 
                                 },
@@ -2127,7 +2085,7 @@ export function generateTypeScript(
                         context: pb$r.context,
                         interfaces: pb$r.interfaces,
                         parameters: pb$r.parameters.concat([$.parameters]),
-                        markedValues: pb$r.markedValues,
+                        markedValues: allMarkers,
                         states: allStates,
                     },
                 )
@@ -2192,7 +2150,7 @@ export function generateTypeScript(
                                                             context: pb$r.context,
                                                             interfaces: decl.interfaces,
                                                             parameters: pb$r.parameters,
-                                                            markedValues: pb$r.markedValues,
+                                                            markedValues: allMarkers,
                                                             states: allStates,
                                                         }
                                                     )
@@ -2332,7 +2290,19 @@ export function generateTypeScript(
                 const $block = $
                 $.markers.forEach(($, key) => {
                     $w.line(($w) => {
-                        $w.snippet(`const ${generateIdentifier(key)}_m = $c`)
+                        $w.snippet(`const ${generateIdentifier(key)}_m = `)
+                        generateContextSelection(
+                            $.selection,
+                            $w,
+                            {
+                                context: $r.context,
+                                markedValues: $r.markedValues.concat([$block.markers]),
+                                states: $r.states.concat([$block.states]),
+                                nestedFunctions: [],
+                                externalFunctions: decl.functions,
+                                namespaceName: $pi["namespace reference"].namespace,
+                            },
+                        )
                     })
                 })
                 $.states.forEach(($, key) => {
@@ -2340,29 +2310,29 @@ export function generateTypeScript(
                         switch ($.type[0]) {
                             case "dictionary":
                                 cc($.type[1], ($) => {
-                                    $w.snippet(`const ${generateIdentifier(key)}: { [key: string]: `)
-                                    $w.snippet(`${navigateToNestedType($.type).dictionary().getIdentifier()}`)
+                                    $w.snippet(`const ${generateIdentifier(key)}_s: { [key: string]: `)
+                                    $w.snippet(`${getNestedType($.type).dictionary().getIdentifier()}`)
                                     $w.snippet(` } = {}`)
                                 })
                                 break
                             case "list":
                                 cc($.type[1], ($) => {
-                                    $w.snippet(`const ${generateIdentifier(key)}: `)
-                                    $w.snippet(`${navigateToNestedType($.type).list().getIdentifier()}`)
+                                    $w.snippet(`const ${generateIdentifier(key)}_s: `)
+                                    $w.snippet(`${getNestedType($.type).list().getIdentifier()}`)
                                     $w.snippet(`[] = []`)
                                 })
                                 break
                             case "string":
                                 cc($.type[1], ($) => {
-                                    $w.snippet(`let ${generateIdentifier(key)} = ${generateQuoted($["initial value"])}`)
+                                    $w.snippet(`let ${generateIdentifier(key)}_s = ${generateQuoted($["initial value"])}`)
                                 })
                                 break
                             case "type5":
                                 cc($.type[1], ($) => {
-                                    $w.snippet(`let ${generateIdentifier(key)}: `)
-                                    $w.snippet(`${navigateToNestedType($["nested type"]).getIdentifier()}`)
+                                    $w.snippet(`let ${generateIdentifier(key)}_s: `)
+                                    $w.snippet(`${getNestedType($["nested type"]).getIdentifier()}`)
                                     doDictionary(
-                                        $["nested type"].namespace["type arguments"],
+                                        $["nested type"]["namespace reference"]["type arguments"],
                                         () => {
                                         },
                                         () => {
@@ -2384,12 +2354,12 @@ export function generateTypeScript(
                                         $w,
                                         {
                                             context: $r.context,
-                                            target: createNameBuilder($root, $["nested type"].namespace.namespace).type($["nested type"].type),
+                                            target: getNestedType($["nested type"]),
                                             markedValues: $r.markedValues.concat([$block.markers]),
                                             states: $r.states.concat([$block.states]),
                                             nestedFunctions: [],
                                             externalFunctions: decl.functions,
-                                            namespaceName: $pi.namespace.namespace,
+                                            namespaceName: $pi["namespace reference"].namespace,
                                         },
                                     )
                                 })
@@ -2427,12 +2397,12 @@ export function generateTypeScript(
                                         $w,
                                         {
                                             context: $r.context,
-                                            target: navigateToNestedType($m.type),
-                                            markedValues: $r.markedValues.concat([$block.markers]),
+                                            target: getNestedType($m.type),
+                                            markedValues: allMarkers,
                                             states: allStates,
                                             nestedFunctions: [],
                                             externalFunctions: decl.functions,
-                                            namespaceName: $pi.namespace.namespace,
+                                            namespaceName: $pi["namespace reference"].namespace,
                                         },
                                     )
                                     $w.snippet(`)`)
@@ -2450,16 +2420,16 @@ export function generateTypeScript(
                                         $.expression,
                                         $w,
                                         {
-                                            context: createNameBuilder($root, "FIXME13").type("FIXME"),
-                                            target: createTypeReferenceNameBuilder(
+                                            context: $r.context,
+                                            target: getTypeReference(
                                                 $method.type,
-                                                $pi.namespace.namespace,
+                                                $pi["namespace reference"].namespace,
                                             ),
-                                            markedValues: $r.markedValues.concat([$block.markers]),
+                                            markedValues: allMarkers,
                                             states: allStates,
                                             nestedFunctions: [],
                                             externalFunctions: decl.functions,
-                                            namespaceName: $pi.namespace.namespace,
+                                            namespaceName: $pi["namespace reference"].namespace,
                                         },
                                     )
                                     $w.snippet(`)`)
@@ -2483,14 +2453,14 @@ export function generateTypeScript(
                                                     $w,
                                                     {
                                                         context: $r.context,
-                                                        target: navigateToNestedType(
+                                                        target: getNestedType(
                                                             $type,
                                                         ),
-                                                        markedValues: $r.markedValues.concat([$block.markers]),
+                                                        markedValues: allMarkers,
                                                         states: allStates,
                                                         nestedFunctions: [],
                                                         externalFunctions: decl.functions,
-                                                        namespaceName: $pi.namespace.namespace,
+                                                        namespaceName: $pi["namespace reference"].namespace,
                                                     },
                                                 )
                                             })
@@ -2503,11 +2473,11 @@ export function generateTypeScript(
                                                     $w,
                                                     {
                                                         context: $r.context,
-                                                        markedValues: $r.markedValues.concat([$block.markers]),
+                                                        markedValues: allMarkers,
                                                         states: allStates,
                                                         nestedFunctions: [],
                                                         externalFunctions: decl.functions,
-                                                        namespaceName: $pi.namespace.namespace,
+                                                        namespaceName: $pi["namespace reference"].namespace,
                                                     },
                                                 )
                                             })
@@ -2528,11 +2498,11 @@ export function generateTypeScript(
                                                                 $w,
                                                                 {
                                                                     context: $r.context,
-                                                                    markedValues: $r.markedValues.concat([$block.markers]),
+                                                                    markedValues: allMarkers,
                                                                     states: allStates,
                                                                     nestedFunctions: [],
                                                                     externalFunctions: decl.functions,
-                                                                    namespaceName: $pi.namespace.namespace,
+                                                                    namespaceName: $pi["namespace reference"].namespace,
                                                                 },
                                                             )
                                                             $w.snippet(`] = `)
@@ -2541,14 +2511,14 @@ export function generateTypeScript(
                                                                 $w,
                                                                 {
                                                                     context: $r.context,
-                                                                    target: navigateToNestedType(
+                                                                    target: getNestedType(
                                                                         $dict,
                                                                     ),
-                                                                    markedValues: $r.markedValues.concat([$block.markers]),
+                                                                    markedValues: allMarkers,
                                                                     states: allStates,
                                                                     nestedFunctions: [],
                                                                     externalFunctions: decl.functions,
-                                                                    namespaceName: $pi.namespace.namespace,
+                                                                    namespaceName: $pi["namespace reference"].namespace,
                                                                 },
                                                             )
                                                         })
@@ -2560,6 +2530,10 @@ export function generateTypeScript(
                                             break
                                         case "list":
                                             cc($.type[1], ($) => {
+                                                if ($state.type[0] !== "list") {
+                                                    throw new Error(`unexpected: state not list`)
+                                                }
+                                                const $list = $state.type[1].type
                                                 switch ($.strategy[0]) {
                                                     case "add element":
                                                         cc($.strategy[1], ($) => {
@@ -2569,12 +2543,14 @@ export function generateTypeScript(
                                                                 $w,
                                                                 {
                                                                     context: $r.context,
-                                                                    target: createNameBuilder($root, "FIXME23").type("FOO"),
-                                                                    markedValues: $r.markedValues.concat([$block.markers]),
+                                                                    target: getNestedType(
+                                                                        $list,
+                                                                    ),
+                                                                    markedValues: allMarkers,
                                                                     states: allStates,
                                                                     nestedFunctions: [],
                                                                     externalFunctions: decl.functions,
-                                                                    namespaceName: $pi.namespace.namespace,
+                                                                    namespaceName: $pi["namespace reference"].namespace,
                                                                 },
                                                             )
                                                             $w.snippet(`)`)
@@ -2641,11 +2617,11 @@ export function generateTypeScript(
                 decl,
                 $w,
                 ":",
-                $.namespace.namespace,
+                $["namespace reference"].namespace,
                 ($w) => {
                     doDictionary(
                         //should be parameters
-                        $.namespace["type arguments"],
+                        $["namespace reference"]["type arguments"],
                         () => {
                             //
                         },
@@ -2670,7 +2646,7 @@ export function generateTypeScript(
                 $.block,
                 $w,
                 {
-                    context: createTypeReferenceNameBuilder(decl.context, $pi.namespace.namespace),
+                    context: getTypeReference(decl.context, $pi["namespace reference"].namespace),
                     interfaces: decl.interfaces,
                     parameters: [],
                     markedValues: [],

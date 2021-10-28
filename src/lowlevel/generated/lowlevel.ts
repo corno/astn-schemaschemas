@@ -139,7 +139,7 @@ export type __method_T = {
 
 export type __reference_T = {
     readonly "interface": string
-    readonly "namespace": __optional_namespace_reference_T
+    readonly "namespace selection": __namespace_selection_T
 }
 
 export type __type_TU =
@@ -256,7 +256,7 @@ export type __method_type_parameters_T = {
 
 export type __reference_type_parameters_T = {
     readonly "interface": string
-    readonly "namespace": __optional_namespace_reference_T
+    readonly "namespace selection": __namespace_selection_T
 }
 
 export type __type_parameters_TU =
@@ -327,6 +327,21 @@ export type __namespace_reference_T = {
     readonly "type arguments": IDictionary<__type_arguments_T>
 }
 
+export type __current_T = {
+}
+
+export type __other_T = {
+    readonly "namespace reference": __namespace_reference_T
+}
+
+export type __which_TU =
+    | ["current", __current_T]
+    | ["other", __other_T]
+
+export type __namespace_selection_T = {
+    readonly "which": __which_TU
+}
+
 export type __dictionary_type_steps_T = {
 }
 
@@ -352,24 +367,9 @@ export type __steps_nested_type_reference_T = {
 }
 
 export type __nested_type_reference_T = {
-    readonly "namespace": __namespace_reference_T
+    readonly "namespace reference": __namespace_reference_T
     readonly "steps": IArray<__steps_nested_type_reference_T>
     readonly "type": string
-}
-
-export type __current_T = {
-}
-
-export type __other_T = {
-    readonly "namespace": __namespace_reference_T
-}
-
-export type __namespace_TU =
-    | ["current", __current_T]
-    | ["other", __other_T]
-
-export type __optional_namespace_reference_T = {
-    readonly "namespace": __namespace_TU
 }
 
 export type __external_interface_call_T = {
@@ -434,6 +434,7 @@ export type __effects_T = {
 }
 
 export type __markers_T = {
+    readonly "selection": __context_selection_T
 }
 
 export type __nested_procedures_T = {
@@ -500,7 +501,7 @@ export type __type_parameters_T = {
 export type __function_implementations_T = {
     readonly "block": __type_expression_block_T
     readonly "declaration": string
-    readonly "namespace": __namespace_reference_T
+    readonly "namespace reference": __namespace_reference_T
     readonly "type parameters": IDictionary<__type_parameters_T>
 }
 
@@ -522,7 +523,7 @@ export type __interfaces_namespaces_T = {
 
 export type __builders_T = {
     readonly "builder": string
-    readonly "namespace": __optional_namespace_reference_T
+    readonly "namespace selection": __namespace_selection_T
 }
 
 export type __functions_T = {
@@ -574,7 +575,7 @@ export type __type_parameters_procedure_implementations_T = {
 export type __procedure_implementations_T = {
     readonly "block": __procedure_block_T
     readonly "declaration": string
-    readonly "namespace": __namespace_reference_T
+    readonly "namespace reference": __namespace_reference_T
     readonly "type parameters": IDictionary<__type_parameters_procedure_implementations_T>
 }
 
@@ -592,9 +593,14 @@ export type __select_T = {
     readonly "context": __context_selection_T
 }
 
+export type __state_strategy_T = {
+    readonly "state": string
+}
+
 export type __strategy_string_expression_TU =
     | ["literal", __literal_T]
     | ["select", __select_T]
+    | ["state", __state_strategy_T]
 
 export type __string_expression_T = {
     readonly "strategy": __strategy_string_expression_TU
@@ -764,7 +770,7 @@ export type __type_expression_block_T = {
 }
 
 export type __type_reference_T = {
-    readonly "namespace": __optional_namespace_reference_T
+    readonly "namespace selection": __namespace_selection_T
     readonly "type": string
 }
 
@@ -881,7 +887,7 @@ export type __method_B = {
 
 export type __reference_B = {
     readonly "interface" ?: string
-    readonly "namespace" ?: __optional_namespace_reference_B
+    readonly "namespace selection" ?: __namespace_selection_B
 }
 
 export type __type_TU_Builder =
@@ -998,7 +1004,7 @@ export type __method_type_parameters_B = {
 
 export type __reference_type_parameters_B = {
     readonly "interface" ?: string
-    readonly "namespace" ?: __optional_namespace_reference_B
+    readonly "namespace selection" ?: __namespace_selection_B
 }
 
 export type __type_parameters_TU_Builder =
@@ -1069,6 +1075,21 @@ export type __namespace_reference_B = {
     readonly "type arguments" ?: { [key:string]: __type_arguments_B } //| (add: (key: string, entry: __type_arguments_B ) => void )
 }
 
+export type __current_B = {
+}
+
+export type __other_B = {
+    readonly "namespace reference" ?: __namespace_reference_B
+}
+
+export type __which_TU_Builder =
+    | ["current", __current_B]
+    | ["other", __other_B]
+
+export type __namespace_selection_B = {
+    readonly "which" ?: __which_TU_Builder
+}
+
 export type __dictionary_type_steps_B = {
 }
 
@@ -1094,24 +1115,9 @@ export type __steps_nested_type_reference_B = {
 }
 
 export type __nested_type_reference_B = {
-    readonly "namespace" ?: __namespace_reference_B
+    readonly "namespace reference" ?: __namespace_reference_B
     readonly "steps" ?: __steps_nested_type_reference_B[] //| { callback: (value: __steps_nested_type_reference_B ) => void }
     readonly "type" ?: string
-}
-
-export type __current_B = {
-}
-
-export type __other_B = {
-    readonly "namespace" ?: __namespace_reference_B
-}
-
-export type __namespace_TU_Builder =
-    | ["current", __current_B]
-    | ["other", __other_B]
-
-export type __optional_namespace_reference_B = {
-    readonly "namespace" ?: __namespace_TU_Builder
 }
 
 export type __external_interface_call_B = {
@@ -1176,6 +1182,7 @@ export type __effects_B = {
 }
 
 export type __markers_B = {
+    readonly "selection" ?: __context_selection_B
 }
 
 export type __nested_procedures_B = {
@@ -1242,7 +1249,7 @@ export type __type_parameters_B = {
 export type __function_implementations_B = {
     readonly "block" ?: __type_expression_block_B
     readonly "declaration" ?: string
-    readonly "namespace" ?: __namespace_reference_B
+    readonly "namespace reference" ?: __namespace_reference_B
     readonly "type parameters" ?: { [key:string]: __type_parameters_B } //| (add: (key: string, entry: __type_parameters_B ) => void )
 }
 
@@ -1264,7 +1271,7 @@ export type __interfaces_namespaces_B = {
 
 export type __builders_B = {
     readonly "builder" ?: string
-    readonly "namespace" ?: __optional_namespace_reference_B
+    readonly "namespace selection" ?: __namespace_selection_B
 }
 
 export type __functions_B = {
@@ -1316,7 +1323,7 @@ export type __type_parameters_procedure_implementations_B = {
 export type __procedure_implementations_B = {
     readonly "block" ?: __procedure_block_B
     readonly "declaration" ?: string
-    readonly "namespace" ?: __namespace_reference_B
+    readonly "namespace reference" ?: __namespace_reference_B
     readonly "type parameters" ?: { [key:string]: __type_parameters_procedure_implementations_B } //| (add: (key: string, entry: __type_parameters_procedure_implementations_B ) => void )
 }
 
@@ -1334,9 +1341,14 @@ export type __select_B = {
     readonly "context" ?: __context_selection_B
 }
 
+export type __state_strategy_B = {
+    readonly "state" ?: string
+}
+
 export type __strategy_string_expression_TU_Builder =
     | ["literal", __literal_B]
     | ["select", __select_B]
+    | ["state", __state_strategy_B]
 
 export type __string_expression_B = {
     readonly "strategy" ?: __strategy_string_expression_TU_Builder
@@ -1506,7 +1518,7 @@ export type __type_expression_block_B = {
 }
 
 export type __type_reference_B = {
-    readonly "namespace" ?: __optional_namespace_reference_B
+    readonly "namespace selection" ?: __namespace_selection_B
     readonly "type" ?: string
 }
 
@@ -1897,8 +1909,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_in_v === null) {
                         _in_v = {
-                            "namespace": {
-                                "namespace": [ "current", {
+                            "namespace selection": {
+                                "which": [ "current", {
                                 } ],
                             },
                             "type": "*type reference*",
@@ -1906,8 +1918,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     }
                     if (_out_v === null) {
                         _out_v = {
-                            "namespace": {
-                                "namespace": [ "current", {
+                            "namespace selection": {
+                                "which": [ "current", {
                                 } ],
                             },
                             "type": "*type reference*",
@@ -2162,8 +2174,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 }
                                                 if (_type_v === null) {
                                                     _type_v = {
-                                                        "namespace": {
-                                                            "namespace": [ "current", {
+                                                        "namespace selection": {
+                                                            "which": [ "current", {
                                                             } ],
                                                         },
                                                         "type": "*type reference*",
@@ -2180,7 +2192,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                 "reference": () => {
                                     return wrap(((callback: (out: __reference_T) => void) => {
                                         let _interface_v: string | null = null
-                                        let _namespace_v: __optional_namespace_reference_T | null = null
+                                        let _namespace_selection_v: __namespace_selection_T | null = null
                                         return context.expectVerboseGroup({
                                             properties: {
                                                 "interface": {
@@ -2192,10 +2204,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         },
                                                     })),
                                                 },
-                                                "namespace": {
+                                                "namespace selection": {
                                                     onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(_generateHandler_optional_namespace_reference(
-                                                        (node) => _namespace_v = node
+                                                    onExists: () => wrap(_generateHandler_namespace_selection(
+                                                        (node) => _namespace_selection_v = node
                                                     )),
                                                 },
                                             },
@@ -2203,15 +2215,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_interface_v === null) {
                                                     _interface_v = "*referenced interface*"
                                                 }
-                                                if (_namespace_v === null) {
-                                                    _namespace_v = {
-                                                        "namespace": [ "current", {
+                                                if (_namespace_selection_v === null) {
+                                                    _namespace_selection_v = {
+                                                        "which": [ "current", {
                                                         } ],
                                                     }
                                                 }
                                                 callback({
                                                     "interface": _interface_v,
-                                                    "namespace": _namespace_v,
+                                                    "namespace selection": _namespace_selection_v,
                                                 })
                                             },
                                         })
@@ -2815,7 +2827,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         }
                                                                         if (_type_v === null) {
                                                                             _type_v = {
-                                                                                "namespace": {
+                                                                                "namespace reference": {
                                                                                     "namespace": "*namespace*",
                                                                                     "type arguments": createDictionary({}),
                                                                                 },
@@ -2834,7 +2846,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         "reference": () => {
                                                             return wrap(((callback: (out: __reference_type_parameters_T) => void) => {
                                                                 let _interface_v: string | null = null
-                                                                let _namespace_v: __optional_namespace_reference_T | null = null
+                                                                let _namespace_selection_v: __namespace_selection_T | null = null
                                                                 return context.expectVerboseGroup({
                                                                     properties: {
                                                                         "interface": {
@@ -2846,10 +2858,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 },
                                                                             })),
                                                                         },
-                                                                        "namespace": {
+                                                                        "namespace selection": {
                                                                             onNotExists: () => { /**/ },
-                                                                            onExists: () => wrap(_generateHandler_optional_namespace_reference(
-                                                                                (node) => _namespace_v = node
+                                                                            onExists: () => wrap(_generateHandler_namespace_selection(
+                                                                                (node) => _namespace_selection_v = node
                                                                             )),
                                                                         },
                                                                     },
@@ -2857,15 +2869,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         if (_interface_v === null) {
                                                                             _interface_v = "*referenced interface*"
                                                                         }
-                                                                        if (_namespace_v === null) {
-                                                                            _namespace_v = {
-                                                                                "namespace": [ "current", {
+                                                                        if (_namespace_selection_v === null) {
+                                                                            _namespace_selection_v = {
+                                                                                "which": [ "current", {
                                                                                 } ],
                                                                             }
                                                                         }
                                                                         callback({
                                                                             "interface": _interface_v,
-                                                                            "namespace": _namespace_v,
+                                                                            "namespace selection": _namespace_selection_v,
                                                                         })
                                                                     },
                                                                 })
@@ -3201,19 +3213,85 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         })((node) => callback(node))
     }
 
+    function _generateHandler_namespace_selection(
+        callback: (out: __namespace_selection_T) => void,
+    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        return ((callback: (out: __namespace_selection_T) => void) => {
+            let _which_v: __which_TU | null = null
+            return context.expectVerboseGroup({
+                properties: {
+                    "which": {
+                        onNotExists: () => { /**/ },
+                        onExists: () => wrap(context.expectTaggedUnion({
+                            options: {
+                                "current": () => {
+                                    return wrap(((callback: (out: __current_T) => void) => {
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                            },
+                                            onEnd: () => {
+                                                callback({
+                                                })
+                                            },
+                                        })
+                                    })((node) => _which_v = ["current", node]))
+                                },
+                                "other": () => {
+                                    return wrap(((callback: (out: __other_T) => void) => {
+                                        let _namespace_reference_v: __namespace_reference_T | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "namespace reference": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(_generateHandler_namespace_reference(
+                                                        (node) => _namespace_reference_v = node
+                                                    )),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_namespace_reference_v === null) {
+                                                    _namespace_reference_v = {
+                                                        "namespace": "*namespace*",
+                                                        "type arguments": createDictionary({}),
+                                                    }
+                                                }
+                                                callback({
+                                                    "namespace reference": _namespace_reference_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _which_v = ["other", node]))
+                                },
+                            },
+                        })),
+                    },
+                },
+                onEnd: () => {
+                    if (_which_v === null) {
+                        _which_v = ["current", {
+                        }]
+                    }
+                    callback({
+                        "which": _which_v,
+                    })
+                },
+            })
+        })((node) => callback(node))
+    }
+
     function _generateHandler_nested_type_reference(
         callback: (out: __nested_type_reference_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __nested_type_reference_T) => void) => {
-            let _namespace_v: __namespace_reference_T | null = null
+            let _namespace_reference_v: __namespace_reference_T | null = null
             const _steps_v: __steps_nested_type_reference_T[] = []
             let _type_v: string | null = null
             return context.expectVerboseGroup({
                 properties: {
-                    "namespace": {
+                    "namespace reference": {
                         onNotExists: () => { /**/ },
                         onExists: () => wrap(_generateHandler_namespace_reference(
-                            (node) => _namespace_v = node
+                            (node) => _namespace_reference_v = node
                         )),
                     },
                     "steps": {
@@ -3333,8 +3411,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     },
                 },
                 onEnd: () => {
-                    if (_namespace_v === null) {
-                        _namespace_v = {
+                    if (_namespace_reference_v === null) {
+                        _namespace_reference_v = {
                             "namespace": "*namespace*",
                             "type arguments": createDictionary({}),
                         }
@@ -3343,75 +3421,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         _type_v = "*type reference*"
                     }
                     callback({
-                        "namespace": _namespace_v,
+                        "namespace reference": _namespace_reference_v,
                         "steps": _steps_v,
                         "type": _type_v,
-                    })
-                },
-            })
-        })((node) => callback(node))
-    }
-
-    function _generateHandler_optional_namespace_reference(
-        callback: (out: __optional_namespace_reference_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
-        return ((callback: (out: __optional_namespace_reference_T) => void) => {
-            let _namespace_v: __namespace_TU | null = null
-            return context.expectVerboseGroup({
-                properties: {
-                    "namespace": {
-                        onNotExists: () => { /**/ },
-                        onExists: () => wrap(context.expectTaggedUnion({
-                            options: {
-                                "current": () => {
-                                    return wrap(((callback: (out: __current_T) => void) => {
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                            },
-                                            onEnd: () => {
-                                                callback({
-                                                })
-                                            },
-                                        })
-                                    })((node) => _namespace_v = ["current", node]))
-                                },
-                                "other": () => {
-                                    return wrap(((callback: (out: __other_T) => void) => {
-                                        let _namespace_v: __namespace_reference_T | null = null
-                                        return context.expectVerboseGroup({
-                                            properties: {
-                                                "namespace": {
-                                                    onNotExists: () => { /**/ },
-                                                    onExists: () => wrap(_generateHandler_namespace_reference(
-                                                        (node) => _namespace_v = node
-                                                    )),
-                                                },
-                                            },
-                                            onEnd: () => {
-                                                if (_namespace_v === null) {
-                                                    _namespace_v = {
-                                                        "namespace": "*namespace*",
-                                                        "type arguments": createDictionary({}),
-                                                    }
-                                                }
-                                                callback({
-                                                    "namespace": _namespace_v,
-                                                })
-                                            },
-                                        })
-                                    })((node) => _namespace_v = ["other", node]))
-                                },
-                            },
-                        })),
-                    },
-                },
-                onEnd: () => {
-                    if (_namespace_v === null) {
-                        _namespace_v = ["current", {
-                        }]
-                    }
-                    callback({
-                        "namespace": _namespace_v,
                     })
                 },
             })
@@ -3800,11 +3812,28 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onExists: () => wrap(context.expectDictionary({
                             onProperty: (propertyData) => {
                                 return wrap(((callback: (out: __markers_T) => void) => {
+                                    let _selection_v: __context_selection_T | null = null
                                     return context.expectVerboseGroup({
                                         properties: {
+                                            "selection": {
+                                                onNotExists: () => { /**/ },
+                                                onExists: () => wrap(_generateHandler_context_selection(
+                                                    (node) => _selection_v = node
+                                                )),
+                                            },
                                         },
                                         onEnd: () => {
+                                            if (_selection_v === null) {
+                                                _selection_v = {
+                                                    "start": {
+                                                        "start": [ "context", {
+                                                        } ],
+                                                    },
+                                                    "steps": [],
+                                                }
+                                            }
                                             callback({
+                                                "selection": _selection_v,
                                             })
                                         },
                                     })
@@ -3936,7 +3965,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_type_v === null) {
                                                                             _type_v = {
-                                                                                "namespace": {
+                                                                                "namespace reference": {
                                                                                     "namespace": "*namespace*",
                                                                                     "type arguments": createDictionary({}),
                                                                                 },
@@ -3966,7 +3995,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_type_v === null) {
                                                                             _type_v = {
-                                                                                "namespace": {
+                                                                                "namespace reference": {
                                                                                     "namespace": "*namespace*",
                                                                                     "type arguments": createDictionary({}),
                                                                                 },
@@ -4038,7 +4067,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         }
                                                                         if (_nested_type_v === null) {
                                                                             _nested_type_v = {
-                                                                                "namespace": {
+                                                                                "namespace reference": {
                                                                                     "namespace": "*namespace*",
                                                                                     "type arguments": createDictionary({}),
                                                                                 },
@@ -4167,7 +4196,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                 return wrap(((callback: (out: __function_implementations_T) => void) => {
                                     let _block_v: __type_expression_block_T | null = null
                                     let _declaration_v: string | null = null
-                                    let _namespace_v: __namespace_reference_T | null = null
+                                    let _namespace_reference_v: __namespace_reference_T | null = null
                                     const _type_parameters_v: { [key: string]: __type_parameters_T } = {}
                                     return context.expectVerboseGroup({
                                         properties: {
@@ -4186,10 +4215,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     },
                                                 })),
                                             },
-                                            "namespace": {
+                                            "namespace reference": {
                                                 onNotExists: () => { /**/ },
                                                 onExists: () => wrap(_generateHandler_namespace_reference(
-                                                    (node) => _namespace_v = node
+                                                    (node) => _namespace_reference_v = node
                                                 )),
                                             },
                                             "type parameters": {
@@ -4226,8 +4255,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_declaration_v === null) {
                                                 _declaration_v = "*function declaration*"
                                             }
-                                            if (_namespace_v === null) {
-                                                _namespace_v = {
+                                            if (_namespace_reference_v === null) {
+                                                _namespace_reference_v = {
                                                     "namespace": "*namespace*",
                                                     "type arguments": createDictionary({}),
                                                 }
@@ -4235,7 +4264,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             callback({
                                                 "block": _block_v,
                                                 "declaration": _declaration_v,
-                                                "namespace": _namespace_v,
+                                                "namespace reference": _namespace_reference_v,
                                                 "type parameters": createDictionary(_type_parameters_v),
                                             })
                                         },
@@ -4276,15 +4305,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     if (_declaration_v === null) {
                                                                         _declaration_v = {
                                                                             "in": {
-                                                                                "namespace": {
-                                                                                    "namespace": [ "current", {
+                                                                                "namespace selection": {
+                                                                                    "which": [ "current", {
                                                                                     } ],
                                                                                 },
                                                                                 "type": "*type reference*",
                                                                             },
                                                                             "out": {
-                                                                                "namespace": {
-                                                                                    "namespace": [ "current", {
+                                                                                "namespace selection": {
+                                                                                    "which": [ "current", {
                                                                                     } ],
                                                                                 },
                                                                                 "type": "*type reference*",
@@ -4401,7 +4430,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onProperty: (propertyData) => {
                                                                                 return wrap(((callback: (out: __builders_T) => void) => {
                                                                                     let _builder_v: string | null = null
-                                                                                    let _namespace_v: __optional_namespace_reference_T | null = null
+                                                                                    let _namespace_selection_v: __namespace_selection_T | null = null
                                                                                     return context.expectVerboseGroup({
                                                                                         properties: {
                                                                                             "builder": {
@@ -4413,10 +4442,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     },
                                                                                                 })),
                                                                                             },
-                                                                                            "namespace": {
+                                                                                            "namespace selection": {
                                                                                                 onNotExists: () => { /**/ },
-                                                                                                onExists: () => wrap(_generateHandler_optional_namespace_reference(
-                                                                                                    (node) => _namespace_v = node
+                                                                                                onExists: () => wrap(_generateHandler_namespace_selection(
+                                                                                                    (node) => _namespace_selection_v = node
                                                                                                 )),
                                                                                             },
                                                                                         },
@@ -4424,15 +4453,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             if (_builder_v === null) {
                                                                                                 _builder_v = "*referenced builder*"
                                                                                             }
-                                                                                            if (_namespace_v === null) {
-                                                                                                _namespace_v = {
-                                                                                                    "namespace": [ "current", {
+                                                                                            if (_namespace_selection_v === null) {
+                                                                                                _namespace_selection_v = {
+                                                                                                    "which": [ "current", {
                                                                                                     } ],
                                                                                                 }
                                                                                             }
                                                                                             callback({
                                                                                                 "builder": _builder_v,
-                                                                                                "namespace": _namespace_v,
+                                                                                                "namespace selection": _namespace_selection_v,
                                                                                             })
                                                                                         },
                                                                                     })
@@ -4465,15 +4494,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             if (_declaration_v === null) {
                                                                                                 _declaration_v = {
                                                                                                     "in": {
-                                                                                                        "namespace": {
-                                                                                                            "namespace": [ "current", {
+                                                                                                        "namespace selection": {
+                                                                                                            "which": [ "current", {
                                                                                                             } ],
                                                                                                         },
                                                                                                         "type": "*type reference*",
                                                                                                     },
                                                                                                     "out": {
-                                                                                                        "namespace": {
-                                                                                                            "namespace": [ "current", {
+                                                                                                        "namespace selection": {
+                                                                                                            "which": [ "current", {
                                                                                                             } ],
                                                                                                         },
                                                                                                         "type": "*type reference*",
@@ -4571,8 +4600,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                 onEnd: () => {
                                                                     if (_context_v === null) {
                                                                         _context_v = {
-                                                                            "namespace": {
-                                                                                "namespace": [ "current", {
+                                                                            "namespace selection": {
+                                                                                "which": [ "current", {
                                                                                 } ],
                                                                             },
                                                                             "type": "*type reference*",
@@ -4668,7 +4697,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                 return wrap(((callback: (out: __procedure_implementations_T) => void) => {
                                     let _block_v: __procedure_block_T | null = null
                                     let _declaration_v: string | null = null
-                                    let _namespace_v: __namespace_reference_T | null = null
+                                    let _namespace_reference_v: __namespace_reference_T | null = null
                                     const _type_parameters_v: { [key: string]: __type_parameters_procedure_implementations_T } = {}
                                     return context.expectVerboseGroup({
                                         properties: {
@@ -4687,10 +4716,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     },
                                                 })),
                                             },
-                                            "namespace": {
+                                            "namespace reference": {
                                                 onNotExists: () => { /**/ },
                                                 onExists: () => wrap(_generateHandler_namespace_reference(
-                                                    (node) => _namespace_v = node
+                                                    (node) => _namespace_reference_v = node
                                                 )),
                                             },
                                             "type parameters": {
@@ -4725,8 +4754,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_declaration_v === null) {
                                                 _declaration_v = "*procedure declaration*"
                                             }
-                                            if (_namespace_v === null) {
-                                                _namespace_v = {
+                                            if (_namespace_reference_v === null) {
+                                                _namespace_reference_v = {
                                                     "namespace": "*namespace*",
                                                     "type arguments": createDictionary({}),
                                                 }
@@ -4734,7 +4763,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             callback({
                                                 "block": _block_v,
                                                 "declaration": _declaration_v,
-                                                "namespace": _namespace_v,
+                                                "namespace reference": _namespace_reference_v,
                                                 "type parameters": createDictionary(_type_parameters_v),
                                             })
                                         },
@@ -4820,6 +4849,32 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             },
                                         })
                                     })((node) => _strategy_v = ["select", node]))
+                                },
+                                "state": () => {
+                                    return wrap(((callback: (out: __state_strategy_T) => void) => {
+                                        let _state_v: string | null = null
+                                        return context.expectVerboseGroup({
+                                            properties: {
+                                                "state": {
+                                                    onNotExists: () => { /**/ },
+                                                    onExists: () => wrap(context.expectQuotedString({
+                                                        warningOnly: true,
+                                                        callback: ($) => {
+                                                            _state_v = $.token.data.value
+                                                        },
+                                                    })),
+                                                },
+                                            },
+                                            onEnd: () => {
+                                                if (_state_v === null) {
+                                                    _state_v = "*state*"
+                                                }
+                                                callback({
+                                                    "state": _state_v,
+                                                })
+                                            },
+                                        })
+                                    })((node) => _strategy_v = ["state", node]))
                                 },
                             },
                         })),
@@ -5109,8 +5164,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_type_v === null) {
                                                     _type_v = {
-                                                        "namespace": {
-                                                            "namespace": [ "current", {
+                                                        "namespace selection": {
+                                                            "which": [ "current", {
                                                             } ],
                                                         },
                                                         "type": "*type reference*",
@@ -5666,15 +5721,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_declaration_v === null) {
                                                 _declaration_v = {
                                                     "in": {
-                                                        "namespace": {
-                                                            "namespace": [ "current", {
+                                                        "namespace selection": {
+                                                            "which": [ "current", {
                                                             } ],
                                                         },
                                                         "type": "*type reference*",
                                                     },
                                                     "out": {
-                                                        "namespace": {
-                                                            "namespace": [ "current", {
+                                                        "namespace selection": {
+                                                            "which": [ "current", {
                                                             } ],
                                                         },
                                                         "type": "*type reference*",
@@ -5715,14 +5770,14 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         callback: (out: __type_reference_T) => void,
     ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
         return ((callback: (out: __type_reference_T) => void) => {
-            let _namespace_v: __optional_namespace_reference_T | null = null
+            let _namespace_selection_v: __namespace_selection_T | null = null
             let _type_v: string | null = null
             return context.expectVerboseGroup({
                 properties: {
-                    "namespace": {
+                    "namespace selection": {
                         onNotExists: () => { /**/ },
-                        onExists: () => wrap(_generateHandler_optional_namespace_reference(
-                            (node) => _namespace_v = node
+                        onExists: () => wrap(_generateHandler_namespace_selection(
+                            (node) => _namespace_selection_v = node
                         )),
                     },
                     "type": {
@@ -5736,9 +5791,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     },
                 },
                 onEnd: () => {
-                    if (_namespace_v === null) {
-                        _namespace_v = {
-                            "namespace": [ "current", {
+                    if (_namespace_selection_v === null) {
+                        _namespace_selection_v = {
+                            "which": [ "current", {
                             } ],
                         }
                     }
@@ -5746,7 +5801,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         _type_v = "*type reference*"
                     }
                     callback({
-                        "namespace": _namespace_v,
+                        "namespace selection": _namespace_selection_v,
                         "type": _type_v,
                     })
                 },
@@ -5969,7 +6024,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                     case "reference":
                         return [ "reference", {
                             "interface": intermediate["type"][1]["interface"] === undefined ? "*referenced interface*" : intermediate["type"][1]["interface"],
-                            "namespace": intermediate["type"][1]["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(intermediate["type"][1]["namespace"]),
+                            "namespace selection": intermediate["type"][1]["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(intermediate["type"][1]["namespace selection"]),
                         } ]
                     default: return assertUnreachable(intermediate["type"][0])
                 }
@@ -6157,7 +6212,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                 case "reference":
                                     return [ "reference", {
                                         "interface": entry["type"][1]["interface"] === undefined ? "*referenced interface*" : entry["type"][1]["interface"],
-                                        "namespace": entry["type"][1]["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(entry["type"][1]["namespace"]),
+                                        "namespace selection": entry["type"][1]["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(entry["type"][1]["namespace selection"]),
                                     } ]
                                 default: return assertUnreachable(entry["type"][0])
                             }
@@ -6281,11 +6336,39 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         }
     }
 
+    function _generateBuilder_namespace_selection(
+        intermediate: __namespace_selection_B,
+    ): __namespace_selection_T {
+        return {
+            "which": intermediate["which"] === undefined ? [ "current", {
+            } ] : ((): __which_TU => {
+                switch (intermediate["which"][0]) {
+                    case "current":
+                        return [ "current", {
+                        } ]
+                    case "other":
+                        return [ "other", {
+                            "namespace reference": intermediate["which"][1]["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["which"][1]["namespace reference"]),
+                        } ]
+                    default: return assertUnreachable(intermediate["which"][0])
+                }
+            })(),
+        }
+    }
+
+    function _default_generateBuilder_namespace_selection(
+    ): __namespace_selection_T {
+        return {
+            "which": [ "current", {
+            } ],
+        }
+    }
+
     function _generateBuilder_nested_type_reference(
         intermediate: __nested_type_reference_B,
     ): __nested_type_reference_T {
         return {
-            "namespace": intermediate["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace"]),
+            "namespace reference": intermediate["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace reference"]),
             "steps": intermediate["steps"] === undefined ? [] : ((): __steps_nested_type_reference_T[] => {{
                 const source = intermediate["steps"]
                 const target: __steps_nested_type_reference_T[] = []
@@ -6322,37 +6405,9 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_nested_type_reference(
     ): __nested_type_reference_T {
         return {
-            "namespace": _default_generateBuilder_namespace_reference(),
+            "namespace reference": _default_generateBuilder_namespace_reference(),
             "steps": [],
             "type": "*type reference*",
-        }
-    }
-
-    function _generateBuilder_optional_namespace_reference(
-        intermediate: __optional_namespace_reference_B,
-    ): __optional_namespace_reference_T {
-        return {
-            "namespace": intermediate["namespace"] === undefined ? [ "current", {
-            } ] : ((): __namespace_TU => {
-                switch (intermediate["namespace"][0]) {
-                    case "current":
-                        return [ "current", {
-                        } ]
-                    case "other":
-                        return [ "other", {
-                            "namespace": intermediate["namespace"][1]["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace"][1]["namespace"]),
-                        } ]
-                    default: return assertUnreachable(intermediate["namespace"][0])
-                }
-            })(),
-        }
-    }
-
-    function _default_generateBuilder_optional_namespace_reference(
-    ): __optional_namespace_reference_T {
-        return {
-            "namespace": [ "current", {
-            } ],
         }
     }
 
@@ -6442,6 +6497,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                 Object.keys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
+                        "selection": entry["selection"] === undefined ? _default_generateBuilder_context_selection() : _generateBuilder_context_selection(entry["selection"]),
                     }
                 })
                 return createDictionary(target)
@@ -6556,7 +6612,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                     target[key] = {
                         "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),
                         "declaration": entry["declaration"] === undefined ? "*function declaration*" : entry["declaration"],
-                        "namespace": entry["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace"]),
+                        "namespace reference": entry["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace reference"]),
                         "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_T> => {{
                             const source = entry["type parameters"]
                             const target: { [key:string]: __type_parameters_T} = {}
@@ -6633,7 +6689,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                             const entry = source[key]
                                             target[key] = {
                                                 "builder": entry["builder"] === undefined ? "*referenced builder*" : entry["builder"],
-                                                "namespace": entry["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(entry["namespace"]),
+                                                "namespace selection": entry["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(entry["namespace selection"]),
                                             }
                                         })
                                         return createDictionary(target)
@@ -6711,7 +6767,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                     target[key] = {
                         "block": entry["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(entry["block"]),
                         "declaration": entry["declaration"] === undefined ? "*procedure declaration*" : entry["declaration"],
-                        "namespace": entry["namespace"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace"]),
+                        "namespace reference": entry["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace reference"]),
                         "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_procedure_implementations_T> => {{
                             const source = entry["type parameters"]
                             const target: { [key:string]: __type_parameters_procedure_implementations_T} = {}
@@ -6753,6 +6809,10 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                     case "select":
                         return [ "select", {
                             "context": intermediate["strategy"][1]["context"] === undefined ? _default_generateBuilder_context_selection() : _generateBuilder_context_selection(intermediate["strategy"][1]["context"]),
+                        } ]
+                    case "state":
+                        return [ "state", {
+                            "state": intermediate["strategy"][1]["state"] === undefined ? "*state*" : intermediate["strategy"][1]["state"],
                         } ]
                     default: return assertUnreachable(intermediate["strategy"][0])
                 }
@@ -6998,7 +7058,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __type_reference_B,
     ): __type_reference_T {
         return {
-            "namespace": intermediate["namespace"] === undefined ? _default_generateBuilder_optional_namespace_reference() : _generateBuilder_optional_namespace_reference(intermediate["namespace"]),
+            "namespace selection": intermediate["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(intermediate["namespace selection"]),
             "type": intermediate["type"] === undefined ? "*type reference*" : intermediate["type"],
         }
     }
@@ -7006,7 +7066,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_type_reference(
     ): __type_reference_T {
         return {
-            "namespace": _default_generateBuilder_optional_namespace_reference(),
+            "namespace selection": _default_generateBuilder_namespace_selection(),
             "type": "*type reference*",
         }
     }

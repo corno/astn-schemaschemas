@@ -8,8 +8,8 @@ import * as t from "../../../../../lowlevel/generated/lowlevel"
 import { generateCore } from "./core"
 import { generateDeserializeAPI } from "./deserializeAPI"
 import { generateDeserializeNamespace } from "./deserialize"
-import { generateCreateDeserializer } from "./generateCreateDeserializer"
-import { generateBuilder } from "./generateBuilder"
+import { generateCreateDeserializer } from "./createDeserializer"
+import { generateBuilder } from "./builder"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -177,9 +177,9 @@ export function generateCode2(
                                 "type": schema["root type"].name,
                             },
                             "out": {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
+                                "namespace selection": {
+                                    "which": ["other", {
+                                        "namespace reference": {
                                             "namespace": "core",
                                         },
                                     }],

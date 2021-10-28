@@ -36,7 +36,7 @@ export function generateCreateDeserializer(
             "TokenAnnotation": {},
             "NonTokenAnnotation": {},
         },
-        "namespace": {
+        "namespace reference": {
             "namespace": "deserialize",
             "type arguments": {
                 "TokenAnnotation": {},
@@ -51,9 +51,9 @@ export function generateCreateDeserializer(
                         "return type": ["interface", {
                             "interface": {
                                 "type": ["reference", {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
+                                    "namespace selection": {
+                                        "which": ["other", {
+                                            "namespace reference": {
                                                 "namespace": "deserialize api",
                                                 "type arguments": {
                                                     "TokenAnnotation": {},
@@ -69,9 +69,9 @@ export function generateCreateDeserializer(
                         "parameters": {
                             "handler": {
                                 "type": ["reference", {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
+                                    "namespace selection": {
+                                        "which": ["other", {
+                                            "namespace reference": {
                                                 "namespace": "deserialize api",
                                                 "type arguments": {
                                                     "TokenAnnotation": {},
@@ -179,9 +179,9 @@ export function generateCreateDeserializer(
                             "return type": ["interface", {
                                 "interface": {
                                     "type": ["reference", {
-                                        "namespace": {
-                                            "namespace": ["other", {
-                                                "namespace": {
+                                        "namespace selection": {
+                                            "which": ["other", {
+                                                "namespace reference": {
                                                     "namespace": "deserialize api",
                                                     "type arguments": {
                                                         "TokenAnnotation": {},
@@ -198,7 +198,7 @@ export function generateCreateDeserializer(
                                 "out": {
                                     "type": ["method", {
                                         "type": {
-                                            "namespace": {
+                                            "namespace reference": {
                                                 "namespace": "core",
                                             },
                                             "type": k,
@@ -325,7 +325,7 @@ export function generateCreateDeserializer(
                                                                     return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                                         return ["dictionary", {
                                                                             "type": {
-                                                                                "namespace": {
+                                                                                "namespace reference": {
                                                                                     "namespace": "core",
                                                                                 },
                                                                                 "type": typeName,
@@ -337,7 +337,7 @@ export function generateCreateDeserializer(
                                                                     return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                                         return ["list", {
                                                                             "type": {
-                                                                                "namespace": {
+                                                                                "namespace reference": {
                                                                                     "namespace": "core",
                                                                                 },
                                                                                 "type": typeName,
@@ -350,8 +350,15 @@ export function generateCreateDeserializer(
                                                             }
                                                         })
                                                     case "component":
-                                                        return cc($.type[1], ($) => {
+                                                        return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                             return ["type5", {
+                                                                "nested type": {
+                                                                    "namespace reference": {
+                                                                        "namespace": "core",
+                                                                    },
+                                                                    "type": typeName,
+                                                                    "steps": [],
+                                                                },
                                                                 "expression": generateInitializer($.type.get().node, null),
                                                             }]
                                                         })
@@ -359,7 +366,7 @@ export function generateCreateDeserializer(
                                                         return cc($.type[1], ($): t.__type_states_TU_Builder => {
                                                             return ["type5", {
                                                                 "nested type": {
-                                                                    "namespace": {
+                                                                    "namespace reference": {
                                                                         "namespace": "core",
                                                                     },
                                                                     "type": typeName,
@@ -454,9 +461,9 @@ export function generateCreateDeserializer(
                                                                                                                                                                                                                 "return type": ["interface", {
                                                                                                                                                                                                                     "interface": {
                                                                                                                                                                                                                         "type": ["reference", {
-                                                                                                                                                                                                                            "namespace": {
-                                                                                                                                                                                                                                "namespace": ["other", {
-                                                                                                                                                                                                                                    "namespace": {
+                                                                                                                                                                                                                            "namespace selection": {
+                                                                                                                                                                                                                                "which": ["other", {
+                                                                                                                                                                                                                                    "namespace reference": {
                                                                                                                                                                                                                                         "namespace": "deserialize api",
                                                                                                                                                                                                                                         "type arguments": {
                                                                                                                                                                                                                                             "TokenAnnotation": {},
@@ -997,10 +1004,9 @@ export function generateCreateDeserializer(
                                                                                                                                                             }]
                                                                                                                                                         })
                                                                                                                                                     case "string":
-                                                                                                                                                        return cc($.type[1], ($) => {
+                                                                                                                                                        return cc($.type[1], ($): t.__strategy_type_expression_TU_Builder => {
                                                                                                                                                             return ["copy", {
                                                                                                                                                                 "context": {
-
                                                                                                                                                                     "start": {
                                                                                                                                                                         "start": ["state", {
                                                                                                                                                                             "state": k,
@@ -1049,9 +1055,9 @@ export function generateCreateDeserializer(
                             "return type": ["interface", {
                                 "interface": {
                                     "type": ["reference", {
-                                        "namespace": {
-                                            "namespace": ["other", {
-                                                "namespace": {
+                                        "namespace selection": {
+                                            "which": ["other", {
+                                                "namespace reference": {
                                                     "namespace": "deserialize api",
                                                     "type arguments": {
                                                         "TokenAnnotation": {},
@@ -1068,7 +1074,7 @@ export function generateCreateDeserializer(
                                 "callback": {
                                     "type": ["method", {
                                         "type": {
-                                            "namespace": {
+                                            "namespace reference": {
                                                 "namespace": "core",
                                             },
                                             "type": k,

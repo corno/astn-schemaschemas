@@ -5,7 +5,6 @@ function assertUnreachable<RT>(_x: never): RT {
     throw new Error("Unreachable")
 }
 
-
 export function convertToASTNSchema(schema: Schema): astn.Schema {
     const resolveRegistry = astn.createResolveRegistry<null>()
 

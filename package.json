@@ -15,7 +15,8 @@
     "update2latestAndPublishMinor": "npm run validatePublishReadiness && npm run update2latest && npm run test && git commit -am \"u2l\" && npm run pubMin",
     "update2latestAndPublishPath": "npm run validatePublishReadiness && npm run update2latest && npm run test && git commit -am \"u2l\" && npm run pubPatch",
     "generate-lowlevel": "astn-expand ./src/lowlevel/lowlevel.astn | astn-generate > ./src/lowlevel/generated/lowlevel.ts",
-    "generate-lowlevel-with-current-codebase": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts"
+    "generate-lowlevel-with-current-codebase": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts",
+    "generate-lowlevel-with-current-codebase2": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode2.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts_"
   },
   "keywords": [],
   "author": "corno",

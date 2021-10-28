@@ -214,77 +214,65 @@ export function build_fi($c: build_root_T): core_root_T {
         return {
             "projects": ((): build_root_G_projects_P => {
                 const FOO = $c
-                    FIXMEMAP{
-                        "tasks": ((): build_root_G_projects_P_D_G_tasks_P => {
-                            const FOO = $c
-                                FIXMEMAP{
-                                    "action holder": ((): build_root_G_projects_P_D_G_tasks_P_D_G_action_holder_P => {
-                                        const FOO = $c
-                                            FIXME COPY
-                                        FIXME STEP action holder
-                                    })(),
-                                    "cost": ((): build_root_G_projects_P_D_G_tasks_P_D_G_cost_P => {
-                                        const FOO = $c
-                                            FIXME COPY
-                                        FIXME STEP cost
-                                    })(),
-                                    "description": ((): build_root_G_projects_P_D_G_tasks_P_D_G_description_P => {
-                                        const FOO = $c
-                                            FIXME COPY
-                                        FIXME STEP description
-                                    })(),
-                                    "enddate": ((): build_root_G_projects_P_D_G_tasks_P_D_G_enddate_P => {
-                                        const FOO = $c
-                                            FIXME COPY
-                                        FIXME STEP enddate
-                                    })(),
-                                    "involved team members": ((): build_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P => {
-                                        const FOO = $c
-                                            FIXMEMAP{}
-                                    })(),
-                                    "priority": ((): build_root_G_projects_P_D_G_tasks_P_D_G_priority_P => {
-                                        if ($c === undefined) {
-                                            return ["Medium", {}]
-                                        }
-                                        const FOO = $c
-                                            switch ($c[0]) {
-                                                case "High": {
-                                                    return cc($c[1], ($c) => {
-                                                        return ["High", ""]
-                                                    })
-                                                }
-                                                case "Low": {
-                                                    return cc($c[1], ($c) => {
-                                                        return ["Low", ""]
-                                                    })
-                                                }
-                                                case "Medium": {
-                                                    return cc($c[1], ($c) => {
-                                                        return ["Medium", ""]
-                                                    })
-                                                }
-                                                default: return assertUnreachable($c[0])
-                                            }
-                                    })(),
-                                    "startdate": ((): build_root_G_projects_P_D_G_tasks_P_D_G_startdate_P => {
-                                        const FOO = $c
-                                            FIXME COPY
-                                        FIXME STEP startdate
-                                    })(),
-                                }
-                        })(),
-                    }
-            })(),
+            })()FIXMEMAP{
+                "tasks": ((): build_root_G_projects_P_D_G_tasks_P => {
+                    const FOO = $c
+                })()FIXMEMAP{
+                    "action holder": ((): build_root_G_projects_P_D_G_tasks_P_D_G_action_holder_P => {
+                        const FOO = $c
+                        FIXME STEP action holder
+                    })()FIXME COPY,
+                    "cost": ((): build_root_G_projects_P_D_G_tasks_P_D_G_cost_P => {
+                        const FOO = $c
+                        FIXME STEP cost
+                    })()FIXME COPY,
+                    "description": ((): build_root_G_projects_P_D_G_tasks_P_D_G_description_P => {
+                        const FOO = $c
+                        FIXME STEP description
+                    })()FIXME COPY,
+                    "enddate": ((): build_root_G_projects_P_D_G_tasks_P_D_G_enddate_P => {
+                        const FOO = $c
+                        FIXME STEP enddate
+                    })()FIXME COPY,
+                    "involved team members": ((): build_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P => {
+                        const FOO = $c
+                    })()FIXMEMAP{},
+                    "priority": ((): build_root_G_projects_P_D_G_tasks_P_D_G_priority_P => {
+                        if ($c === undefined) {
+                            return ["Medium", {}]
+                        }
+                        const FOO = $c
+                    })()switch ($c[0]) {
+                        case "High": {
+                            return cc($c[1], ($c) => {
+                                return ["High", ""]
+                            })
+                        }
+                        case "Low": {
+                            return cc($c[1], ($c) => {
+                                return ["Low", ""]
+                            })
+                        }
+                        case "Medium": {
+                            return cc($c[1], ($c) => {
+                                return ["Medium", ""]
+                            })
+                        }
+                        default: return assertUnreachable($c[0])
+                    },
+                    "startdate": ((): build_root_G_projects_P_D_G_tasks_P_D_G_startdate_P => {
+                        const FOO = $c
+                        FIXME STEP startdate
+                    })()FIXME COPY,
+                },
+            },
         }
     }
     return ((): build_root => {
         const FOO = build_root_fi(((): build_root => {
             const FOO = $c
-                FIXME COPY
-        })())
-            FIXME COPY
-            FIXME COPY
-    })()
+        })()FIXME COPY)
+    })()FIXME COPY
 }
 
 export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
@@ -307,7 +295,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
         function temp_NIC($ip: {
             "out": ($: core_root) => void
         }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-            const projects: { [key: string]: core_root_G_projects_P_D } = {}
+            const projects_s: { [key: string]: core_root_G_projects_P_D } = {}
             return $b.context.expectVerboseGroup({
                 "onEnd": ($c) => {
                     $ip.out({
@@ -320,13 +308,15 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                             return wrap_NIC({
                                 "handler": $b.context.expectDictionary({
                                     "onProperty": ($c) => {
-                                        const y_m = $c
+                                        const y_m = (() => {
+                                            const FOO = $c
+                                        })()
                                         return wrap_NIC({
                                             "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                 function temp_NIC($ip: {
                                                     "out": ($: core_root_G_projects_P_D) => void
                                                 }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-                                                    const tasks: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D } = {}
+                                                    const tasks_s: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D } = {}
                                                     return $b.context.expectVerboseGroup({
                                                         "onEnd": ($c) => {
                                                             $ip.out({
@@ -339,51 +329,45 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                     return wrap_NIC({
                                                                         "handler": $b.context.expectDictionary({
                                                                             "onProperty": ($c) => {
-                                                                                const y_m = $c
+                                                                                const y_m = (() => {
+                                                                                    const FOO = $c
+                                                                                })()
                                                                                 return wrap_NIC({
                                                                                     "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                         function temp_NIC($ip: {
                                                                                             "out": ($: core_root_G_projects_P_D_G_tasks_P_D) => void
                                                                                         }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-                                                                                            let action_holder = "ikke"
-                                                                                            let cost = "0"
-                                                                                            let description = ""
-                                                                                            let enddate = ""
-                                                                                            const involved_team_members: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D } = {}
-                                                                                            let priority: core_root_G_projects_P_D_G_tasks_P_D_G_priority_P = ["Medium", {}]
-                                                                                            let startdate = ""
+                                                                                            let action_holder_s = "ikke"
+                                                                                            let cost_s = "0"
+                                                                                            let description_s = ""
+                                                                                            let enddate_s = ""
+                                                                                            const involved_team_members_s: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D } = {}
+                                                                                            let priority_s: core_root_G_projects_P_D_G_tasks_P_D_G_priority_P = ["Medium", {}]
+                                                                                            let startdate_s = ""
                                                                                             return $b.context.expectVerboseGroup({
                                                                                                 "onEnd": ($c) => {
                                                                                                     $ip.out({
                                                                                                         "action holder": ((): core_root_G_action_holder_P => {
-                                                                                                            const FOO = action_holder
-                                                                                                                FIXME COPY
-                                                                                                        })(),
+                                                                                                            const FOO = action_holder_s
+                                                                                                        })()FIXME COPY,
                                                                                                         "cost": ((): core_root_G_cost_P => {
                                                                                                             const FOO = $f["stringToNumber"](((): lang_number => {
-                                                                                                                const FOO = cost
-                                                                                                                    FIXME COPY
-                                                                                                            })())
-                                                                                                                FIXME COPY
-                                                                                                                FIXME COPY
-                                                                                                        })(),
+                                                                                                                const FOO = cost_s
+                                                                                                            })()FIXME COPY)
+                                                                                                        })()FIXME COPY,
                                                                                                         "description": ((): core_root_G_description_P => {
-                                                                                                            const FOO = description
-                                                                                                                FIXME COPY
-                                                                                                        })(),
+                                                                                                            const FOO = description_s
+                                                                                                        })()FIXME COPY,
                                                                                                         "enddate": ((): core_root_G_enddate_P => {
-                                                                                                            const FOO = enddate
-                                                                                                                FIXME COPY
-                                                                                                        })(),
+                                                                                                            const FOO = enddate_s
+                                                                                                        })()FIXME COPY,
                                                                                                         "involved team members": createDictionary(involved_team_members),
                                                                                                         "priority": ((): core_root_G_priority_P => {
-                                                                                                            const FOO = priority
-                                                                                                                FIXME COPY
-                                                                                                        })(),
+                                                                                                            const FOO = priority_s
+                                                                                                        })()FIXME COPY,
                                                                                                         "startdate": ((): core_root_G_startdate_P => {
-                                                                                                            const FOO = startdate
-                                                                                                                FIXME COPY
-                                                                                                        })(),
+                                                                                                            const FOO = startdate_s
+                                                                                                        })()FIXME COPY,
                                                                                                     })
                                                                                                 },
                                                                                                 "properties": {
@@ -393,11 +377,10 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                 "callback": ($c) => {
                                                                                                                     action_holder = (() => {
                                                                                                                         const FOO = $c
-                                                                                                                            FIXME COPY STRING
                                                                                                                         FIXME STEP token
                                                                                                                         FIXME STEP data
                                                                                                                         FIXME STEP value
-                                                                                                                    })()
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -408,11 +391,10 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                 "callback": ($c) => {
                                                                                                                     cost = (() => {
                                                                                                                         const FOO = $c
-                                                                                                                            FIXME COPY STRING
                                                                                                                         FIXME STEP token
                                                                                                                         FIXME STEP data
                                                                                                                         FIXME STEP value
-                                                                                                                    })()
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -423,11 +405,10 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                 "callback": ($c) => {
                                                                                                                     description = (() => {
                                                                                                                         const FOO = $c
-                                                                                                                            FIXME COPY STRING
                                                                                                                         FIXME STEP token
                                                                                                                         FIXME STEP data
                                                                                                                         FIXME STEP value
-                                                                                                                    })()
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -438,11 +419,10 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                 "callback": ($c) => {
                                                                                                                     enddate = (() => {
                                                                                                                         const FOO = $c
-                                                                                                                            FIXME COPY STRING
                                                                                                                         FIXME STEP token
                                                                                                                         FIXME STEP data
                                                                                                                         FIXME STEP value
-                                                                                                                    })()
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -452,7 +432,9 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                             return wrap_NIC({
                                                                                                                 "handler": $b.context.expectDictionary({
                                                                                                                     "onProperty": ($c) => {
-                                                                                                                        const y_m = $c
+                                                                                                                        const y_m = (() => {
+                                                                                                                            const FOO = $c
+                                                                                                                        })()
                                                                                                                         return wrap_NIC({
                                                                                                                             "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                                                                 function temp_NIC($ip: {
@@ -469,14 +451,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                     "out": ($c) => {
                                                                                                                                         involved_team_members[(() => {
                                                                                                                                             const FOO = y_m
-                                                                                                                                                FIXME COPY STRING
                                                                                                                                             FIXME STEP token
                                                                                                                                             FIXME STEP data
                                                                                                                                             FIXME STEP value
-                                                                                                                                        })()] = ((): core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P => {
+                                                                                                                                        })()FIXME COPY STRING] = ((): core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P => {
                                                                                                                                             const FOO = $c
-                                                                                                                                                FIXME COPY
-                                                                                                                                        })()
+                                                                                                                                        })()FIXME COPY
                                                                                                                                     },
                                                                                                                                 })
                                                                                                                             })({}),
@@ -509,8 +489,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                             "out": ($c) => {
                                                                                                                                                 priority = ["High", ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O => {
                                                                                                                                                     const FOO = $c
-                                                                                                                                                        FIXME COPY
-                                                                                                                                                })()]
+                                                                                                                                                })()FIXME COPY]
                                                                                                                                             },
                                                                                                                                         })
                                                                                                                                     })({}),
@@ -537,8 +516,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                             "out": ($c) => {
                                                                                                                                                 priority = ["Low", ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O => {
                                                                                                                                                     const FOO = $c
-                                                                                                                                                        FIXME COPY
-                                                                                                                                                })()]
+                                                                                                                                                })()FIXME COPY]
                                                                                                                                             },
                                                                                                                                         })
                                                                                                                                     })({}),
@@ -565,8 +543,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                             "out": ($c) => {
                                                                                                                                                 priority = ["Medium", ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O => {
                                                                                                                                                     const FOO = $c
-                                                                                                                                                        FIXME COPY
-                                                                                                                                                })()]
+                                                                                                                                                })()FIXME COPY]
                                                                                                                                             },
                                                                                                                                         })
                                                                                                                                     })({}),
@@ -584,11 +561,10 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                 "callback": ($c) => {
                                                                                                                     startdate = (() => {
                                                                                                                         const FOO = $c
-                                                                                                                            FIXME COPY STRING
                                                                                                                         FIXME STEP token
                                                                                                                         FIXME STEP data
                                                                                                                         FIXME STEP value
-                                                                                                                    })()
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -600,14 +576,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                             "out": ($c) => {
                                                                                                 tasks[(() => {
                                                                                                     const FOO = y_m
-                                                                                                        FIXME COPY STRING
                                                                                                     FIXME STEP token
                                                                                                     FIXME STEP data
                                                                                                     FIXME STEP value
-                                                                                                })()] = ((): core_root_G_projects_P_D_G_tasks_P => {
+                                                                                                })()FIXME COPY STRING] = ((): core_root_G_projects_P_D_G_tasks_P => {
                                                                                                     const FOO = $c
-                                                                                                        FIXME COPY
-                                                                                                })()
+                                                                                                })()FIXME COPY
                                                                                             },
                                                                                         })
                                                                                     })({}),
@@ -624,14 +598,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                     "out": ($c) => {
                                                         projects[(() => {
                                                             const FOO = y_m
-                                                                FIXME COPY STRING
                                                             FIXME STEP token
                                                             FIXME STEP data
                                                             FIXME STEP value
-                                                        })()] = ((): core_root_G_projects_P => {
+                                                        })()FIXME COPY STRING] = ((): core_root_G_projects_P => {
                                                             const FOO = $c
-                                                                FIXME COPY
-                                                        })()
+                                                        })()FIXME COPY
                                                     },
                                                 })
                                             })({}),
@@ -648,8 +620,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
             "out": ($c) => {
                 $ip.callback(((): core_root => {
                     const FOO = $c
-                        FIXME COPY
-                })())
+                })()FIXME COPY)
             },
         })
     }

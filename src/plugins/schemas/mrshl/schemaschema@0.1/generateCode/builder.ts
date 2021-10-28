@@ -32,7 +32,7 @@ export function generateBuilder(
     schema: def.Schema,
 ): t.__function_implementations_B {
     return {
-        "namespace": {
+        "namespace reference": {
             "namespace": "build",
         },
         "declaration": "build",
@@ -237,7 +237,7 @@ export function generateBuilder(
                                                                             "start": {
                                                                                 "start": ["function", {
                                                                                     "context": ["local function", {
-                                                                                        "function": `defaultBuild_${$.type.name}`,
+                                                                                        "function": `buildDefault_${$.type.name}`,
                                                                                     }],
                                                                                 }],
                                                                             },
@@ -317,9 +317,9 @@ export function generateBuilder(
                     add(`buildDefault_${key}`, {
                         "declaration": {
                             "in": {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
+                                "namespace selection": {
+                                    "which": ["other", {
+                                        "namespace reference": {
                                             "namespace": "lang",
                                         },
                                     }],

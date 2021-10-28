@@ -3,7 +3,6 @@
     "max-len": "off",
     "@typescript-eslint/no-unused-vars": "off",
 */
-import * as def from "../types"
 import * as t from "../../../../../lowlevel/generated/lowlevel"
 
 export function generateDeserializeAPI(
@@ -99,9 +98,9 @@ export function generateDeserializeAPI(
                                 "definition": {
                                     "type": ["method", {
                                         "type": {
-                                            "namespace": {
-                                                "namespace": ["other", {
-                                                    "namespace": {
+                                            "namespace selection": {
+                                                "which": ["other", {
+                                                    "namespace reference": {
                                                         "namespace": "lang",
                                                     },
                                                 }],
@@ -144,9 +143,9 @@ export function generateDeserializeAPI(
                                                             "definition": {
                                                                 "type": ["method", {
                                                                     "type": {
-                                                                        "namespace": {
-                                                                            "namespace": ["other", {
-                                                                                "namespace": {
+                                                                        "namespace selection": {
+                                                                            "which": ["other", {
+                                                                                "namespace reference": {
                                                                                     "namespace": "lang",
                                                                                 },
                                                                             }],
@@ -166,9 +165,9 @@ export function generateDeserializeAPI(
                                     "interface": {
                                         "type": ["method", {
                                             "type": {
-                                                "namespace": {
-                                                    "namespace": ["other", {
-                                                        "namespace": {
+                                                "namespace selection": {
+                                                    "which": ["other", {
+                                                        "namespace reference": {
                                                             "namespace": "lang",
                                                         },
                                                     }],
@@ -267,9 +266,9 @@ export function generateDeserializeAPI(
                                             "entry": {
                                                 "type": ["method", {
                                                     "type": {
-                                                        "namespace": {
-                                                            "namespace": ["other", {
-                                                                "namespace": {
+                                                        "namespace selection": {
+                                                            "which": ["other", {
+                                                                "namespace reference": {
                                                                     "namespace": "lang",
                                                                 },
                                                             }],
@@ -314,9 +313,9 @@ export function generateDeserializeAPI(
                                     "interface": {
                                         "type": ["method", {
                                             "type": {
-                                                "namespace": {
-                                                    "namespace": ["other", {
-                                                        "namespace": {
+                                                "namespace selection": {
+                                                    "which": ["other", {
+                                                        "namespace reference": {
                                                             "namespace": "lang",
                                                         },
                                                     }],

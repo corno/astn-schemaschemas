@@ -6,13 +6,6 @@
 import * as def from "../types"
 import * as t from "../../../../../lowlevel/generated/lowlevel"
 
-function assertUnreachable<RT>(_x: never): RT {
-    throw new Error("unreachable")
-}
-function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
-    return callback(input)
-}
-
 function buildDictionary<T>(
     builder: (
         add: (
@@ -38,9 +31,9 @@ export function generateDeserializeNamespace(
         "procedure declarations": {
             "createDeserializer": {
                 "context": {
-                    "namespace": {
-                        "namespace": ["other", {
-                            "namespace": {
+                    "namespace selection": {
+                        "which": ["other", {
+                            "namespace reference": {
                                 "namespace": "lang",
                             },
                         }],
@@ -50,9 +43,9 @@ export function generateDeserializeNamespace(
                 "return type": ["interface", {
                     "interface": {
                         "type": ["reference", {
-                            "namespace": {
-                                "namespace": ["other", {
-                                    "namespace": {
+                            "namespace selection": {
+                                "which": ["other", {
+                                    "namespace reference": {
                                         "namespace": "deserialize api",
                                         "type arguments": {
                                             "TokenAnnotation": {},
@@ -71,9 +64,9 @@ export function generateDeserializeNamespace(
                         "declaration": {
 
                             "in": {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
+                                "namespace selection": {
+                                    "which": ["other", {
+                                        "namespace reference": {
                                             "namespace": "lang",
                                         },
                                     }],
@@ -81,9 +74,9 @@ export function generateDeserializeNamespace(
                                 "type": "string",
                             },
                             "out": {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
+                                "namespace selection": {
+                                    "which": ["other", {
+                                        "namespace reference": {
                                             "namespace": "lang",
                                         },
                                     }],
@@ -95,9 +88,9 @@ export function generateDeserializeNamespace(
                     "stringToNumber": {
                         "declaration": {
                             "in": {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
+                                "namespace selection": {
+                                    "which": ["other", {
+                                        "namespace reference": {
                                             "namespace": "lang",
                                         },
                                     }],
@@ -105,9 +98,9 @@ export function generateDeserializeNamespace(
                                 "type": "string",
                             },
                             "out": {
-                                "namespace": {
-                                    "namespace": ["other", {
-                                        "namespace": {
+                                "namespace selection": {
+                                    "which": ["other", {
+                                        "namespace reference": {
                                             "namespace": "lang",
                                         },
                                     }],
@@ -123,9 +116,9 @@ export function generateDeserializeNamespace(
                         "interface": {
                             "type": ["method", {
                                 "type": {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
+                                    "namespace selection": {
+                                        "which": ["other", {
+                                            "namespace reference": {
                                                 "namespace": "deserialize api",
                                                 "type arguments": {
                                                     "TokenAnnotation": {},
@@ -143,9 +136,9 @@ export function generateDeserializeNamespace(
                         "interface": {
                             "type": ["method", {
                                 "type": {
-                                    "namespace": {
-                                        "namespace": ["other", {
-                                            "namespace": {
+                                    "namespace selection": {
+                                        "which": ["other", {
+                                            "namespace reference": {
                                                 "namespace": "core",
                                             },
                                         }],
@@ -160,9 +153,9 @@ export function generateDeserializeNamespace(
                 "builders": {
                     "context": {
                         "builder": "ExpectContext",
-                        "namespace": {
-                            "namespace": ["other", {
-                                "namespace": {
+                        "namespace selection": {
+                            "which": ["other", {
+                                "namespace reference": {
                                     "namespace": "deserialize api",
                                     "type arguments": {
                                         "TokenAnnotation": {},

@@ -288,6 +288,7 @@ export function build_fi($c: build_root_T): core_root_T {
 }
 
 export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
+    $c: lang_nothing_T,
     $i: {
         "callback": ($: core_root_T) => void
         "raiseValidationError": ($: deserialize_api_ValidationError_T<NonTokenAnnotation, TokenAnnotation>) => void
@@ -306,7 +307,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
         function temp_NIC($ip: {
             "out": ($: core_root) => void
         }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-            const projects: { [key: string]: core_root_G_projects_P_D } = {}
+            const projects_s: { [key: string]: core_root_G_projects_P_D } = {}
             return $b.context.expectVerboseGroup({
                 "onEnd": ($c) => {
                     $ip.out({
@@ -325,7 +326,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                 function temp_NIC($ip: {
                                                     "out": ($: core_root_G_projects_P_D) => void
                                                 }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-                                                    const tasks: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D } = {}
+                                                    const tasks_s: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D } = {}
                                                     return $b.context.expectVerboseGroup({
                                                         "onEnd": ($c) => {
                                                             $ip.out({
@@ -344,13 +345,13 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                         function temp_NIC($ip: {
                                                                                             "out": ($: core_root_G_projects_P_D_G_tasks_P_D) => void
                                                                                         }): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
-                                                                                            let action_holder = "ikke"
-                                                                                            let cost = "0"
-                                                                                            let description = ""
-                                                                                            let enddate = ""
-                                                                                            const involved_team_members: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D } = {}
-                                                                                            let priority: core_root_G_projects_P_D_G_tasks_P_D_G_priority_P = ["Medium", {}]
-                                                                                            let startdate = ""
+                                                                                            let action_holder_s = "ikke"
+                                                                                            let cost_s = "0"
+                                                                                            let description_s = ""
+                                                                                            let enddate_s = ""
+                                                                                            const involved_team_members_s: { [key: string]: core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P_D } = {}
+                                                                                            let priority_s: core_root_G_projects_P_D_G_tasks_P_D_G_priority_P = ["Medium", {}]
+                                                                                            let startdate_s = ""
                                                                                             return $b.context.expectVerboseGroup({
                                                                                                 "onEnd": ($c) => {
                                                                                                     $ip.out({
