@@ -12,9 +12,9 @@ interface Array<T> {
     includes(v: T): boolean
     length: number
     join(separator: string): string
-    pop(): undefined | T
+    //pop(): undefined | T
     concat(array: T[]): T[]
-    slice(position: number): T[]
+    //slice(position: number): T[]
     sort(): T[]
     [n: number]: T
 
@@ -25,16 +25,16 @@ interface Function { }
 interface IArguments { }
 interface NewableFunction { }
 interface Number {
-    toString(radix: number): string
+    //toString(radix: number): string
 }
 interface Object { }
 interface RegExp { }
 interface String {
-    readonly length: number
-    substring(begin: number, end: number): string
-    substr(begin: number): string
-    charCodeAt(index: number): number
-    split(splitter: string): string[]
+    //readonly length: number
+    //substring(begin: number, end: number): string
+    //substr(begin: number): string
+    //charCodeAt(index: number): number
+    //split(splitter: string): string[]
     startsWith(str: string): boolean
     replace(str: RegExp, rv: string): string
     //toUpperCase(): string

@@ -182,6 +182,7 @@ export function generateCode(
     })
     $w.fullLine(`*/`)
 
+    $w.fullLine(`import * as pr from "pareto-runtime"`)
     $w.fullLine(`import * as astn from "astn"`)
 
     $w.fullLine(`function assertUnreachable<RT>(_x: never): RT {`)
@@ -256,7 +257,7 @@ export function generateCode(
     $w.statementsBlock(($w) => {
         $w.fullLine(`return {`)
         $w.objectImp(($w) => {
-            $w.fullLine(`forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },`)
+            $w.fullLine(`forEach: (callback: (e: T, key: string) => void) => { pr.Objectkeys(raw).sort().forEach((key) => { callback(raw[key], key) }) },`)
         })
         $w.fullLine(`}`)
     })
@@ -1045,7 +1046,7 @@ export function generateCode(
                                                                         $w.snippet(`const target: { [key:string]: ${path.collection(key).generateNodeIdentifier()}} = {}`)
                                                                     })
                                                                     $w.statement(($w) => {
-                                                                        $w.snippet(`Object.keys(source).forEach((key) => {`)
+                                                                        $w.snippet(`pr.Objectkeys(source).forEach((key) => {`)
                                                                         $w.tempBlock(($w) => {
                                                                             $w.fullLine(`const entry = source[key]`)
                                                                             $w.line(($w) => {
