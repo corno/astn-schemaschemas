@@ -7,6 +7,7 @@
     "quote-props": 0,
     "max-len": 0
 */
+import * as pr from "pareto-runtime"
 import * as astn from "astn"
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -22,7 +23,7 @@ interface IArray<T> {
 
 function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
     return {
-        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
+        forEach: (callback: (e: T, key: string) => void) => { pr.Objectkeys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
     }
 }
 
@@ -308,13 +309,13 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "projects": intermediate["projects"] === undefined ? createDictionary({}) : ((): IDictionary<__projects_T> => {{
                 const source = intermediate["projects"]
                 const target: { [key:string]: __projects_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "tasks": entry["tasks"] === undefined ? createDictionary({}) : ((): IDictionary<__tasks_T> => {{
                             const source = entry["tasks"]
                             const target: { [key:string]: __tasks_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                     "action holder": entry["action holder"] === undefined ? "" : entry["action holder"],
@@ -324,7 +325,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                     "involved team members": entry["involved team members"] === undefined ? createDictionary({}) : ((): IDictionary<__involved_team_members_T> => {{
                                         const source = entry["involved team members"]
                                         const target: { [key:string]: __involved_team_members_T} = {}
-                                        Object.keys(source).forEach((key) => {
+                                        pr.Objectkeys(source).forEach((key) => {
                                             const entry = source[key]
                                             target[key] = {
                                             }
