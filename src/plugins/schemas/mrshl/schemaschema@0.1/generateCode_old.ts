@@ -1,3 +1,6 @@
+/* eslint
+    "max-len": "off",
+*/
 import * as pr from "pareto-runtime"
 import * as def from "./types"
 

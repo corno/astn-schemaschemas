@@ -25,13 +25,13 @@ export function createFileSystemResourceProvider(
                             cc($[1], ($) => {
                                 switch ($.type[0]) {
                                     case "is directory":
-                                        cc($.type[1], ($) => {
+                                        cc($.type[1], () => {
                                             onFailed(["not found", {}])
 
                                         })
                                         break
                                     case "no entity":
-                                        cc($.type[1], ($) => {
+                                        cc($.type[1], () => {
                                             onFailed(["not found", {}])
 
                                         })
