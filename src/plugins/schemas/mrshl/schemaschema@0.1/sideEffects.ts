@@ -1,10 +1,6 @@
-/* eslint
-    "max-classes-per-file": off,
-*/
-
+import * as pr from "pareto-runtime"
 import * as t from "./types"
 import * as astn from "astn"
-import * as p from "pareto"
 export * from "./types"
 
 function assertUnreachable<RT>(_x: never): RT {
@@ -121,30 +117,30 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
                 switch ($$.type[0]) {
                     case "boolean": {
                         if ($.token.data.wrapping[0] !== "none") {
-                            onError(`expected a boolean, found a quoted string`, $.token.annotation, astn.DiagnosticSeverity.error)
+                            onError(`expected a boolean, found a quoted string`, $.token.annotation, ["error", {}])
                         } else {
                             const val = $.value
                             if (val !== "true" && val !== "false") {
-                                onError(`value '${val}' is not a boolean`, $.token.annotation, astn.DiagnosticSeverity.error)
+                                onError(`value '${val}' is not a boolean`, $.token.annotation, ["error", {}])
                             }
                         }
                         break
                     }
                     case "number": {
                         if ($.token.data.wrapping[0] !== "none") {
-                            onError(`expected a number, found a wrapped string`, $.token.annotation, astn.DiagnosticSeverity.error)
+                            onError(`expected a number, found a wrapped string`, $.token.annotation, ["error", {}])
                         } else {
                             const val = $.value
                             //eslint-disable-next-line no-new-wrappers
-                            if (isNaN(new Number(val).valueOf())) {
-                                onError(`value '${val}' is not a number`, $.token.annotation, astn.DiagnosticSeverity.error)
+                            if (pr.stringIsNaN(val)) {
+                                onError(`value '${val}' is not a number`, $.token.annotation, ["error", {}])
                             }
                         }
                         break
                     }
                     case "string": {
                         if ($.token.data.wrapping[0] === "none") {
-                            onError(`expected a quoted string`, $.token.annotation, astn.DiagnosticSeverity.error)
+                            onError(`expected a quoted string`, $.token.annotation, ["error", {}])
                         }
                         break
                     }
@@ -207,8 +203,6 @@ export function createRoot<TokenAnnotation, NonTokenAnnotation>(
 ): astn.ITypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
     return {
         root: createNode(schema["root type"].get().node, onError),
-        onEnd: () => {
-            return p.value(null)
-        },
+        onEnd: () => { },
     }
 }

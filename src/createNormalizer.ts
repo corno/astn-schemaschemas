@@ -1,5 +1,5 @@
-import * as p from "pareto"
 import * as astn from "astn"
+import { IStreamConsumer } from "astn/dist/src/IStreamConsumer"
 import { getSchemaSchemaBuilder } from "./getSchemaSchemaBuilder"
 
 export function createNormalizer(
@@ -9,29 +9,36 @@ export function createNormalizer(
     onDiagnostic: (message: string, severity: astn.DiagnosticSeverity) => void,
     style: astn.SerializationStyle,
     write: (str: string) => void,
-): p.IValue<p.IStreamConsumer<string, null, null>> {
-    return astn.createProcessorForASTNStreamWithContext(
-        sourcePathBaseName,
-        getSchemaSchemaBuilder,
-        contextSchemaProvider,
-        referencedSchemaProvider,
-        (resolvedSchema) => {
-            const simpleDS: astn.Datastore = {
-                root: { type: null },
-            }
-            return astn.createBuilder(
-                simpleDS,
-                () => {
-                    astn.marshall(
-                        astn.createMarshallInterface(simpleDS),
-                        resolvedSchema.schemaAndSideEffects.getSchema(),
-                        resolvedSchema.specification,
-                        style,
-                        write,
-                    )
-                }
-            )
+    onResult: ($: IStreamConsumer<string, null>) => void,
+): void {
+    astn.createProcessorForASTNStreamWithContext(
+        {
+            schemaFileName: "schema.astn-schema",
+            serializedDatasetBaseName: sourcePathBaseName,
         },
-        onDiagnostic,
+        {
+            getSchemaSchemaBuilder: getSchemaSchemaBuilder,
+            contextSchemaProvider: contextSchemaProvider,
+            referencedSchemaProvider: referencedSchemaProvider,
+            getTypedTreeHandler: (resolvedSchema) => {
+                const simpleDS: astn.Datastore = {
+                    root: { type: null },
+                }
+                return astn.createBuilder(
+                    simpleDS,
+                    () => {
+                        astn.marshall(
+                            astn.createMarshallInterface(simpleDS),
+                            resolvedSchema.schemaAndSideEffects.getSchema(),
+                            resolvedSchema.specification,
+                            style,
+                            write,
+                        )
+                    }
+                )
+            },
+            onError: onDiagnostic,
+            onResult: onResult,
+        },
     )
 }

@@ -1,36 +1,62 @@
-import * as path from "path"
-import * as fs from "fs"
-import * as p20 from "pareto-20"
+import * as pr from "pareto-runtime"
 import * as astn from "astn"
+
+function assertUnreachable<RT>(_x: never): RT {
+    throw new Error("unreachable")
+}
+function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
+    return callback(input)
+}
 
 export function createFileSystemResourceProvider(
     dir: string
 ): astn.IResourceProvider {
     return {
         getResource: (
-            fileName: string
+            fileName,
+            sc,
+            onFailed,
         ) => {
-            return p20.wrapUnsafeFunction((onError, onSuccess) => {
-                fs.readFile(
-                    path.join(dir, fileName),
-                    { encoding: "utf-8" },
-                    (err, data) => {
-                        if (err === null) {
-                            onSuccess(p20.createArray([data]).streamify())
-                        } else {
-                            if (err.code === "ENOENT") {
-                                //there is no schema file
-                                onError(["not found", {}])
-                            } else if (err.code === "EISDIR") {
-                                //the path is a directory
-                                onError(["not found", {}])
-                            } else {
-                                onError(["other", { description: err.message }])
-                            }
-                        }
+            pr.readFile(
+                pr.join([dir, fileName]),
+                ($) => {
+                    switch ($[0]) {
+                        case "error":
+                            cc($[1], ($) => {
+                                switch ($.type[0]) {
+                                    case "is directory":
+                                        cc($.type[1], ($) => {
+                                            onFailed(["not found", {}])
+
+                                        })
+                                        break
+                                    case "no entity":
+                                        cc($.type[1], ($) => {
+                                            onFailed(["not found", {}])
+
+                                        })
+                                        break
+                                    case "other":
+                                        cc($.type[1], ($) => {
+                                            onFailed(["other", { description: $.message }])
+                                        })
+                                        break
+                                    default:
+                                        assertUnreachable($.type[0])
+                                }
+                            })
+                            break
+                        case "success":
+                            cc($[1], ($) => {
+                                sc.onData($.data)
+                                sc.onEnd(null)
+                            })
+                            break
+                        default:
+                            assertUnreachable($[0])
                     }
-                )
-            })
+                }
+            )
         },
     }
 }

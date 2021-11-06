@@ -1,51 +1,48 @@
 {
-  "name": "astn-schemaschemas",
-  "version": "0.1.0",
+  "author": "corno",
+  "bin": {
+    "astn-compact": "bin/astnCompact.mjs",
+    "astn-expand": "bin/astnExpand.mjs",
+    "astn-generate": "bin/astnGenerateSchemaCode.mjs"
+  },
+  "dependencies": {
+    "astn": "^0.93.0",
+    "pareto-runtime": "^0.6.0"
+  },
   "description": "collection of schema schema code bases",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^8.2.0",
+    "pareto-test": "^0.0.4",
+    "tslint": "^6.1.3",
+    "typescript": "^4.4.4"
+  },
+  "keywords": [],
+  "license": "ISC",
   "main": "dist/src/index.js",
+  "name": "astn-schemaschemas",
+  "prepublish": "tsc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/corno/astn-schemaschemas.git"
+  },
   "scripts": {
     "build": "rm -rf ./dist && tsc",
-    "lint": "node ./node_modules/eslint/bin/eslint.js .",
     "buildLintAndTest": "npm run build && npm run lint && npm run test",
-    "validatePublishReadiness": "git diff --exit-code && ncu -u --packageFile package.json && npm install && npm run buildLintAndTest",
+    "generate-lowlevel": "astn-expand ./src/lowlevel/lowlevel.astn | astn-generate > ./src/lowlevel/generated/lowlevel.ts",
+    "generate-lowlevel-with-current-codebase": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts",
+    "generate-lowlevel-with-current-codebase2": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode2.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts_",
+    "lint": "node ./node_modules/eslint/bin/eslint.js .",
     "pubMin": "npm run validatePublishReadiness && npm version minor && git push && npm publish",
     "pubPatch": "npm run validatePublishReadiness && npm version patch && git push && npm publish",
     "test": "tsc && mocha ./dist/test",
     "update2latest": "ncu -u --packageFile package.json --timeout 1200000 && nsi && tsc",
     "update2latestAndPublishMinor": "npm run validatePublishReadiness && npm run update2latest && npm run test && git commit -am \"u2l\" && npm run pubMin",
     "update2latestAndPublishPath": "npm run validatePublishReadiness && npm run update2latest && npm run test && git commit -am \"u2l\" && npm run pubPatch",
-    "generate-lowlevel": "astn-expand ./src/lowlevel/lowlevel.astn | astn-generate > ./src/lowlevel/generated/lowlevel.ts",
-    "generate-lowlevel-with-current-codebase": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts",
-    "generate-lowlevel-with-current-codebase2": "out=$(tsc && astn-expand ./src/lowlevel/lowlevel.astn | node ./bin/astnGenerateSchemaCode2.mjs) && echo \"$out\" > ./src/lowlevel/generated/lowlevel.ts_"
+    "validatePublishReadiness": "git diff --exit-code && ncu -u --packageFile package.json && npm install && npm run buildLintAndTest"
   },
-  "keywords": [],
-  "author": "corno",
-  "license": "ISC",
   "types": "dist/src/index.d.ts",
-  "prepublish": "tsc",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/corno/astn-schemaschemas.git"
-  },
-  "dependencies": {
-    "astn": "^0.88.0"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.2.22",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.10.3",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "chai": "^4.3.4",
-    "eslint": "^7.32.0",
-    "mocha": "^9.1.2",
-    "tslint": "^6.1.3",
-    "typescript": "^4.4.3"
-  },
-  "bin": {
-    "astn-expand": "bin/astnExpand.mjs",
-    "astn-compact": "bin/astnCompact.mjs",
-    "astn-generate": "bin/astnGenerateSchemaCode.mjs"
-  }
+  "version": "0.1.0"
 }

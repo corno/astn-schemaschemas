@@ -1,7 +1,4 @@
-/* eslint
-    quote-props: "off",
-
-*/
+import * as pr from "pareto-runtime"
 import * as astn from "astn"
 import * as t from "./types"
 
@@ -34,14 +31,14 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     const context = astn.createExpectContext<TokenAnnotation, NonTokenAnnotation>(
         ($) => {
-            if ($.severity === astn.DiagnosticSeverity.error) {
+            if ($.severity[0] === "error") {
                 onExpectError($.issue, $.annotation)
             }
         },
         () => astn.createDummyValueHandler(),
         () => astn.createDummyValueHandler(),
-        astn.ExpectSeverity.warning,
-        astn.OnDuplicateEntry.ignore,
+        ["warning", {}],
+        ["ignore", {}],
     )
     const resolveRegistry = astn.createResolveRegistry<TokenAnnotation>()
 
@@ -49,7 +46,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         return {
             exists: handler,
             missing: () => {
-                console.error("MISSING VALUE")
+                pr.logError("MISSING VALUE")
             },
         }
     }
@@ -65,7 +62,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
             return {
                 exists: handler,
                 missing: () => {
-                    console.error("MISSING VALUE")
+                    pr.logError("MISSING VALUE")
                 },
             }
         }
@@ -427,7 +424,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 },
             }),
             missing: () => {
-                console.error("MISSING VALUE")
+                pr.logError("MISSING VALUE")
             },
         },
     }

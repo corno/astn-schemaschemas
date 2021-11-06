@@ -1,7 +1,6 @@
-import * as fs from "fs"
-import * as chai from "chai"
 import { CreateStreamConsumer } from "../src/runProgram"
-import * as p20 from "pareto-20"
+import * as pt from "pareto-test"
+import * as pr from "pareto-runtime"
 
 export function testProgram(
     inputFilePath: string,
@@ -9,10 +8,11 @@ export function testProgram(
     outBasename: string,
     outExtension: string,
     createStreamConsumer: CreateStreamConsumer,
-): Promise<null | void> {
-    const dataIn = fs.readFileSync(inputFilePath, { encoding: "utf-8" })
+    resolve: () => void,
+): void {
+    const dataIn = pr.readFileSync(inputFilePath)
 
-    const expectedOut = fs.readFileSync(outDir + "/" + outBasename + ".expected." + outExtension, { encoding: "utf-8" })
+    const expectedOut = pr.readFileSync(outDir + "/" + outBasename + ".expected." + outExtension)
 
     let actualOut = ""
     const sc = createStreamConsumer(
@@ -25,18 +25,17 @@ export function testProgram(
     const actualFilePath = outDir + "/" + outBasename + ".actual." + outExtension
 
     try {
-        fs.unlinkSync(actualFilePath)
+        pr.unlinkSync(actualFilePath)
     } catch (e) {
         //
     }
 
-    return p20.createArray([dataIn]).streamify().consume(
-        null,
-        sc,
-    ).convertToNativePromise().then(() => {
-        if (actualOut !== expectedOut) {
-            fs.writeFileSync(actualFilePath, actualOut, { encoding: "utf-8" })
-        }
-        //chai.assert.equal(expectedOut, actualOut)
-    })
+    sc.onData(dataIn)
+    sc.onEnd(null)
+
+    if (actualOut !== expectedOut) {
+        pr.writeFileSync(actualFilePath, actualOut)
+    }
+    pt.assertEqual(expectedOut, actualOut)
+    resolve()
 }

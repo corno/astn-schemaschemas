@@ -1,37 +1,19 @@
-import * as stream from "stream"
-import * as p from "pareto"
-
+import { IStreamConsumer } from "astn/dist/src/IStreamConsumer"
+import * as pr from "pareto-runtime"
 
 export type CreateStreamConsumer = (
     write: (str: string) => void,
     onError: (str: string) => void,
-) => p.IStreamConsumer<string, null, null>
+) => IStreamConsumer<string, null>
 
 export function runProgram(
     createStreamConsumer: CreateStreamConsumer
 ): void {
+    const stdOut = pr.createStdOut()
+    const stdErr = pr.createStdOut()
     const ssp = createStreamConsumer(
-        (str) => process.stdout.write(str),
-        (str) => {
-            process.exitCode = 1
-            console.error(str)
-        }
+        (str) => stdOut.write(str),
+        (str) => stdErr.write(str)
     )
-    process.stdin.setEncoding("utf-8")
-    process.stdin.pipe(
-        new stream.Writable({
-            defaultEncoding: "utf-8",
-            write: function (data, _encoding, callback) {
-                ssp.onData(data.toString()).handle((_abort) => {
-                    callback()
-                })
-            },
-        })
-    ).on('finish', () => {
-        ssp.onEnd(false, null).handle(
-            (_result) => {
-                //
-            },
-        )
-    })
+    pr.subscribeToStdIn(ssp)
 }

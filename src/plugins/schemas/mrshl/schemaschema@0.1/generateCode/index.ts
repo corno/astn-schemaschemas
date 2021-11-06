@@ -3,6 +3,7 @@
     "max-len": "off",
     "@typescript-eslint/no-unused-vars": "off",
 */
+import * as pr from "pareto-runtime"
 import * as def from "../types"
 import * as t from "../../../../../lowlevel/generated/lowlevel"
 import { generateCore } from "./core"
@@ -37,9 +38,9 @@ function buildDictionaryWithNamespaces<T>(
     namespaces: { [key: string]: { [key: string]: T } }
 ) {
     const out: { [key: string]: T } = {}
-    Object.keys(namespaces).forEach((k) => {
+    pr.Objectkeys(namespaces).forEach((k) => {
         const ns = namespaces[k]
-        Object.keys(ns).forEach((kk) => {
+        pr.Objectkeys(ns).forEach((kk) => {
             if (out[`${kk}${k}`] !== undefined) {
                 throw new Error("key clash")
             }

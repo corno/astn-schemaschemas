@@ -1,9 +1,8 @@
 /*eslint
-    "camelcase": off,
     "dot-notation": off,
-    "@typescript-eslint/no-empty-function": off,
     "@typescript-eslint/no-unused-vars": off,
 */
+import * as pr from "pareto-runtime"
 import * as ll from "../generated/lowlevel"
 import { Block, Line } from "./WriteAPI"
 
@@ -98,7 +97,7 @@ function findInStack<T>(
             return tmp
         }
     }
-    throw new Error(`missing: ${name}, options: ${Object.keys(opts).map(($) => `'${$}'`).join(`, `)}`)
+    throw new Error(`missing: ${name}, options: ${pr.Objectkeys(opts).map(($) => `'${$}'`).join(`, `)}`)
 }
 
 function generateIdentifier(str: string) {
@@ -1338,9 +1337,7 @@ export function generateTypeScript(
         })
         $w.snippet(`}`)
     }
-    //eslint
     $w.line(($w) => {
-        //$w.snippet(`/* eslint-disable */`)
         $w.snippet(`/* eslint`)
         $w.indent(($w) => {
             $w.line(($w) => {
@@ -1412,7 +1409,7 @@ export function generateTypeScript(
                 $w.snippet(`return {`)
                 $w.indent(($w) => {
                     $w.line(($w) => {
-                        $w.snippet(`forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },`)
+                        $w.snippet(`forEach: (callback: (e: T, key: string) => void) => { pr.Objectkeys(raw).sort().forEach((key) => { callback(raw[key], key) }) },`)
                     })
                 })
                 $w.snippet(`}`)

@@ -1,3 +1,4 @@
+import * as pr from "pareto-runtime"
 import * as astn from "astn"
 import { createDeserializer } from "./createDeserializer"
 import * as t from "./types"
@@ -27,7 +28,7 @@ export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
         () => {
             if (schema !== null) {
                 if (foundError) {
-                    console.error("SCHEMA FOUND BUT WITH ERRORS")
+                    pr.logError("SCHEMA FOUND BUT WITH ERRORS")
                 }
                 const s = schema
                 onSchema({

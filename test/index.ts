@@ -1,5 +1,6 @@
 import * as ass from "../src"
 import { testProgram } from "./testProgram"
+import * as pt from "pareto-test"
 
 export function bla(): void {
     //
@@ -9,30 +10,32 @@ export interface IInterface {
     y(): void
 }
 
-describe('generate code', () => {
+pt.testset('generate code', () => {
     {
-        const dir = __dirname + "/../../test/codeGeneration/data"
+        const dir = "./test/codeGeneration/data"
 
-        it("1", () => {
-            return testProgram(
+        pt.testAsync("1", (resolve) => {
+            testProgram(
                 dir + "/" + "in.astn",
                 dir,
                 "out",
                 "ts_",
                 ass.createCodeGenerator,
+                resolve
             )
         })
     }
     {
-        const dir = __dirname + "/../../test/codeGeneration2/data"
+        const dir = "./test/codeGeneration2/data"
 
-        it("2", () => {
+        pt.testAsync("2", (resolve) => {
             return testProgram(
                 dir + "/" + "in.astn",
                 dir,
                 "out",
                 "ts_",
                 ass.createCodeGenerator2,
+                resolve,
             )
         })
     }

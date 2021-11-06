@@ -1,24 +1,26 @@
+import * as pr from "pareto-runtime"
 import { CreateStreamConsumer } from "../../../../runProgram"
 import { createSchemaStreamProcesser } from "./createSchemaStreamProcessor"
-import * as p from "pareto"
 import {
     IBlock,
     ITempBlock,
     ILine,
     generateCode,
 } from "./generateCode_old"
+import * as astn from "astn"
+import { trimRight } from "pareto-runtime"
 
 export const createCodeGenerator: CreateStreamConsumer = (
     write: (str: string) => void,
     error: (str: string) => void,
-): p.IStreamConsumer<string, null, null> => {
+): astn.IStreamConsumer<string, null> => {
 
     return createSchemaStreamProcesser(
         {
             onSchema: (schema) => {
                 let currentLine = ""
                 function flush() {
-                    write(currentLine.trimRight())
+                    write(trimRight(currentLine))
                     currentLine = ""
                 }
                 function createLineWriter(
@@ -159,7 +161,7 @@ export const createCodeGenerator: CreateStreamConsumer = (
                         },
                     }
                 }
-                console.warn("generating code...")
+                pr.logWarning("generating code...")
                 generateCode(
                     schema,
                     createBlockWriter(

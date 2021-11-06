@@ -9,6 +9,8 @@
     "@typescript-eslint/no-unused-vars": 0,
 */
 
+import * as pr from "pareto-runtime"
+
 interface IDictionary<T> {
     forEach(callback: (e: T, key: string) => void): void
 }
@@ -23,7 +25,7 @@ function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
 
 function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
     return {
-        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
+        forEach: (callback: (e: T, key: string) => void) => { pr.Objectkeys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
     }
 }
 

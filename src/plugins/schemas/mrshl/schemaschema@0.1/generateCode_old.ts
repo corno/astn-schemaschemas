@@ -1,8 +1,4 @@
-/*eslint
-    "max-len": "off"
-*/
-
-
+import * as pr from "pareto-runtime"
 import * as def from "./types"
 
 function assertUnreachable<RT>(_x: never): RT {
@@ -118,7 +114,7 @@ const nodeBuilderRegistry: Registry = {
 }
 
 function getPathIdentifier(registry: Registry, path: string[]): string {
-    const asJSON = JSON.stringify(path)
+    const asJSON = pr.JSONstringify(path)
     if (registry.known[asJSON] === undefined) {
         let varName = ""
         for (let i = path.length - 1; i !== -1; i -= 1) {

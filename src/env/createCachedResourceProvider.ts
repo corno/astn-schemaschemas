@@ -1,10 +1,14 @@
-import * as p from "pareto"
 import * as astn from "astn"
-import * as fs from "fs"
-import * as p20 from "pareto-20"
-import * as path from "path"
+import * as pr from "pareto-runtime"
 import { IResourceProvider } from "astn"
 import { createFileSystemResourceProvider } from "./createFileSystemResourceProvider"
+
+function assertUnreachable<RT>(_x: never): RT {
+    throw new Error("unreachable")
+}
+function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
+    return callback(input)
+}
 
 export function createCachedResourceProvider(
     resourceProvider: astn.IResourceProvider,
@@ -12,61 +16,81 @@ export function createCachedResourceProvider(
 ): IResourceProvider {
     return {
         getResource: (
-            id: string
+            id,
+            sc,
+            onFailed,
         ) => {
-            const fullPath = path.normalize(path.join(cacheDir, id))
-            if (!fullPath.startsWith(path.normalize(cacheDir))) {
+            const fullPath = pr.normalize(pr.join([cacheDir, id]))
+            if (!fullPath.startsWith(pr.normalize(cacheDir))) {
                 //invalid resourcePath, possibly trying to access files outside of the cache directory, skip caching
-                return resourceProvider.getResource(id)
+                return resourceProvider.getResource(
+                    id,
+                    sc,
+                    onFailed,
+                )
             } else {
-                const dirContainingTheSchema = path.dirname(fullPath)
                 return createFileSystemResourceProvider(
                     cacheDir,
-                ).getResource(id).tryToCatch((_error) => {
-                    //file not found in cache
-                    return resourceProvider.getResource(id).mapResult(
-                        (result) => {
-                            let data = ""
-                            return result.consume(null, {
+                ).getResource(
+                    id,
+                    sc,
+                    (_$) => {
+                        //could not get it from the cache
+
+                        const dirContainingTheCacheFile = pr.dirname(fullPath)
+                        const tempCache = ((): astn.IStreamConsumer<string, null> => {
+                            let tmp = ""
+                            return {
                                 onData: ($) => {
-                                    data += $
-                                    return p.value(false)
+                                    tmp += $
                                 },
                                 onEnd: () => {
-                                    return p.value(null)
-                                },
-                            }).mapResult(() => {
-                                return p20.wrapSafeFunction((onResult) => {
-                                    fs.mkdir(
-                                        dirContainingTheSchema,
-                                        { recursive: true },
-                                        (err) => {
-                                            if (err !== null) {
-                                                console.warn(`error while creating cache dir: ${err.message}`)
-                                            } else {
-                                                fs.writeFile(
-                                                    fullPath,
-                                                    data,
-                                                    (err) => {
-                                                        if (err !== null) {
-                                                            console.warn(`error while writing cache: ${err.message}`)
-                                                        }
-                                                        onResult(p.buildStream(
-                                                            (builder) => {
-                                                                builder.push(data)
+                                    pr.mkdir(
+                                        dirContainingTheCacheFile,
+                                        ($) => {
+                                            switch ($[0]) {
+                                                case "error":
+                                                    cc($[1], (_$) => {
+                                                        pr.logWarning(`error while creating cache dir}`)
+                                                    })
+                                                    break
+                                                case "success":
+                                                    cc($[1], (_$) => {
+                                                        pr.writeFile(
+                                                            fullPath,
+                                                            tmp,
+                                                            (err) => {
+                                                                if (err !== null) {
+                                                                    pr.logWarning(`error while writing cache`)
+                                                                }
                                                             },
-                                                            null,
-                                                        ))
-                                                    },
-                                                )
+                                                        )
+                                                    })
+                                                    break
+                                                default:
+                                                    assertUnreachable($[0])
                                             }
                                         }
                                     )
-                                })
-                            })
-                        }
-                    )
-                })
+                                },
+                            }
+                        })()
+                        resourceProvider.getResource(
+                            id,
+                            {
+                                onData: ($) => {
+                                    tempCache.onData($)
+                                    sc.onData($)
+                                },
+                                onEnd: () => {
+                                    tempCache.onEnd(null)
+                                    sc.onEnd(null)
+                                },
+                            },
+                            onFailed,
+                        )
+                    },
+                )
             }
         },
     }

@@ -7,6 +7,7 @@
     "quote-props": 0,
     "max-len": 0
 */
+import * as pr from "pareto-runtime"
 import * as astn from "astn"
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -22,7 +23,7 @@ interface IArray<T> {
 
 function createDictionary<T>(raw: { [key: string]: T }): IDictionary<T> {
     return {
-        forEach: (callback: (e: T, key: string) => void) => { Object.keys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
+        forEach: (callback: (e: T, key: string) => void) => { pr.Objectkeys(raw).sort().forEach((key) => { callback(raw[key], key) }) },
     }
 }
 
@@ -5822,7 +5823,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "interfaces": intermediate["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_T> => {{
                 const source = intermediate["interfaces"]
                 const target: { [key:string]: __interfaces_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
@@ -5995,7 +5996,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                             "members": intermediate["type"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_T> => {{
                                 const source = intermediate["type"][1]["members"]
                                 const target: { [key:string]: __members_T} = {}
-                                Object.keys(source).forEach((key) => {
+                                pr.Objectkeys(source).forEach((key) => {
                                     const entry = source[key]
                                     target[key] = {
                                         "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
@@ -6070,7 +6071,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                             "entries": intermediate["type"][1]["type"][1]["entries"] === undefined ? createDictionary({}) : ((): IDictionary<__entries_T> => {{
                                                 const source = intermediate["type"][1]["type"][1]["entries"]
                                                 const target: { [key:string]: __entries_T} = {}
-                                                Object.keys(source).forEach((key) => {
+                                                pr.Objectkeys(source).forEach((key) => {
                                                     const entry = source[key]
                                                     target[key] = {
                                                         "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
@@ -6090,7 +6091,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                                             "members": intermediate["type"][1]["type"][1]["strategy"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_inline_T> => {{
                                                                 const source = intermediate["type"][1]["type"][1]["strategy"][1]["members"]
                                                                 const target: { [key:string]: __members_inline_T} = {}
-                                                                Object.keys(source).forEach((key) => {
+                                                                pr.Objectkeys(source).forEach((key) => {
                                                                     const entry = source[key]
                                                                     target[key] = {
                                                                         "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
@@ -6171,7 +6172,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "parameters": intermediate["parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__parameters_T> => {{
                 const source = intermediate["parameters"]
                 const target: { [key:string]: __parameters_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "type": entry["type"] === undefined ? [ "group", {
@@ -6183,7 +6184,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                         "members": entry["type"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_group_T> => {{
                                             const source = entry["type"][1]["members"]
                                             const target: { [key:string]: __members_group_T} = {}
-                                            Object.keys(source).forEach((key) => {
+                                            pr.Objectkeys(source).forEach((key) => {
                                                 const entry = source[key]
                                                 target[key] = {
                                                     "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
@@ -6317,7 +6318,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "type arguments": intermediate["type arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__type_arguments_T> => {{
                 const source = intermediate["type arguments"]
                 const target: { [key:string]: __type_arguments_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "type": entry["type"] === undefined ? "*type argument type*" : entry["type"],
@@ -6494,7 +6495,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "markers": intermediate["markers"] === undefined ? createDictionary({}) : ((): IDictionary<__markers_T> => {{
                 const source = intermediate["markers"]
                 const target: { [key:string]: __markers_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "selection": entry["selection"] === undefined ? _default_generateBuilder_context_selection() : _generateBuilder_context_selection(entry["selection"]),
@@ -6505,7 +6506,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "nested procedures": intermediate["nested procedures"] === undefined ? createDictionary({}) : ((): IDictionary<__nested_procedures_T> => {{
                 const source = intermediate["nested procedures"]
                 const target: { [key:string]: __nested_procedures_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "specification": entry["specification"] === undefined ? _default_generateBuilder_internal_procedure_specification() : _generateBuilder_internal_procedure_specification(entry["specification"]),
@@ -6529,7 +6530,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "states": intermediate["states"] === undefined ? createDictionary({}) : ((): IDictionary<__states_T> => {{
                 const source = intermediate["states"]
                 const target: { [key:string]: __states_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "type": entry["type"] === undefined ? [ "string", {
@@ -6582,7 +6583,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "interface arguments": intermediate["interface arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__interface_arguments_T> => {{
                 const source = intermediate["interface arguments"]
                 const target: { [key:string]: __interface_arguments_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
@@ -6607,7 +6608,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "function implementations": intermediate["function implementations"] === undefined ? createDictionary({}) : ((): IDictionary<__function_implementations_T> => {{
                 const source = intermediate["function implementations"]
                 const target: { [key:string]: __function_implementations_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),
@@ -6616,7 +6617,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_T> => {{
                             const source = entry["type parameters"]
                             const target: { [key:string]: __type_parameters_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                 }
@@ -6630,13 +6631,13 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "namespaces": intermediate["namespaces"] === undefined ? createDictionary({}) : ((): IDictionary<__namespaces_T> => {{
                 const source = intermediate["namespaces"]
                 const target: { [key:string]: __namespaces_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "function declarations": entry["function declarations"] === undefined ? createDictionary({}) : ((): IDictionary<__function_declarations_T> => {{
                             const source = entry["function declarations"]
                             const target: { [key:string]: __function_declarations_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                     "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
@@ -6647,13 +6648,13 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "interface builders": entry["interface builders"] === undefined ? createDictionary({}) : ((): IDictionary<__interface_builders_T> => {{
                             const source = entry["interface builders"]
                             const target: { [key:string]: __interface_builders_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                     "methods": entry["methods"] === undefined ? createDictionary({}) : ((): IDictionary<__methods_T> => {{
                                         const source = entry["methods"]
                                         const target: { [key:string]: __methods_T} = {}
-                                        Object.keys(source).forEach((key) => {
+                                        pr.Objectkeys(source).forEach((key) => {
                                             const entry = source[key]
                                             target[key] = {
                                                 "declaration": entry["declaration"] === undefined ? _default_generateBuilder_builder_procedure_declaration() : _generateBuilder_builder_procedure_declaration(entry["declaration"]),
@@ -6668,7 +6669,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "interfaces": entry["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_namespaces_T> => {{
                             const source = entry["interfaces"]
                             const target: { [key:string]: __interfaces_namespaces_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                     "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
@@ -6679,13 +6680,13 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "procedure declarations": entry["procedure declarations"] === undefined ? createDictionary({}) : ((): IDictionary<__procedure_declarations_T> => {{
                             const source = entry["procedure declarations"]
                             const target: { [key:string]: __procedure_declarations_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                     "builders": entry["builders"] === undefined ? createDictionary({}) : ((): IDictionary<__builders_T> => {{
                                         const source = entry["builders"]
                                         const target: { [key:string]: __builders_T} = {}
-                                        Object.keys(source).forEach((key) => {
+                                        pr.Objectkeys(source).forEach((key) => {
                                             const entry = source[key]
                                             target[key] = {
                                                 "builder": entry["builder"] === undefined ? "*referenced builder*" : entry["builder"],
@@ -6698,7 +6699,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                     "functions": entry["functions"] === undefined ? createDictionary({}) : ((): IDictionary<__functions_T> => {{
                                         const source = entry["functions"]
                                         const target: { [key:string]: __functions_T} = {}
-                                        Object.keys(source).forEach((key) => {
+                                        pr.Objectkeys(source).forEach((key) => {
                                             const entry = source[key]
                                             target[key] = {
                                                 "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
@@ -6709,7 +6710,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                     "interfaces": entry["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_procedure_declarations_T> => {{
                                         const source = entry["interfaces"]
                                         const target: { [key:string]: __interfaces_procedure_declarations_T} = {}
-                                        Object.keys(source).forEach((key) => {
+                                        pr.Objectkeys(source).forEach((key) => {
                                             const entry = source[key]
                                             target[key] = {
                                                 "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
@@ -6737,7 +6738,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_namespaces_T> => {{
                             const source = entry["type parameters"]
                             const target: { [key:string]: __type_parameters_namespaces_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                 }
@@ -6747,7 +6748,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "types": entry["types"] === undefined ? createDictionary({}) : ((): IDictionary<__types_T> => {{
                             const source = entry["types"]
                             const target: { [key:string]: __types_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                     "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
@@ -6762,7 +6763,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "procedure implementations": intermediate["procedure implementations"] === undefined ? createDictionary({}) : ((): IDictionary<__procedure_implementations_T> => {{
                 const source = intermediate["procedure implementations"]
                 const target: { [key:string]: __procedure_implementations_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "block": entry["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(entry["block"]),
@@ -6771,7 +6772,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                         "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_procedure_implementations_T> => {{
                             const source = entry["type parameters"]
                             const target: { [key:string]: __type_parameters_procedure_implementations_T} = {}
-                            Object.keys(source).forEach((key) => {
+                            pr.Objectkeys(source).forEach((key) => {
                                 const entry = source[key]
                                 target[key] = {
                                 }
@@ -6860,7 +6861,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                             "properties": intermediate["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_T> => {{
                                 const source = intermediate["type"][1]["properties"]
                                 const target: { [key:string]: __properties_T} = {}
-                                Object.keys(source).forEach((key) => {
+                                pr.Objectkeys(source).forEach((key) => {
                                     const entry = source[key]
                                     target[key] = {
                                         "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
@@ -6884,7 +6885,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                             "options": intermediate["type"][1]["options"] === undefined ? createDictionary({}) : ((): IDictionary<__options_T> => {{
                                 const source = intermediate["type"][1]["options"]
                                 const target: { [key:string]: __options_T} = {}
-                                Object.keys(source).forEach((key) => {
+                                pr.Objectkeys(source).forEach((key) => {
                                     const entry = source[key]
                                     target[key] = {
                                         "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
@@ -6953,7 +6954,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                                             "properties": intermediate["strategy"][1]["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_group_T> => {{
                                                 const source = intermediate["strategy"][1]["type"][1]["properties"]
                                                 const target: { [key:string]: __properties_group_T} = {}
-                                                Object.keys(source).forEach((key) => {
+                                                pr.Objectkeys(source).forEach((key) => {
                                                     const entry = source[key]
                                                     target[key] = {
                                                         "expression": entry["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["expression"]),
@@ -7000,7 +7001,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
                             "options": intermediate["strategy"][1]["options"] === undefined ? createDictionary({}) : ((): IDictionary<__options_switch_T> => {{
                                 const source = intermediate["strategy"][1]["options"]
                                 const target: { [key:string]: __options_switch_T} = {}
-                                Object.keys(source).forEach((key) => {
+                                pr.Objectkeys(source).forEach((key) => {
                                     const entry = source[key]
                                     target[key] = {
                                         "expression": entry["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["expression"]),
@@ -7034,7 +7035,7 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "functions": intermediate["functions"] === undefined ? createDictionary({}) : ((): IDictionary<__functions_type_expression_block_T> => {{
                 const source = intermediate["functions"]
                 const target: { [key:string]: __functions_type_expression_block_T} = {}
-                Object.keys(source).forEach((key) => {
+                pr.Objectkeys(source).forEach((key) => {
                     const entry = source[key]
                     target[key] = {
                         "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),

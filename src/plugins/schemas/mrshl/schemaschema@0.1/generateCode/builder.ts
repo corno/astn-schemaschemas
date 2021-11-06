@@ -1,6 +1,4 @@
 /* eslint
-    "camelcase": "off",
-    "max-len": "off",
     "@typescript-eslint/no-unused-vars": "off",
 */
 import * as def from "../types"

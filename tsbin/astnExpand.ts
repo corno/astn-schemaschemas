@@ -1,34 +1,34 @@
-import * as p20 from "pareto-20"
-import * as fs from "fs"
+import * as pr from "pareto-runtime"
 import * as astn from "astn"
-import * as path from "path"
 import * as ass from "../src"
 import * as env from "../src/env"
 import { defaultSchemaHost } from "../src"
 
 
-const [, , sourcePath] = process.argv
+const sourcePath = pr.getElement(pr.getProcessArguments(), 2)
 
 if (sourcePath === undefined) {
-    console.error("missing source path")
-    process.exit(1)
+    pr.logError("missing source path")
+    pr.processExit(1)
 }
 
 function printDiagnostic(message: string, severity: astn.DiagnosticSeverity) {
-    if (severity === astn.DiagnosticSeverity.warning) {
-        console.warn(message)
+    if (severity[0] === "warning") {
+        pr.logWarning(message)
     } else {
-        console.error(message)
+        pr.logError(message)
     }
 }
 
-const cacheDir = __dirname + "/../../schemacache"
+const cacheDir = "./schemacache"
 
+
+const stdout = pr.createStdOut()
 
 ass.createNormalizer(
-    path.basename(sourcePath),
+    pr.basename(sourcePath),
     env.createFileSystemResourceProvider(
-        path.dirname(sourcePath),
+        pr.dirname(sourcePath),
     ),
     env.createCachedResourceProvider(
         env.createHTTPResourceProvider(
@@ -39,12 +39,9 @@ ass.createNormalizer(
     ),
     printDiagnostic,
     ["expanded", { omitPropertiesWithDefaultValues: false }],
-    (str) => process.stdout.write(str)
-).mapResult((normalizer) => {
-    return p20.createArray([fs.readFileSync(sourcePath, {encoding: "utf-8"})]).streamify().consume(
-        null,
-        normalizer,
-    )
-}).handle(() => {
-    //
-})
+    (str) => stdout.write(str),
+    (normalizer) => {
+        normalizer.onData(pr.readFileSync(sourcePath))
+        normalizer.onEnd(null)
+    }
+)

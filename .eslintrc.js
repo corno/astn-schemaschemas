@@ -38,6 +38,7 @@ module.exports = {
             }
         ],
         "@typescript-eslint/no-empty-interface": "error",
+        "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/no-namespace": "error",
