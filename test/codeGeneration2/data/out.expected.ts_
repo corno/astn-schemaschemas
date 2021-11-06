@@ -204,87 +204,75 @@ type lang_string_T = string
 
 export function build_fi($c: build_root_T): core_root_T {
 
-    function buildDefault_root_fi() {
+    function buildDefault_root_fi {
         return {
             "projects": {},
         }
     }
 
-    function build_root_fi($c: build_root): core_root_T {
+    function build_root_fi {
         return {
-            "projects": (
-                $c.projects === undefined
-                    ? createDictionary({})
-                    : mapDictionary($c.projects, ($c) => {
-                        return {
-                            "tasks": (
-                                $c.tasks === undefined
-                                    ? createDictionary({})
-                                    : mapDictionary($c.tasks, ($c) => {
-                                        return {
-                                            "action holder": ($c["action holder"] === undefined
-                                                ? "ikke"
-                                                : $c["action holder"]
-                                            ),
-                                            "cost": ($c["cost"] === undefined
-                        ? 0
-                        : $c["cost"]
-                    ),
-                    "description": navigate(),
-                    "enddate": ($c["enddate"] === undefined
-                        ? ""
-                        : $c["enddate"]
-                    ),
-                                            "involved team members": (
-                                                $c["involved team members"] === undefined
-                                                    ? createDictionary({})
-                                                    : mapDictionary($c["involved team members"], ($c) => {
-                                                        return {
-                                                        }
-                                                    })
-                                            ),
-                                            "priority": ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P => {
-                                                return cc($c.priority, ($c) => {
-                                                    if ($c === undefined) {
-                                                        return ["Medium", {}]
-                                                    }
-                                                    switch ($c[0]) {
-                                                        case "High": {
-                                                            return cc($c[1], ($c) => {
-                                                                return ["High", ""]
-                                                            })
-                                                        }
-                                                        case "Low": {
-                                                            return cc($c[1], ($c) => {
-                                                                return ["Low", ""]
-                                                            })
-                                                        }
-                                                        case "Medium": {
-                                                            return cc($c[1], ($c) => {
-                                                                return ["Medium", ""]
-                                                            })
-                                                        }
-                                                        default: return assertUnreachable($c[0])
-                                                    }
-                                                })
-                                            })(),
-                                            "startdate": ($c.startdate === undefined
-                                                ? ""
-                                                : $c.startdate
-                                            ),
-
-                                        }
-                                    })
-                            ),
+            "projects": ((): build_root_G_projects_P => {
+                const FOO = $c
+            })()FIXMEMAP{
+                "tasks": ((): build_root_G_projects_P_D_G_tasks_P => {
+                    const FOO = $c
+                })()FIXMEMAP{
+                    "action holder": ((): build_root_G_projects_P_D_G_tasks_P_D_G_action_holder_P => {
+                        const FOO = $c
+                        FIXME STEP action holder
+                    })()FIXME COPY,
+                    "cost": ((): build_root_G_projects_P_D_G_tasks_P_D_G_cost_P => {
+                        const FOO = $c
+                        FIXME STEP cost
+                    })()FIXME COPY,
+                    "description": ((): build_root_G_projects_P_D_G_tasks_P_D_G_description_P => {
+                        const FOO = $c
+                        FIXME STEP description
+                    })()FIXME COPY,
+                    "enddate": ((): build_root_G_projects_P_D_G_tasks_P_D_G_enddate_P => {
+                        const FOO = $c
+                        FIXME STEP enddate
+                    })()FIXME COPY,
+                    "involved team members": ((): build_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P => {
+                        const FOO = $c
+                    })()FIXMEMAP{},
+                    "priority": ((): build_root_G_projects_P_D_G_tasks_P_D_G_priority_P => {
+                        if ($c === undefined) {
+                            return ["Medium", {}]
                         }
-                        // "tasks": $c.priorityMEMAP{
-
-                        // },
-                    })
-            ),
+                        const FOO = $c
+                    })()switch ($c[0]) {
+                        case "High": {
+                            return cc($c[1], ($c) => {
+                                return ["High", ""]
+                            })
+                        }
+                        case "Low": {
+                            return cc($c[1], ($c) => {
+                                return ["Low", ""]
+                            })
+                        }
+                        case "Medium": {
+                            return cc($c[1], ($c) => {
+                                return ["Medium", ""]
+                            })
+                        }
+                        default: return assertUnreachable($c[0])
+                    },
+                    "startdate": ((): build_root_G_projects_P_D_G_tasks_P_D_G_startdate_P => {
+                        const FOO = $c
+                        FIXME STEP startdate
+                    })()FIXME COPY,
+                },
+            },
         }
     }
-    return build_root_fi($c)
+    return ((): build_root => {
+        const FOO = build_root_fi(((): build_root => {
+            const FOO = $c
+        })()FIXME COPY)
+    })()FIXME COPY
 }
 
 export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
@@ -320,7 +308,9 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                             return wrap_NIC({
                                 "handler": $b.context.expectDictionary({
                                     "onProperty": ($c) => {
-                                        const y_m = $c
+                                        const y_m = (() => {
+                                            const FOO = $c
+                                        })()
                                         return wrap_NIC({
                                             "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                 function temp_NIC($ip: {
@@ -339,7 +329,9 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                     return wrap_NIC({
                                                                         "handler": $b.context.expectDictionary({
                                                                             "onProperty": ($c) => {
-                                                                                const y_m = $c
+                                                                                const y_m = (() => {
+                                                                                    const FOO = $c
+                                                                                })()
                                                                                 return wrap_NIC({
                                                                                     "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                         function temp_NIC($ip: {
@@ -355,13 +347,27 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                             return $b.context.expectVerboseGroup({
                                                                                                 "onEnd": ($c) => {
                                                                                                     $ip.out({
-                                                                                                        "action holder": action_holder,
-                                                                                                        "cost": $f["stringToNumber"](cost),
-                                                                                                        "description": description,
-                                                                                                        "enddate": enddate,
+                                                                                                        "action holder": ((): core_root_G_action_holder_P => {
+                                                                                                            const FOO = action_holder_s
+                                                                                                        })()FIXME COPY,
+                                                                                                        "cost": ((): core_root_G_cost_P => {
+                                                                                                            const FOO = $f["stringToNumber"](((): lang_number => {
+                                                                                                                const FOO = cost_s
+                                                                                                            })()FIXME COPY)
+                                                                                                        })()FIXME COPY,
+                                                                                                        "description": ((): core_root_G_description_P => {
+                                                                                                            const FOO = description_s
+                                                                                                        })()FIXME COPY,
+                                                                                                        "enddate": ((): core_root_G_enddate_P => {
+                                                                                                            const FOO = enddate_s
+                                                                                                        })()FIXME COPY,
                                                                                                         "involved team members": createDictionary(involved_team_members),
-                                                                                                        "priority": priority,
-                                                                                                        "startdate": startdate,
+                                                                                                        "priority": ((): core_root_G_priority_P => {
+                                                                                                            const FOO = priority_s
+                                                                                                        })()FIXME COPY,
+                                                                                                        "startdate": ((): core_root_G_startdate_P => {
+                                                                                                            const FOO = startdate_s
+                                                                                                        })()FIXME COPY,
                                                                                                     })
                                                                                                 },
                                                                                                 "properties": {
@@ -369,7 +375,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                         "onExists": ($c) => {
                                                                                                             return $b.context.expectQuotedString({
                                                                                                                 "callback": ($c) => {
-                                                                                                                    action_holder = $c.token.data.value
+                                                                                                                    action_holder = (() => {
+                                                                                                                        const FOO = $c
+                                                                                                                        FIXME STEP token
+                                                                                                                        FIXME STEP data
+                                                                                                                        FIXME STEP value
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -378,7 +389,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                         "onExists": ($c) => {
                                                                                                             return $b.context.expectQuotedString({
                                                                                                                 "callback": ($c) => {
-                                                                                                                    cost = $c.token.data.value
+                                                                                                                    cost = (() => {
+                                                                                                                        const FOO = $c
+                                                                                                                        FIXME STEP token
+                                                                                                                        FIXME STEP data
+                                                                                                                        FIXME STEP value
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -387,7 +403,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                         "onExists": ($c) => {
                                                                                                             return $b.context.expectQuotedString({
                                                                                                                 "callback": ($c) => {
-                                                                                                                    description = $c.token.data.value
+                                                                                                                    description = (() => {
+                                                                                                                        const FOO = $c
+                                                                                                                        FIXME STEP token
+                                                                                                                        FIXME STEP data
+                                                                                                                        FIXME STEP value
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -396,7 +417,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                         "onExists": ($c) => {
                                                                                                             return $b.context.expectQuotedString({
                                                                                                                 "callback": ($c) => {
-                                                                                                                    enddate = $c.token.data.value
+                                                                                                                    enddate = (() => {
+                                                                                                                        const FOO = $c
+                                                                                                                        FIXME STEP token
+                                                                                                                        FIXME STEP data
+                                                                                                                        FIXME STEP value
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -406,7 +432,9 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                             return wrap_NIC({
                                                                                                                 "handler": $b.context.expectDictionary({
                                                                                                                     "onProperty": ($c) => {
-                                                                                                                        const y_m = $c
+                                                                                                                        const y_m = (() => {
+                                                                                                                            const FOO = $c
+                                                                                                                        })()
                                                                                                                         return wrap_NIC({
                                                                                                                             "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                                                                 function temp_NIC($ip: {
@@ -421,7 +449,14 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                 }
                                                                                                                                 return temp_NIC({
                                                                                                                                     "out": ($c) => {
-                                                                                                                                        involved_team_members[y_m.token.data.value] = $c
+                                                                                                                                        involved_team_members[(() => {
+                                                                                                                                            const FOO = y_m
+                                                                                                                                            FIXME STEP token
+                                                                                                                                            FIXME STEP data
+                                                                                                                                            FIXME STEP value
+                                                                                                                                        })()FIXME COPY STRING] = ((): core_root_G_projects_P_D_G_tasks_P_D_G_involved_team_members_P => {
+                                                                                                                                            const FOO = $c
+                                                                                                                                        })()FIXME COPY
                                                                                                                                     },
                                                                                                                                 })
                                                                                                                             })({}),
@@ -437,7 +472,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                 "options": {
                                                                                                                     "High": ($c) => {
                                                                                                                         return wrap_NIC({
-                                                                                                                            "handler": (($c) => {
+                                                                                                                            "handler": ($c) => {
                                                                                                                                 return wrap_NIC({
                                                                                                                                     "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                                                                         function temp_NIC($ip: {
@@ -452,17 +487,19 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                         }
                                                                                                                                         return temp_NIC({
                                                                                                                                             "out": ($c) => {
-                                                                                                                                                priority = ["High", $c]
+                                                                                                                                                priority = ["High", ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_High_O => {
+                                                                                                                                                    const FOO = $c
+                                                                                                                                                })()FIXME COPY]
                                                                                                                                             },
                                                                                                                                         })
                                                                                                                                     })({}),
                                                                                                                                 })
-                                                                                                                            })(),
+                                                                                                                            },
                                                                                                                         })
                                                                                                                     },
                                                                                                                     "Low": ($c) => {
                                                                                                                         return wrap_NIC({
-                                                                                                                            "handler": (($c) => {
+                                                                                                                            "handler": ($c) => {
                                                                                                                                 return wrap_NIC({
                                                                                                                                     "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                                                                         function temp_NIC($ip: {
@@ -477,17 +514,19 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                         }
                                                                                                                                         return temp_NIC({
                                                                                                                                             "out": ($c) => {
-                                                                                                                                                priority = ["Low", $c]
+                                                                                                                                                priority = ["Low", ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Low_O => {
+                                                                                                                                                    const FOO = $c
+                                                                                                                                                })()FIXME COPY]
                                                                                                                                             },
                                                                                                                                         })
                                                                                                                                     })({}),
                                                                                                                                 })
-                                                                                                                            })(),
+                                                                                                                            },
                                                                                                                         })
                                                                                                                     },
                                                                                                                     "Medium": ($c) => {
                                                                                                                         return wrap_NIC({
-                                                                                                                            "handler": (($c) => {
+                                                                                                                            "handler": ($c) => {
                                                                                                                                 return wrap_NIC({
                                                                                                                                     "handler": (($ip: {}): deserialize_api_ValueHandler_I<NonTokenAnnotation, TokenAnnotation> => {
                                                                                                                                         function temp_NIC($ip: {
@@ -502,12 +541,14 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                                                         }
                                                                                                                                         return temp_NIC({
                                                                                                                                             "out": ($c) => {
-                                                                                                                                                priority = ["Medium", $c]
+                                                                                                                                                priority = ["Medium", ((): core_root_G_projects_P_D_G_tasks_P_D_G_priority_P_TU_Medium_O => {
+                                                                                                                                                    const FOO = $c
+                                                                                                                                                })()FIXME COPY]
                                                                                                                                             },
                                                                                                                                         })
                                                                                                                                     })({}),
                                                                                                                                 })
-                                                                                                                            })(),
+                                                                                                                            },
                                                                                                                         })
                                                                                                                     },
                                                                                                                 },
@@ -518,7 +559,12 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                                         "onExists": ($c) => {
                                                                                                             return $b.context.expectQuotedString({
                                                                                                                 "callback": ($c) => {
-                                                                                                                    startdate = $c.token.data.value
+                                                                                                                    startdate = (() => {
+                                                                                                                        const FOO = $c
+                                                                                                                        FIXME STEP token
+                                                                                                                        FIXME STEP data
+                                                                                                                        FIXME STEP value
+                                                                                                                    })()FIXME COPY STRING
                                                                                                                 },
                                                                                                             })
                                                                                                         },
@@ -528,7 +574,14 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                                                         }
                                                                                         return temp_NIC({
                                                                                             "out": ($c) => {
-                                                                                                tasks[y_m.token.data.value] = $c
+                                                                                                tasks[(() => {
+                                                                                                    const FOO = y_m
+                                                                                                    FIXME STEP token
+                                                                                                    FIXME STEP data
+                                                                                                    FIXME STEP value
+                                                                                                })()FIXME COPY STRING] = ((): core_root_G_projects_P_D_G_tasks_P => {
+                                                                                                    const FOO = $c
+                                                                                                })()FIXME COPY
                                                                                             },
                                                                                         })
                                                                                     })({}),
@@ -543,7 +596,14 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
                                                 }
                                                 return temp_NIC({
                                                     "out": ($c) => {
-                                                        projects[y_m.token.data.value] = $c
+                                                        projects[(() => {
+                                                            const FOO = y_m
+                                                            FIXME STEP token
+                                                            FIXME STEP data
+                                                            FIXME STEP value
+                                                        })()FIXME COPY STRING] = ((): core_root_G_projects_P => {
+                                                            const FOO = $c
+                                                        })()FIXME COPY
                                                     },
                                                 })
                                             })({}),
@@ -558,7 +618,9 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
         }
         return temp_NIC({
             "out": ($c) => {
-                $ip.callback($c)
+                $ip.callback(((): core_root => {
+                    const FOO = $c
+                })()FIXME COPY)
             },
         })
     }
@@ -567,7 +629,7 @@ export function createDeserializer_pi<NonTokenAnnotation, TokenAnnotation>(
     }): deserialize_api_RequiredValueHandler_I<NonTokenAnnotation, TokenAnnotation> {
         return {
             "exists": $ip["handler"],
-            "missing": ($c) => { },
+            "missing": ($c) => {},
         }
     }
     return wrap_NIC({
