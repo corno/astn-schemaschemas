@@ -3,7 +3,7 @@
     "max-len": "off",
     "@typescript-eslint/no-unused-vars": "off",
 */
-import * as t from "../../../../../lowlevel/generated/lowlevel"
+import * as t from "../../../../../lowlevel/lowlevel.generated"
 
 export function generateDeserializeAPI(
 ): t.__namespaces_B {

@@ -776,11 +776,11 @@ export type __type_reference_T = {
 }
 
 export type __interfaces_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __interface_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __void_B = {
@@ -791,28 +791,28 @@ export type __return_type_TU_Builder =
     | ["void", __void_B]
 
 export type __builder_procedure_declaration_B = {
-    readonly "interfaces" ?: { [key:string]: __interfaces_B } //| (add: (key: string, entry: __interfaces_B ) => void )
-    readonly "return type" ?: __return_type_TU_Builder
+    readonly "interfaces"?: { [key: string]: __interfaces_B } //| (add: (key: string, entry: __interfaces_B ) => void )
+    readonly "return type"?: __return_type_TU_Builder
 }
 
 export type __steps_B = {
-    readonly "property" ?: string
+    readonly "property"?: string
 }
 
 export type __context_selection_B = {
-    readonly "start" ?: __context_start_B
-    readonly "steps" ?: __steps_B[] //| { callback: (value: __steps_B ) => void }
+    readonly "start"?: __context_start_B
+    readonly "steps"?: __steps_B[] //| { callback: (value: __steps_B ) => void }
 }
 
 export type __context_B = {
 }
 
 export type __argument_B = {
-    readonly "function" ?: string
+    readonly "function"?: string
 }
 
 export type __local_function_B = {
-    readonly "function" ?: string
+    readonly "function"?: string
 }
 
 export type __context_TU_Builder =
@@ -820,16 +820,16 @@ export type __context_TU_Builder =
     | ["local function", __local_function_B]
 
 export type __function_B = {
-    readonly "argument" ?: __type_expression_B
-    readonly "context" ?: __context_TU_Builder
+    readonly "argument"?: __type_expression_B
+    readonly "context"?: __context_TU_Builder
 }
 
 export type __marked_value_B = {
-    readonly "marker" ?: string
+    readonly "marker"?: string
 }
 
 export type __state_B = {
-    readonly "state" ?: string
+    readonly "state"?: string
 }
 
 export type __start_TU_Builder =
@@ -839,39 +839,39 @@ export type __start_TU_Builder =
     | ["state", __state_B]
 
 export type __context_start_B = {
-    readonly "start" ?: __start_TU_Builder
+    readonly "start"?: __start_TU_Builder
 }
 
 export type __function_declaration_B = {
-    readonly "in" ?: __type_reference_B
-    readonly "out" ?: __type_reference_B
+    readonly "in"?: __type_reference_B
+    readonly "out"?: __type_reference_B
 }
 
 export type __steps_guaranteed_context_selection_B = {
-    readonly "missing handler" ?: __missing_handler_B
-    readonly "property" ?: string
+    readonly "missing handler"?: __missing_handler_B
+    readonly "property"?: string
 }
 
 export type __guaranteed_context_selection_B = {
-    readonly "missing handler" ?: __missing_handler_B
-    readonly "start" ?: __context_start_B
-    readonly "steps" ?: __steps_guaranteed_context_selection_B[] //| { callback: (value: __steps_guaranteed_context_selection_B ) => void }
+    readonly "missing handler"?: __missing_handler_B
+    readonly "start"?: __context_start_B
+    readonly "steps"?: __steps_guaranteed_context_selection_B[] //| { callback: (value: __steps_guaranteed_context_selection_B ) => void }
 }
 
 export type __dictionary_B = {
-    readonly "entry" ?: __interface_definition_B
+    readonly "entry"?: __interface_definition_B
 }
 
 export type __members_B = {
-    readonly "definition" ?: __interface_definition_B
+    readonly "definition"?: __interface_definition_B
 }
 
 export type __group_B = {
-    readonly "members" ?: { [key:string]: __members_B } //| (add: (key: string, entry: __members_B ) => void )
+    readonly "members"?: { [key: string]: __members_B } //| (add: (key: string, entry: __members_B ) => void )
 }
 
 export type __interface_return_type_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __void_return_type_B = {
@@ -882,13 +882,13 @@ export type __return_type_method_TU_Builder =
     | ["void", __void_return_type_B]
 
 export type __method_B = {
-    readonly "return type" ?: __return_type_method_TU_Builder
-    readonly "type" ?: __type_reference_B
+    readonly "return type"?: __return_type_method_TU_Builder
+    readonly "type"?: __type_reference_B
 }
 
 export type __reference_B = {
-    readonly "interface" ?: string
-    readonly "namespace selection" ?: __namespace_selection_B
+    readonly "interface"?: string
+    readonly "namespace selection"?: __namespace_selection_B
 }
 
 export type __type_TU_Builder =
@@ -898,47 +898,47 @@ export type __type_TU_Builder =
     | ["reference", __reference_B]
 
 export type __interface_definition_B = {
-    readonly "type" ?: __type_TU_Builder
+    readonly "type"?: __type_TU_Builder
 }
 
 export type __argument_type_B = {
-    readonly "argument" ?: string
+    readonly "argument"?: string
 }
 
 export type __entries_B = {
-    readonly "expression" ?: __interface_expression_B
+    readonly "expression"?: __interface_expression_B
 }
 
 export type __dictionary_type_B = {
-    readonly "entries" ?: { [key:string]: __entries_B } //| (add: (key: string, entry: __entries_B ) => void )
+    readonly "entries"?: { [key: string]: __entries_B } //| (add: (key: string, entry: __entries_B ) => void )
 }
 
 export type __members_inline_B = {
-    readonly "expression" ?: __interface_expression_B
+    readonly "expression"?: __interface_expression_B
 }
 
 export type __inline_B = {
-    readonly "members" ?: { [key:string]: __members_inline_B } //| (add: (key: string, entry: __members_inline_B ) => void )
+    readonly "members"?: { [key: string]: __members_inline_B } //| (add: (key: string, entry: __members_inline_B ) => void )
 }
 
 export type __strategy_TU_Builder =
     | ["inline", __inline_B]
 
 export type __group_type_B = {
-    readonly "strategy" ?: __strategy_TU_Builder
+    readonly "strategy"?: __strategy_TU_Builder
 }
 
 export type __argument_strategy_B = {
-    readonly "argument" ?: string
+    readonly "argument"?: string
 }
 
 export type __inline_procedure_B = {
-    readonly "call" ?: __procedure_call_B
-    readonly "specification" ?: __internal_procedure_specification_B
+    readonly "call"?: __procedure_call_B
+    readonly "specification"?: __internal_procedure_specification_B
 }
 
 export type __procedure_implementation_B = {
-    readonly "block" ?: __procedure_block_B
+    readonly "block"?: __procedure_block_B
 }
 
 export type __strategy_method_TU_Builder =
@@ -947,18 +947,18 @@ export type __strategy_method_TU_Builder =
     | ["procedure implementation", __procedure_implementation_B]
 
 export type __method_type_B = {
-    readonly "strategy" ?: __strategy_method_TU_Builder
+    readonly "strategy"?: __strategy_method_TU_Builder
 }
 
 export type __procedure_call6_B = {
-    readonly "procedure call" ?: __named_procedure_call_B
+    readonly "procedure call"?: __named_procedure_call_B
 }
 
 export type __strategy_reference_TU_Builder =
     | ["procedure call6", __procedure_call6_B]
 
 export type __reference_type_B = {
-    readonly "strategy" ?: __strategy_reference_TU_Builder
+    readonly "strategy"?: __strategy_reference_TU_Builder
 }
 
 export type __type_initialize_TU_Builder =
@@ -968,7 +968,7 @@ export type __type_initialize_TU_Builder =
     | ["reference", __reference_type_B]
 
 export type __initialize_B = {
-    readonly "type" ?: __type_initialize_TU_Builder
+    readonly "type"?: __type_initialize_TU_Builder
 }
 
 export type __type_interface_expression_TU_Builder =
@@ -976,19 +976,19 @@ export type __type_interface_expression_TU_Builder =
     | ["initialize", __initialize_B]
 
 export type __interface_expression_B = {
-    readonly "type" ?: __type_interface_expression_TU_Builder
+    readonly "type"?: __type_interface_expression_TU_Builder
 }
 
 export type __members_group_B = {
-    readonly "definition" ?: __interface_definition_B
+    readonly "definition"?: __interface_definition_B
 }
 
 export type __group_type_parameters_B = {
-    readonly "members" ?: { [key:string]: __members_group_B } //| (add: (key: string, entry: __members_group_B ) => void )
+    readonly "members"?: { [key: string]: __members_group_B } //| (add: (key: string, entry: __members_group_B ) => void )
 }
 
 export type __interface_return_type_method_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __void_return_type_method_B = {
@@ -999,13 +999,13 @@ export type __return_type_method_type_TU_Builder =
     | ["void", __void_return_type_method_B]
 
 export type __method_type_parameters_B = {
-    readonly "return type" ?: __return_type_method_type_TU_Builder
-    readonly "type" ?: __nested_type_reference_B
+    readonly "return type"?: __return_type_method_type_TU_Builder
+    readonly "type"?: __nested_type_reference_B
 }
 
 export type __reference_type_parameters_B = {
-    readonly "interface" ?: string
-    readonly "namespace selection" ?: __namespace_selection_B
+    readonly "interface"?: string
+    readonly "namespace selection"?: __namespace_selection_B
 }
 
 export type __type_parameters_TU_Builder =
@@ -1014,11 +1014,11 @@ export type __type_parameters_TU_Builder =
     | ["reference", __reference_type_parameters_B]
 
 export type __parameters_B = {
-    readonly "type" ?: __type_parameters_TU_Builder
+    readonly "type"?: __type_parameters_TU_Builder
 }
 
 export type __interface_return_type_internal_procedure_specification_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __void_return_type_internal_procedure_specification_B = {
@@ -1029,13 +1029,13 @@ export type __return_type_internal_procedure_specification_TU_Builder =
     | ["void", __void_return_type_internal_procedure_specification_B]
 
 export type __internal_procedure_specification_B = {
-    readonly "block" ?: __procedure_block_B
-    readonly "parameters" ?: { [key:string]: __parameters_B } //| (add: (key: string, entry: __parameters_B ) => void )
-    readonly "return type" ?: __return_type_internal_procedure_specification_TU_Builder
+    readonly "block"?: __procedure_block_B
+    readonly "parameters"?: { [key: string]: __parameters_B } //| (add: (key: string, entry: __parameters_B ) => void )
+    readonly "return type"?: __return_type_internal_procedure_specification_TU_Builder
 }
 
 export type __no_B = {
-    readonly "on missing" ?: __type_expression_B
+    readonly "on missing"?: __type_expression_B
 }
 
 export type __yes_B = {
@@ -1046,16 +1046,16 @@ export type __guaranteed_TU_Builder =
     | ["yes", __yes_B]
 
 export type __missing_handler_B = {
-    readonly "guaranteed" ?: __guaranteed_TU_Builder
+    readonly "guaranteed"?: __guaranteed_TU_Builder
 }
 
 export type __external_B = {
-    readonly "builder" ?: string
-    readonly "method" ?: string
+    readonly "builder"?: string
+    readonly "method"?: string
 }
 
 export type __local_B = {
-    readonly "procedure" ?: string
+    readonly "procedure"?: string
 }
 
 export type __type_named_procedure_call_TU_Builder =
@@ -1063,24 +1063,24 @@ export type __type_named_procedure_call_TU_Builder =
     | ["local", __local_B]
 
 export type __named_procedure_call_B = {
-    readonly "procedure call" ?: __procedure_call_B
-    readonly "type" ?: __type_named_procedure_call_TU_Builder
+    readonly "procedure call"?: __procedure_call_B
+    readonly "type"?: __type_named_procedure_call_TU_Builder
 }
 
 export type __type_arguments_B = {
-    readonly "type" ?: string
+    readonly "type"?: string
 }
 
 export type __namespace_reference_B = {
-    readonly "namespace" ?: string
-    readonly "type arguments" ?: { [key:string]: __type_arguments_B } //| (add: (key: string, entry: __type_arguments_B ) => void )
+    readonly "namespace"?: string
+    readonly "type arguments"?: { [key: string]: __type_arguments_B } //| (add: (key: string, entry: __type_arguments_B ) => void )
 }
 
 export type __current_B = {
 }
 
 export type __other_B = {
-    readonly "namespace reference" ?: __namespace_reference_B
+    readonly "namespace reference"?: __namespace_reference_B
 }
 
 export type __which_TU_Builder =
@@ -1088,21 +1088,21 @@ export type __which_TU_Builder =
     | ["other", __other_B]
 
 export type __namespace_selection_B = {
-    readonly "which" ?: __which_TU_Builder
+    readonly "which"?: __which_TU_Builder
 }
 
 export type __dictionary_type_steps_B = {
 }
 
 export type __group_type_steps_B = {
-    readonly "property" ?: string
+    readonly "property"?: string
 }
 
 export type __list_B = {
 }
 
 export type __tagged_union_option_B = {
-    readonly "option" ?: string
+    readonly "option"?: string
 }
 
 export type __type_steps_TU_Builder =
@@ -1112,54 +1112,54 @@ export type __type_steps_TU_Builder =
     | ["tagged union option", __tagged_union_option_B]
 
 export type __steps_nested_type_reference_B = {
-    readonly "type" ?: __type_steps_TU_Builder
+    readonly "type"?: __type_steps_TU_Builder
 }
 
 export type __nested_type_reference_B = {
-    readonly "namespace reference" ?: __namespace_reference_B
-    readonly "steps" ?: __steps_nested_type_reference_B[] //| { callback: (value: __steps_nested_type_reference_B ) => void }
-    readonly "type" ?: string
+    readonly "namespace reference"?: __namespace_reference_B
+    readonly "steps"?: __steps_nested_type_reference_B[] //| { callback: (value: __steps_nested_type_reference_B ) => void }
+    readonly "type"?: string
 }
 
 export type __external_interface_call_B = {
-    readonly "expression" ?: __type_expression_B
-    readonly "interface" ?: string
+    readonly "expression"?: __type_expression_B
+    readonly "interface"?: string
 }
 
 export type __internal_interface_call_B = {
-    readonly "expression" ?: __type_expression_B
-    readonly "interface" ?: string
+    readonly "expression"?: __type_expression_B
+    readonly "interface"?: string
 }
 
 export type __add_entry_B = {
-    readonly "expression" ?: __type_expression_B
-    readonly "key" ?: __string_expression_B
+    readonly "expression"?: __type_expression_B
+    readonly "key"?: __string_expression_B
 }
 
 export type __strategy_dictionary_TU_Builder =
     | ["add entry", __add_entry_B]
 
 export type __dictionary_type_state_change_B = {
-    readonly "strategy" ?: __strategy_dictionary_TU_Builder
+    readonly "strategy"?: __strategy_dictionary_TU_Builder
 }
 
 export type __add_element_B = {
-    readonly "expression" ?: __type_expression_B
+    readonly "expression"?: __type_expression_B
 }
 
 export type __strategy_list_TU_Builder =
     | ["add element", __add_element_B]
 
 export type __list_type_B = {
-    readonly "strategy" ?: __strategy_list_TU_Builder
+    readonly "strategy"?: __strategy_list_TU_Builder
 }
 
 export type __string_B = {
-    readonly "initializer" ?: __string_expression_B
+    readonly "initializer"?: __string_expression_B
 }
 
 export type __type4_B = {
-    readonly "expression" ?: __type_expression_B
+    readonly "expression"?: __type_expression_B
 }
 
 export type __type_state_change_TU_Builder =
@@ -1169,8 +1169,8 @@ export type __type_state_change_TU_Builder =
     | ["type4", __type4_B]
 
 export type __state_change_B = {
-    readonly "state" ?: string
-    readonly "type" ?: __type_state_change_TU_Builder
+    readonly "state"?: string
+    readonly "type"?: __type_state_change_TU_Builder
 }
 
 export type __type_effects_TU_Builder =
@@ -1179,19 +1179,19 @@ export type __type_effects_TU_Builder =
     | ["state change", __state_change_B]
 
 export type __effects_B = {
-    readonly "type" ?: __type_effects_TU_Builder
+    readonly "type"?: __type_effects_TU_Builder
 }
 
 export type __markers_B = {
-    readonly "selection" ?: __context_selection_B
+    readonly "selection"?: __context_selection_B
 }
 
 export type __nested_procedures_B = {
-    readonly "specification" ?: __internal_procedure_specification_B
+    readonly "specification"?: __internal_procedure_specification_B
 }
 
 export type __interface_return_value_B = {
-    readonly "expression" ?: __interface_expression_B
+    readonly "expression"?: __interface_expression_B
 }
 
 export type __void_return_value_B = {
@@ -1202,20 +1202,20 @@ export type __return_value_TU_Builder =
     | ["void", __void_return_value_B]
 
 export type __dictionary_type_states_B = {
-    readonly "type" ?: __nested_type_reference_B
+    readonly "type"?: __nested_type_reference_B
 }
 
 export type __list_type_states_B = {
-    readonly "type" ?: __nested_type_reference_B
+    readonly "type"?: __nested_type_reference_B
 }
 
 export type __string_type_B = {
-    readonly "initial value" ?: string
+    readonly "initial value"?: string
 }
 
 export type __type5_B = {
-    readonly "expression" ?: __type_expression_B
-    readonly "nested type" ?: __nested_type_reference_B
+    readonly "expression"?: __type_expression_B
+    readonly "nested type"?: __nested_type_reference_B
 }
 
 export type __type_states_TU_Builder =
@@ -1225,66 +1225,66 @@ export type __type_states_TU_Builder =
     | ["type5", __type5_B]
 
 export type __states_B = {
-    readonly "type" ?: __type_states_TU_Builder
+    readonly "type"?: __type_states_TU_Builder
 }
 
 export type __procedure_block_B = {
-    readonly "effects" ?: __effects_B[] //| { callback: (value: __effects_B ) => void }
-    readonly "markers" ?: { [key:string]: __markers_B } //| (add: (key: string, entry: __markers_B ) => void )
-    readonly "nested procedures" ?: { [key:string]: __nested_procedures_B } //| (add: (key: string, entry: __nested_procedures_B ) => void )
-    readonly "return value" ?: __return_value_TU_Builder
-    readonly "states" ?: { [key:string]: __states_B } //| (add: (key: string, entry: __states_B ) => void )
+    readonly "effects"?: __effects_B[] //| { callback: (value: __effects_B ) => void }
+    readonly "markers"?: { [key: string]: __markers_B } //| (add: (key: string, entry: __markers_B ) => void )
+    readonly "nested procedures"?: { [key: string]: __nested_procedures_B } //| (add: (key: string, entry: __nested_procedures_B ) => void )
+    readonly "return value"?: __return_value_TU_Builder
+    readonly "states"?: { [key: string]: __states_B } //| (add: (key: string, entry: __states_B ) => void )
 }
 
 export type __interface_arguments_B = {
-    readonly "expression" ?: __interface_expression_B
+    readonly "expression"?: __interface_expression_B
 }
 
 export type __procedure_call_B = {
-    readonly "interface arguments" ?: { [key:string]: __interface_arguments_B } //| (add: (key: string, entry: __interface_arguments_B ) => void )
+    readonly "interface arguments"?: { [key: string]: __interface_arguments_B } //| (add: (key: string, entry: __interface_arguments_B ) => void )
 }
 
 export type __type_parameters_B = {
 }
 
 export type __function_implementations_B = {
-    readonly "block" ?: __type_expression_block_B
-    readonly "declaration" ?: string
-    readonly "namespace reference" ?: __namespace_reference_B
-    readonly "type parameters" ?: { [key:string]: __type_parameters_B } //| (add: (key: string, entry: __type_parameters_B ) => void )
+    readonly "block"?: __type_expression_block_B
+    readonly "declaration"?: string
+    readonly "namespace reference"?: __namespace_reference_B
+    readonly "type parameters"?: { [key: string]: __type_parameters_B } //| (add: (key: string, entry: __type_parameters_B ) => void )
 }
 
 export type __function_declarations_B = {
-    readonly "declaration" ?: __function_declaration_B
+    readonly "declaration"?: __function_declaration_B
 }
 
 export type __methods_B = {
-    readonly "declaration" ?: __builder_procedure_declaration_B
+    readonly "declaration"?: __builder_procedure_declaration_B
 }
 
 export type __interface_builders_B = {
-    readonly "methods" ?: { [key:string]: __methods_B } //| (add: (key: string, entry: __methods_B ) => void )
+    readonly "methods"?: { [key: string]: __methods_B } //| (add: (key: string, entry: __methods_B ) => void )
 }
 
 export type __interfaces_namespaces_B = {
-    readonly "definition" ?: __interface_definition_B
+    readonly "definition"?: __interface_definition_B
 }
 
 export type __builders_B = {
-    readonly "builder" ?: string
-    readonly "namespace selection" ?: __namespace_selection_B
+    readonly "builder"?: string
+    readonly "namespace selection"?: __namespace_selection_B
 }
 
 export type __functions_B = {
-    readonly "declaration" ?: __function_declaration_B
+    readonly "declaration"?: __function_declaration_B
 }
 
 export type __interfaces_procedure_declarations_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __interface_return_type_procedure_declarations_B = {
-    readonly "interface" ?: __interface_definition_B
+    readonly "interface"?: __interface_definition_B
 }
 
 export type __void_return_type_procedure_declarations_B = {
@@ -1295,55 +1295,55 @@ export type __return_type_procedure_declarations_TU_Builder =
     | ["void", __void_return_type_procedure_declarations_B]
 
 export type __procedure_declarations_B = {
-    readonly "builders" ?: { [key:string]: __builders_B } //| (add: (key: string, entry: __builders_B ) => void )
-    readonly "context" ?: __type_reference_B
-    readonly "functions" ?: { [key:string]: __functions_B } //| (add: (key: string, entry: __functions_B ) => void )
-    readonly "interfaces" ?: { [key:string]: __interfaces_procedure_declarations_B } //| (add: (key: string, entry: __interfaces_procedure_declarations_B ) => void )
-    readonly "return type" ?: __return_type_procedure_declarations_TU_Builder
+    readonly "builders"?: { [key: string]: __builders_B } //| (add: (key: string, entry: __builders_B ) => void )
+    readonly "context"?: __type_reference_B
+    readonly "functions"?: { [key: string]: __functions_B } //| (add: (key: string, entry: __functions_B ) => void )
+    readonly "interfaces"?: { [key: string]: __interfaces_procedure_declarations_B } //| (add: (key: string, entry: __interfaces_procedure_declarations_B ) => void )
+    readonly "return type"?: __return_type_procedure_declarations_TU_Builder
 }
 
 export type __type_parameters_namespaces_B = {
 }
 
 export type __types_B = {
-    readonly "type" ?: __type_B
+    readonly "type"?: __type_B
 }
 
 export type __namespaces_B = {
-    readonly "function declarations" ?: { [key:string]: __function_declarations_B } //| (add: (key: string, entry: __function_declarations_B ) => void )
-    readonly "interface builders" ?: { [key:string]: __interface_builders_B } //| (add: (key: string, entry: __interface_builders_B ) => void )
-    readonly "interfaces" ?: { [key:string]: __interfaces_namespaces_B } //| (add: (key: string, entry: __interfaces_namespaces_B ) => void )
-    readonly "procedure declarations" ?: { [key:string]: __procedure_declarations_B } //| (add: (key: string, entry: __procedure_declarations_B ) => void )
-    readonly "type parameters" ?: { [key:string]: __type_parameters_namespaces_B } //| (add: (key: string, entry: __type_parameters_namespaces_B ) => void )
-    readonly "types" ?: { [key:string]: __types_B } //| (add: (key: string, entry: __types_B ) => void )
+    readonly "function declarations"?: { [key: string]: __function_declarations_B } //| (add: (key: string, entry: __function_declarations_B ) => void )
+    readonly "interface builders"?: { [key: string]: __interface_builders_B } //| (add: (key: string, entry: __interface_builders_B ) => void )
+    readonly "interfaces"?: { [key: string]: __interfaces_namespaces_B } //| (add: (key: string, entry: __interfaces_namespaces_B ) => void )
+    readonly "procedure declarations"?: { [key: string]: __procedure_declarations_B } //| (add: (key: string, entry: __procedure_declarations_B ) => void )
+    readonly "type parameters"?: { [key: string]: __type_parameters_namespaces_B } //| (add: (key: string, entry: __type_parameters_namespaces_B ) => void )
+    readonly "types"?: { [key: string]: __types_B } //| (add: (key: string, entry: __types_B ) => void )
 }
 
 export type __type_parameters_procedure_implementations_B = {
 }
 
 export type __procedure_implementations_B = {
-    readonly "block" ?: __procedure_block_B
-    readonly "declaration" ?: string
-    readonly "namespace reference" ?: __namespace_reference_B
-    readonly "type parameters" ?: { [key:string]: __type_parameters_procedure_implementations_B } //| (add: (key: string, entry: __type_parameters_procedure_implementations_B ) => void )
+    readonly "block"?: __procedure_block_B
+    readonly "declaration"?: string
+    readonly "namespace reference"?: __namespace_reference_B
+    readonly "type parameters"?: { [key: string]: __type_parameters_procedure_implementations_B } //| (add: (key: string, entry: __type_parameters_procedure_implementations_B ) => void )
 }
 
 export type __root_B = {
-    readonly "function implementations" ?: { [key:string]: __function_implementations_B } //| (add: (key: string, entry: __function_implementations_B ) => void )
-    readonly "namespaces" ?: { [key:string]: __namespaces_B } //| (add: (key: string, entry: __namespaces_B ) => void )
-    readonly "procedure implementations" ?: { [key:string]: __procedure_implementations_B } //| (add: (key: string, entry: __procedure_implementations_B ) => void )
+    readonly "function implementations"?: { [key: string]: __function_implementations_B } //| (add: (key: string, entry: __function_implementations_B ) => void )
+    readonly "namespaces"?: { [key: string]: __namespaces_B } //| (add: (key: string, entry: __namespaces_B ) => void )
+    readonly "procedure implementations"?: { [key: string]: __procedure_implementations_B } //| (add: (key: string, entry: __procedure_implementations_B ) => void )
 }
 
 export type __literal_B = {
-    readonly "value" ?: string
+    readonly "value"?: string
 }
 
 export type __select_B = {
-    readonly "context" ?: __context_selection_B
+    readonly "context"?: __context_selection_B
 }
 
 export type __state_strategy_B = {
-    readonly "state" ?: string
+    readonly "state"?: string
 }
 
 export type __strategy_string_expression_TU_Builder =
@@ -1352,7 +1352,7 @@ export type __strategy_string_expression_TU_Builder =
     | ["state", __state_strategy_B]
 
 export type __string_expression_B = {
-    readonly "strategy" ?: __strategy_string_expression_TU_Builder
+    readonly "strategy"?: __strategy_string_expression_TU_Builder
 }
 
 export type __optional_B = {
@@ -1369,19 +1369,19 @@ export type __boolean_B = {
 }
 
 export type __dictionary_type_type_B = {
-    readonly "entry" ?: __type_B
+    readonly "entry"?: __type_B
 }
 
 export type __properties_B = {
-    readonly "type" ?: __type_B
+    readonly "type"?: __type_B
 }
 
 export type __group_type_type_B = {
-    readonly "properties" ?: { [key:string]: __properties_B } //| (add: (key: string, entry: __properties_B ) => void )
+    readonly "properties"?: { [key: string]: __properties_B } //| (add: (key: string, entry: __properties_B ) => void )
 }
 
 export type __list_type_type_B = {
-    readonly "element" ?: __type_B
+    readonly "element"?: __type_B
 }
 
 export type __number_B = {
@@ -1391,19 +1391,19 @@ export type __string_type_type_B = {
 }
 
 export type __options_B = {
-    readonly "type" ?: __type_B
+    readonly "type"?: __type_B
 }
 
 export type __tagged_union_B = {
-    readonly "options" ?: { [key:string]: __options_B } //| (add: (key: string, entry: __options_B ) => void )
+    readonly "options"?: { [key: string]: __options_B } //| (add: (key: string, entry: __options_B ) => void )
 }
 
 export type __type_argument_B = {
-    readonly "argument" ?: string
+    readonly "argument"?: string
 }
 
 export type __type_reference_type_B = {
-    readonly "type" ?: __type_reference_B
+    readonly "type"?: __type_reference_B
 }
 
 export type __type_type_TU_Builder =
@@ -1418,54 +1418,54 @@ export type __type_type_TU_Builder =
     | ["type reference", __type_reference_type_B]
 
 export type __type_B = {
-    readonly "occurence" ?: __occurence_TU_Builder
-    readonly "type" ?: __type_type_TU_Builder
+    readonly "occurence"?: __occurence_TU_Builder
+    readonly "type"?: __type_type_TU_Builder
 }
 
 export type __copy_B = {
-    readonly "context" ?: __guaranteed_context_selection_B
+    readonly "context"?: __guaranteed_context_selection_B
 }
 
 export type __dictionary_from_state_B = {
-    readonly "state" ?: string
+    readonly "state"?: string
 }
 
 export type __boolean_type_B = {
-    readonly "value" ?: string
+    readonly "value"?: string
 }
 
 export type __dictionary_type_literal_B = {
 }
 
 export type __properties_group_B = {
-    readonly "expression" ?: __type_expression_B
+    readonly "expression"?: __type_expression_B
 }
 
 export type __group_type_literal_B = {
-    readonly "properties" ?: { [key:string]: __properties_group_B } //| (add: (key: string, entry: __properties_group_B ) => void )
+    readonly "properties"?: { [key: string]: __properties_group_B } //| (add: (key: string, entry: __properties_group_B ) => void )
 }
 
 export type __list_type_literal_B = {
 }
 
 export type __number_type_B = {
-    readonly "value" ?: string
+    readonly "value"?: string
 }
 
 export type __string_type_literal_B = {
-    readonly "value" ?: string
+    readonly "value"?: string
 }
 
 export type __tagged_union_type_B = {
-    readonly "data" ?: __type_expression_B
-    readonly "option" ?: string
+    readonly "data"?: __type_expression_B
+    readonly "option"?: string
 }
 
 export type __type_argument_type_B = {
 }
 
 export type __type_reference_type_literal_B = {
-    readonly "expression" ?: __type_expression_B
+    readonly "expression"?: __type_expression_B
 }
 
 export type __type_literal_TU_Builder =
@@ -1480,21 +1480,21 @@ export type __type_literal_TU_Builder =
     | ["type reference", __type_reference_type_literal_B]
 
 export type __literal_strategy_B = {
-    readonly "type" ?: __type_literal_TU_Builder
+    readonly "type"?: __type_literal_TU_Builder
 }
 
 export type __map_B = {
-    readonly "context" ?: __guaranteed_context_selection_B
-    readonly "entry" ?: __type_expression_B
+    readonly "context"?: __guaranteed_context_selection_B
+    readonly "entry"?: __type_expression_B
 }
 
 export type __options_switch_B = {
-    readonly "expression" ?: __type_expression_B
+    readonly "expression"?: __type_expression_B
 }
 
 export type __switch_B = {
-    readonly "context" ?: __guaranteed_context_selection_B
-    readonly "options" ?: { [key:string]: __options_switch_B } //| (add: (key: string, entry: __options_switch_B ) => void )
+    readonly "context"?: __guaranteed_context_selection_B
+    readonly "options"?: { [key: string]: __options_switch_B } //| (add: (key: string, entry: __options_switch_B ) => void )
 }
 
 export type __strategy_type_expression_TU_Builder =
@@ -1505,22 +1505,22 @@ export type __strategy_type_expression_TU_Builder =
     | ["switch", __switch_B]
 
 export type __type_expression_B = {
-    readonly "strategy" ?: __strategy_type_expression_TU_Builder
+    readonly "strategy"?: __strategy_type_expression_TU_Builder
 }
 
 export type __functions_type_expression_block_B = {
-    readonly "block" ?: __type_expression_block_B
-    readonly "declaration" ?: __function_declaration_B
+    readonly "block"?: __type_expression_block_B
+    readonly "declaration"?: __function_declaration_B
 }
 
 export type __type_expression_block_B = {
-    readonly "expression" ?: __type_expression_B
-    readonly "functions" ?: { [key:string]: __functions_type_expression_block_B } //| (add: (key: string, entry: __functions_type_expression_block_B ) => void )
+    readonly "expression"?: __type_expression_B
+    readonly "functions"?: { [key: string]: __functions_type_expression_block_B } //| (add: (key: string, entry: __functions_type_expression_block_B ) => void )
 }
 
 export type __type_reference_B = {
-    readonly "namespace selection" ?: __namespace_selection_B
-    readonly "type" ?: string
+    readonly "namespace selection"?: __namespace_selection_B
+    readonly "type"?: string
 }
 
 export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
@@ -1562,9 +1562,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                         onEnd: () => {
                                             if (_interface_v === null) {
                                                 _interface_v = {
-                                                    "type": [ "group", {
+                                                    "type": ["group", {
                                                         "members": createDictionary({}),
-                                                    } ],
+                                                    }],
                                                 }
                                             }
                                             callback({
@@ -1595,9 +1595,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_interface_v === null) {
                                                     _interface_v = {
-                                                        "type": [ "group", {
+                                                        "type": ["group", {
                                                             "members": createDictionary({}),
-                                                        } ],
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -1686,8 +1686,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_start_v === null) {
                         _start_v = {
-                            "start": [ "context", {
-                            } ],
+                            "start": ["context", {
+                            }],
                         }
                     }
                     callback({
@@ -1797,11 +1797,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_argument_v === null) {
                                                     _argument_v = {
-                                                        "strategy": [ "literal", {
-                                                            "type": [ "string", {
+                                                        "strategy": ["literal", {
+                                                            "type": ["string", {
                                                                 "value": "",
-                                                            } ],
-                                                        } ],
+                                                            }],
+                                                        }],
                                                     }
                                                 }
                                                 if (_context_v === null) {
@@ -1911,8 +1911,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     if (_in_v === null) {
                         _in_v = {
                             "namespace selection": {
-                                "which": [ "current", {
-                                } ],
+                                "which": ["current", {
+                                }],
                             },
                             "type": "*type reference*",
                         }
@@ -1920,8 +1920,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     if (_out_v === null) {
                         _out_v = {
                             "namespace selection": {
-                                "which": [ "current", {
-                                } ],
+                                "which": ["current", {
+                                }],
                             },
                             "type": "*type reference*",
                         }
@@ -1984,8 +1984,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                         onEnd: () => {
                                             if (_missing_handler_v === null) {
                                                 _missing_handler_v = {
-                                                    "guaranteed": [ "yes", {
-                                                    } ],
+                                                    "guaranteed": ["yes", {
+                                                    }],
                                                 }
                                             }
                                             if (_property_v === null) {
@@ -2005,14 +2005,14 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_missing_handler_v === null) {
                         _missing_handler_v = {
-                            "guaranteed": [ "yes", {
-                            } ],
+                            "guaranteed": ["yes", {
+                            }],
                         }
                     }
                     if (_start_v === null) {
                         _start_v = {
-                            "start": [ "context", {
-                            } ],
+                            "start": ["context", {
+                            }],
                         }
                     }
                     callback({
@@ -2051,9 +2051,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_entry_v === null) {
                                                     _entry_v = {
-                                                        "type": [ "group", {
+                                                        "type": ["group", {
                                                             "members": createDictionary({}),
-                                                        } ],
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -2086,9 +2086,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_definition_v === null) {
                                                                             _definition_v = {
-                                                                                "type": [ "group", {
+                                                                                "type": ["group", {
                                                                                     "members": createDictionary({}),
-                                                                                } ],
+                                                                                }],
                                                                             }
                                                                         }
                                                                         callback({
@@ -2134,9 +2134,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onEnd: () => {
                                                                             if (_interface_v === null) {
                                                                                 _interface_v = {
-                                                                                    "type": [ "group", {
+                                                                                    "type": ["group", {
                                                                                         "members": createDictionary({}),
-                                                                                    } ],
+                                                                                    }],
                                                                                 }
                                                                             }
                                                                             callback({
@@ -2176,8 +2176,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_type_v === null) {
                                                     _type_v = {
                                                         "namespace selection": {
-                                                            "which": [ "current", {
-                                                            } ],
+                                                            "which": ["current", {
+                                                            }],
                                                         },
                                                         "type": "*type reference*",
                                                     }
@@ -2218,8 +2218,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 }
                                                 if (_namespace_selection_v === null) {
                                                     _namespace_selection_v = {
-                                                        "which": [ "current", {
-                                                        } ],
+                                                        "which": ["current", {
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -2317,20 +2317,20 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onEnd: () => {
                                                                                                     if (_expression_v === null) {
                                                                                                         _expression_v = {
-                                                                                                            "type": [ "initialize", {
-                                                                                                                "type": [ "method", {
-                                                                                                                    "strategy": [ "procedure implementation", {
+                                                                                                            "type": ["initialize", {
+                                                                                                                "type": ["method", {
+                                                                                                                    "strategy": ["procedure implementation", {
                                                                                                                         "block": {
                                                                                                                             "effects": [],
                                                                                                                             "markers": createDictionary({}),
                                                                                                                             "nested procedures": createDictionary({}),
-                                                                                                                            "return value": [ "void", {
-                                                                                                                            } ],
+                                                                                                                            "return value": ["void", {
+                                                                                                                            }],
                                                                                                                             "states": createDictionary({}),
                                                                                                                         },
-                                                                                                                    } ],
-                                                                                                                } ],
-                                                                                                            } ],
+                                                                                                                    }],
+                                                                                                                }],
+                                                                                                            }],
                                                                                                         }
                                                                                                     }
                                                                                                     callback({
@@ -2383,20 +2383,20 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                             onEnd: () => {
                                                                                                                                 if (_expression_v === null) {
                                                                                                                                     _expression_v = {
-                                                                                                                                        "type": [ "initialize", {
-                                                                                                                                            "type": [ "method", {
-                                                                                                                                                "strategy": [ "procedure implementation", {
+                                                                                                                                        "type": ["initialize", {
+                                                                                                                                            "type": ["method", {
+                                                                                                                                                "strategy": ["procedure implementation", {
                                                                                                                                                     "block": {
                                                                                                                                                         "effects": [],
                                                                                                                                                         "markers": createDictionary({}),
                                                                                                                                                         "nested procedures": createDictionary({}),
-                                                                                                                                                        "return value": [ "void", {
-                                                                                                                                                        } ],
+                                                                                                                                                        "return value": ["void", {
+                                                                                                                                                        }],
                                                                                                                                                         "states": createDictionary({}),
                                                                                                                                                     },
-                                                                                                                                                } ],
-                                                                                                                                            } ],
-                                                                                                                                        } ],
+                                                                                                                                                }],
+                                                                                                                                            }],
+                                                                                                                                        }],
                                                                                                                                     }
                                                                                                                                 }
                                                                                                                                 callback({
@@ -2500,13 +2500,13 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                     "effects": [],
                                                                                                                     "markers": createDictionary({}),
                                                                                                                     "nested procedures": createDictionary({}),
-                                                                                                                    "return value": [ "void", {
-                                                                                                                    } ],
+                                                                                                                    "return value": ["void", {
+                                                                                                                    }],
                                                                                                                     "states": createDictionary({}),
                                                                                                                 },
                                                                                                                 "parameters": createDictionary({}),
-                                                                                                                "return type": [ "void", {
-                                                                                                                } ],
+                                                                                                                "return type": ["void", {
+                                                                                                                }],
                                                                                                             }
                                                                                                         }
                                                                                                         callback({
@@ -2535,8 +2535,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                 "effects": [],
                                                                                                                 "markers": createDictionary({}),
                                                                                                                 "nested procedures": createDictionary({}),
-                                                                                                                "return value": [ "void", {
-                                                                                                                } ],
+                                                                                                                "return value": ["void", {
+                                                                                                                }],
                                                                                                                 "states": createDictionary({}),
                                                                                                             }
                                                                                                         }
@@ -2558,8 +2558,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                         "effects": [],
                                                                                         "markers": createDictionary({}),
                                                                                         "nested procedures": createDictionary({}),
-                                                                                        "return value": [ "void", {
-                                                                                        } ],
+                                                                                        "return value": ["void", {
+                                                                                        }],
                                                                                         "states": createDictionary({}),
                                                                                     },
                                                                                 }]
@@ -2598,9 +2598,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                 "procedure call": {
                                                                                                                     "interface arguments": createDictionary({}),
                                                                                                                 },
-                                                                                                                "type": [ "local", {
+                                                                                                                "type": ["local", {
                                                                                                                     "procedure": "*procedure*",
-                                                                                                                } ],
+                                                                                                                }],
                                                                                                             }
                                                                                                         }
                                                                                                         callback({
@@ -2621,9 +2621,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                         "procedure call": {
                                                                                             "interface arguments": createDictionary({}),
                                                                                         },
-                                                                                        "type": [ "local", {
+                                                                                        "type": ["local", {
                                                                                             "procedure": "*procedure*",
-                                                                                        } ],
+                                                                                        }],
                                                                                     },
                                                                                 }]
                                                                             }
@@ -2641,16 +2641,16 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_type_v === null) {
                                                     _type_v = ["method", {
-                                                        "strategy": [ "procedure implementation", {
+                                                        "strategy": ["procedure implementation", {
                                                             "block": {
                                                                 "effects": [],
                                                                 "markers": createDictionary({}),
                                                                 "nested procedures": createDictionary({}),
-                                                                "return value": [ "void", {
-                                                                } ],
+                                                                "return value": ["void", {
+                                                                }],
                                                                 "states": createDictionary({}),
                                                             },
-                                                        } ],
+                                                        }],
                                                     }]
                                                 }
                                                 callback({
@@ -2667,18 +2667,18 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_type_v === null) {
                         _type_v = ["initialize", {
-                            "type": [ "method", {
-                                "strategy": [ "procedure implementation", {
+                            "type": ["method", {
+                                "strategy": ["procedure implementation", {
                                     "block": {
                                         "effects": [],
                                         "markers": createDictionary({}),
                                         "nested procedures": createDictionary({}),
-                                        "return value": [ "void", {
-                                        } ],
+                                        "return value": ["void", {
+                                        }],
                                         "states": createDictionary({}),
                                     },
-                                } ],
-                            } ],
+                                }],
+                            }],
                         }]
                     }
                     callback({
@@ -2739,9 +2739,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             onEnd: () => {
                                                                                                 if (_definition_v === null) {
                                                                                                     _definition_v = {
-                                                                                                        "type": [ "group", {
+                                                                                                        "type": ["group", {
                                                                                                             "members": createDictionary({}),
-                                                                                                        } ],
+                                                                                                        }],
                                                                                                     }
                                                                                                 }
                                                                                                 callback({
@@ -2787,9 +2787,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onEnd: () => {
                                                                                                     if (_interface_v === null) {
                                                                                                         _interface_v = {
-                                                                                                            "type": [ "group", {
+                                                                                                            "type": ["group", {
                                                                                                                 "members": createDictionary({}),
-                                                                                                            } ],
+                                                                                                            }],
                                                                                                         }
                                                                                                     }
                                                                                                     callback({
@@ -2872,8 +2872,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         }
                                                                         if (_namespace_selection_v === null) {
                                                                             _namespace_selection_v = {
-                                                                                "which": [ "current", {
-                                                                                } ],
+                                                                                "which": ["current", {
+                                                                                }],
                                                                             }
                                                                         }
                                                                         callback({
@@ -2922,9 +2922,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_interface_v === null) {
                                                     _interface_v = {
-                                                        "type": [ "group", {
+                                                        "type": ["group", {
                                                             "members": createDictionary({}),
-                                                        } ],
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -2956,8 +2956,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                             "effects": [],
                             "markers": createDictionary({}),
                             "nested procedures": createDictionary({}),
-                            "return value": [ "void", {
-                            } ],
+                            "return value": ["void", {
+                            }],
                             "states": createDictionary({}),
                         }
                     }
@@ -3001,11 +3001,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_on_missing_v === null) {
                                                     _on_missing_v = {
-                                                        "strategy": [ "literal", {
-                                                            "type": [ "string", {
+                                                        "strategy": ["literal", {
+                                                            "type": ["string", {
                                                                 "value": "",
-                                                            } ],
-                                                        } ],
+                                                            }],
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -3479,11 +3479,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_expression_v === null) {
                                                                             _expression_v = {
-                                                                                "strategy": [ "literal", {
-                                                                                    "type": [ "string", {
+                                                                                "strategy": ["literal", {
+                                                                                    "type": ["string", {
                                                                                         "value": "",
-                                                                                    } ],
-                                                                                } ],
+                                                                                    }],
+                                                                                }],
                                                                             }
                                                                         }
                                                                         if (_interface_v === null) {
@@ -3522,11 +3522,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_expression_v === null) {
                                                                             _expression_v = {
-                                                                                "strategy": [ "literal", {
-                                                                                    "type": [ "string", {
+                                                                                "strategy": ["literal", {
+                                                                                    "type": ["string", {
                                                                                         "value": "",
-                                                                                    } ],
-                                                                                } ],
+                                                                                    }],
+                                                                                }],
                                                                             }
                                                                         }
                                                                         if (_interface_v === null) {
@@ -3590,18 +3590,18 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                             onEnd: () => {
                                                                                                                                 if (_expression_v === null) {
                                                                                                                                     _expression_v = {
-                                                                                                                                        "strategy": [ "literal", {
-                                                                                                                                            "type": [ "string", {
+                                                                                                                                        "strategy": ["literal", {
+                                                                                                                                            "type": ["string", {
                                                                                                                                                 "value": "",
-                                                                                                                                            } ],
-                                                                                                                                        } ],
+                                                                                                                                            }],
+                                                                                                                                        }],
                                                                                                                                     }
                                                                                                                                 }
                                                                                                                                 if (_key_v === null) {
                                                                                                                                     _key_v = {
-                                                                                                                                        "strategy": [ "literal", {
+                                                                                                                                        "strategy": ["literal", {
                                                                                                                                             "value": "",
-                                                                                                                                        } ],
+                                                                                                                                        }],
                                                                                                                                     }
                                                                                                                                 }
                                                                                                                                 callback({
@@ -3620,16 +3620,16 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     if (_strategy_v === null) {
                                                                                                         _strategy_v = ["add entry", {
                                                                                                             "expression": {
-                                                                                                                "strategy": [ "literal", {
-                                                                                                                    "type": [ "string", {
+                                                                                                                "strategy": ["literal", {
+                                                                                                                    "type": ["string", {
                                                                                                                         "value": "",
-                                                                                                                    } ],
-                                                                                                                } ],
+                                                                                                                    }],
+                                                                                                                }],
                                                                                                             },
                                                                                                             "key": {
-                                                                                                                "strategy": [ "literal", {
+                                                                                                                "strategy": ["literal", {
                                                                                                                     "value": "",
-                                                                                                                } ],
+                                                                                                                }],
                                                                                                             },
                                                                                                         }]
                                                                                                     }
@@ -3664,11 +3664,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                             onEnd: () => {
                                                                                                                                 if (_expression_v === null) {
                                                                                                                                     _expression_v = {
-                                                                                                                                        "strategy": [ "literal", {
-                                                                                                                                            "type": [ "string", {
+                                                                                                                                        "strategy": ["literal", {
+                                                                                                                                            "type": ["string", {
                                                                                                                                                 "value": "",
-                                                                                                                                            } ],
-                                                                                                                                        } ],
+                                                                                                                                            }],
+                                                                                                                                        }],
                                                                                                                                     }
                                                                                                                                 }
                                                                                                                                 callback({
@@ -3686,11 +3686,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     if (_strategy_v === null) {
                                                                                                         _strategy_v = ["add element", {
                                                                                                             "expression": {
-                                                                                                                "strategy": [ "literal", {
-                                                                                                                    "type": [ "string", {
+                                                                                                                "strategy": ["literal", {
+                                                                                                                    "type": ["string", {
                                                                                                                         "value": "",
-                                                                                                                    } ],
-                                                                                                                } ],
+                                                                                                                    }],
+                                                                                                                }],
                                                                                                             },
                                                                                                         }]
                                                                                                     }
@@ -3716,9 +3716,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onEnd: () => {
                                                                                                     if (_initializer_v === null) {
                                                                                                         _initializer_v = {
-                                                                                                            "strategy": [ "literal", {
+                                                                                                            "strategy": ["literal", {
                                                                                                                 "value": "",
-                                                                                                            } ],
+                                                                                                            }],
                                                                                                         }
                                                                                                     }
                                                                                                     callback({
@@ -3743,11 +3743,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onEnd: () => {
                                                                                                     if (_expression_v === null) {
                                                                                                         _expression_v = {
-                                                                                                            "strategy": [ "literal", {
-                                                                                                                "type": [ "string", {
+                                                                                                            "strategy": ["literal", {
+                                                                                                                "type": ["string", {
                                                                                                                     "value": "",
-                                                                                                                } ],
-                                                                                                            } ],
+                                                                                                                }],
+                                                                                                            }],
                                                                                                         }
                                                                                                     }
                                                                                                     callback({
@@ -3768,9 +3768,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         if (_type_v === null) {
                                                                             _type_v = ["string", {
                                                                                 "initializer": {
-                                                                                    "strategy": [ "literal", {
+                                                                                    "strategy": ["literal", {
                                                                                         "value": "",
-                                                                                    } ],
+                                                                                    }],
                                                                                 },
                                                                             }]
                                                                         }
@@ -3790,11 +3790,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_type_v === null) {
                                                 _type_v = ["external interface call", {
                                                     "expression": {
-                                                        "strategy": [ "literal", {
-                                                            "type": [ "string", {
+                                                        "strategy": ["literal", {
+                                                            "type": ["string", {
                                                                 "value": "",
-                                                            } ],
-                                                        } ],
+                                                            }],
+                                                        }],
                                                     },
                                                     "interface": "*interface*",
                                                 }]
@@ -3827,8 +3827,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_selection_v === null) {
                                                 _selection_v = {
                                                     "start": {
-                                                        "start": [ "context", {
-                                                        } ],
+                                                        "start": ["context", {
+                                                        }],
                                                     },
                                                     "steps": [],
                                                 }
@@ -3864,13 +3864,13 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                         "effects": [],
                                                         "markers": createDictionary({}),
                                                         "nested procedures": createDictionary({}),
-                                                        "return value": [ "void", {
-                                                        } ],
+                                                        "return value": ["void", {
+                                                        }],
                                                         "states": createDictionary({}),
                                                     },
                                                     "parameters": createDictionary({}),
-                                                    "return type": [ "void", {
-                                                    } ],
+                                                    "return type": ["void", {
+                                                    }],
                                                 }
                                             }
                                             callback({
@@ -3901,20 +3901,20 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_expression_v === null) {
                                                     _expression_v = {
-                                                        "type": [ "initialize", {
-                                                            "type": [ "method", {
-                                                                "strategy": [ "procedure implementation", {
+                                                        "type": ["initialize", {
+                                                            "type": ["method", {
+                                                                "strategy": ["procedure implementation", {
                                                                     "block": {
                                                                         "effects": [],
                                                                         "markers": createDictionary({}),
                                                                         "nested procedures": createDictionary({}),
-                                                                        "return value": [ "void", {
-                                                                        } ],
+                                                                        "return value": ["void", {
+                                                                        }],
                                                                         "states": createDictionary({}),
                                                                     },
-                                                                } ],
-                                                            } ],
-                                                        } ],
+                                                                }],
+                                                            }],
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -4059,11 +4059,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_expression_v === null) {
                                                                             _expression_v = {
-                                                                                "strategy": [ "literal", {
-                                                                                    "type": [ "string", {
+                                                                                "strategy": ["literal", {
+                                                                                    "type": ["string", {
                                                                                         "value": "",
-                                                                                    } ],
-                                                                                } ],
+                                                                                    }],
+                                                                                }],
                                                                             }
                                                                         }
                                                                         if (_nested_type_v === null) {
@@ -4146,20 +4146,20 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                         onEnd: () => {
                                             if (_expression_v === null) {
                                                 _expression_v = {
-                                                    "type": [ "initialize", {
-                                                        "type": [ "method", {
-                                                            "strategy": [ "procedure implementation", {
+                                                    "type": ["initialize", {
+                                                        "type": ["method", {
+                                                            "strategy": ["procedure implementation", {
                                                                 "block": {
                                                                     "effects": [],
                                                                     "markers": createDictionary({}),
                                                                     "nested procedures": createDictionary({}),
-                                                                    "return value": [ "void", {
-                                                                    } ],
+                                                                    "return value": ["void", {
+                                                                    }],
                                                                     "states": createDictionary({}),
                                                                 },
-                                                            } ],
-                                                        } ],
-                                                    } ],
+                                                            }],
+                                                        }],
+                                                    }],
                                                 }
                                             }
                                             callback({
@@ -4244,11 +4244,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_block_v === null) {
                                                 _block_v = {
                                                     "expression": {
-                                                        "strategy": [ "literal", {
-                                                            "type": [ "string", {
+                                                        "strategy": ["literal", {
+                                                            "type": ["string", {
                                                                 "value": "",
-                                                            } ],
-                                                        } ],
+                                                            }],
+                                                        }],
                                                     },
                                                     "functions": createDictionary({}),
                                                 }
@@ -4307,15 +4307,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         _declaration_v = {
                                                                             "in": {
                                                                                 "namespace selection": {
-                                                                                    "which": [ "current", {
-                                                                                    } ],
+                                                                                    "which": ["current", {
+                                                                                    }],
                                                                                 },
                                                                                 "type": "*type reference*",
                                                                             },
                                                                             "out": {
                                                                                 "namespace selection": {
-                                                                                    "which": [ "current", {
-                                                                                    } ],
+                                                                                    "which": ["current", {
+                                                                                    }],
                                                                                 },
                                                                                 "type": "*type reference*",
                                                                             },
@@ -4357,8 +4357,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             if (_declaration_v === null) {
                                                                                                 _declaration_v = {
                                                                                                     "interfaces": createDictionary({}),
-                                                                                                    "return type": [ "void", {
-                                                                                                    } ],
+                                                                                                    "return type": ["void", {
+                                                                                                    }],
                                                                                                 }
                                                                                             }
                                                                                             callback({
@@ -4399,9 +4399,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                 onEnd: () => {
                                                                     if (_definition_v === null) {
                                                                         _definition_v = {
-                                                                            "type": [ "group", {
+                                                                            "type": ["group", {
                                                                                 "members": createDictionary({}),
-                                                                            } ],
+                                                                            }],
                                                                         }
                                                                     }
                                                                     callback({
@@ -4456,8 +4456,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             }
                                                                                             if (_namespace_selection_v === null) {
                                                                                                 _namespace_selection_v = {
-                                                                                                    "which": [ "current", {
-                                                                                                    } ],
+                                                                                                    "which": ["current", {
+                                                                                                    }],
                                                                                                 }
                                                                                             }
                                                                                             callback({
@@ -4496,15 +4496,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 _declaration_v = {
                                                                                                     "in": {
                                                                                                         "namespace selection": {
-                                                                                                            "which": [ "current", {
-                                                                                                            } ],
+                                                                                                            "which": ["current", {
+                                                                                                            }],
                                                                                                         },
                                                                                                         "type": "*type reference*",
                                                                                                     },
                                                                                                     "out": {
                                                                                                         "namespace selection": {
-                                                                                                            "which": [ "current", {
-                                                                                                            } ],
+                                                                                                            "which": ["current", {
+                                                                                                            }],
                                                                                                         },
                                                                                                         "type": "*type reference*",
                                                                                                     },
@@ -4537,9 +4537,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                         onEnd: () => {
                                                                                             if (_interface_v === null) {
                                                                                                 _interface_v = {
-                                                                                                    "type": [ "group", {
+                                                                                                    "type": ["group", {
                                                                                                         "members": createDictionary({}),
-                                                                                                    } ],
+                                                                                                    }],
                                                                                                 }
                                                                                             }
                                                                                             callback({
@@ -4570,9 +4570,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             onEnd: () => {
                                                                                                 if (_interface_v === null) {
                                                                                                     _interface_v = {
-                                                                                                        "type": [ "group", {
+                                                                                                        "type": ["group", {
                                                                                                             "members": createDictionary({}),
-                                                                                                        } ],
+                                                                                                        }],
                                                                                                     }
                                                                                                 }
                                                                                                 callback({
@@ -4602,8 +4602,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     if (_context_v === null) {
                                                                         _context_v = {
                                                                             "namespace selection": {
-                                                                                "which": [ "current", {
-                                                                                } ],
+                                                                                "which": ["current", {
+                                                                                }],
                                                                             },
                                                                             "type": "*type reference*",
                                                                         }
@@ -4660,10 +4660,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                 onEnd: () => {
                                                                     if (_type_v === null) {
                                                                         _type_v = {
-                                                                            "occurence": [ "required", {
-                                                                            } ],
-                                                                            "type": [ "string", {
-                                                                            } ],
+                                                                            "occurence": ["required", {
+                                                                            }],
+                                                                            "type": ["string", {
+                                                                            }],
                                                                         }
                                                                     }
                                                                     callback({
@@ -4747,8 +4747,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     "effects": [],
                                                     "markers": createDictionary({}),
                                                     "nested procedures": createDictionary({}),
-                                                    "return value": [ "void", {
-                                                    } ],
+                                                    "return value": ["void", {
+                                                    }],
                                                     "states": createDictionary({}),
                                                 }
                                             }
@@ -4838,8 +4838,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_context_v === null) {
                                                     _context_v = {
                                                         "start": {
-                                                            "start": [ "context", {
-                                                            } ],
+                                                            "start": ["context", {
+                                                            }],
                                                         },
                                                         "steps": [],
                                                     }
@@ -4965,10 +4965,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_entry_v === null) {
                                                     _entry_v = {
-                                                        "occurence": [ "required", {
-                                                        } ],
-                                                        "type": [ "string", {
-                                                        } ],
+                                                        "occurence": ["required", {
+                                                        }],
+                                                        "type": ["string", {
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -5001,10 +5001,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_type_v === null) {
                                                                             _type_v = {
-                                                                                "occurence": [ "required", {
-                                                                                } ],
-                                                                                "type": [ "string", {
-                                                                                } ],
+                                                                                "occurence": ["required", {
+                                                                                }],
+                                                                                "type": ["string", {
+                                                                                }],
                                                                             }
                                                                         }
                                                                         callback({
@@ -5040,10 +5040,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             onEnd: () => {
                                                 if (_element_v === null) {
                                                     _element_v = {
-                                                        "occurence": [ "required", {
-                                                        } ],
-                                                        "type": [ "string", {
-                                                        } ],
+                                                        "occurence": ["required", {
+                                                        }],
+                                                        "type": ["string", {
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -5100,10 +5100,10 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_type_v === null) {
                                                                             _type_v = {
-                                                                                "occurence": [ "required", {
-                                                                                } ],
-                                                                                "type": [ "string", {
-                                                                                } ],
+                                                                                "occurence": ["required", {
+                                                                                }],
+                                                                                "type": ["string", {
+                                                                                }],
                                                                             }
                                                                         }
                                                                         callback({
@@ -5166,8 +5166,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_type_v === null) {
                                                     _type_v = {
                                                         "namespace selection": {
-                                                            "which": [ "current", {
-                                                            } ],
+                                                            "which": ["current", {
+                                                            }],
                                                         },
                                                         "type": "*type reference*",
                                                     }
@@ -5228,12 +5228,12 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_context_v === null) {
                                                     _context_v = {
                                                         "missing handler": {
-                                                            "guaranteed": [ "yes", {
-                                                            } ],
+                                                            "guaranteed": ["yes", {
+                                                            }],
                                                         },
                                                         "start": {
-                                                            "start": [ "context", {
-                                                            } ],
+                                                            "start": ["context", {
+                                                            }],
                                                         },
                                                         "steps": [],
                                                     }
@@ -5341,11 +5341,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onEnd: () => {
                                                                                                     if (_expression_v === null) {
                                                                                                         _expression_v = {
-                                                                                                            "strategy": [ "literal", {
-                                                                                                                "type": [ "string", {
+                                                                                                            "strategy": ["literal", {
+                                                                                                                "type": ["string", {
                                                                                                                     "value": "",
-                                                                                                                } ],
-                                                                                                            } ],
+                                                                                                                }],
+                                                                                                            }],
                                                                                                         }
                                                                                                     }
                                                                                                     callback({
@@ -5455,11 +5455,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onEnd: () => {
                                                                             if (_data_v === null) {
                                                                                 _data_v = {
-                                                                                    "strategy": [ "literal", {
-                                                                                        "type": [ "string", {
+                                                                                    "strategy": ["literal", {
+                                                                                        "type": ["string", {
                                                                                             "value": "",
-                                                                                        } ],
-                                                                                    } ],
+                                                                                        }],
+                                                                                    }],
                                                                                 }
                                                                             }
                                                                             if (_option_v === null) {
@@ -5500,11 +5500,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onEnd: () => {
                                                                             if (_expression_v === null) {
                                                                                 _expression_v = {
-                                                                                    "strategy": [ "literal", {
-                                                                                        "type": [ "string", {
+                                                                                    "strategy": ["literal", {
+                                                                                        "type": ["string", {
                                                                                             "value": "",
-                                                                                        } ],
-                                                                                    } ],
+                                                                                        }],
+                                                                                    }],
                                                                                 }
                                                                             }
                                                                             callback({
@@ -5554,23 +5554,23 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_context_v === null) {
                                                     _context_v = {
                                                         "missing handler": {
-                                                            "guaranteed": [ "yes", {
-                                                            } ],
+                                                            "guaranteed": ["yes", {
+                                                            }],
                                                         },
                                                         "start": {
-                                                            "start": [ "context", {
-                                                            } ],
+                                                            "start": ["context", {
+                                                            }],
                                                         },
                                                         "steps": [],
                                                     }
                                                 }
                                                 if (_entry_v === null) {
                                                     _entry_v = {
-                                                        "strategy": [ "literal", {
-                                                            "type": [ "string", {
+                                                        "strategy": ["literal", {
+                                                            "type": ["string", {
                                                                 "value": "",
-                                                            } ],
-                                                        } ],
+                                                            }],
+                                                        }],
                                                     }
                                                 }
                                                 callback({
@@ -5611,11 +5611,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     onEnd: () => {
                                                                         if (_expression_v === null) {
                                                                             _expression_v = {
-                                                                                "strategy": [ "literal", {
-                                                                                    "type": [ "string", {
+                                                                                "strategy": ["literal", {
+                                                                                    "type": ["string", {
                                                                                         "value": "",
-                                                                                    } ],
-                                                                                } ],
+                                                                                    }],
+                                                                                }],
                                                                             }
                                                                         }
                                                                         callback({
@@ -5632,12 +5632,12 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 if (_context_v === null) {
                                                     _context_v = {
                                                         "missing handler": {
-                                                            "guaranteed": [ "yes", {
-                                                            } ],
+                                                            "guaranteed": ["yes", {
+                                                            }],
                                                         },
                                                         "start": {
-                                                            "start": [ "context", {
-                                                            } ],
+                                                            "start": ["context", {
+                                                            }],
                                                         },
                                                         "steps": [],
                                                     }
@@ -5657,9 +5657,9 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_strategy_v === null) {
                         _strategy_v = ["literal", {
-                            "type": [ "string", {
+                            "type": ["string", {
                                 "value": "",
-                            } ],
+                            }],
                         }]
                     }
                     callback({
@@ -5710,11 +5710,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             if (_block_v === null) {
                                                 _block_v = {
                                                     "expression": {
-                                                        "strategy": [ "literal", {
-                                                            "type": [ "string", {
+                                                        "strategy": ["literal", {
+                                                            "type": ["string", {
                                                                 "value": "",
-                                                            } ],
-                                                        } ],
+                                                            }],
+                                                        }],
                                                     },
                                                     "functions": createDictionary({}),
                                                 }
@@ -5723,15 +5723,15 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 _declaration_v = {
                                                     "in": {
                                                         "namespace selection": {
-                                                            "which": [ "current", {
-                                                            } ],
+                                                            "which": ["current", {
+                                                            }],
                                                         },
                                                         "type": "*type reference*",
                                                     },
                                                     "out": {
                                                         "namespace selection": {
-                                                            "which": [ "current", {
-                                                            } ],
+                                                            "which": ["current", {
+                                                            }],
                                                         },
                                                         "type": "*type reference*",
                                                     },
@@ -5751,11 +5751,11 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_expression_v === null) {
                         _expression_v = {
-                            "strategy": [ "literal", {
-                                "type": [ "string", {
+                            "strategy": ["literal", {
+                                "type": ["string", {
                                     "value": "",
-                                } ],
-                            } ],
+                                }],
+                            }],
                         }
                     }
                     callback({
@@ -5794,8 +5794,8 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                 onEnd: () => {
                     if (_namespace_selection_v === null) {
                         _namespace_selection_v = {
-                            "which": [ "current", {
-                            } ],
+                            "which": ["current", {
+                            }],
                         }
                     }
                     if (_type_v === null) {
@@ -5820,27 +5820,29 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __builder_procedure_declaration_B,
     ): __builder_procedure_declaration_T {
         return {
-            "interfaces": intermediate["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_T> => {{
-                const source = intermediate["interfaces"]
-                const target: { [key:string]: __interfaces_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
-            "return type": intermediate["return type"] === undefined ? [ "void", {
-            } ] : ((): __return_type_TU => {
+            "interfaces": intermediate["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_T> => {
+                {
+                    const source = intermediate["interfaces"]
+                    const target: { [key: string]: __interfaces_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
+            "return type": intermediate["return type"] === undefined ? ["void", {
+            }] : ((): __return_type_TU => {
                 switch (intermediate["return type"][0]) {
                     case "interface":
-                        return [ "interface", {
+                        return ["interface", {
                             "interface": intermediate["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(intermediate["return type"][1]["interface"]),
-                        } ]
+                        }]
                     case "void":
-                        return [ "void", {
-                        } ]
+                        return ["void", {
+                        }]
                     default: return assertUnreachable(intermediate["return type"][0])
                 }
             })(),
@@ -5851,8 +5853,8 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __builder_procedure_declaration_T {
         return {
             "interfaces": createDictionary({}),
-            "return type": [ "void", {
-            } ],
+            "return type": ["void", {
+            }],
         }
     }
 
@@ -5861,16 +5863,18 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __context_selection_T {
         return {
             "start": intermediate["start"] === undefined ? _default_generateBuilder_context_start() : _generateBuilder_context_start(intermediate["start"]),
-            "steps": intermediate["steps"] === undefined ? [] : ((): __steps_T[] => {{
-                const source = intermediate["steps"]
-                const target: __steps_T[] = []
-                source.forEach((entry) => {
-                    target.push({
-                        "property": entry["property"] === undefined ? "*property*" : entry["property"],
+            "steps": intermediate["steps"] === undefined ? [] : ((): __steps_T[] => {
+                {
+                    const source = intermediate["steps"]
+                    const target: __steps_T[] = []
+                    source.forEach((entry) => {
+                        target.push({
+                            "property": entry["property"] === undefined ? "*property*" : entry["property"],
+                        })
                     })
-                })
-                return target
-            }})(),
+                    return target
+                }
+            })(),
         }
     }
 
@@ -5886,39 +5890,39 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __context_start_B,
     ): __context_start_T {
         return {
-            "start": intermediate["start"] === undefined ? [ "context", {
-            } ] : ((): __start_TU => {
+            "start": intermediate["start"] === undefined ? ["context", {
+            }] : ((): __start_TU => {
                 switch (intermediate["start"][0]) {
                     case "context":
-                        return [ "context", {
-                        } ]
+                        return ["context", {
+                        }]
                     case "function":
-                        return [ "function", {
+                        return ["function", {
                             "argument": intermediate["start"][1]["argument"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(intermediate["start"][1]["argument"]),
-                            "context": intermediate["start"][1]["context"] === undefined ? [ "argument", {
+                            "context": intermediate["start"][1]["context"] === undefined ? ["argument", {
                                 "function": "*function*",
-                            } ] : ((): __context_TU => {
+                            }] : ((): __context_TU => {
                                 switch (intermediate["start"][1]["context"][0]) {
                                     case "argument":
-                                        return [ "argument", {
+                                        return ["argument", {
                                             "function": intermediate["start"][1]["context"][1]["function"] === undefined ? "*function*" : intermediate["start"][1]["context"][1]["function"],
-                                        } ]
+                                        }]
                                     case "local function":
-                                        return [ "local function", {
+                                        return ["local function", {
                                             "function": intermediate["start"][1]["context"][1]["function"] === undefined ? "*function*" : intermediate["start"][1]["context"][1]["function"],
-                                        } ]
+                                        }]
                                     default: return assertUnreachable(intermediate["start"][1]["context"][0])
                                 }
                             })(),
-                        } ]
+                        }]
                     case "marked value":
-                        return [ "marked value", {
+                        return ["marked value", {
                             "marker": intermediate["start"][1]["marker"] === undefined ? "*marker*" : intermediate["start"][1]["marker"],
-                        } ]
+                        }]
                     case "state":
-                        return [ "state", {
+                        return ["state", {
                             "state": intermediate["start"][1]["state"] === undefined ? "*state*" : intermediate["start"][1]["state"],
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["start"][0])
                 }
             })(),
@@ -5928,8 +5932,8 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_context_start(
     ): __context_start_T {
         return {
-            "start": [ "context", {
-            } ],
+            "start": ["context", {
+            }],
         }
     }
 
@@ -5956,17 +5960,19 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         return {
             "missing handler": intermediate["missing handler"] === undefined ? _default_generateBuilder_missing_handler() : _generateBuilder_missing_handler(intermediate["missing handler"]),
             "start": intermediate["start"] === undefined ? _default_generateBuilder_context_start() : _generateBuilder_context_start(intermediate["start"]),
-            "steps": intermediate["steps"] === undefined ? [] : ((): __steps_guaranteed_context_selection_T[] => {{
-                const source = intermediate["steps"]
-                const target: __steps_guaranteed_context_selection_T[] = []
-                source.forEach((entry) => {
-                    target.push({
-                        "missing handler": entry["missing handler"] === undefined ? _default_generateBuilder_missing_handler() : _generateBuilder_missing_handler(entry["missing handler"]),
-                        "property": entry["property"] === undefined ? "*property*" : entry["property"],
+            "steps": intermediate["steps"] === undefined ? [] : ((): __steps_guaranteed_context_selection_T[] => {
+                {
+                    const source = intermediate["steps"]
+                    const target: __steps_guaranteed_context_selection_T[] = []
+                    source.forEach((entry) => {
+                        target.push({
+                            "missing handler": entry["missing handler"] === undefined ? _default_generateBuilder_missing_handler() : _generateBuilder_missing_handler(entry["missing handler"]),
+                            "property": entry["property"] === undefined ? "*property*" : entry["property"],
+                        })
                     })
-                })
-                return target
-            }})(),
+                    return target
+                }
+            })(),
         }
     }
 
@@ -5983,50 +5989,52 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __interface_definition_B,
     ): __interface_definition_T {
         return {
-            "type": intermediate["type"] === undefined ? [ "group", {
+            "type": intermediate["type"] === undefined ? ["group", {
                 "members": createDictionary({}),
-            } ] : ((): __type_TU => {
+            }] : ((): __type_TU => {
                 switch (intermediate["type"][0]) {
                     case "dictionary":
-                        return [ "dictionary", {
+                        return ["dictionary", {
                             "entry": intermediate["type"][1]["entry"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(intermediate["type"][1]["entry"]),
-                        } ]
+                        }]
                     case "group":
-                        return [ "group", {
-                            "members": intermediate["type"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_T> => {{
-                                const source = intermediate["type"][1]["members"]
-                                const target: { [key:string]: __members_T} = {}
-                                pr.Objectkeys(source).forEach((key) => {
-                                    const entry = source[key]
-                                    target[key] = {
-                                        "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
-                                    }
-                                })
-                                return createDictionary(target)
-                            }})(),
-                        } ]
+                        return ["group", {
+                            "members": intermediate["type"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_T> => {
+                                {
+                                    const source = intermediate["type"][1]["members"]
+                                    const target: { [key: string]: __members_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                        }]
                     case "method":
-                        return [ "method", {
-                            "return type": intermediate["type"][1]["return type"] === undefined ? [ "void", {
-                            } ] : ((): __return_type_method_TU => {
+                        return ["method", {
+                            "return type": intermediate["type"][1]["return type"] === undefined ? ["void", {
+                            }] : ((): __return_type_method_TU => {
                                 switch (intermediate["type"][1]["return type"][0]) {
                                     case "interface":
-                                        return [ "interface", {
+                                        return ["interface", {
                                             "interface": intermediate["type"][1]["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(intermediate["type"][1]["return type"][1]["interface"]),
-                                        } ]
+                                        }]
                                     case "void":
-                                        return [ "void", {
-                                        } ]
+                                        return ["void", {
+                                        }]
                                     default: return assertUnreachable(intermediate["type"][1]["return type"][0])
                                 }
                             })(),
                             "type": intermediate["type"][1]["type"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(intermediate["type"][1]["type"]),
-                        } ]
+                        }]
                     case "reference":
-                        return [ "reference", {
+                        return ["reference", {
                             "interface": intermediate["type"][1]["interface"] === undefined ? "*referenced interface*" : intermediate["type"][1]["interface"],
                             "namespace selection": intermediate["type"][1]["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(intermediate["type"][1]["namespace selection"]),
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["type"][0])
                 }
             })(),
@@ -6036,9 +6044,9 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_interface_definition(
     ): __interface_definition_T {
         return {
-            "type": [ "group", {
+            "type": ["group", {
                 "members": createDictionary({}),
-            } ],
+            }],
         }
     }
 
@@ -6046,105 +6054,109 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __interface_expression_B,
     ): __interface_expression_T {
         return {
-            "type": intermediate["type"] === undefined ? [ "initialize", {
-                "type": [ "method", {
-                    "strategy": [ "procedure implementation", {
+            "type": intermediate["type"] === undefined ? ["initialize", {
+                "type": ["method", {
+                    "strategy": ["procedure implementation", {
                         "block": _default_generateBuilder_procedure_block(),
-                    } ],
-                } ],
-            } ] : ((): __type_interface_expression_TU => {
+                    }],
+                }],
+            }] : ((): __type_interface_expression_TU => {
                 switch (intermediate["type"][0]) {
                     case "argument":
-                        return [ "argument", {
+                        return ["argument", {
                             "argument": intermediate["type"][1]["argument"] === undefined ? "*argument*" : intermediate["type"][1]["argument"],
-                        } ]
+                        }]
                     case "initialize":
-                        return [ "initialize", {
-                            "type": intermediate["type"][1]["type"] === undefined ? [ "method", {
-                                "strategy": [ "procedure implementation", {
+                        return ["initialize", {
+                            "type": intermediate["type"][1]["type"] === undefined ? ["method", {
+                                "strategy": ["procedure implementation", {
                                     "block": _default_generateBuilder_procedure_block(),
-                                } ],
-                            } ] : ((): __type_initialize_TU => {
+                                }],
+                            }] : ((): __type_initialize_TU => {
                                 switch (intermediate["type"][1]["type"][0]) {
                                     case "dictionary":
-                                        return [ "dictionary", {
-                                            "entries": intermediate["type"][1]["type"][1]["entries"] === undefined ? createDictionary({}) : ((): IDictionary<__entries_T> => {{
-                                                const source = intermediate["type"][1]["type"][1]["entries"]
-                                                const target: { [key:string]: __entries_T} = {}
-                                                pr.Objectkeys(source).forEach((key) => {
-                                                    const entry = source[key]
-                                                    target[key] = {
-                                                        "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
-                                                    }
-                                                })
-                                                return createDictionary(target)
-                                            }})(),
-                                        } ]
+                                        return ["dictionary", {
+                                            "entries": intermediate["type"][1]["type"][1]["entries"] === undefined ? createDictionary({}) : ((): IDictionary<__entries_T> => {
+                                                {
+                                                    const source = intermediate["type"][1]["type"][1]["entries"]
+                                                    const target: { [key: string]: __entries_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
+                                                }
+                                            })(),
+                                        }]
                                     case "group":
-                                        return [ "group", {
-                                            "strategy": intermediate["type"][1]["type"][1]["strategy"] === undefined ? [ "inline", {
+                                        return ["group", {
+                                            "strategy": intermediate["type"][1]["type"][1]["strategy"] === undefined ? ["inline", {
                                                 "members": createDictionary({}),
-                                            } ] : ((): __strategy_TU => {
+                                            }] : ((): __strategy_TU => {
                                                 switch (intermediate["type"][1]["type"][1]["strategy"][0]) {
                                                     case "inline":
-                                                        return [ "inline", {
-                                                            "members": intermediate["type"][1]["type"][1]["strategy"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_inline_T> => {{
-                                                                const source = intermediate["type"][1]["type"][1]["strategy"][1]["members"]
-                                                                const target: { [key:string]: __members_inline_T} = {}
-                                                                pr.Objectkeys(source).forEach((key) => {
-                                                                    const entry = source[key]
-                                                                    target[key] = {
-                                                                        "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
-                                                                    }
-                                                                })
-                                                                return createDictionary(target)
-                                                            }})(),
-                                                        } ]
+                                                        return ["inline", {
+                                                            "members": intermediate["type"][1]["type"][1]["strategy"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_inline_T> => {
+                                                                {
+                                                                    const source = intermediate["type"][1]["type"][1]["strategy"][1]["members"]
+                                                                    const target: { [key: string]: __members_inline_T } = {}
+                                                                    pr.Objectkeys(source).forEach((key) => {
+                                                                        const entry = source[key]
+                                                                        target[key] = {
+                                                                            "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
+                                                                        }
+                                                                    })
+                                                                    return createDictionary(target)
+                                                                }
+                                                            })(),
+                                                        }]
                                                     default: return assertUnreachable(intermediate["type"][1]["type"][1]["strategy"][0])
                                                 }
                                             })(),
-                                        } ]
+                                        }]
                                     case "method":
-                                        return [ "method", {
-                                            "strategy": intermediate["type"][1]["type"][1]["strategy"] === undefined ? [ "procedure implementation", {
+                                        return ["method", {
+                                            "strategy": intermediate["type"][1]["type"][1]["strategy"] === undefined ? ["procedure implementation", {
                                                 "block": _default_generateBuilder_procedure_block(),
-                                            } ] : ((): __strategy_method_TU => {
+                                            }] : ((): __strategy_method_TU => {
                                                 switch (intermediate["type"][1]["type"][1]["strategy"][0]) {
                                                     case "argument":
-                                                        return [ "argument", {
+                                                        return ["argument", {
                                                             "argument": intermediate["type"][1]["type"][1]["strategy"][1]["argument"] === undefined ? "*argument*" : intermediate["type"][1]["type"][1]["strategy"][1]["argument"],
-                                                        } ]
+                                                        }]
                                                     case "inline procedure":
-                                                        return [ "inline procedure", {
+                                                        return ["inline procedure", {
                                                             "call": intermediate["type"][1]["type"][1]["strategy"][1]["call"] === undefined ? _default_generateBuilder_procedure_call() : _generateBuilder_procedure_call(intermediate["type"][1]["type"][1]["strategy"][1]["call"]),
                                                             "specification": intermediate["type"][1]["type"][1]["strategy"][1]["specification"] === undefined ? _default_generateBuilder_internal_procedure_specification() : _generateBuilder_internal_procedure_specification(intermediate["type"][1]["type"][1]["strategy"][1]["specification"]),
-                                                        } ]
+                                                        }]
                                                     case "procedure implementation":
-                                                        return [ "procedure implementation", {
+                                                        return ["procedure implementation", {
                                                             "block": intermediate["type"][1]["type"][1]["strategy"][1]["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(intermediate["type"][1]["type"][1]["strategy"][1]["block"]),
-                                                        } ]
+                                                        }]
                                                     default: return assertUnreachable(intermediate["type"][1]["type"][1]["strategy"][0])
                                                 }
                                             })(),
-                                        } ]
+                                        }]
                                     case "reference":
-                                        return [ "reference", {
-                                            "strategy": intermediate["type"][1]["type"][1]["strategy"] === undefined ? [ "procedure call6", {
+                                        return ["reference", {
+                                            "strategy": intermediate["type"][1]["type"][1]["strategy"] === undefined ? ["procedure call6", {
                                                 "procedure call": _default_generateBuilder_named_procedure_call(),
-                                            } ] : ((): __strategy_reference_TU => {
+                                            }] : ((): __strategy_reference_TU => {
                                                 switch (intermediate["type"][1]["type"][1]["strategy"][0]) {
                                                     case "procedure call6":
-                                                        return [ "procedure call6", {
+                                                        return ["procedure call6", {
                                                             "procedure call": intermediate["type"][1]["type"][1]["strategy"][1]["procedure call"] === undefined ? _default_generateBuilder_named_procedure_call() : _generateBuilder_named_procedure_call(intermediate["type"][1]["type"][1]["strategy"][1]["procedure call"]),
-                                                        } ]
+                                                        }]
                                                     default: return assertUnreachable(intermediate["type"][1]["type"][1]["strategy"][0])
                                                 }
                                             })(),
-                                        } ]
+                                        }]
                                     default: return assertUnreachable(intermediate["type"][1]["type"][0])
                                 }
                             })(),
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["type"][0])
                 }
             })(),
@@ -6154,13 +6166,13 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_interface_expression(
     ): __interface_expression_T {
         return {
-            "type": [ "initialize", {
-                "type": [ "method", {
-                    "strategy": [ "procedure implementation", {
+            "type": ["initialize", {
+                "type": ["method", {
+                    "strategy": ["procedure implementation", {
                         "block": _default_generateBuilder_procedure_block(),
-                    } ],
-                } ],
-            } ],
+                    }],
+                }],
+            }],
         }
     }
 
@@ -6169,69 +6181,73 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __internal_procedure_specification_T {
         return {
             "block": intermediate["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(intermediate["block"]),
-            "parameters": intermediate["parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__parameters_T> => {{
-                const source = intermediate["parameters"]
-                const target: { [key:string]: __parameters_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "type": entry["type"] === undefined ? [ "group", {
-                            "members": createDictionary({}),
-                        } ] : ((): __type_parameters_TU => {
-                            switch (entry["type"][0]) {
-                                case "group":
-                                    return [ "group", {
-                                        "members": entry["type"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_group_T> => {{
-                                            const source = entry["type"][1]["members"]
-                                            const target: { [key:string]: __members_group_T} = {}
-                                            pr.Objectkeys(source).forEach((key) => {
-                                                const entry = source[key]
-                                                target[key] = {
-                                                    "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
+            "parameters": intermediate["parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__parameters_T> => {
+                {
+                    const source = intermediate["parameters"]
+                    const target: { [key: string]: __parameters_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "type": entry["type"] === undefined ? ["group", {
+                                "members": createDictionary({}),
+                            }] : ((): __type_parameters_TU => {
+                                switch (entry["type"][0]) {
+                                    case "group":
+                                        return ["group", {
+                                            "members": entry["type"][1]["members"] === undefined ? createDictionary({}) : ((): IDictionary<__members_group_T> => {
+                                                {
+                                                    const source = entry["type"][1]["members"]
+                                                    const target: { [key: string]: __members_group_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
                                                 }
-                                            })
-                                            return createDictionary(target)
-                                        }})(),
-                                    } ]
-                                case "method":
-                                    return [ "method", {
-                                        "return type": entry["type"][1]["return type"] === undefined ? [ "void", {
-                                        } ] : ((): __return_type_method_type_TU => {
-                                            switch (entry["type"][1]["return type"][0]) {
-                                                case "interface":
-                                                    return [ "interface", {
-                                                        "interface": entry["type"][1]["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["type"][1]["return type"][1]["interface"]),
-                                                    } ]
-                                                case "void":
-                                                    return [ "void", {
-                                                    } ]
-                                                default: return assertUnreachable(entry["type"][1]["return type"][0])
-                                            }
-                                        })(),
-                                        "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["type"]),
-                                    } ]
-                                case "reference":
-                                    return [ "reference", {
-                                        "interface": entry["type"][1]["interface"] === undefined ? "*referenced interface*" : entry["type"][1]["interface"],
-                                        "namespace selection": entry["type"][1]["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(entry["type"][1]["namespace selection"]),
-                                    } ]
-                                default: return assertUnreachable(entry["type"][0])
-                            }
-                        })(),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
-            "return type": intermediate["return type"] === undefined ? [ "void", {
-            } ] : ((): __return_type_internal_procedure_specification_TU => {
+                                            })(),
+                                        }]
+                                    case "method":
+                                        return ["method", {
+                                            "return type": entry["type"][1]["return type"] === undefined ? ["void", {
+                                            }] : ((): __return_type_method_type_TU => {
+                                                switch (entry["type"][1]["return type"][0]) {
+                                                    case "interface":
+                                                        return ["interface", {
+                                                            "interface": entry["type"][1]["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["type"][1]["return type"][1]["interface"]),
+                                                        }]
+                                                    case "void":
+                                                        return ["void", {
+                                                        }]
+                                                    default: return assertUnreachable(entry["type"][1]["return type"][0])
+                                                }
+                                            })(),
+                                            "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["type"]),
+                                        }]
+                                    case "reference":
+                                        return ["reference", {
+                                            "interface": entry["type"][1]["interface"] === undefined ? "*referenced interface*" : entry["type"][1]["interface"],
+                                            "namespace selection": entry["type"][1]["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(entry["type"][1]["namespace selection"]),
+                                        }]
+                                    default: return assertUnreachable(entry["type"][0])
+                                }
+                            })(),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
+            "return type": intermediate["return type"] === undefined ? ["void", {
+            }] : ((): __return_type_internal_procedure_specification_TU => {
                 switch (intermediate["return type"][0]) {
                     case "interface":
-                        return [ "interface", {
+                        return ["interface", {
                             "interface": intermediate["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(intermediate["return type"][1]["interface"]),
-                        } ]
+                        }]
                     case "void":
-                        return [ "void", {
-                        } ]
+                        return ["void", {
+                        }]
                     default: return assertUnreachable(intermediate["return type"][0])
                 }
             })(),
@@ -6243,8 +6259,8 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         return {
             "block": _default_generateBuilder_procedure_block(),
             "parameters": createDictionary({}),
-            "return type": [ "void", {
-            } ],
+            "return type": ["void", {
+            }],
         }
     }
 
@@ -6252,16 +6268,16 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __missing_handler_B,
     ): __missing_handler_T {
         return {
-            "guaranteed": intermediate["guaranteed"] === undefined ? [ "yes", {
-            } ] : ((): __guaranteed_TU => {
+            "guaranteed": intermediate["guaranteed"] === undefined ? ["yes", {
+            }] : ((): __guaranteed_TU => {
                 switch (intermediate["guaranteed"][0]) {
                     case "no":
-                        return [ "no", {
+                        return ["no", {
                             "on missing": intermediate["guaranteed"][1]["on missing"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(intermediate["guaranteed"][1]["on missing"]),
-                        } ]
+                        }]
                     case "yes":
-                        return [ "yes", {
-                        } ]
+                        return ["yes", {
+                        }]
                     default: return assertUnreachable(intermediate["guaranteed"][0])
                 }
             })(),
@@ -6271,8 +6287,8 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_missing_handler(
     ): __missing_handler_T {
         return {
-            "guaranteed": [ "yes", {
-            } ],
+            "guaranteed": ["yes", {
+            }],
         }
     }
 
@@ -6281,19 +6297,19 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __named_procedure_call_T {
         return {
             "procedure call": intermediate["procedure call"] === undefined ? _default_generateBuilder_procedure_call() : _generateBuilder_procedure_call(intermediate["procedure call"]),
-            "type": intermediate["type"] === undefined ? [ "local", {
+            "type": intermediate["type"] === undefined ? ["local", {
                 "procedure": "*procedure*",
-            } ] : ((): __type_named_procedure_call_TU => {
+            }] : ((): __type_named_procedure_call_TU => {
                 switch (intermediate["type"][0]) {
                     case "external":
-                        return [ "external", {
+                        return ["external", {
                             "builder": intermediate["type"][1]["builder"] === undefined ? "*builder*" : intermediate["type"][1]["builder"],
                             "method": intermediate["type"][1]["method"] === undefined ? "*method*" : intermediate["type"][1]["method"],
-                        } ]
+                        }]
                     case "local":
-                        return [ "local", {
+                        return ["local", {
                             "procedure": intermediate["type"][1]["procedure"] === undefined ? "*procedure*" : intermediate["type"][1]["procedure"],
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["type"][0])
                 }
             })(),
@@ -6304,9 +6320,9 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __named_procedure_call_T {
         return {
             "procedure call": _default_generateBuilder_procedure_call(),
-            "type": [ "local", {
+            "type": ["local", {
                 "procedure": "*procedure*",
-            } ],
+            }],
         }
     }
 
@@ -6315,17 +6331,19 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __namespace_reference_T {
         return {
             "namespace": intermediate["namespace"] === undefined ? "*namespace*" : intermediate["namespace"],
-            "type arguments": intermediate["type arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__type_arguments_T> => {{
-                const source = intermediate["type arguments"]
-                const target: { [key:string]: __type_arguments_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "type": entry["type"] === undefined ? "*type argument type*" : entry["type"],
-                    }
-                })
-                return createDictionary(target)
-            }})(),
+            "type arguments": intermediate["type arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__type_arguments_T> => {
+                {
+                    const source = intermediate["type arguments"]
+                    const target: { [key: string]: __type_arguments_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "type": entry["type"] === undefined ? "*type argument type*" : entry["type"],
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
         }
     }
 
@@ -6341,16 +6359,16 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __namespace_selection_B,
     ): __namespace_selection_T {
         return {
-            "which": intermediate["which"] === undefined ? [ "current", {
-            } ] : ((): __which_TU => {
+            "which": intermediate["which"] === undefined ? ["current", {
+            }] : ((): __which_TU => {
                 switch (intermediate["which"][0]) {
                     case "current":
-                        return [ "current", {
-                        } ]
+                        return ["current", {
+                        }]
                     case "other":
-                        return [ "other", {
+                        return ["other", {
                             "namespace reference": intermediate["which"][1]["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["which"][1]["namespace reference"]),
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["which"][0])
                 }
             })(),
@@ -6360,8 +6378,8 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_namespace_selection(
     ): __namespace_selection_T {
         return {
-            "which": [ "current", {
-            } ],
+            "which": ["current", {
+            }],
         }
     }
 
@@ -6370,35 +6388,37 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __nested_type_reference_T {
         return {
             "namespace reference": intermediate["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(intermediate["namespace reference"]),
-            "steps": intermediate["steps"] === undefined ? [] : ((): __steps_nested_type_reference_T[] => {{
-                const source = intermediate["steps"]
-                const target: __steps_nested_type_reference_T[] = []
-                source.forEach((entry) => {
-                    target.push({
-                        "type": entry["type"] === undefined ? [ "dictionary", {
-                        } ] : ((): __type_steps_TU => {
-                            switch (entry["type"][0]) {
-                                case "dictionary":
-                                    return [ "dictionary", {
-                                    } ]
-                                case "group":
-                                    return [ "group", {
-                                        "property": entry["type"][1]["property"] === undefined ? "*property*" : entry["type"][1]["property"],
-                                    } ]
-                                case "list":
-                                    return [ "list", {
-                                    } ]
-                                case "tagged union option":
-                                    return [ "tagged union option", {
-                                        "option": entry["type"][1]["option"] === undefined ? "*option*" : entry["type"][1]["option"],
-                                    } ]
-                                default: return assertUnreachable(entry["type"][0])
-                            }
-                        })(),
+            "steps": intermediate["steps"] === undefined ? [] : ((): __steps_nested_type_reference_T[] => {
+                {
+                    const source = intermediate["steps"]
+                    const target: __steps_nested_type_reference_T[] = []
+                    source.forEach((entry) => {
+                        target.push({
+                            "type": entry["type"] === undefined ? ["dictionary", {
+                            }] : ((): __type_steps_TU => {
+                                switch (entry["type"][0]) {
+                                    case "dictionary":
+                                        return ["dictionary", {
+                                        }]
+                                    case "group":
+                                        return ["group", {
+                                            "property": entry["type"][1]["property"] === undefined ? "*property*" : entry["type"][1]["property"],
+                                        }]
+                                    case "list":
+                                        return ["list", {
+                                        }]
+                                    case "tagged union option":
+                                        return ["tagged union option", {
+                                            "option": entry["type"][1]["option"] === undefined ? "*option*" : entry["type"][1]["option"],
+                                        }]
+                                    default: return assertUnreachable(entry["type"][0])
+                                }
+                            })(),
+                        })
                     })
-                })
-                return target
-            }})(),
+                    return target
+                }
+            })(),
             "type": intermediate["type"] === undefined ? "*type reference*" : intermediate["type"],
         }
     }
@@ -6416,151 +6436,159 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __procedure_block_B,
     ): __procedure_block_T {
         return {
-            "effects": intermediate["effects"] === undefined ? [] : ((): __effects_T[] => {{
-                const source = intermediate["effects"]
-                const target: __effects_T[] = []
-                source.forEach((entry) => {
-                    target.push({
-                        "type": entry["type"] === undefined ? [ "external interface call", {
-                            "expression": _default_generateBuilder_type_expression(),
-                            "interface": "*interface*",
-                        } ] : ((): __type_effects_TU => {
-                            switch (entry["type"][0]) {
-                                case "external interface call":
-                                    return [ "external interface call", {
-                                        "expression": entry["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["expression"]),
-                                        "interface": entry["type"][1]["interface"] === undefined ? "*interface*" : entry["type"][1]["interface"],
-                                    } ]
-                                case "internal interface call":
-                                    return [ "internal interface call", {
-                                        "expression": entry["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["expression"]),
-                                        "interface": entry["type"][1]["interface"] === undefined ? "*interface*" : entry["type"][1]["interface"],
-                                    } ]
-                                case "state change":
-                                    return [ "state change", {
-                                        "state": entry["type"][1]["state"] === undefined ? "*state*" : entry["type"][1]["state"],
-                                        "type": entry["type"][1]["type"] === undefined ? [ "string", {
-                                            "initializer": _default_generateBuilder_string_expression(),
-                                        } ] : ((): __type_state_change_TU => {
-                                            switch (entry["type"][1]["type"][0]) {
-                                                case "dictionary":
-                                                    return [ "dictionary", {
-                                                        "strategy": entry["type"][1]["type"][1]["strategy"] === undefined ? [ "add entry", {
-                                                            "expression": _default_generateBuilder_type_expression(),
-                                                            "key": _default_generateBuilder_string_expression(),
-                                                        } ] : ((): __strategy_dictionary_TU => {
-                                                            switch (entry["type"][1]["type"][1]["strategy"][0]) {
-                                                                case "add entry":
-                                                                    return [ "add entry", {
-                                                                        "expression": entry["type"][1]["type"][1]["strategy"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["type"][1]["strategy"][1]["expression"]),
-                                                                        "key": entry["type"][1]["type"][1]["strategy"][1]["key"] === undefined ? _default_generateBuilder_string_expression() : _generateBuilder_string_expression(entry["type"][1]["type"][1]["strategy"][1]["key"]),
-                                                                    } ]
-                                                                default: return assertUnreachable(entry["type"][1]["type"][1]["strategy"][0])
-                                                            }
-                                                        })(),
-                                                    } ]
-                                                case "list":
-                                                    return [ "list", {
-                                                        "strategy": entry["type"][1]["type"][1]["strategy"] === undefined ? [ "add element", {
-                                                            "expression": _default_generateBuilder_type_expression(),
-                                                        } ] : ((): __strategy_list_TU => {
-                                                            switch (entry["type"][1]["type"][1]["strategy"][0]) {
-                                                                case "add element":
-                                                                    return [ "add element", {
-                                                                        "expression": entry["type"][1]["type"][1]["strategy"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["type"][1]["strategy"][1]["expression"]),
-                                                                    } ]
-                                                                default: return assertUnreachable(entry["type"][1]["type"][1]["strategy"][0])
-                                                            }
-                                                        })(),
-                                                    } ]
-                                                case "string":
-                                                    return [ "string", {
-                                                        "initializer": entry["type"][1]["type"][1]["initializer"] === undefined ? _default_generateBuilder_string_expression() : _generateBuilder_string_expression(entry["type"][1]["type"][1]["initializer"]),
-                                                    } ]
-                                                case "type4":
-                                                    return [ "type4", {
-                                                        "expression": entry["type"][1]["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["type"][1]["expression"]),
-                                                    } ]
-                                                default: return assertUnreachable(entry["type"][1]["type"][0])
-                                            }
-                                        })(),
-                                    } ]
-                                default: return assertUnreachable(entry["type"][0])
-                            }
-                        })(),
+            "effects": intermediate["effects"] === undefined ? [] : ((): __effects_T[] => {
+                {
+                    const source = intermediate["effects"]
+                    const target: __effects_T[] = []
+                    source.forEach((entry) => {
+                        target.push({
+                            "type": entry["type"] === undefined ? ["external interface call", {
+                                "expression": _default_generateBuilder_type_expression(),
+                                "interface": "*interface*",
+                            }] : ((): __type_effects_TU => {
+                                switch (entry["type"][0]) {
+                                    case "external interface call":
+                                        return ["external interface call", {
+                                            "expression": entry["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["expression"]),
+                                            "interface": entry["type"][1]["interface"] === undefined ? "*interface*" : entry["type"][1]["interface"],
+                                        }]
+                                    case "internal interface call":
+                                        return ["internal interface call", {
+                                            "expression": entry["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["expression"]),
+                                            "interface": entry["type"][1]["interface"] === undefined ? "*interface*" : entry["type"][1]["interface"],
+                                        }]
+                                    case "state change":
+                                        return ["state change", {
+                                            "state": entry["type"][1]["state"] === undefined ? "*state*" : entry["type"][1]["state"],
+                                            "type": entry["type"][1]["type"] === undefined ? ["string", {
+                                                "initializer": _default_generateBuilder_string_expression(),
+                                            }] : ((): __type_state_change_TU => {
+                                                switch (entry["type"][1]["type"][0]) {
+                                                    case "dictionary":
+                                                        return ["dictionary", {
+                                                            "strategy": entry["type"][1]["type"][1]["strategy"] === undefined ? ["add entry", {
+                                                                "expression": _default_generateBuilder_type_expression(),
+                                                                "key": _default_generateBuilder_string_expression(),
+                                                            }] : ((): __strategy_dictionary_TU => {
+                                                                switch (entry["type"][1]["type"][1]["strategy"][0]) {
+                                                                    case "add entry":
+                                                                        return ["add entry", {
+                                                                            "expression": entry["type"][1]["type"][1]["strategy"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["type"][1]["strategy"][1]["expression"]),
+                                                                            "key": entry["type"][1]["type"][1]["strategy"][1]["key"] === undefined ? _default_generateBuilder_string_expression() : _generateBuilder_string_expression(entry["type"][1]["type"][1]["strategy"][1]["key"]),
+                                                                        }]
+                                                                    default: return assertUnreachable(entry["type"][1]["type"][1]["strategy"][0])
+                                                                }
+                                                            })(),
+                                                        }]
+                                                    case "list":
+                                                        return ["list", {
+                                                            "strategy": entry["type"][1]["type"][1]["strategy"] === undefined ? ["add element", {
+                                                                "expression": _default_generateBuilder_type_expression(),
+                                                            }] : ((): __strategy_list_TU => {
+                                                                switch (entry["type"][1]["type"][1]["strategy"][0]) {
+                                                                    case "add element":
+                                                                        return ["add element", {
+                                                                            "expression": entry["type"][1]["type"][1]["strategy"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["type"][1]["strategy"][1]["expression"]),
+                                                                        }]
+                                                                    default: return assertUnreachable(entry["type"][1]["type"][1]["strategy"][0])
+                                                                }
+                                                            })(),
+                                                        }]
+                                                    case "string":
+                                                        return ["string", {
+                                                            "initializer": entry["type"][1]["type"][1]["initializer"] === undefined ? _default_generateBuilder_string_expression() : _generateBuilder_string_expression(entry["type"][1]["type"][1]["initializer"]),
+                                                        }]
+                                                    case "type4":
+                                                        return ["type4", {
+                                                            "expression": entry["type"][1]["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["type"][1]["expression"]),
+                                                        }]
+                                                    default: return assertUnreachable(entry["type"][1]["type"][0])
+                                                }
+                                            })(),
+                                        }]
+                                    default: return assertUnreachable(entry["type"][0])
+                                }
+                            })(),
+                        })
                     })
-                })
-                return target
-            }})(),
-            "markers": intermediate["markers"] === undefined ? createDictionary({}) : ((): IDictionary<__markers_T> => {{
-                const source = intermediate["markers"]
-                const target: { [key:string]: __markers_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "selection": entry["selection"] === undefined ? _default_generateBuilder_context_selection() : _generateBuilder_context_selection(entry["selection"]),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
-            "nested procedures": intermediate["nested procedures"] === undefined ? createDictionary({}) : ((): IDictionary<__nested_procedures_T> => {{
-                const source = intermediate["nested procedures"]
-                const target: { [key:string]: __nested_procedures_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "specification": entry["specification"] === undefined ? _default_generateBuilder_internal_procedure_specification() : _generateBuilder_internal_procedure_specification(entry["specification"]),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
-            "return value": intermediate["return value"] === undefined ? [ "void", {
-            } ] : ((): __return_value_TU => {
+                    return target
+                }
+            })(),
+            "markers": intermediate["markers"] === undefined ? createDictionary({}) : ((): IDictionary<__markers_T> => {
+                {
+                    const source = intermediate["markers"]
+                    const target: { [key: string]: __markers_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "selection": entry["selection"] === undefined ? _default_generateBuilder_context_selection() : _generateBuilder_context_selection(entry["selection"]),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
+            "nested procedures": intermediate["nested procedures"] === undefined ? createDictionary({}) : ((): IDictionary<__nested_procedures_T> => {
+                {
+                    const source = intermediate["nested procedures"]
+                    const target: { [key: string]: __nested_procedures_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "specification": entry["specification"] === undefined ? _default_generateBuilder_internal_procedure_specification() : _generateBuilder_internal_procedure_specification(entry["specification"]),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
+            "return value": intermediate["return value"] === undefined ? ["void", {
+            }] : ((): __return_value_TU => {
                 switch (intermediate["return value"][0]) {
                     case "interface":
-                        return [ "interface", {
+                        return ["interface", {
                             "expression": intermediate["return value"][1]["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(intermediate["return value"][1]["expression"]),
-                        } ]
+                        }]
                     case "void":
-                        return [ "void", {
-                        } ]
+                        return ["void", {
+                        }]
                     default: return assertUnreachable(intermediate["return value"][0])
                 }
             })(),
-            "states": intermediate["states"] === undefined ? createDictionary({}) : ((): IDictionary<__states_T> => {{
-                const source = intermediate["states"]
-                const target: { [key:string]: __states_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "type": entry["type"] === undefined ? [ "string", {
-                            "initial value": "",
-                        } ] : ((): __type_states_TU => {
-                            switch (entry["type"][0]) {
-                                case "dictionary":
-                                    return [ "dictionary", {
-                                        "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["type"]),
-                                    } ]
-                                case "list":
-                                    return [ "list", {
-                                        "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["type"]),
-                                    } ]
-                                case "string":
-                                    return [ "string", {
-                                        "initial value": entry["type"][1]["initial value"] === undefined ? "" : entry["type"][1]["initial value"],
-                                    } ]
-                                case "type5":
-                                    return [ "type5", {
-                                        "expression": entry["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["expression"]),
-                                        "nested type": entry["type"][1]["nested type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["nested type"]),
-                                    } ]
-                                default: return assertUnreachable(entry["type"][0])
-                            }
-                        })(),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
+            "states": intermediate["states"] === undefined ? createDictionary({}) : ((): IDictionary<__states_T> => {
+                {
+                    const source = intermediate["states"]
+                    const target: { [key: string]: __states_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "type": entry["type"] === undefined ? ["string", {
+                                "initial value": "",
+                            }] : ((): __type_states_TU => {
+                                switch (entry["type"][0]) {
+                                    case "dictionary":
+                                        return ["dictionary", {
+                                            "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["type"]),
+                                        }]
+                                    case "list":
+                                        return ["list", {
+                                            "type": entry["type"][1]["type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["type"]),
+                                        }]
+                                    case "string":
+                                        return ["string", {
+                                            "initial value": entry["type"][1]["initial value"] === undefined ? "" : entry["type"][1]["initial value"],
+                                        }]
+                                    case "type5":
+                                        return ["type5", {
+                                            "expression": entry["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["type"][1]["expression"]),
+                                            "nested type": entry["type"][1]["nested type"] === undefined ? _default_generateBuilder_nested_type_reference() : _generateBuilder_nested_type_reference(entry["type"][1]["nested type"]),
+                                        }]
+                                    default: return assertUnreachable(entry["type"][0])
+                                }
+                            })(),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
         }
     }
 
@@ -6570,8 +6598,8 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
             "effects": [],
             "markers": createDictionary({}),
             "nested procedures": createDictionary({}),
-            "return value": [ "void", {
-            } ],
+            "return value": ["void", {
+            }],
             "states": createDictionary({}),
         }
     }
@@ -6580,17 +6608,19 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __procedure_call_B,
     ): __procedure_call_T {
         return {
-            "interface arguments": intermediate["interface arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__interface_arguments_T> => {{
-                const source = intermediate["interface arguments"]
-                const target: { [key:string]: __interface_arguments_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
+            "interface arguments": intermediate["interface arguments"] === undefined ? createDictionary({}) : ((): IDictionary<__interface_arguments_T> => {
+                {
+                    const source = intermediate["interface arguments"]
+                    const target: { [key: string]: __interface_arguments_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "expression": entry["expression"] === undefined ? _default_generateBuilder_interface_expression() : _generateBuilder_interface_expression(entry["expression"]),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
         }
     }
 
@@ -6605,184 +6635,214 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __root_B,
     ): __root_T {
         return {
-            "function implementations": intermediate["function implementations"] === undefined ? createDictionary({}) : ((): IDictionary<__function_implementations_T> => {{
-                const source = intermediate["function implementations"]
-                const target: { [key:string]: __function_implementations_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),
-                        "declaration": entry["declaration"] === undefined ? "*function declaration*" : entry["declaration"],
-                        "namespace reference": entry["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace reference"]),
-                        "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_T> => {{
-                            const source = entry["type parameters"]
-                            const target: { [key:string]: __type_parameters_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
-                                }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
-            "namespaces": intermediate["namespaces"] === undefined ? createDictionary({}) : ((): IDictionary<__namespaces_T> => {{
-                const source = intermediate["namespaces"]
-                const target: { [key:string]: __namespaces_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "function declarations": entry["function declarations"] === undefined ? createDictionary({}) : ((): IDictionary<__function_declarations_T> => {{
-                            const source = entry["function declarations"]
-                            const target: { [key:string]: __function_declarations_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
-                                    "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
-                                }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                        "interface builders": entry["interface builders"] === undefined ? createDictionary({}) : ((): IDictionary<__interface_builders_T> => {{
-                            const source = entry["interface builders"]
-                            const target: { [key:string]: __interface_builders_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
-                                    "methods": entry["methods"] === undefined ? createDictionary({}) : ((): IDictionary<__methods_T> => {{
-                                        const source = entry["methods"]
-                                        const target: { [key:string]: __methods_T} = {}
-                                        pr.Objectkeys(source).forEach((key) => {
-                                            const entry = source[key]
-                                            target[key] = {
-                                                "declaration": entry["declaration"] === undefined ? _default_generateBuilder_builder_procedure_declaration() : _generateBuilder_builder_procedure_declaration(entry["declaration"]),
-                                            }
-                                        })
-                                        return createDictionary(target)
-                                    }})(),
-                                }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                        "interfaces": entry["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_namespaces_T> => {{
-                            const source = entry["interfaces"]
-                            const target: { [key:string]: __interfaces_namespaces_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
-                                    "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
-                                }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                        "procedure declarations": entry["procedure declarations"] === undefined ? createDictionary({}) : ((): IDictionary<__procedure_declarations_T> => {{
-                            const source = entry["procedure declarations"]
-                            const target: { [key:string]: __procedure_declarations_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
-                                    "builders": entry["builders"] === undefined ? createDictionary({}) : ((): IDictionary<__builders_T> => {{
-                                        const source = entry["builders"]
-                                        const target: { [key:string]: __builders_T} = {}
-                                        pr.Objectkeys(source).forEach((key) => {
-                                            const entry = source[key]
-                                            target[key] = {
-                                                "builder": entry["builder"] === undefined ? "*referenced builder*" : entry["builder"],
-                                                "namespace selection": entry["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(entry["namespace selection"]),
-                                            }
-                                        })
-                                        return createDictionary(target)
-                                    }})(),
-                                    "context": entry["context"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(entry["context"]),
-                                    "functions": entry["functions"] === undefined ? createDictionary({}) : ((): IDictionary<__functions_T> => {{
-                                        const source = entry["functions"]
-                                        const target: { [key:string]: __functions_T} = {}
-                                        pr.Objectkeys(source).forEach((key) => {
-                                            const entry = source[key]
-                                            target[key] = {
-                                                "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
-                                            }
-                                        })
-                                        return createDictionary(target)
-                                    }})(),
-                                    "interfaces": entry["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_procedure_declarations_T> => {{
-                                        const source = entry["interfaces"]
-                                        const target: { [key:string]: __interfaces_procedure_declarations_T} = {}
-                                        pr.Objectkeys(source).forEach((key) => {
-                                            const entry = source[key]
-                                            target[key] = {
-                                                "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
-                                            }
-                                        })
-                                        return createDictionary(target)
-                                    }})(),
-                                    "return type": entry["return type"] === undefined ? [ "void", {
-                                    } ] : ((): __return_type_procedure_declarations_TU => {
-                                        switch (entry["return type"][0]) {
-                                            case "interface":
-                                                return [ "interface", {
-                                                    "interface": entry["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["return type"][1]["interface"]),
-                                                } ]
-                                            case "void":
-                                                return [ "void", {
-                                                } ]
-                                            default: return assertUnreachable(entry["return type"][0])
+            "function implementations": intermediate["function implementations"] === undefined ? createDictionary({}) : ((): IDictionary<__function_implementations_T> => {
+                {
+                    const source = intermediate["function implementations"]
+                    const target: { [key: string]: __function_implementations_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),
+                            "declaration": entry["declaration"] === undefined ? "*function declaration*" : entry["declaration"],
+                            "namespace reference": entry["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace reference"]),
+                            "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_T> => {
+                                {
+                                    const source = entry["type parameters"]
+                                    const target: { [key: string]: __type_parameters_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
                                         }
-                                    })(),
+                                    })
+                                    return createDictionary(target)
                                 }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                        "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_namespaces_T> => {{
-                            const source = entry["type parameters"]
-                            const target: { [key:string]: __type_parameters_namespaces_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
+                            })(),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
+            "namespaces": intermediate["namespaces"] === undefined ? createDictionary({}) : ((): IDictionary<__namespaces_T> => {
+                {
+                    const source = intermediate["namespaces"]
+                    const target: { [key: string]: __namespaces_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "function declarations": entry["function declarations"] === undefined ? createDictionary({}) : ((): IDictionary<__function_declarations_T> => {
+                                {
+                                    const source = entry["function declarations"]
+                                    const target: { [key: string]: __function_declarations_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
                                 }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                        "types": entry["types"] === undefined ? createDictionary({}) : ((): IDictionary<__types_T> => {{
-                            const source = entry["types"]
-                            const target: { [key:string]: __types_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
-                                    "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
+                            })(),
+                            "interface builders": entry["interface builders"] === undefined ? createDictionary({}) : ((): IDictionary<__interface_builders_T> => {
+                                {
+                                    const source = entry["interface builders"]
+                                    const target: { [key: string]: __interface_builders_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "methods": entry["methods"] === undefined ? createDictionary({}) : ((): IDictionary<__methods_T> => {
+                                                {
+                                                    const source = entry["methods"]
+                                                    const target: { [key: string]: __methods_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "declaration": entry["declaration"] === undefined ? _default_generateBuilder_builder_procedure_declaration() : _generateBuilder_builder_procedure_declaration(entry["declaration"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
+                                                }
+                                            })(),
+                                        }
+                                    })
+                                    return createDictionary(target)
                                 }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
-            "procedure implementations": intermediate["procedure implementations"] === undefined ? createDictionary({}) : ((): IDictionary<__procedure_implementations_T> => {{
-                const source = intermediate["procedure implementations"]
-                const target: { [key:string]: __procedure_implementations_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "block": entry["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(entry["block"]),
-                        "declaration": entry["declaration"] === undefined ? "*procedure declaration*" : entry["declaration"],
-                        "namespace reference": entry["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace reference"]),
-                        "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_procedure_implementations_T> => {{
-                            const source = entry["type parameters"]
-                            const target: { [key:string]: __type_parameters_procedure_implementations_T} = {}
-                            pr.Objectkeys(source).forEach((key) => {
-                                const entry = source[key]
-                                target[key] = {
+                            })(),
+                            "interfaces": entry["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_namespaces_T> => {
+                                {
+                                    const source = entry["interfaces"]
+                                    const target: { [key: string]: __interfaces_namespaces_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "definition": entry["definition"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["definition"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
                                 }
-                            })
-                            return createDictionary(target)
-                        }})(),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
+                            })(),
+                            "procedure declarations": entry["procedure declarations"] === undefined ? createDictionary({}) : ((): IDictionary<__procedure_declarations_T> => {
+                                {
+                                    const source = entry["procedure declarations"]
+                                    const target: { [key: string]: __procedure_declarations_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "builders": entry["builders"] === undefined ? createDictionary({}) : ((): IDictionary<__builders_T> => {
+                                                {
+                                                    const source = entry["builders"]
+                                                    const target: { [key: string]: __builders_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "builder": entry["builder"] === undefined ? "*referenced builder*" : entry["builder"],
+                                                            "namespace selection": entry["namespace selection"] === undefined ? _default_generateBuilder_namespace_selection() : _generateBuilder_namespace_selection(entry["namespace selection"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
+                                                }
+                                            })(),
+                                            "context": entry["context"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(entry["context"]),
+                                            "functions": entry["functions"] === undefined ? createDictionary({}) : ((): IDictionary<__functions_T> => {
+                                                {
+                                                    const source = entry["functions"]
+                                                    const target: { [key: string]: __functions_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
+                                                }
+                                            })(),
+                                            "interfaces": entry["interfaces"] === undefined ? createDictionary({}) : ((): IDictionary<__interfaces_procedure_declarations_T> => {
+                                                {
+                                                    const source = entry["interfaces"]
+                                                    const target: { [key: string]: __interfaces_procedure_declarations_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "interface": entry["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["interface"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
+                                                }
+                                            })(),
+                                            "return type": entry["return type"] === undefined ? ["void", {
+                                            }] : ((): __return_type_procedure_declarations_TU => {
+                                                switch (entry["return type"][0]) {
+                                                    case "interface":
+                                                        return ["interface", {
+                                                            "interface": entry["return type"][1]["interface"] === undefined ? _default_generateBuilder_interface_definition() : _generateBuilder_interface_definition(entry["return type"][1]["interface"]),
+                                                        }]
+                                                    case "void":
+                                                        return ["void", {
+                                                        }]
+                                                    default: return assertUnreachable(entry["return type"][0])
+                                                }
+                                            })(),
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                            "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_namespaces_T> => {
+                                {
+                                    const source = entry["type parameters"]
+                                    const target: { [key: string]: __type_parameters_namespaces_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                            "types": entry["types"] === undefined ? createDictionary({}) : ((): IDictionary<__types_T> => {
+                                {
+                                    const source = entry["types"]
+                                    const target: { [key: string]: __types_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
+            "procedure implementations": intermediate["procedure implementations"] === undefined ? createDictionary({}) : ((): IDictionary<__procedure_implementations_T> => {
+                {
+                    const source = intermediate["procedure implementations"]
+                    const target: { [key: string]: __procedure_implementations_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "block": entry["block"] === undefined ? _default_generateBuilder_procedure_block() : _generateBuilder_procedure_block(entry["block"]),
+                            "declaration": entry["declaration"] === undefined ? "*procedure declaration*" : entry["declaration"],
+                            "namespace reference": entry["namespace reference"] === undefined ? _default_generateBuilder_namespace_reference() : _generateBuilder_namespace_reference(entry["namespace reference"]),
+                            "type parameters": entry["type parameters"] === undefined ? createDictionary({}) : ((): IDictionary<__type_parameters_procedure_implementations_T> => {
+                                {
+                                    const source = entry["type parameters"]
+                                    const target: { [key: string]: __type_parameters_procedure_implementations_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
         }
     }
 
@@ -6799,22 +6859,22 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __string_expression_B,
     ): __string_expression_T {
         return {
-            "strategy": intermediate["strategy"] === undefined ? [ "literal", {
+            "strategy": intermediate["strategy"] === undefined ? ["literal", {
                 "value": "",
-            } ] : ((): __strategy_string_expression_TU => {
+            }] : ((): __strategy_string_expression_TU => {
                 switch (intermediate["strategy"][0]) {
                     case "literal":
-                        return [ "literal", {
+                        return ["literal", {
                             "value": intermediate["strategy"][1]["value"] === undefined ? "" : intermediate["strategy"][1]["value"],
-                        } ]
+                        }]
                     case "select":
-                        return [ "select", {
+                        return ["select", {
                             "context": intermediate["strategy"][1]["context"] === undefined ? _default_generateBuilder_context_selection() : _generateBuilder_context_selection(intermediate["strategy"][1]["context"]),
-                        } ]
+                        }]
                     case "state":
-                        return [ "state", {
+                        return ["state", {
                             "state": intermediate["strategy"][1]["state"] === undefined ? "*state*" : intermediate["strategy"][1]["state"],
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["strategy"][0])
                 }
             })(),
@@ -6824,9 +6884,9 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_string_expression(
     ): __string_expression_T {
         return {
-            "strategy": [ "literal", {
+            "strategy": ["literal", {
                 "value": "",
-            } ],
+            }],
         }
     }
 
@@ -6834,74 +6894,78 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __type_B,
     ): __type_T {
         return {
-            "occurence": intermediate["occurence"] === undefined ? [ "required", {
-            } ] : ((): __occurence_TU => {
+            "occurence": intermediate["occurence"] === undefined ? ["required", {
+            }] : ((): __occurence_TU => {
                 switch (intermediate["occurence"][0]) {
                     case "optional":
-                        return [ "optional", {
-                        } ]
+                        return ["optional", {
+                        }]
                     case "required":
-                        return [ "required", {
-                        } ]
+                        return ["required", {
+                        }]
                     default: return assertUnreachable(intermediate["occurence"][0])
                 }
             })(),
-            "type": intermediate["type"] === undefined ? [ "string", {
-            } ] : ((): __type_type_TU => {
+            "type": intermediate["type"] === undefined ? ["string", {
+            }] : ((): __type_type_TU => {
                 switch (intermediate["type"][0]) {
                     case "boolean":
-                        return [ "boolean", {
-                        } ]
+                        return ["boolean", {
+                        }]
                     case "dictionary":
-                        return [ "dictionary", {
+                        return ["dictionary", {
                             "entry": intermediate["type"][1]["entry"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(intermediate["type"][1]["entry"]),
-                        } ]
+                        }]
                     case "group":
-                        return [ "group", {
-                            "properties": intermediate["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_T> => {{
-                                const source = intermediate["type"][1]["properties"]
-                                const target: { [key:string]: __properties_T} = {}
-                                pr.Objectkeys(source).forEach((key) => {
-                                    const entry = source[key]
-                                    target[key] = {
-                                        "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
-                                    }
-                                })
-                                return createDictionary(target)
-                            }})(),
-                        } ]
+                        return ["group", {
+                            "properties": intermediate["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_T> => {
+                                {
+                                    const source = intermediate["type"][1]["properties"]
+                                    const target: { [key: string]: __properties_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                        }]
                     case "list":
-                        return [ "list", {
+                        return ["list", {
                             "element": intermediate["type"][1]["element"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(intermediate["type"][1]["element"]),
-                        } ]
+                        }]
                     case "number":
-                        return [ "number", {
-                        } ]
+                        return ["number", {
+                        }]
                     case "string":
-                        return [ "string", {
-                        } ]
+                        return ["string", {
+                        }]
                     case "tagged union":
-                        return [ "tagged union", {
-                            "options": intermediate["type"][1]["options"] === undefined ? createDictionary({}) : ((): IDictionary<__options_T> => {{
-                                const source = intermediate["type"][1]["options"]
-                                const target: { [key:string]: __options_T} = {}
-                                pr.Objectkeys(source).forEach((key) => {
-                                    const entry = source[key]
-                                    target[key] = {
-                                        "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
-                                    }
-                                })
-                                return createDictionary(target)
-                            }})(),
-                        } ]
+                        return ["tagged union", {
+                            "options": intermediate["type"][1]["options"] === undefined ? createDictionary({}) : ((): IDictionary<__options_T> => {
+                                {
+                                    const source = intermediate["type"][1]["options"]
+                                    const target: { [key: string]: __options_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "type": entry["type"] === undefined ? _default_generateBuilder_type() : _generateBuilder_type(entry["type"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                        }]
                     case "type argument":
-                        return [ "type argument", {
+                        return ["type argument", {
                             "argument": intermediate["type"][1]["argument"] === undefined ? "*type argument*" : intermediate["type"][1]["argument"],
-                        } ]
+                        }]
                     case "type reference":
-                        return [ "type reference", {
+                        return ["type reference", {
                             "type": intermediate["type"][1]["type"] === undefined ? _default_generateBuilder_type_reference() : _generateBuilder_type_reference(intermediate["type"][1]["type"]),
-                        } ]
+                        }]
                     default: return assertUnreachable(intermediate["type"][0])
                 }
             })(),
@@ -6911,10 +6975,10 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_type(
     ): __type_T {
         return {
-            "occurence": [ "required", {
-            } ],
-            "type": [ "string", {
-            } ],
+            "occurence": ["required", {
+            }],
+            "type": ["string", {
+            }],
         }
     }
 
@@ -6922,94 +6986,98 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
         intermediate: __type_expression_B,
     ): __type_expression_T {
         return {
-            "strategy": intermediate["strategy"] === undefined ? [ "literal", {
-                "type": [ "string", {
+            "strategy": intermediate["strategy"] === undefined ? ["literal", {
+                "type": ["string", {
                     "value": "",
-                } ],
-            } ] : ((): __strategy_type_expression_TU => {
+                }],
+            }] : ((): __strategy_type_expression_TU => {
                 switch (intermediate["strategy"][0]) {
                     case "copy":
-                        return [ "copy", {
+                        return ["copy", {
                             "context": intermediate["strategy"][1]["context"] === undefined ? _default_generateBuilder_guaranteed_context_selection() : _generateBuilder_guaranteed_context_selection(intermediate["strategy"][1]["context"]),
-                        } ]
+                        }]
                     case "dictionary from state":
-                        return [ "dictionary from state", {
+                        return ["dictionary from state", {
                             "state": intermediate["strategy"][1]["state"] === undefined ? "*state*" : intermediate["strategy"][1]["state"],
-                        } ]
+                        }]
                     case "literal":
-                        return [ "literal", {
-                            "type": intermediate["strategy"][1]["type"] === undefined ? [ "string", {
+                        return ["literal", {
+                            "type": intermediate["strategy"][1]["type"] === undefined ? ["string", {
                                 "value": "",
-                            } ] : ((): __type_literal_TU => {
+                            }] : ((): __type_literal_TU => {
                                 switch (intermediate["strategy"][1]["type"][0]) {
                                     case "boolean":
-                                        return [ "boolean", {
+                                        return ["boolean", {
                                             "value": intermediate["strategy"][1]["type"][1]["value"] === undefined ? "true" : intermediate["strategy"][1]["type"][1]["value"],
-                                        } ]
+                                        }]
                                     case "dictionary":
-                                        return [ "dictionary", {
-                                        } ]
+                                        return ["dictionary", {
+                                        }]
                                     case "group":
-                                        return [ "group", {
-                                            "properties": intermediate["strategy"][1]["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_group_T> => {{
-                                                const source = intermediate["strategy"][1]["type"][1]["properties"]
-                                                const target: { [key:string]: __properties_group_T} = {}
-                                                pr.Objectkeys(source).forEach((key) => {
-                                                    const entry = source[key]
-                                                    target[key] = {
-                                                        "expression": entry["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["expression"]),
-                                                    }
-                                                })
-                                                return createDictionary(target)
-                                            }})(),
-                                        } ]
+                                        return ["group", {
+                                            "properties": intermediate["strategy"][1]["type"][1]["properties"] === undefined ? createDictionary({}) : ((): IDictionary<__properties_group_T> => {
+                                                {
+                                                    const source = intermediate["strategy"][1]["type"][1]["properties"]
+                                                    const target: { [key: string]: __properties_group_T } = {}
+                                                    pr.Objectkeys(source).forEach((key) => {
+                                                        const entry = source[key]
+                                                        target[key] = {
+                                                            "expression": entry["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["expression"]),
+                                                        }
+                                                    })
+                                                    return createDictionary(target)
+                                                }
+                                            })(),
+                                        }]
                                     case "list":
-                                        return [ "list", {
-                                        } ]
+                                        return ["list", {
+                                        }]
                                     case "number":
-                                        return [ "number", {
+                                        return ["number", {
                                             "value": intermediate["strategy"][1]["type"][1]["value"] === undefined ? "0" : intermediate["strategy"][1]["type"][1]["value"],
-                                        } ]
+                                        }]
                                     case "string":
-                                        return [ "string", {
+                                        return ["string", {
                                             "value": intermediate["strategy"][1]["type"][1]["value"] === undefined ? "" : intermediate["strategy"][1]["type"][1]["value"],
-                                        } ]
+                                        }]
                                     case "tagged union":
-                                        return [ "tagged union", {
+                                        return ["tagged union", {
                                             "data": intermediate["strategy"][1]["type"][1]["data"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(intermediate["strategy"][1]["type"][1]["data"]),
                                             "option": intermediate["strategy"][1]["type"][1]["option"] === undefined ? "*option*" : intermediate["strategy"][1]["type"][1]["option"],
-                                        } ]
+                                        }]
                                     case "type argument":
-                                        return [ "type argument", {
-                                        } ]
+                                        return ["type argument", {
+                                        }]
                                     case "type reference":
-                                        return [ "type reference", {
+                                        return ["type reference", {
                                             "expression": intermediate["strategy"][1]["type"][1]["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(intermediate["strategy"][1]["type"][1]["expression"]),
-                                        } ]
+                                        }]
                                     default: return assertUnreachable(intermediate["strategy"][1]["type"][0])
                                 }
                             })(),
-                        } ]
+                        }]
                     case "map":
-                        return [ "map", {
+                        return ["map", {
                             "context": intermediate["strategy"][1]["context"] === undefined ? _default_generateBuilder_guaranteed_context_selection() : _generateBuilder_guaranteed_context_selection(intermediate["strategy"][1]["context"]),
                             "entry": intermediate["strategy"][1]["entry"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(intermediate["strategy"][1]["entry"]),
-                        } ]
+                        }]
                     case "switch":
-                        return [ "switch", {
+                        return ["switch", {
                             "context": intermediate["strategy"][1]["context"] === undefined ? _default_generateBuilder_guaranteed_context_selection() : _generateBuilder_guaranteed_context_selection(intermediate["strategy"][1]["context"]),
-                            "options": intermediate["strategy"][1]["options"] === undefined ? createDictionary({}) : ((): IDictionary<__options_switch_T> => {{
-                                const source = intermediate["strategy"][1]["options"]
-                                const target: { [key:string]: __options_switch_T} = {}
-                                pr.Objectkeys(source).forEach((key) => {
-                                    const entry = source[key]
-                                    target[key] = {
-                                        "expression": entry["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["expression"]),
-                                    }
-                                })
-                                return createDictionary(target)
-                            }})(),
-                        } ]
+                            "options": intermediate["strategy"][1]["options"] === undefined ? createDictionary({}) : ((): IDictionary<__options_switch_T> => {
+                                {
+                                    const source = intermediate["strategy"][1]["options"]
+                                    const target: { [key: string]: __options_switch_T } = {}
+                                    pr.Objectkeys(source).forEach((key) => {
+                                        const entry = source[key]
+                                        target[key] = {
+                                            "expression": entry["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(entry["expression"]),
+                                        }
+                                    })
+                                    return createDictionary(target)
+                                }
+                            })(),
+                        }]
                     default: return assertUnreachable(intermediate["strategy"][0])
                 }
             })(),
@@ -7019,11 +7087,11 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     function _default_generateBuilder_type_expression(
     ): __type_expression_T {
         return {
-            "strategy": [ "literal", {
-                "type": [ "string", {
+            "strategy": ["literal", {
+                "type": ["string", {
                     "value": "",
-                } ],
-            } ],
+                }],
+            }],
         }
     }
 
@@ -7032,18 +7100,20 @@ export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
     ): __type_expression_block_T {
         return {
             "expression": intermediate["expression"] === undefined ? _default_generateBuilder_type_expression() : _generateBuilder_type_expression(intermediate["expression"]),
-            "functions": intermediate["functions"] === undefined ? createDictionary({}) : ((): IDictionary<__functions_type_expression_block_T> => {{
-                const source = intermediate["functions"]
-                const target: { [key:string]: __functions_type_expression_block_T} = {}
-                pr.Objectkeys(source).forEach((key) => {
-                    const entry = source[key]
-                    target[key] = {
-                        "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),
-                        "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
-                    }
-                })
-                return createDictionary(target)
-            }})(),
+            "functions": intermediate["functions"] === undefined ? createDictionary({}) : ((): IDictionary<__functions_type_expression_block_T> => {
+                {
+                    const source = intermediate["functions"]
+                    const target: { [key: string]: __functions_type_expression_block_T } = {}
+                    pr.Objectkeys(source).forEach((key) => {
+                        const entry = source[key]
+                        target[key] = {
+                            "block": entry["block"] === undefined ? _default_generateBuilder_type_expression_block() : _generateBuilder_type_expression_block(entry["block"]),
+                            "declaration": entry["declaration"] === undefined ? _default_generateBuilder_function_declaration() : _generateBuilder_function_declaration(entry["declaration"]),
+                        }
+                    })
+                    return createDictionary(target)
+                }
+            })(),
         }
     }
 

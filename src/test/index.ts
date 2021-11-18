@@ -1,4 +1,4 @@
-import * as ass from "../src"
+import * as ass from "../src/pub/lib"
 import { testProgram } from "./testProgram"
 import * as pt from "pareto-test"
 

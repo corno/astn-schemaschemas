@@ -4,7 +4,7 @@
     "@typescript-eslint/no-unused-vars": "off",
 */
 import * as def from "../types"
-import * as t from "../../../../../lowlevel/generated/lowlevel"
+import * as t from "../../../../../lowlevel/lowlevel.generated"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")

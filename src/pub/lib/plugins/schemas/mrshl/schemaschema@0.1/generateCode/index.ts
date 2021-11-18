@@ -5,7 +5,7 @@
 */
 import * as pr from "pareto-runtime"
 import * as def from "../types"
-import * as t from "../../../../../lowlevel/generated/lowlevel"
+import * as t from "../../../../../lowlevel/lowlevel.generated"
 import { generateCore } from "./core"
 import { generateDeserializeAPI } from "./deserializeAPI"
 import { generateDeserializeNamespace } from "./deserialize"

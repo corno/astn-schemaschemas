@@ -1,8 +1,8 @@
 import * as pr from "pareto-runtime"
 import * as astn from "astn"
-import * as ass from "../src"
-import * as env from "../src/env"
-import { defaultSchemaHost } from "../src"
+import * as ass from "../src/pub/lib"
+import * as env from "../src/pub/lib/env"
+import { defaultSchemaHost } from "../src/pub/lib"
 
 
 const sourcePath = pr.getElement(pr.getProcessArguments(), 2)

@@ -1,4 +1,4 @@
-import { CreateStreamConsumer } from "../src/runProgram"
+import { CreateStreamConsumer } from "../src/pub/lib/runProgram"
 import * as pt from "pareto-test"
 import * as pr from "pareto-runtime"
 

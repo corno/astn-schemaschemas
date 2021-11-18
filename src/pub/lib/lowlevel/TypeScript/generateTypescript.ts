@@ -3,7 +3,7 @@
     "@typescript-eslint/no-unused-vars": off,
 */
 import * as pr from "pareto-runtime"
-import * as ll from "../generated/lowlevel"
+import * as ll from "../lowlevel.generated"
 import { Block, Line } from "./WriteAPI"
 
 function assertUnreachable<RT>(_x: never): RT {
