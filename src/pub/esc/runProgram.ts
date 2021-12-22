@@ -1,4 +1,4 @@
-import { IStreamConsumer } from "astn/dist/src/IStreamConsumer"
+import { IStreamConsumer } from "astn/dist/pub/esc/interfaces/etc"
 import * as pr from "pareto-runtime"
 
 export type CreateStreamConsumer = (

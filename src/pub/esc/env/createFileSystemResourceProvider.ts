@@ -1,5 +1,5 @@
 import * as pr from "pareto-runtime"
-import * as astn from "astn"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -10,7 +10,7 @@ function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
 
 export function createFileSystemResourceProvider(
     dir: string
-): astn.IResourceProvider {
+): etc.IResourceProvider {
     return {
         getResource: (
             fileName,

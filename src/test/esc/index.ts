@@ -1,6 +1,6 @@
-import * as ass from "../src/pub/lib"
 import { testProgram } from "./testProgram"
 import * as pt from "pareto-test"
+import { createCodeGenerator,createCodeGenerator2 } from "../../pub/esc"
 
 export function bla(): void {
     //
@@ -20,7 +20,7 @@ pt.testset('generate code', () => {
                 dir,
                 "out",
                 "ts_",
-                ass.createCodeGenerator,
+                createCodeGenerator,
                 resolve
             )
         })
@@ -34,7 +34,7 @@ pt.testset('generate code', () => {
                 dir,
                 "out",
                 "ts_",
-                ass.createCodeGenerator2,
+                createCodeGenerator2,
                 resolve,
             )
         })

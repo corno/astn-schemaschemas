@@ -194,34 +194,34 @@ export function generateCode(
     })
     $w.fullLine(`}`)
     /*
-    interface ValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    interface ValueHandler<TokenAnnotation> {
 
     }
 
-    interface RequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
-        exists: ValueHandler<TokenAnnotation, NonTokenAnnotation>
+    interface RequiredValueHandler<TokenAnnotation> {
+        exists: ValueHandler<TokenAnnotation>
         missing: () => void
     }
 
-    interface IExpectContext<TokenAnnotation, NonTokenAnnotation> {
+    interface IExpectContext<TokenAnnotation> {
         expectList($: {
-            onElement: () => ValueHandler<TokenAnnotation, NonTokenAnnotation>
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
+            onElement: () => ValueHandler<TokenAnnotation>
+        }): ValueHandler<TokenAnnotation>
         expectVerboseGroup($: {
             properties: {
                 [key: string]: {
                     onNotExists: () => void
-                    onExists: () => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation>
+                    onExists: () => RequiredValueHandler<TokenAnnotation>
                 }
             }
             onEnd: () => void
 
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
+        }): ValueHandler<TokenAnnotation>
         expectTaggedUnion($: {
             options: {
-                [key: string]: () => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation>
+                [key: string]: () => RequiredValueHandler<TokenAnnotation>
             }
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
+        }): ValueHandler<TokenAnnotation>
         expectDictionary($: {
             onProperty: ($: {
                 data: {
@@ -229,14 +229,14 @@ export function generateCode(
                         value: string
                     }
                 }
-            }) => RequiredValueHandler<TokenAnnotation, NonTokenAnnotation>
-        }): ValueHandler<TokenAnnotation, NonTokenAnnotation>
+            }) => RequiredValueHandler<TokenAnnotation>
+        }): ValueHandler<TokenAnnotation>
         expectQuotedString($: {
             warningOnly: boolean
             callback: ($: {
                 value: string
-            }) => astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>
-        }): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>
+            }) => astn.IValueHandler<TokenAnnotation>
+        }): astn.IValueHandler<TokenAnnotation>
     }
     */
     $w.fullLine(``)
@@ -500,7 +500,7 @@ export function generateCode(
     //     $w.nestedBlockX($w => {
     //         $w.fullLine(`callback: (out: ${createIdentifierGenerator(key).generateNodeIdentifier()}) => void,`)
     //     })
-    //     $w.fullLine(`): Iastn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+    //     $w.fullLine(`): Iastn.IValueHandler<TokenAnnotation> {`)
     //     $w.nestedBlockX($w => {
     //         $w.line($w => {
     //             $w.snippet(`return `)
@@ -512,15 +512,15 @@ export function generateCode(
     //     $w.fullLine(``)
     // })
 
-    $w.fullLine(`export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(`)
+    $w.fullLine(`export function createDeserializer<TokenAnnotation>(`)
     $w.parameters(($w) => {
-        $w.fullLine(`context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,`)
+        $w.fullLine(`context: astn.IExpectContext<TokenAnnotation>,`)
         $w.fullLine(`raiseValidationError: (message: string, annotation: TokenAnnotation) => void,`)
         $w.fullLine(`callback: (result: ${createIdentifierGenerator(schema["root type"].name).generateNodeIdentifier()}) => void,`)
     })
-    $w.fullLine(`): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+    $w.fullLine(`): astn.IRequiredValueHandler<TokenAnnotation> {`)
     $w.statementsBlock(($w) => {
-        $w.fullLine(`function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+        $w.fullLine(`function wrap(handler: astn.IValueHandler<TokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation> {`)
         $w.statementsBlock(($w) => {
             $w.fullLine(`return {`)
             $w.objectImp(($w) => {
@@ -540,7 +540,7 @@ export function generateCode(
             $w.parameters(($w) => {
                 $w.fullLine(`callback: (out: ${createIdentifierGenerator(key).generateNodeIdentifier()}) => void,`)
             })
-            $w.fullLine(`): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {`)
+            $w.fullLine(`): astn.IValueHandler<TokenAnnotation> {`)
             $w.statementsBlock(($w) => {
                 $w.line(($w) => {
                     function generateHandlerCodeForNode(
@@ -920,7 +920,7 @@ export function generateCode(
     })
     $w.fullLine(`}`)
     $w.fullLine(``)
-    $w.fullLine(`export function createBuilder<TokenAnnotation, NonTokenAnnotation>(`)
+    $w.fullLine(`export function createBuilder<TokenAnnotation>(`)
     $w.parameters(($w) => {
         $w.fullLine(`intermediate: ${createIdentifierGenerator(schema["root type"].name).generateNodeBuilderIdentifier()},`)
     })

@@ -1,5 +1,4 @@
-import * as astn from "astn"
-
+import * as pr from "pareto-runtime"
 export interface IReference<T> {
     get(): T
     readonly name: string
@@ -31,7 +30,7 @@ export type List = {
 }
 
 export type Node = {
-    readonly "properties": astn.IReadonlyDictionary<Property>
+    readonly "properties": pr.IReadonlyDictionary<Property>
 }
 
 export type Property = {
@@ -45,7 +44,7 @@ export type PropertyType =
     | ["state group", StateGroup]
 
 export type Schema = {
-    readonly "component types": astn.IReadonlyDictionary<ComponentType>
+    readonly "component types": pr.IReadonlyDictionary<ComponentType>
     readonly "root type": IReference<ComponentType>
 }
 
@@ -54,7 +53,7 @@ export type State = {
 }
 
 export type StateGroup = {
-    readonly "states": astn.IReadonlyDictionary<State>
+    readonly "states": pr.IReadonlyDictionary<State>
     readonly "default state": IReference<State>
 }
 

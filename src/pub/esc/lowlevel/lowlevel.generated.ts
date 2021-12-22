@@ -8,7 +8,8 @@
     "max-len": 0
 */
 import * as pr from "pareto-runtime"
-import * as astn from "astn"
+import * as grammar from "astn/dist/pub/esc/interfaces/grammar"
+import * as astn from "astn/dist/pub/esc/interfaces/astn"
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
 }
@@ -1523,12 +1524,12 @@ export type __type_reference_B = {
     readonly "type"?: string
 }
 
-export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
-    context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
+export function createDeserializer<TokenAnnotation>(
+    context: astn.IExpectContext<TokenAnnotation>,
     raiseValidationError: (message: string, annotation: TokenAnnotation) => void,
     callback: (result: __root_T) => void,
-): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
-    function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+): grammar.IRequiredValueHandler<TokenAnnotation> {
+    function wrap(handler: grammar.IValueHandler<TokenAnnotation>): grammar.IRequiredValueHandler<TokenAnnotation> {
         return {
             exists: handler,
             missing: () => {
@@ -1538,7 +1539,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     }
     function _generateHandler_builder_procedure_declaration(
         callback: (out: __builder_procedure_declaration_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __builder_procedure_declaration_T) => void) => {
             const _interfaces_v: { [key: string]: __interfaces_T } = {}
             let _return_type_v: __return_type_TU | null = null
@@ -1572,7 +1573,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _interfaces_v[propertyData.token.data.value] = node))
+                                })((node) => _interfaces_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -1639,7 +1640,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_context_selection(
         callback: (out: __context_selection_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __context_selection_T) => void) => {
             let _start_v: __context_start_T | null = null
             const _steps_v: __steps_T[] = []
@@ -1664,7 +1665,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 onExists: () => wrap(context.expectQuotedString({
                                                     warningOnly: true,
                                                     callback: ($) => {
-                                                        _property_v = $.token.data.value
+                                                        _property_v = $.token.token.value
                                                     },
                                                 })),
                                             },
@@ -1701,7 +1702,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_context_start(
         callback: (out: __context_start_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __context_start_T) => void) => {
             let _start_v: __start_TU | null = null
             return context.expectVerboseGroup({
@@ -1748,7 +1749,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _function_v = $.token.data.value
+                                                                                        _function_v = $.token.token.value
                                                                                     },
                                                                                 })),
                                                                             },
@@ -1774,7 +1775,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _function_v = $.token.data.value
+                                                                                        _function_v = $.token.token.value
                                                                                     },
                                                                                 })),
                                                                             },
@@ -1827,7 +1828,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _marker_v = $.token.data.value
+                                                            _marker_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -1853,7 +1854,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _state_v = $.token.data.value
+                                                            _state_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -1888,7 +1889,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_function_declaration(
         callback: (out: __function_declaration_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __function_declaration_T) => void) => {
             let _in_v: __type_reference_T | null = null
             let _out_v: __type_reference_T | null = null
@@ -1937,7 +1938,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_guaranteed_context_selection(
         callback: (out: __guaranteed_context_selection_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __guaranteed_context_selection_T) => void) => {
             let _missing_handler_v: __missing_handler_T | null = null
             let _start_v: __context_start_T | null = null
@@ -1976,7 +1977,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 onExists: () => wrap(context.expectQuotedString({
                                                     warningOnly: true,
                                                     callback: ($) => {
-                                                        _property_v = $.token.data.value
+                                                        _property_v = $.token.token.value
                                                     },
                                                 })),
                                             },
@@ -2027,7 +2028,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_interface_definition(
         callback: (out: __interface_definition_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __interface_definition_T) => void) => {
             let _type_v: __type_TU | null = null
             return context.expectVerboseGroup({
@@ -2096,7 +2097,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         })
                                                                     },
                                                                 })
-                                                            })((node) => _members_v[propertyData.token.data.value] = node))
+                                                            })((node) => _members_v[propertyData.token.token.value] = node))
                                                         },
                                                     })),
                                                 },
@@ -2201,7 +2202,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _interface_v = $.token.data.value
+                                                            _interface_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -2250,7 +2251,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_interface_expression(
         callback: (out: __interface_expression_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __interface_expression_T) => void) => {
             let _type_v: __type_interface_expression_TU | null = null
             return context.expectVerboseGroup({
@@ -2269,7 +2270,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _argument_v = $.token.data.value
+                                                            _argument_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -2338,7 +2339,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     })
                                                                                                 },
                                                                                             })
-                                                                                        })((node) => _entries_v[propertyData.token.data.value] = node))
+                                                                                        })((node) => _entries_v[propertyData.token.token.value] = node))
                                                                                     },
                                                                                 })),
                                                                             },
@@ -2404,7 +2405,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                                                 })
                                                                                                                             },
                                                                                                                         })
-                                                                                                                    })((node) => _members_v[propertyData.token.data.value] = node))
+                                                                                                                    })((node) => _members_v[propertyData.token.token.value] = node))
                                                                                                                 },
                                                                                                             })),
                                                                                                         },
@@ -2453,7 +2454,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                                                 warningOnly: true,
                                                                                                                 callback: ($) => {
-                                                                                                                    _argument_v = $.token.data.value
+                                                                                                                    _argument_v = $.token.token.value
                                                                                                                 },
                                                                                                             })),
                                                                                                         },
@@ -2691,7 +2692,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_internal_procedure_specification(
         callback: (out: __internal_procedure_specification_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __internal_procedure_specification_T) => void) => {
             let _block_v: __procedure_block_T | null = null
             const _parameters_v: { [key: string]: __parameters_T } = {}
@@ -2749,7 +2750,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 })
                                                                                             },
                                                                                         })
-                                                                                    })((node) => _members_v[propertyData.token.data.value] = node))
+                                                                                    })((node) => _members_v[propertyData.token.token.value] = node))
                                                                                 },
                                                                             })),
                                                                         },
@@ -2855,7 +2856,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _interface_v = $.token.data.value
+                                                                                    _interface_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -2899,7 +2900,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _parameters_v[propertyData.token.data.value] = node))
+                                })((node) => _parameters_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -2977,7 +2978,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_missing_handler(
         callback: (out: __missing_handler_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __missing_handler_T) => void) => {
             let _guaranteed_v: __guaranteed_TU | null = null
             return context.expectVerboseGroup({
@@ -3046,7 +3047,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_named_procedure_call(
         callback: (out: __named_procedure_call_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __named_procedure_call_T) => void) => {
             let _procedure_call_v: __procedure_call_T | null = null
             let _type_v: __type_named_procedure_call_TU | null = null
@@ -3073,7 +3074,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _builder_v = $.token.data.value
+                                                            _builder_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -3082,7 +3083,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _method_v = $.token.data.value
+                                                            _method_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -3112,7 +3113,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _procedure_v = $.token.data.value
+                                                            _procedure_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -3154,7 +3155,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_namespace_reference(
         callback: (out: __namespace_reference_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __namespace_reference_T) => void) => {
             let _namespace_v: string | null = null
             const _type_arguments_v: { [key: string]: __type_arguments_T } = {}
@@ -3165,7 +3166,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onExists: () => wrap(context.expectQuotedString({
                             warningOnly: true,
                             callback: ($) => {
-                                _namespace_v = $.token.data.value
+                                _namespace_v = $.token.token.value
                             },
                         })),
                     },
@@ -3182,7 +3183,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 onExists: () => wrap(context.expectQuotedString({
                                                     warningOnly: true,
                                                     callback: ($) => {
-                                                        _type_v = $.token.data.value
+                                                        _type_v = $.token.token.value
                                                     },
                                                 })),
                                             },
@@ -3196,7 +3197,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _type_arguments_v[propertyData.token.data.value] = node))
+                                })((node) => _type_arguments_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -3216,7 +3217,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_namespace_selection(
         callback: (out: __namespace_selection_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __namespace_selection_T) => void) => {
             let _which_v: __which_TU | null = null
             return context.expectVerboseGroup({
@@ -3282,7 +3283,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_nested_type_reference(
         callback: (out: __nested_type_reference_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __nested_type_reference_T) => void) => {
             let _namespace_reference_v: __namespace_reference_T | null = null
             const _steps_v: __steps_nested_type_reference_T[] = []
@@ -3329,7 +3330,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _property_v = $.token.data.value
+                                                                                    _property_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -3367,7 +3368,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _option_v = $.token.data.value
+                                                                                    _option_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -3406,7 +3407,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onExists: () => wrap(context.expectQuotedString({
                             warningOnly: true,
                             callback: ($) => {
-                                _type_v = $.token.data.value
+                                _type_v = $.token.token.value
                             },
                         })),
                     },
@@ -3433,7 +3434,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_procedure_block(
         callback: (out: __procedure_block_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __procedure_block_T) => void) => {
             const _effects_v: __effects_T[] = []
             const _markers_v: { [key: string]: __markers_T } = {}
@@ -3471,7 +3472,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _interface_v = $.token.data.value
+                                                                                    _interface_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -3514,7 +3515,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _interface_v = $.token.data.value
+                                                                                    _interface_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -3551,7 +3552,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _state_v = $.token.data.value
+                                                                                    _state_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -3838,7 +3839,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _markers_v[propertyData.token.data.value] = node))
+                                })((node) => _markers_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -3878,7 +3879,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _nested_procedures_v[propertyData.token.data.value] = node))
+                                })((node) => _nested_procedures_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -4021,7 +4022,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             onExists: () => wrap(context.expectQuotedString({
                                                                                 warningOnly: true,
                                                                                 callback: ($) => {
-                                                                                    _initial_value_v = $.token.data.value
+                                                                                    _initial_value_v = $.token.token.value
                                                                                 },
                                                                             })),
                                                                         },
@@ -4099,7 +4100,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _states_v[propertyData.token.data.value] = node))
+                                })((node) => _states_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -4123,7 +4124,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_procedure_call(
         callback: (out: __procedure_call_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __procedure_call_T) => void) => {
             const _interface_arguments_v: { [key: string]: __interface_arguments_T } = {}
             return context.expectVerboseGroup({
@@ -4167,7 +4168,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _interface_arguments_v[propertyData.token.data.value] = node))
+                                })((node) => _interface_arguments_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -4183,7 +4184,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_root(
         callback: (out: __root_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __root_T) => void) => {
             const _function_implementations_v: { [key: string]: __function_implementations_T } = {}
             const _namespaces_v: { [key: string]: __namespaces_T } = {}
@@ -4212,7 +4213,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 onExists: () => wrap(context.expectQuotedString({
                                                     warningOnly: true,
                                                     callback: ($) => {
-                                                        _declaration_v = $.token.data.value
+                                                        _declaration_v = $.token.token.value
                                                     },
                                                 })),
                                             },
@@ -4235,7 +4236,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _type_parameters_v[propertyData.token.data.value] = node))
+                                                        })((node) => _type_parameters_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4270,7 +4271,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _function_implementations_v[propertyData.token.data.value] = node))
+                                })((node) => _function_implementations_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -4326,7 +4327,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _function_declarations_v[propertyData.token.data.value] = node))
+                                                        })((node) => _function_declarations_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4366,7 +4367,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             })
                                                                                         },
                                                                                     })
-                                                                                })((node) => _methods_v[propertyData.token.data.value] = node))
+                                                                                })((node) => _methods_v[propertyData.token.token.value] = node))
                                                                             },
                                                                         })),
                                                                     },
@@ -4377,7 +4378,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _interface_builders_v[propertyData.token.data.value] = node))
+                                                        })((node) => _interface_builders_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4409,7 +4410,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _interfaces_v[propertyData.token.data.value] = node))
+                                                        })((node) => _interfaces_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4439,7 +4440,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                                     warningOnly: true,
                                                                                                     callback: ($) => {
-                                                                                                        _builder_v = $.token.data.value
+                                                                                                        _builder_v = $.token.token.value
                                                                                                     },
                                                                                                 })),
                                                                                             },
@@ -4466,7 +4467,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             })
                                                                                         },
                                                                                     })
-                                                                                })((node) => _builders_v[propertyData.token.data.value] = node))
+                                                                                })((node) => _builders_v[propertyData.token.token.value] = node))
                                                                             },
                                                                         })),
                                                                     },
@@ -4515,7 +4516,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             })
                                                                                         },
                                                                                     })
-                                                                                })((node) => _functions_v[propertyData.token.data.value] = node))
+                                                                                })((node) => _functions_v[propertyData.token.token.value] = node))
                                                                             },
                                                                         })),
                                                                     },
@@ -4547,7 +4548,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                             })
                                                                                         },
                                                                                     })
-                                                                                })((node) => _interfaces_v[propertyData.token.data.value] = node))
+                                                                                })((node) => _interfaces_v[propertyData.token.token.value] = node))
                                                                             },
                                                                         })),
                                                                     },
@@ -4621,7 +4622,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _procedure_declarations_v[propertyData.token.data.value] = node))
+                                                        })((node) => _procedure_declarations_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4638,7 +4639,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _type_parameters_v[propertyData.token.data.value] = node))
+                                                        })((node) => _type_parameters_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4671,7 +4672,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _types_v[propertyData.token.data.value] = node))
+                                                        })((node) => _types_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4687,7 +4688,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _namespaces_v[propertyData.token.data.value] = node))
+                                })((node) => _namespaces_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -4713,7 +4714,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                 onExists: () => wrap(context.expectQuotedString({
                                                     warningOnly: true,
                                                     callback: ($) => {
-                                                        _declaration_v = $.token.data.value
+                                                        _declaration_v = $.token.token.value
                                                     },
                                                 })),
                                             },
@@ -4736,7 +4737,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     })
                                                                 },
                                                             })
-                                                        })((node) => _type_parameters_v[propertyData.token.data.value] = node))
+                                                        })((node) => _type_parameters_v[propertyData.token.token.value] = node))
                                                     },
                                                 })),
                                             },
@@ -4769,7 +4770,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _procedure_implementations_v[propertyData.token.data.value] = node))
+                                })((node) => _procedure_implementations_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -4787,7 +4788,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_string_expression(
         callback: (out: __string_expression_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __string_expression_T) => void) => {
             let _strategy_v: __strategy_string_expression_TU | null = null
             return context.expectVerboseGroup({
@@ -4806,7 +4807,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _value_v = $.token.data.value
+                                                            _value_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -4861,7 +4862,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _state_v = $.token.data.value
+                                                            _state_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -4897,7 +4898,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_type(
         callback: (out: __type_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __type_T) => void) => {
             let _occurence_v: __occurence_TU | null = null
             let _type_v: __type_type_TU | null = null
@@ -5012,7 +5013,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         })
                                                                     },
                                                                 })
-                                                            })((node) => _properties_v[propertyData.token.data.value] = node))
+                                                            })((node) => _properties_v[propertyData.token.token.value] = node))
                                                         },
                                                     })),
                                                 },
@@ -5111,7 +5112,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         })
                                                                     },
                                                                 })
-                                                            })((node) => _options_v[propertyData.token.data.value] = node))
+                                                            })((node) => _options_v[propertyData.token.token.value] = node))
                                                         },
                                                     })),
                                                 },
@@ -5134,7 +5135,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _argument_v = $.token.data.value
+                                                            _argument_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -5203,7 +5204,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_type_expression(
         callback: (out: __type_expression_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __type_expression_T) => void) => {
             let _strategy_v: __strategy_type_expression_TU | null = null
             return context.expectVerboseGroup({
@@ -5255,7 +5256,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                     onExists: () => wrap(context.expectQuotedString({
                                                         warningOnly: true,
                                                         callback: ($) => {
-                                                            _state_v = $.token.data.value
+                                                            _state_v = $.token.token.value
                                                         },
                                                     })),
                                                 },
@@ -5290,7 +5291,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _value_v = $.token.data.value
+                                                                                        _value_v = $.token.token.value
                                                                                     },
                                                                                 })),
                                                                             },
@@ -5353,7 +5354,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     })
                                                                                                 },
                                                                                             })
-                                                                                        })((node) => _properties_v[propertyData.token.data.value] = node))
+                                                                                        })((node) => _properties_v[propertyData.token.token.value] = node))
                                                                                     },
                                                                                 })),
                                                                             },
@@ -5388,7 +5389,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _value_v = $.token.data.value
+                                                                                        _value_v = $.token.token.value
                                                                                     },
                                                                                 })),
                                                                             },
@@ -5414,7 +5415,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _value_v = $.token.data.value
+                                                                                        _value_v = $.token.token.value
                                                                                     },
                                                                                 })),
                                                                             },
@@ -5447,7 +5448,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                 onExists: () => wrap(context.expectQuotedString({
                                                                                     warningOnly: true,
                                                                                     callback: ($) => {
-                                                                                        _option_v = $.token.data.value
+                                                                                        _option_v = $.token.token.value
                                                                                     },
                                                                                 })),
                                                                             },
@@ -5623,7 +5624,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         })
                                                                     },
                                                                 })
-                                                            })((node) => _options_v[propertyData.token.data.value] = node))
+                                                            })((node) => _options_v[propertyData.token.token.value] = node))
                                                         },
                                                     })),
                                                 },
@@ -5672,7 +5673,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_type_expression_block(
         callback: (out: __type_expression_block_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __type_expression_block_T) => void) => {
             let _expression_v: __type_expression_T | null = null
             const _functions_v: { [key: string]: __functions_type_expression_block_T } = {}
@@ -5743,7 +5744,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                             })
                                         },
                                     })
-                                })((node) => _functions_v[propertyData.token.data.value] = node))
+                                })((node) => _functions_v[propertyData.token.token.value] = node))
                             },
                         })),
                     },
@@ -5769,7 +5770,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
     function _generateHandler_type_reference(
         callback: (out: __type_reference_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): grammar.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __type_reference_T) => void) => {
             let _namespace_selection_v: __namespace_selection_T | null = null
             let _type_v: string | null = null
@@ -5786,7 +5787,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                         onExists: () => wrap(context.expectQuotedString({
                             warningOnly: true,
                             callback: ($) => {
-                                _type_v = $.token.data.value
+                                _type_v = $.token.token.value
                             },
                         })),
                     },
@@ -5813,7 +5814,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     return wrap(_generateHandler_root(callback))
 }
 
-export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
+export function createBuilder<TokenAnnotation>(
     intermediate: __root_B,
 ): __root_T {
     function _generateBuilder_builder_procedure_declaration(

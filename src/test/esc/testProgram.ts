@@ -1,6 +1,6 @@
-import { CreateStreamConsumer } from "../src/pub/lib/runProgram"
 import * as pt from "pareto-test"
 import * as pr from "pareto-runtime"
+import { CreateStreamConsumer } from "../../pub/esc/runProgram"
 
 export function testProgram(
     inputFilePath: string,

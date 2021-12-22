@@ -1,8 +1,9 @@
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
 import * as pr from "pareto-runtime"
-import * as astn from "astn"
-import * as ass from "../src/pub/lib"
-import * as env from "../src/pub/lib/env"
-import { defaultSchemaHost } from "../src/pub/lib"
+
+import * as ass from "../createNormalizer"
+import * as env from "../env"
+import { defaultSchemaHost } from "../defaultSchemaHost"
 
 
 const sourcePath = pr.getElement(pr.getProcessArguments(), 2)
@@ -12,7 +13,7 @@ if (sourcePath === undefined) {
     pr.processExit(1)
 }
 
-function printDiagnostic(message: string, severity: astn.DiagnosticSeverity) {
+function printDiagnostic(message: string, severity: etc.DiagnosticSeverity) {
     if (severity[0] === "warning") {
         pr.logWarning(message)
     } else {

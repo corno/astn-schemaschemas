@@ -1,5 +1,5 @@
 import * as pr from "pareto-runtime"
-import * as astn from "astn"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
 import { CreateStreamConsumer } from "../../../../runProgram"
 import { createSchemaStreamProcesser } from "./createSchemaStreamProcessor"
 import * as ll from "../../../../lowlevel/lowlevel.generated"
@@ -10,7 +10,7 @@ import { createFile } from "../../../../lowlevel/TypeScript/createFile"
 export const createCodeGenerator2: CreateStreamConsumer = (
     write: (str: string) => void,
     error: (str: string) => void,
-): astn.IStreamConsumer<string, null> => {
+): etc.IStreamConsumer<string, null> => {
 
     return createSchemaStreamProcesser(
         {

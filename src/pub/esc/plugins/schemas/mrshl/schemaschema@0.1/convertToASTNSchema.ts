@@ -1,4 +1,5 @@
-import * as astn from "astn"
+import * as pr from "pareto-runtime"
+import * as astn from "astn/dist/pub/esc/interfaces/typed"
 import { Schema, Node, Property } from "./types"
 
 function assertUnreachable<RT>(_x: never): RT {
@@ -6,14 +7,14 @@ function assertUnreachable<RT>(_x: never): RT {
 }
 
 export function convertToASTNSchema(schema: Schema): astn.Schema {
-    const resolveRegistry = astn.createResolveRegistry<null>()
+    const resolveRegistry = pr.createResolveRegistry<null>()
 
     function convertToASTNSchemaValue(
-        node: Node, componentTypes: astn.IReadonlyLookup<astn.TypeDefinition>,
+        node: Node, componentTypes: pr.IReadonlyLookup<astn.TypeDefinition>,
         keyProperty: null | Property,
-        resolveRegistry: astn.IResolveRegistry<null>,
+        resolveRegistry: pr.IResolveRegistry<null>,
     ): astn.ValueDefinition {
-        const properties = astn.createDictionaryBuilder<astn.PropertyDefinition>()
+        const properties = pr.createDictionaryBuilder<astn.PropertyDefinition>()
         node.properties.forEach((prop, key) => {
             if (prop === keyProperty) {
                 return
@@ -69,7 +70,7 @@ export function convertToASTNSchema(schema: Schema): astn.Schema {
                             case "component": {
                                 const $ = prop.type[1]
                                 return ["type reference", {
-                                    type: astn.createReference(
+                                    type: pr.createReference(
                                         "type",
                                         {
                                             value: $.type.name,
@@ -84,7 +85,7 @@ export function convertToASTNSchema(schema: Schema): astn.Schema {
                             }
                             case "state group": {
                                 const $ = prop.type[1]
-                                const states = astn.createDictionaryBuilder<astn.OptionDefinition>()
+                                const states = pr.createDictionaryBuilder<astn.OptionDefinition>()
 
                                 $.states.forEach((state, key) => {
                                     states.add(key, {
@@ -93,7 +94,7 @@ export function convertToASTNSchema(schema: Schema): astn.Schema {
                                 })
                                 return ["tagged union", {
                                     "options": states.toDictionary(),
-                                    "default option": astn.createReference(
+                                    "default option": pr.createReference(
                                         "default option",
                                         {
                                             value: $["default state"].name,
@@ -139,13 +140,13 @@ export function convertToASTNSchema(schema: Schema): astn.Schema {
         }
     }
 
-    const types = astn.createDictionaryBuilder<astn.TypeDefinition>()
+    const types = pr.createDictionaryBuilder<astn.TypeDefinition>()
     schema["component types"].forEach((ct, ctName) => {
         types.add(ctName, {
             value: convertToASTNSchemaValue(ct.node, types.toDictionary().getLookup(), null, resolveRegistry),
         })
     })
-    const rootType = astn.createReference(
+    const rootType = pr.createReference(
         "root type",
         {
             value: schema["root type"].name,

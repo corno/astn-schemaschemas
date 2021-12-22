@@ -1,10 +1,10 @@
-import * as astn from "astn"
+import * as astnImp from "astn/dist/pub/esc/implementations/_astn"
 
 import {
     createDeserializer,
 } from "./createDeserializer"
-import { Schema } from "."
-import { IStreamConsumer } from "astn/dist/src/IStreamConsumer"
+import { Schema } from "./types"
+import { IStreamConsumer } from "astn/dist/pub/esc/interfaces/etc"
 
 
 export interface ISchemaHandler {
@@ -15,28 +15,28 @@ export function createSchemaStreamProcesser(
     handler: ISchemaHandler,
     onError: (str: string) => void,
 ): IStreamConsumer<string, null> {
-    return astn.createStreamPreTokenizer(
-        astn.createTokenizer(
-            astn.createStructureParser({
+    return astnImp.createTokenizer({
+        parser: astnImp.createStructureParser({
+            handler: {
                 onEmbeddedSchema: ($) => {
-                    onError(`expected a schema reference @ ${astn.printRange($.embeddedSchemaAnnotation.range)}`)
-                    return astn.createDummyTreeHandler()
+                    onError(`expected a schema reference @ ${astnImp.printRange($.embeddedSchemaAnnotation.range)}`)
+                    return astnImp.createDummyTreeHandler()
                 },
                 onSchemaReference: ($) => {
                     const expectedSchemaHeader = "mrshl/schemaschema@0.1"
-                    if ($.token.data.value !== expectedSchemaHeader) {
-                        onError(`expected "${expectedSchemaHeader}" but found "${$.token.data.value}"`)
+                    if ($.token.token.value !== expectedSchemaHeader) {
+                        onError(`expected "${expectedSchemaHeader}" but found "${$.token.token.value}"`)
                     }
                 },
                 onNoInternalSchema: () => { },
                 onBody: () => {
-                    return astn.createTreeParser(
-                        createDeserializer(
-                            (error, annotation) => {
-                                onError(`${astn.printExpectError(error)} @ ${astn.printRange(annotation.range)}`)
+                    return astnImp.createTreeParser({
+                        handler: createDeserializer(
+                            ($, annotation) => {
+                                onError(`${astnImp.printExpectError($)} @ ${astnImp.printRange(annotation.range)}`)
                             },
                             (error, annotation) => {
-                                onError(`${error} @ ${astn.printRange(annotation.range)}`)
+                                onError(`${error} @ ${astnImp.printRange(annotation.range)}`)
                             },
                             (schema) => {
                                 if (schema !== null) {
@@ -47,32 +47,18 @@ export function createSchemaStreamProcesser(
                             },
                             () => { },
                         ),
-                        {
-                            onTreeError: ($) => {
-                                onError(`${astn.printTreeParserError($.error)} @ ${astn.printRange($.annotation.range)}`)
-                            },
-                            onStructureError: ($) => {
-                                onError(`${astn.printStructureError($.error)} @ ${astn.printRange($.annotation.range)}`)
-                            },
+                        onError: ($) => {
+                            onError(`${astnImp.printParsingError($.error)} @ ${astnImp.printRange($.annotation.range)}`)
                         },
-                        () => { }
-                    )
+                    })
                 },
-                errors: {
-                    onTreeError: ($) => {
-                        onError(`${astn.printTreeParserError($.error)} @ ${astn.printRange($.annotation.range)}`)
-                    },
-                    onStructureError: ($) => {
-                        onError(`${astn.printStructureError($.error)} @ ${astn.printRange($.annotation.range)}`)
-                    },
-                },
-            }),
-            ($, range) => {
-                onError(`${astn.printTokenizerError($)} @ ${astn.printRange(range)}`)
-            }
-        ),
-        ($) => {
-            onError(`${astn.printTokenError($.error)} @ ${astn.printRange($.range)}`)
+            },
+            onError: ($) => {
+                onError(`${astnImp.printParsingError($.error)} @ ${astnImp.printRange($.annotation.range)}`)
+            },
+        }),
+        onError: ($) => {
+            onError(`${astnImp.printTokenizerError($.error)} @ ${astnImp.printRange($.range)}`)
         },
-    )
+    })
 }

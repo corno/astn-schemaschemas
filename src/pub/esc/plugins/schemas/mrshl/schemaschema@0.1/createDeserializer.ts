@@ -1,5 +1,7 @@
 import * as pr from "pareto-runtime"
-import * as astn from "astn"
+import * as astn from "astn/dist/pub/esc/interfaces/astn"
+import * as astnImp from "astn/dist/pub/esc/implementations/_astn"
+import * as grammar from "astn/dist/pub/esc/interfaces/grammar"
 import * as t from "./types"
 
 /**
@@ -20,29 +22,29 @@ type AnnotatedString<TokenAnnotation> = {
     annotation: TokenAnnotation
 }
 
-export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
-    onExpectError: (error: astn.ExpectError, annotation: TokenAnnotation) => void,
+export function createDeserializer<TokenAnnotation>(
+    onExpectIssue: (error: astn.ExpectIssue, annotation: TokenAnnotation) => void,
     onResolveError: (message: string, annotation: TokenAnnotation) => void,
     callback: (metaData: null | t.Schema) => void,
     onEnd: () => void,
-): astn.ITreeHandler<TokenAnnotation, NonTokenAnnotation> {
-    const componentTypes = astn.createDictionaryBuilder<t.ComponentType>()
+): grammar.ITreeHandler<TokenAnnotation> {
+    const componentTypes = pr.createDictionaryBuilder<t.ComponentType>()
     let rootName: AnnotatedString<TokenAnnotation> | null = null
 
-    const context = astn.createExpectContext<TokenAnnotation, NonTokenAnnotation>(
-        ($) => {
+    const context = astnImp.createExpectContext<TokenAnnotation>({
+        issueHandler: ($) => {
             if ($.severity[0] === "error") {
-                onExpectError($.issue, $.annotation)
+                onExpectIssue($.issue, $.annotation)
             }
         },
-        () => astn.createDummyValueHandler(),
-        () => astn.createDummyValueHandler(),
-        ["warning", {}],
-        ["ignore", {}],
-    )
-    const resolveRegistry = astn.createResolveRegistry<TokenAnnotation>()
+        createDummyValueHandler: () => astnImp.createDummyValueHandler(),
+        duplicateEntrySeverity: ["warning", {}],
+        onDuplicateEntry: ["ignore", {}],
 
-    function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    })
+    const resolveRegistry = pr.createResolveRegistry<TokenAnnotation>()
+
+    function wrap(handler: grammar.IValueHandler<TokenAnnotation>): grammar.IRequiredValueHandler<TokenAnnotation> {
         return {
             exists: handler,
             missing: () => {
@@ -51,14 +53,14 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
         }
     }
 
-    function createNodeDeserialiser<TokenAnnotation, NonTokenAnnotation>(
-        context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
-        componentTypes: astn.IReadonlyLookup<t.ComponentType>,
+    function createNodeDeserialiser<TokenAnnotation>(
+        context: astn.IExpectContext<TokenAnnotation>,
+        componentTypes: pr.IReadonlyLookup<t.ComponentType>,
         callback: (node: t.Node) => void,
-        resolveRegistry: astn.IResolveRegistry<TokenAnnotation>,
-    ): astn.ExpectedProperty<TokenAnnotation, NonTokenAnnotation> {
+        resolveRegistry: pr.IResolveRegistry<TokenAnnotation>,
+    ): astn.ExpectedProperty<TokenAnnotation> {
 
-        function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+        function wrap(handler: grammar.IValueHandler<TokenAnnotation>): grammar.IRequiredValueHandler<TokenAnnotation> {
             return {
                 exists: handler,
                 missing: () => {
@@ -69,7 +71,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
         return {
             onExists: () => {
-                const properties = astn.createDictionaryBuilder<t.Property>()
+                const properties = pr.createDictionaryBuilder<t.Property>()
                 return wrap(context.expectVerboseGroup({
                     properties: {
                         "properties": {
@@ -107,7 +109,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                                     warningOnly: true,
                                                                                                     callback: ($) => {
                                                                                                         targetKeyProperty = {
-                                                                                                            value: $.token.data.value,
+                                                                                                            value: $.token.token.value,
                                                                                                             annotation: $.token.annotation,
                                                                                                         }
                                                                                                     },
@@ -125,7 +127,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
 
                                                                                             const assertedTargetKeyProperty = assertNotNull(targetKeyProperty)
                                                                                             targetCollectionType = ["dictionary", {
-                                                                                                "key property": astn.createReference(
+                                                                                                "key property": pr.createReference(
                                                                                                     "key property",
                                                                                                     assertedTargetKeyProperty,
                                                                                                     "name",
@@ -169,7 +171,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             warningOnly: true,
                                                                             callback: ($) => {
                                                                                 targetComponentTypeName = {
-                                                                                    value: $.token.data.value,
+                                                                                    value: $.token.token.value,
                                                                                     annotation: $.token.annotation,
                                                                                 }
                                                                             },
@@ -185,7 +187,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                 onEnd: ($) => {
                                                                     const assertedTargetComponentTypeName = assertNotNull(targetComponentTypeName)
                                                                     targetPropertyType = ["component", {
-                                                                        "type": astn.createReference(
+                                                                        "type": pr.createReference(
                                                                             "type",
                                                                             assertedTargetComponentTypeName,
                                                                             "",
@@ -198,7 +200,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                             }))
                                                         },
                                                         "state group": () => {
-                                                            const states = astn.createDictionaryBuilder<t.State>()
+                                                            const states = pr.createDictionaryBuilder<t.State>()
                                                             let targetDefaultState: null | AnnotatedString<TokenAnnotation> = null
                                                             return wrap(context.expectVerboseGroup({
                                                                 properties: {
@@ -219,7 +221,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                                     },
                                                                                     onEnd: () => {
                                                                                         const asserted = assertNotNull(targetNode)
-                                                                                        states.add(stateData.token.data.value, {
+                                                                                        states.add(stateData.token.token.value, {
                                                                                             node: asserted,
                                                                                         })
                                                                                     },
@@ -235,7 +237,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                             warningOnly: true,
                                                                             callback: ($) => {
                                                                                 targetDefaultState = {
-                                                                                    value: $.token.data.value,
+                                                                                    value: $.token.token.value,
                                                                                     annotation: $.token.annotation,
                                                                                 }
                                                                             },
@@ -252,7 +254,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                     const assertedTargetDefaultState = assertNotNull(targetDefaultState)
                                                                     targetPropertyType = ["state group", {
                                                                         "states": states.toDictionary(),
-                                                                        "default state": astn.createReference(
+                                                                        "default state": pr.createReference(
                                                                             "default state",
                                                                             assertedTargetDefaultState,
                                                                             "yes",
@@ -291,7 +293,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                                                         onExists: () => wrap(context.expectQuotedString({
                                                                             warningOnly: true,
                                                                             callback: ($) => {
-                                                                                defaultValue = $.token.data.value
+                                                                                defaultValue = $.token.token.value
                                                                             },
                                                                         })),
                                                                         onNotExists: () => {
@@ -321,7 +323,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                         },
                                         onEnd: () => {
                                             const asserted = assertNotNull(targetPropertyType)
-                                            properties.add(propertyData.token.data.value, {
+                                            properties.add(propertyData.token.token.value, {
                                                 type: asserted,
                                             })
                                         },
@@ -340,7 +342,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
             },
             onNotExists: () => {
                 callback({
-                    properties: astn.createDictionaryBuilder<t.Property>().toDictionary(),
+                    properties: pr.createDictionaryBuilder<t.Property>().toDictionary(),
                 })
             },
         }
@@ -370,7 +372,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                                     },
                                     onEnd: () => {
                                         const asserted = assertNotNull(targetNode)
-                                        componentTypes.add(propertyData.token.data.value, {
+                                        componentTypes.add(propertyData.token.token.value, {
                                             node: asserted,
                                         })
                                     },
@@ -386,7 +388,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                             warningOnly: true,
                             callback: ($) => {
                                 rootName = {
-                                    value: $.token.data.value,
+                                    value: $.token.token.value,
                                     annotation: $.token.annotation,
                                 }
                             },
@@ -404,7 +406,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
                     const assertedRootName = assertNotNull(rootName)
                     schema = {
                         "component types": componentTypes.toDictionary(),
-                        "root type": astn.createReference(
+                        "root type": pr.createReference(
                             "root type",
                             assertedRootName,
                             "root",

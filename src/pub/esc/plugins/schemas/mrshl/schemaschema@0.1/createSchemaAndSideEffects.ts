@@ -1,14 +1,16 @@
 import * as pr from "pareto-runtime"
-import * as astn from "astn"
+import * as tt from "astn/dist/pub/esc/interfaces/typedTokenize"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
+import * as grammar from "astn/dist/pub/esc/interfaces/grammar"
 import { createDeserializer } from "./createDeserializer"
 import * as t from "./types"
 import { convertToASTNSchema as convertToASTNSchema } from "./convertToASTNSchema"
 import * as sideEffects from "./sideEffects"
 
-export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
-    onSchemaError: (error: astn.SchemaDeserializationError, annotation: TokenAnnotation) => void,
-    onSchema: (schema: astn.ISchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>) => void,
-): astn.ITreeHandler<TokenAnnotation, NonTokenAnnotation> {
+export function createSchemaAndSideEffects<TokenAnnotation>(
+    onSchemaError: (error: tt.SchemaDeserializationError, annotation: TokenAnnotation) => void,
+    onSchema: (schema: tt.ISchemaAndSideEffects<TokenAnnotation>) => void,
+): grammar.ITreeHandler<TokenAnnotation> {
 
     let foundError = false
     let schema: null | t.Schema = null
@@ -34,8 +36,8 @@ export function createSchemaAndSideEffects<TokenAnnotation, NonTokenAnnotation>(
                 onSchema({
                     getSchema: () => convertToASTNSchema(s),
                     createStreamingValidator: (
-                        onValidationError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-                    ) => sideEffects.createRoot<TokenAnnotation, NonTokenAnnotation>(s, onValidationError),
+                        onValidationError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void,
+                    ) => sideEffects.createRoot<TokenAnnotation>(s, onValidationError),
                 })
             } else {
                 if (!foundError) {

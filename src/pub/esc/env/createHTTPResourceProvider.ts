@@ -1,12 +1,12 @@
 import * as pr from "pareto-runtime"
 import { SchemaHost } from "../SchemaHost"
-import * as astn from "astn"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
 
 
 export function createHTTPResourceProvider(
     schemaHost: SchemaHost,
     timeout: number,
-): astn.IResourceProvider {
+): etc.IResourceProvider {
     return {
         getResource: (
             id,

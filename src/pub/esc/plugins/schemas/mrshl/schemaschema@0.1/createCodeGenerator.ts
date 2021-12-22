@@ -7,13 +7,13 @@ import {
     ILine,
     generateCode,
 } from "./generateCode_old"
-import * as astn from "astn"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
 import { trimRight } from "pareto-runtime"
 
 export const createCodeGenerator: CreateStreamConsumer = (
     write: (str: string) => void,
     error: (str: string) => void,
-): astn.IStreamConsumer<string, null> => {
+): etc.IStreamConsumer<string, null> => {
 
     return createSchemaStreamProcesser(
         {

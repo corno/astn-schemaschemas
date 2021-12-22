@@ -1,17 +1,18 @@
 import * as pr from "pareto-runtime"
 import * as t from "./types"
-import * as astn from "astn"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
+import * as astnTyped from "astn/dist/pub/esc/interfaces/typed"
 export * from "./types"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
 }
 
-function createDictionary<TokenAnnotation, NonTokenAnnotation>(
+function createDictionary<TokenAnnotation>(
     _definition: t.Dictionary,
     collectionDefinition: t.Collection,
-    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.IDictionaryHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void,
+): astnTyped.IDictionaryHandler<TokenAnnotation> {
     return {
         onClose: () => {
             //
@@ -22,11 +23,11 @@ function createDictionary<TokenAnnotation, NonTokenAnnotation>(
     }
 }
 
-function createList<TokenAnnotation, NonTokenAnnotation>(
+function createList<TokenAnnotation>(
     _definition: t.List,
     collectionDefinition: t.Collection,
-    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.IListHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void,
+): astnTyped.IListHandler<TokenAnnotation> {
     return {
         onElement: () => {
             return createNode(collectionDefinition.node, onError)
@@ -37,10 +38,10 @@ function createList<TokenAnnotation, NonTokenAnnotation>(
     }
 }
 
-function createStateGroup<TokenAnnotation, NonTokenAnnotation>(
+function createStateGroup<TokenAnnotation>(
     definition: t.StateGroup,
-    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.ITypedTaggedUnionHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void,
+): astnTyped.ITypedTaggedUnionHandler<TokenAnnotation> {
     return {
         onUnexpectedOption: ($) => {
             const state = definition.states.getLookup().getUnsafe($.defaultOption)
@@ -56,11 +57,11 @@ function createStateGroup<TokenAnnotation, NonTokenAnnotation>(
     }
 }
 
-function createProp<TokenAnnotation, NonTokenAnnotation>(
+function createProp<TokenAnnotation>(
     name: string,
     nodedefinition: t.Node,
-    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.ITypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void,
+): astnTyped.ITypedValueHandler<TokenAnnotation> {
     return {
         onDictionary: () => {
             const prop = nodedefinition.properties.getLookup().getUnsafe(name)
@@ -116,7 +117,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
             if ($.token !== null) {
                 switch ($$.type[0]) {
                     case "boolean": {
-                        if ($.token.data.wrapping[0] !== "none") {
+                        if ($.token.token.wrapping[0] !== "none") {
                             onError(`expected a boolean, found a quoted string`, $.token.annotation, ["error", {}])
                         } else {
                             const val = $.value
@@ -127,7 +128,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
                         break
                     }
                     case "number": {
-                        if ($.token.data.wrapping[0] !== "none") {
+                        if ($.token.token.wrapping[0] !== "none") {
                             onError(`expected a number, found a wrapped string`, $.token.annotation, ["error", {}])
                         } else {
                             const val = $.value
@@ -139,7 +140,7 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
                         break
                     }
                     case "string": {
-                        if ($.token.data.wrapping[0] === "none") {
+                        if ($.token.token.wrapping[0] === "none") {
                             onError(`expected a quoted string`, $.token.annotation, ["error", {}])
                         }
                         break
@@ -155,10 +156,10 @@ function createProp<TokenAnnotation, NonTokenAnnotation>(
     }
 }
 
-function createNode<TokenAnnotation, NonTokenAnnotation>(
+function createNode<TokenAnnotation>(
     definition: t.Node,
-    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void,
-): astn.ITypedValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void,
+): astnTyped.ITypedValueHandler<TokenAnnotation> {
     return {
         onDictionary: () => {
             throw new Error("unexpected")
@@ -197,10 +198,10 @@ function createNode<TokenAnnotation, NonTokenAnnotation>(
     }
 }
 
-export function createRoot<TokenAnnotation, NonTokenAnnotation>(
+export function createRoot<TokenAnnotation>(
     schema: t.Schema,
-    onError: (message: string, annotation: TokenAnnotation, severity: astn.DiagnosticSeverity) => void
-): astn.ITypedTreeHandler<TokenAnnotation, NonTokenAnnotation> {
+    onError: (message: string, annotation: TokenAnnotation, severity: etc.DiagnosticSeverity) => void
+): astnTyped.ITypedTreeHandler<TokenAnnotation> {
     return {
         root: createNode(schema["root type"].get().node, onError),
         onEnd: () => { },

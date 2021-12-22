@@ -97,12 +97,12 @@ export type __root_B = {
     readonly "projects" ?: { [key:string]: __projects_B } //| (add: (key: string, entry: __projects_B ) => void )
 }
 
-export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
-    context: astn.IExpectContext<TokenAnnotation, NonTokenAnnotation>,
+export function createDeserializer<TokenAnnotation>(
+    context: astn.IExpectContext<TokenAnnotation>,
     raiseValidationError: (message: string, annotation: TokenAnnotation) => void,
     callback: (result: __root_T) => void,
-): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
-    function wrap(handler: astn.IValueHandler<TokenAnnotation, NonTokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation, NonTokenAnnotation> {
+): astn.IRequiredValueHandler<TokenAnnotation> {
+    function wrap(handler: astn.IValueHandler<TokenAnnotation>): astn.IRequiredValueHandler<TokenAnnotation> {
         return {
             exists: handler,
             missing: () => {
@@ -112,7 +112,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     }
     function _generateHandler_root(
         callback: (out: __root_T) => void,
-    ): astn.IValueHandler<TokenAnnotation, NonTokenAnnotation> {
+    ): astn.IValueHandler<TokenAnnotation> {
         return ((callback: (out: __root_T) => void) => {
             const _projects_v: { [key: string]: __projects_T } = {}
             return context.expectVerboseGroup({
@@ -299,7 +299,7 @@ export function createDeserializer<TokenAnnotation, NonTokenAnnotation>(
     return wrap(_generateHandler_root(callback))
 }
 
-export function createBuilder<TokenAnnotation, NonTokenAnnotation>(
+export function createBuilder<TokenAnnotation>(
     intermediate: __root_B,
 ): __root_T {
     function _generateBuilder_root(

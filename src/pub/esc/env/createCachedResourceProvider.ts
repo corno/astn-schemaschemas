@@ -1,6 +1,5 @@
-import * as astn from "astn"
 import * as pr from "pareto-runtime"
-import { IResourceProvider } from "astn"
+import * as etc from "astn/dist/pub/esc/interfaces/etc"
 import { createFileSystemResourceProvider } from "./createFileSystemResourceProvider"
 
 function assertUnreachable<RT>(_x: never): RT {
@@ -11,9 +10,9 @@ function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
 }
 
 export function createCachedResourceProvider(
-    resourceProvider: astn.IResourceProvider,
+    resourceProvider: etc.IResourceProvider,
     cacheDir: string,
-): IResourceProvider {
+): etc.IResourceProvider {
     return {
         getResource: (
             id,
@@ -38,7 +37,7 @@ export function createCachedResourceProvider(
                         //could not get it from the cache
 
                         const dirContainingTheCacheFile = pr.dirname(fullPath)
-                        const tempCache = ((): astn.IStreamConsumer<string, null> => {
+                        const tempCache = ((): etc.IStreamConsumer<string, null> => {
                             let tmp = ""
                             return {
                                 onData: ($) => {
