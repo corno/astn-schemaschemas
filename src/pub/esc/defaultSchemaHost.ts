@@ -1,8 +1,6 @@
-import {
-    SchemaHost,
-} from "./SchemaHost"
+import * as sh from "./SchemaHost"
 
-export const defaultSchemaHost: SchemaHost = {
+export const defaultSchemaHost: sh.SchemaHost = {
     host: 'astn.io',
     pathStart: '/dev/schemas/',
 }
