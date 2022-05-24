@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "test": "./buildAndTest.sh",
+    "pubMin": "./publish.sh minor",
+    "pubPatch": "./publish.sh patch",
+    "update2latest": "./update2latest.sh",
+    "update2latestAndPublishMinor": "./update2latestAndPublish.sh minor",
+    "update2latestAndPublishPath": "./update2latestAndPublish.sh patch"
+  },
+  "dependencies": {
+    "npm-check-updates": "^13.0.3",
+    "npm-safe-install": "^1.1.0",
+    "typescript": "^4.6.4"
+  }
+}
