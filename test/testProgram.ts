@@ -1,6 +1,7 @@
 import { CreateStreamConsumer } from "../src/runProgram"
 import * as pt from "pareto-test"
 import * as pr from "pareto-runtime"
+import * as fs from "../src/env/fs"
 
 export function testProgram(
     inputFilePath: string,
@@ -10,9 +11,9 @@ export function testProgram(
     createStreamConsumer: CreateStreamConsumer,
     resolve: () => void,
 ): void {
-    const dataIn = pr.readFileSync(inputFilePath)
+    const dataIn = fs.readFileSync(inputFilePath)
 
-    const expectedOut = pr.readFileSync(outDir + "/" + outBasename + ".expected." + outExtension)
+    const expectedOut = fs.readFileSync(outDir + "/" + outBasename + ".expected." + outExtension)
 
     let actualOut = ""
     const sc = createStreamConsumer(
@@ -25,7 +26,7 @@ export function testProgram(
     const actualFilePath = outDir + "/" + outBasename + ".actual." + outExtension
 
     try {
-        pr.unlinkSync(actualFilePath)
+        fs.unlinkSync(actualFilePath)
     } catch (e) {
         //
     }
@@ -34,7 +35,7 @@ export function testProgram(
     sc.onEnd(null)
 
     if (actualOut !== expectedOut) {
-        pr.writeFileSync(actualFilePath, actualOut)
+        fs.writeFileSync(actualFilePath, actualOut)
     }
     pt.assertEqual(expectedOut, actualOut)
     resolve()

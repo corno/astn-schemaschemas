@@ -2,6 +2,7 @@ import * as astn from "astn"
 import * as pr from "pareto-runtime"
 import { IResourceProvider } from "astn"
 import { createFileSystemResourceProvider } from "./createFileSystemResourceProvider"
+import * as fs from "../env/fs"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -45,7 +46,7 @@ export function createCachedResourceProvider(
                                     tmp += $
                                 },
                                 onEnd: () => {
-                                    pr.mkdir(
+                                    fs.mkdir(
                                         dirContainingTheCacheFile,
                                         ($) => {
                                             switch ($[0]) {
@@ -56,7 +57,7 @@ export function createCachedResourceProvider(
                                                     break
                                                 case "success":
                                                     cc($[1], (_$) => {
-                                                        pr.writeFile(
+                                                        fs.writeFile(
                                                             fullPath,
                                                             tmp,
                                                             (err) => {

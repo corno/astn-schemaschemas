@@ -1,5 +1,6 @@
 import * as pr from "pareto-runtime"
 import * as astn from "astn"
+import * as fs from "./fs"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -17,7 +18,7 @@ export function createFileSystemResourceProvider(
             sc,
             onFailed,
         ) => {
-            pr.readFile(
+            fs.readFile(
                 pr.join([dir, fileName]),
                 ($) => {
                     switch ($[0]) {
